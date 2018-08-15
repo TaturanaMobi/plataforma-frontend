@@ -1,3 +1,11 @@
+// Import server startup through a single index entry point
+
+// import './fixtures.js';
+// import './register-api.js';
+
+import { Meteor } from 'meteor/meteor';
+import { Films } from '../../api/films/films';
+
 FutureTasks = new Meteor.Collection('future_tasks');
 
 // Envia as notifações
