@@ -1,0 +1,29 @@
+{
+  "name": "plataforma-taturana",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "test": "meteor test --once --driver-package meteortesting:mocha"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.0.0-beta.55",
+    "meteor-node-stubs": "^0.4.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2"
+  },
+  "description": "## Rodando o site com o container docker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaturanaMobi/plataforma-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TaturanaMobi/plataforma-frontend/issues"
+  },
+  "homepage": "https://github.com/TaturanaMobi/plataforma-frontend#readme"
+}
