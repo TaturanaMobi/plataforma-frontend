@@ -1,123 +1,126 @@
-_ = lodash;
+import { Meteor } from 'meteor/meteor';
+import { Router } from 'meteor/iron:router';
+import { Session } from 'meteor/session';
 
-// Router.route(function(){
-  Router.route('home', {path:"/"});
-  Router.route('register');
-  Router.route('ambassador-edit');
-  Router.route('films');
-  Router.route('adm');
-  Router.route('adm/sessions');
-  Router.route('adm/ambassadors');
-  Router.route('screenings');
-  Router.route('about');
-  Router.route('login');
-  Router.route('denied');
-  Router.route('forget');
-  Router.route('ambassador');
-  Router.route('contact');
+import { Films } from '../../api/films/films.js';
 
-  Router.route('adm/films', {
-    data: function() {
-      Session.set('poster_path', null);
+Router.route('home', { path: '/' });
+Router.route('register');
+Router.route('ambassador-edit');
+Router.route('films');
+Router.route('adm');
+Router.route('adm/sessions');
+Router.route('adm/ambassadors');
+Router.route('screenings');
+Router.route('about');
+Router.route('login');
+Router.route('denied');
+Router.route('forget');
+Router.route('ambassador');
+Router.route('contact');
 
-      return;
-    }
-  });
+Router.route('adm/films', {
+  data() {
+    Session.set('poster_path', null);
 
-  Router.route('reset-password/:token', {
-    template: 'resetPassword'
-  });
+    return;
+  },
+});
 
-  Router.route('adm/films/:slug/edit', {
-    template: 'admFilms',
+Router.route('reset-password/:token', {
+  template: 'resetPassword',
+});
 
-    waitOn: function() {
-      return this.subscribe('films', this.params.slug);
-    },
+Router.route('adm/films/:slug/edit', {
+  template: 'admFilms',
 
-    data: function(){
-      Session.set('poster_path', null);
-      return Films.findOne({ slug: this.params.slug });
-    }
-  });
+  waitOn: function() {
+    return this.subscribe('films', this.params.slug);
+  },
 
-  Router.route('adm/ambassador/:_id', {
-    template: 'admAmbassador',
-    data: function(){
-      return Meteor.users.findOne({_id: this.params._id});
-    }
-  });
+  data: function(){
+    Session.set('poster_path', null);
+    return Films.findOne({ slug: this.params.slug });
+  }
+});
 
-  Router.route('new-screening/:slug', {
-    template: 'newScreening',
+Router.route('adm/ambassador/:_id', {
+  template: 'admAmbassador',
+  data: function(){
+    return Meteor.users.findOne({_id: this.params._id});
+  }
+});
 
-    waitOn: function() {
-      return this.subscribe('films', this.params.slug);
-    },
+Router.route('new-screening/:slug', {
+  template: 'newScreening',
 
-    data: function() {
-      Session.set('address', null);
-      var filmId = this.params._id;
-      return Films.findOne({ slug: this.params.slug });
-    }
-  });
+  waitOn: function() {
+    return this.subscribe('films', this.params.slug);
+  },
 
-  Router.route('edit-screening/:_id', {
-    name: 'edit-screening',
-    template: 'admScreening',
-    data: function(){
-      return Films.return_film_and_screening(this.params._id);
-    }
-  });
-  Router.route('report/:_id', {
-    template: 'report',
-    data: function(){
-      return Films.return_film_and_screening(this.params._id);
-    }
-  });
-  Router.route('adm/session/:_id', {
-    template: 'admSession',
-    data: function(){
-      var sessionId = this.params._id;
-      return Films.return_screening(sessionId);
-    }
-  });
+  data: function() {
+    Session.set('address', null);
+    var filmId = this.params._id;
+    return Films.findOne({ slug: this.params.slug });
+  }
+});
 
-  Router.route('adm/film/:_id/reports', {
-    template: 'admReports',
-    data: function(){
-      var filmId = this.params._id;
-      return Films.findOne({ _id: filmId });
-    }
-  });
+Router.route('edit-screening/:_id', {
+  name: 'edit-screening',
+  template: 'admScreening',
+  data: function(){
+    return Films.return_film_and_screening(this.params._id);
+  }
+});
+Router.route('report/:_id', {
+  template: 'report',
+  data: function(){
+    return Films.return_film_and_screening(this.params._id);
+  }
+});
+Router.route('adm/session/:_id', {
+  template: 'admSession',
+  data: function(){
+    var sessionId = this.params._id;
+    return Films.return_screening(sessionId);
+  }
+});
 
-  Router.route('adm/report/:_id', {
-    template: 'admReport',
-    data: function(){
-      return Films.return_film_and_screening(this.params._id);
-    }
-  });
+Router.route('adm/film/:_id/reports', {
+  template: 'admReports',
+  data: function(){
+    var filmId = this.params._id;
+    return Films.findOne({ _id: filmId });
+  }
+});
 
-  Router.route('film/:slug', {
-    template: 'showFilm',
+Router.route('adm/report/:_id', {
+  template: 'admReport',
+  data: function(){
+    return Films.return_film_and_screening(this.params._id);
+  }
+});
 
-    waitOn: function() {
-      return this.subscribe('films', this.params.slug);
-    },
+Router.route('film/:slug', {
+  template: 'showFilm',
 
-    data: function(){
-      var filmId = this.params._id;
-      return Films.findOne({ slug: this.params.slug });
-    }
-  });
+  waitOn: function() {
+    return this.subscribe('films', this.params.slug);
+  },
+
+  data: function(){
+    var filmId = this.params._id;
+    return Films.findOne({ slug: this.params.slug });
+  }
+});
 // });
 
 var mustBeSignedIn = function(pause) {
-  if (!(Meteor.user() || Meteor.loggingIn())) {
-    Router.go('login');
-  } else {
-    this.next();
-  }
+if (!(Meteor.user() || Meteor.loggingIn())) {
+  Router.go('login');
+} else {
+  this.next();
+}
 };
 
 var isAdmin = function(going) {
@@ -136,7 +139,7 @@ var isAdmin = function(going) {
 };
 
 
-var admin_uris = [
+const adminUris = [
   'adm',
   'adm/ambassador/:_id',
   'adm/film/:_id/reports',
@@ -145,17 +148,17 @@ var admin_uris = [
   'adm/films/:slug/edit',
   'adm/report/:_id',
   'adm/session/:_id',
-  'adm/sessions'
+  'adm/sessions',
 ];
-var signed_in_uris = [
+const signedInUris = [
   'ambassador',
   'ambassador-edit',
   'edit-screening/:_id',
   'new-screening/:slug',
-  'report/:_id'
+  'report/:_id',
 ];
 
-Router.onBeforeAction(mustBeSignedIn, {only: signed_in_uris});
-Router.onBeforeAction(isAdmin, {only: admin_uris});
+Router.onBeforeAction(mustBeSignedIn, { only: signedInUris });
+Router.onBeforeAction(isAdmin, { only: adminUris });
 
-//Router.onBeforeAction(fn, {only: ['index']});
+// Router.onBeforeAction(fn, {only: ['index']});

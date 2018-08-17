@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 
-export const Films = new Mongo.Collection("films");
+export const Films = new Mongo.Collection('films');
 
 Films.friendlySlugs({
   slugFrom: 'title',

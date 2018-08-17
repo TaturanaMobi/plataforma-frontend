@@ -46,3 +46,4 @@ rzymek:moment-locale-pt-br
 accounts-password
 dburles:factory
 xolvio:cleaner
+meteortesting:mocha

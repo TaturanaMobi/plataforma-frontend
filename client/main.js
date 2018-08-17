@@ -1,22 +1,26 @@
 // Client entry point, imports all client code
 
-import '/imports/startup/client';
-import '/imports/startup/both';
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import 'chartist-plugin-legend';
+import { $ } from 'meteor/jquery';
+// import { Uploader } from 'meteor/tomi:upload-server';
 
-Meteor.startup(function() {
-    $('html').attr("xml:lang", "pt-br");
-    $('html').attr("lang", "pt-br");
+import '../imports/startup/client';
+import '../imports/startup/both';
 
-    Uploader.finished = function(index, fileInfo, body) {
-      var f_type = body.data.formData.file_type;
-      Session.set(f_type, fileInfo.path);
-    }
+Meteor.startup(() => {
+  $('html').attr('xml:lang', 'pt-br');
+  $('html').attr('lang', 'pt-br');
 
-    FlashMessages.configure({
-      autoHide: true,
-      hideDelay: 4000,
-      autoScroll: true
-    });
-  })
+  Uploader.finished = function (index, fileInfo, body) {
+    const f_type = body.data.formData.file_type;
+    Session.set(f_type, fileInfo.path);
+  };
+
+  FlashMessages.configure({
+    autoHide: true,
+    hideDelay: 4000,
+    autoScroll: true,
+  });
+});
