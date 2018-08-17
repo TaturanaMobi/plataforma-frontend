@@ -29,3 +29,5 @@ node_modules
 *.DS_Store
 uploads/.idea
 uploads/images
+backups/*
+!backups/taturana-films.json

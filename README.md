@@ -27,14 +27,15 @@ Você deve ser capaz de acessar o site em `http://localhost:3000`
 ## Para importar os filme de exemplo
 
 ```bash
-docker-compose exec mongo mongorestore -h localhost:3001 -d meteor taturana-201805191445.json/taturanamobi --drop
-
-mongoimport -h localhost:3001 --db meteor --collection films --type json --file taturana-films.json
+docker-compose exec mongo mongoimport --db taturana --collection films --type json --file /backup/taturana-films.json
+mongoimport -h localhost:3001 --db meteor --collection films --type json --file ./backup/taturana-films.json
 ```
 
 ## Para restaurar o banco de prod localmente
 
 ```bash
+docker-compose exec mongo mongorestore -d taturana /backup/taturana.json/taturanamobi --drop
+
 prod ~ $ mongodump --db taturanamobi --out taturana-$(date +%Y%m%d).json
 prod ~ $ ls -1 |grep tatuarna-
 prod ~ $ exit

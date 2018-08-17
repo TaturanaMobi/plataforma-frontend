@@ -3,7 +3,7 @@ version: '2'
 
 services:
   app:
-    # image: taturanamobi/plataforma-frontend
+    image: taturanamobi/plataforma-frontend
     build: .
     ports:
       - 3000:3000
@@ -24,7 +24,7 @@ services:
       - 27017:27017
     volumes:
       - mongo_data:/data/db
-      - /tmp/backup:/docker-entrypoint-initdb.d
+      - ./backups:/backups
     environment:
       MONGO_INITDB_DATABASE: taturana
       #MONGO_INITDB_ROOT_USERNAME: root
