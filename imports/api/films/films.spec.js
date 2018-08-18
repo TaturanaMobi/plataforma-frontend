@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 /* eslint-disable func-names, prefer-arrow-callback */
 
-import { Factory } from 'meteor/dburles:factory';
+// import { Factory } from 'meteor/dburles:factory';
 // import { PublicationCollector } from 'meteor/johanbrook:publication-collector';
 import { assert } from 'chai';
 // import { Random } from 'meteor/random';

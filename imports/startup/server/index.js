@@ -3,12 +3,13 @@
 // import './fixtures.js';
 // import './register-api.js';
 
-import { Meteor } from 'meteor/meteor';
+import { Meteor, Assets } from 'meteor/meteor';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/templating';
 import { Accounts } from 'meteor/accounts-base';
 import { UploadServer } from 'meteor/tomi:upload-server';
 import { _ } from 'meteor/underscore';
+// import { SyncedCron } from 'meteor/meteor';
 
 import { Films } from '../../api/films/films';
 import { Cities, States } from '../../api/states_and_cities';
@@ -123,7 +124,7 @@ Meteor.methods({
     });
   },
 
-  removeFilm: function(id) {
+  removeFilm: function (id) {
     Films.remove(id);
   },
   addToSlideshow: function (id, image) {
@@ -231,7 +232,7 @@ Meteor.methods({
       },
     });
   },
-  removeAddress: function(user_id, address) {
+  removeAddress: function (user_id, address) {
     Meteor.users.update(user_id, {
       $pull: {
         addresses: address,
@@ -265,26 +266,26 @@ Meteor.startup(function () {
 
   SyncedCron.start();
 
-    Meteor.publish("films", function () {
+  Meteor.publish('films', function () {
     return Films.find({});
   });
 
-  Meteor.publish("ambassadors", function () {
+  Meteor.publish('ambassadors', function () {
     return Meteor.users.find({}, {
       fields: {
         createdAt: 1,
         emails: 1,
         profile: 1,
-        addresses: 1
-      }
+        addresses: 1,
+      },
     });
   });
 
-  Meteor.publish("states", function() {
+  Meteor.publish('states', function () {
     return States.find({});
   });
 
-  Meteor.publish("cities", function() {
+  Meteor.publish('cities', function () {
     return Cities.find({});
   });
 
@@ -296,25 +297,25 @@ Meteor.startup(function () {
       return formData.contentType;
     },
     getFileName: function (fileInfo, formData) {
-      var name = fileInfo.name.replace(/\s/g, '');
+      const name = fileInfo.name.replace(/\s/g, '');
       return formData.file_type + name;
     },
     finished: function (fileInfo, formFields) {},
     cacheTime: 100,
     mimeTypes: {
-      "xml": "application/xml",
-      "vcf": "text/x-vcard"
-    }
+      xml: 'application/xml',
+      vcf: 'text/x-vcard',
+    },
   });
 
   // Forgot Password Email
-  Accounts.emailTemplates.siteName = "Taturana Mobilização Social";
-  Accounts.emailTemplates.from = "Taturana<admin@plataforma.taturana.com.br>";
+  Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
+  Accounts.emailTemplates.from = 'Taturana<admin@plataforma.taturana.com.br>';
   Accounts.emailTemplates.resetPassword.subject = function (user) {
-    return "[Taturana] Esqueci minha senha";
+    return '[Taturana] Esqueci minha senha';
   };
   Accounts.emailTemplates.resetPassword.text = function (user, url) {
-    return "Olá,\n\n" + " Para resetar sua senha, acesse o link abaixo:\n" + url;
+    return 'Olá,\n\n' + ' Para resetar sua senha, acesse o link abaixo:\n' + url;
   };
 
   Accounts.urls.resetPassword = function (token) {
@@ -323,25 +324,25 @@ Meteor.startup(function () {
 
 
   // Creating Slugs in Bulk for Existing Films
-  var count, docs;
+  let count, docs;
 
   docs = Films.find({
     slug: {
-      $exists: false
-    }
+      $exists: false,
+    },
   }, {
-    limit: 50
+    limit: 50,
   });
 
   count = 0;
 
   docs.forEach(function (doc) {
     Films.update({
-      _id: doc._id
+      _id: doc._id,
     }, {
       $set: {
-        fake: ''
-      }
+        fake: '',
+      },
     });
     return count += 1;
   });

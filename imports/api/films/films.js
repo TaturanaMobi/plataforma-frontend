@@ -1,4 +1,8 @@
+import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
+import { _ } from 'meteor/underscore';
+import { $ } from 'meteor/jquery';
+import { Template } from 'meteor/templating';
 
 export const Films = new Mongo.Collection('films');
 

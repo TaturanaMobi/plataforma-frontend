@@ -8,10 +8,3 @@ cache:
 before_install:
 - export PATH="$HOME/.meteor:$PATH"
 - curl https://install.meteor.com | /bin/sh
-deploy:
-  provider: heroku
-  app: taturana
-  api_key:
-    secure: "QbSmp9ttpBXpNppJBpry0kfmBOe1rB54Hd+D2val1mgdALDfvGRR0tbL5esPBCLnbM8VrPB7AxORsqkSXrhPDkNleFhKzqqokHnrg7YG1e92D444imuE2F93Yao/1zGVffgWTIlMPBGuoIaFjQG3/zufHKiSyfD+ZSHiY2bozA35y+1VH2qyJkBM/j6if48N963FES9Ua3wQ5hiVISctMQuJ3Abgg/Ge2V12tHE34+SrMhfW6THVOlW5Myjxy2Prrjf4TI69LI8rJe5DRRKJyFuXVWZo79Y/Xoqj9Edj8Ko52nShHEK3ZApVdVMZb5nSwKTrnUTxb1fD3SeuTGmi7I8Bmnt6PagWFucDap/SpGPkyGr6T6eaMiaRMvsnj1SmYs9fkchZFbDuc0HG4T9XMd/QmruiECtCOCtmIgmdJFMdgElTfPulYNCBEwsy68ux8cIqoed5qRmxE+HOVF+gGHzs+UbuPBmwIYP1lLhTxGwrjB90S7Ywv/LMUErfstVBx87OQWVH1vC73yqvUozkMQINYhnn68jQ6DcdKT5GMIix/h9o8LSYUy9J+mfzL6vsFYIbVn4C6QdVHU91u8JMJrk8IFRVoQ8QlIRxm6w1RA1IvHTeAD4LT4cgRPKhXRZMkS/hewdslj6Xat7O19Wj0fjpDrOau3cY4Ga/ZWxqHfo="
-  on:
-    all_branches: true
