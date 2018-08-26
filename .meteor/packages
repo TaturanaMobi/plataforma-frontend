@@ -4,17 +4,16 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base             # Packages every Meteor app needs to have
-mobile-experience       # Packages for a great mobile UX
-mongo                   # The database Meteor supports right now
+meteor-base@1.4.0             # Packages every Meteor app needs to have
+mobile-experience@1.0.5       # Packages for a great mobile UX
+mongo@1.5.0                   # The database Meteor supports right now
 blaze-html-templates    # Compile .html files into Meteor Blaze views
-session                 # Client-side reactive dictionary for your app
+session@1.1.7                 # Client-side reactive dictionary for your app
 jquery                  # Helpful client-side library
-tracker                 # Meteor's client-side reactive programming library
+tracker@1.2.0                 # Meteor's client-side reactive programming library
 
-standard-minifiers      # JS/CSS minifiers run for production mode
-es5-shim                # ECMAScript 5 compatibility for older browsers.
-ecmascript              # Enable ECMAScript2015+ syntax in app code
+es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers.
+ecmascript@0.11.1              # Enable ECMAScript2015+ syntax in app code
 
 iron:router
 anback:bootstrap-validator
@@ -23,8 +22,8 @@ reywood:bootstrap3-sass
 tomi:upload-server
 tomi:upload-jquery
 udondan:slick
-email
-random
+email@1.2.3
+random@1.1.0
 rajit:bootstrap3-datepicker
 rajit:bootstrap3-datepicker-pt-br
 jplack:bootstrap-timepicker
@@ -43,7 +42,12 @@ juliomac:prettyphoto
 meteorhacks:ssr
 percolate:synced-cron@=1.3.0
 rzymek:moment-locale-pt-br
-accounts-password
+accounts-password@1.5.1
 dburles:factory
 xolvio:cleaner
 meteortesting:mocha
+standard-minifier-css
+standard-minifier-js
+shell-server
+dynamic-import
+underscore
