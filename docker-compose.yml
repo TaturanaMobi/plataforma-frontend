@@ -1,0 +1,43 @@
+# docker-compose.yml
+version: '2'
+
+services:
+  app:
+    image: taturanamobi/plataforma-frontend
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    # volumes:
+    #   - "$PWD:/opt/meteor/src"
+    environment:
+      - ROOT_URL=http://taturanamobi
+      - MONGO_URL=mongodb://mongo:27017/taturana
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+      - ./backups:/backups
+    environment:
+      MONGO_INITDB_DATABASE: taturana
+      #MONGO_INITDB_ROOT_USERNAME: root
+      #MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    #environment:
+      #ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      #ME_CONFIG_MONGODB_ADMINPASSWORD: example
+
+volumes:
+  mongo_data:
