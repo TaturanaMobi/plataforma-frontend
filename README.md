@@ -33,9 +33,21 @@ mongoimport -h localhost:3001 --db meteor --collection films --type json --file 
 
 ## Para restaurar o banco de prod localmente
 
-```bash
-docker-compose exec mongo mongorestore -d taturana /backup/taturana.json/taturanamobi --drop
+> Usando docker containers
 
+```bash
+docker-compose exec mongo mongorestore -d taturana /backups/taturana.json/taturanamobi --drop
+```
+
+> Usando docker containers para servidor remoto
+
+```
+docker-compose exec mongo mongorestore -h taturana.mongo.com:23812 -d taturana -u external -p  /backups/taturana.json/taturanamobi --drop
+```
+
+## Para extrair o banco de prod localmente
+
+```bash
 prod ~ $ mongodump --db taturanamobi --out taturana-$(date +%Y%m%d).json
 prod ~ $ ls -1 |grep tatuarna-
 prod ~ $ exit
