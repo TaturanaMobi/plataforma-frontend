@@ -8,7 +8,7 @@
       <div class="col-md-8 col-md-offset-1">
         <div class="row">
           <h1>Sessões</h1>
-          <div class="row noLeftMargin">   
+          <div class="row noLeftMargin">
             <div class="col-md-12">
               <div class="datepicker-container">
                 <div class="btn-group form-group">
@@ -24,7 +24,7 @@
                   <button type="button" class="btn btn-datepicker" data-month="10">Out</button>
                   <button type="button" class="btn btn-datepicker" data-month="11">Nov</button>
                   <button type="button" class="btn btn-datepicker" data-month="12">Dez</button>
-                </div> 
+                </div>
               </div>
             </div>
             <div class="col-md-12">
@@ -104,7 +104,7 @@
             </div>
           </div>
         </div>
-      </div>  
+      </div>
 
       <div class="row leftMarginHack">
         {{#each filtered_films}}
@@ -113,7 +113,7 @@
 
                 <div class="col-md-3">
                   <h1>{{title}}</h1>
-                  <img class="screening-film-poster" src="/upload/{{poster_path}}"/>
+                  <img class="screening-film-poster" src="http://taturana-assets.herokuapp.com/smartcrop?width=100&height=100&url=http://taturanamobi.com.br/upload/{{poster_path}}"/>
                   <button class="csv-export btn pull-left">Exportar CSV</button>
                 </div>
 

@@ -40,7 +40,7 @@
                   <div class="form-group col-md-12">
                     <label class="control-label" for="poster_path">Cartaz</label>
                     {{#if posterPath}}
-                      <img src="/upload/{{posterPath}}" class="adm-thumb destroy-img" />
+                      <img src="http://taturana-assets.herokuapp.com/smartcrop?width=100&height=200&url=http://taturanamobi.com.br/upload/{{posterPath}}" class="adm-thumb destroy-img" />
                       <button class="btn btn-change-poster">Alterar cartaz</button>
                       <input type="hidden" name="poster_path" value="{{posterPath}}"/>
                     {{else}}
@@ -141,7 +141,7 @@
                   <div class="form-group col-md-12">
                     <label class="control-label" for="poster_home_path">Imagem para home (360x370)</label>
                     {{#if homePath}}
-                      <img src="/upload/{{homePath}}" class="adm-thumb destroy-img" />
+                      <img src="http://taturana-assets.herokuapp.com/smartcrop?width=360&height=370&url=http://taturanamobi.com.br/upload/{{homePath}}" class="adm-thumb destroy-img" />
                       <button class="btn btn-change-home">Alterar cartaz</button>
                       <input type="hidden" name="poster_home_path" id="poster_home_path" value="{{homePath}}"/>
                     {{else}}

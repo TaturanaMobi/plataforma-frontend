@@ -54,7 +54,7 @@ Templates:
           <div class="col-md-3 reset-div">
             <label class="control-label" for="avatar_path">Avatar</label>
             {{#if currentUser.profile.avatar_path}}
-              <img src="/upload/{{currentUser.profile.avatar_path}}" class="full" alt="Avatar" />
+              <img src="http://taturana-assets.herokuapp.com/smartcrop?width=100&height=100&url=http://taturanamobi.com.br/upload/{{currentUser.profile.avatar_path}}" class="full" alt="Avatar" />
               <input type="hidden" name="avatar_path" value="{{currentUser.profile.avatar_path}}"/>
             {{else}}
               {{> upload_bootstrap contentType='images' multiple=false formData=avatarData}}

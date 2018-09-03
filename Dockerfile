@@ -1,2 +1,2 @@
-# FROM tozd/meteor:ubuntu-xenial
+# FROM jshimko/meteor-launchpad:devbuild
 FROM jshimko/meteor-launchpad
