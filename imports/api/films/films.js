@@ -262,7 +262,7 @@ var getZoneByState = function (state) {
 
 
 Films.allow({
-  insert: function (userId, doc) {
+  insert(userId, doc) {
     // only allow posting if you are logged in
     return !!userId;
   },
@@ -271,7 +271,7 @@ Films.allow({
 if (Meteor.isClient) {
   Meteor.subscribe('films');
   Template.films.helpers({
-    films: function () {
+    films() {
       return Films.active();
     },
   });

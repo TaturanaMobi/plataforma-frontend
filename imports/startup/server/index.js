@@ -40,7 +40,7 @@ function removeNotifications(scrId) {
 }
 
 Meteor.methods({
-  sendEmail: function (pidgeon, template) {
+  sendEmail(pidgeon, template) {
     this.unblock();
 
     SSR.compileTemplate(template, Assets.getText(template));
@@ -53,7 +53,7 @@ Meteor.methods({
     });
   },
 
-  updateOrCreateFilm: function (film) {
+  updateOrCreateFilm(film) {
     const f_id = film.id;
     delete film.id;
 
@@ -91,16 +91,16 @@ Meteor.methods({
     }
   },
 
-  insertTask: function (detail) {
+  insertTask(detail) {
     return FutureTasks.insert(detail);
   },
-  scheduleNotify: function (id, content, template) {
+  scheduleNotify(id, content, template) {
     SyncedCron.add({
       name: content.subject,
-      schedule: function (parser) {
+      schedule(parser) {
         return parser.recur().on(content.when).fullDate();
       },
-      job: function () {
+      job() {
         sendNotify(content, template);
         FutureTasks.remove(id);
         SyncedCron.remove(id);
@@ -109,13 +109,13 @@ Meteor.methods({
     });
   },
 
-  verifyReport: function (id, content, template) {
+  verifyReport(id, content, template) {
     SyncedCron.add({
       name: content.subject,
-      schedule: function (parser) {
+      schedule(parser) {
         return parser.recur().on(content.when).fullDate();
       },
-      job: function () {
+      job() {
         missingReport(content, template);
         FutureTasks.remove(id);
         SyncedCron.remove(id);
@@ -124,17 +124,17 @@ Meteor.methods({
     });
   },
 
-  removeFilm: function (id) {
+  removeFilm(id) {
     Films.remove(id);
   },
-  addToSlideshow: function (id, image) {
+  addToSlideshow(id, image) {
     Films.update(id, {
       $push: {
         slideshow: image,
       },
     });
   },
-  removeFromSlideshow: function (id, src) {
+  removeFromSlideshow(id, src) {
     const image = Films.get_image_by_src(id, src);
     Films.update(id, {
       $pull: {
@@ -142,7 +142,7 @@ Meteor.methods({
       },
     });
   },
-  addScreening: function (film_id, new_screening) {
+  addScreening(film_id, new_screening) {
     new_screening.created_at = new Date();
 
     Films.update(film_id, {
@@ -191,7 +191,7 @@ Meteor.methods({
       f_screening.s_country, f_screening.uf, f_screening.city
     );
   },
-  setScreeningDraftStatus: function (id, status) {
+  setScreeningDraftStatus(id, status) {
     let film = Films.by_screening_id(id),
       screenings = film.screening;
 
@@ -213,7 +213,7 @@ Meteor.methods({
       removeNotifications(id);
     }
   },
-  removeScreening: function (screening_id) {
+  removeScreening(screening_id) {
     const film = Films.by_screening_id(screening_id);
     const f_screening = Films.return_screening(screening_id);
     Films.update({
@@ -225,21 +225,21 @@ Meteor.methods({
     });
     removeNotifications(screening_id);
   },
-  addAddress: function (user_id, new_address) {
+  addAddress(user_id, new_address) {
     Meteor.users.update(user_id, {
       $push: {
         addresses: new_address,
       },
     });
   },
-  removeAddress: function (user_id, address) {
+  removeAddress(user_id, address) {
     Meteor.users.update(user_id, {
       $pull: {
         addresses: address,
       },
     });
   },
-  updateUser: function (profile, email) {
+  updateUser(profile, email) {
     user = Meteor.user();
 
     // Mantem o role do usuário
@@ -293,14 +293,14 @@ Meteor.startup(function () {
     tmpDir: process.env.PWD + '/uploads/tmp',
     uploadDir: process.env.PWD + '/uploads/',
     checkCreateDirectories: true,
-    getDirectory: function (fileInfo, formData) {
+    getDirectory(fileInfo, formData) {
       return formData.contentType;
     },
-    getFileName: function (fileInfo, formData) {
+    getFileName(fileInfo, formData) {
       const name = fileInfo.name.replace(/\s/g, '');
       return formData.file_type + name;
     },
-    finished: function (fileInfo, formFields) {},
+    finished(fileInfo, formFields) {},
     cacheTime: 100,
     mimeTypes: {
       xml: 'application/xml',
