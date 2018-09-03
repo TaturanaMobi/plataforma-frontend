@@ -2,7 +2,10 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
-import 'chartist-plugin-legend';
+
+import 'meteor/mfpierre:chartist-js';
+import 'meteor/mspi:chartistlegend';
+
 import { $ } from 'meteor/jquery';
 import { Uploader } from 'meteor/tomi:upload-jquery';
 import { FlashMessages } from 'meteor/mrt:flash-messages';
