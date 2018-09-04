@@ -4,6 +4,61 @@ import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 
+import { FilmScreeningInventory } from './../../../lib/film-screening-inventory';
+
+function getFileBlob(url, cb) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.responseType = 'blob';
+  xhr.addEventListener('load', () => {
+    cb(xhr.response);
+  });
+  xhr.send();
+}
+
+function blobToFile(blob, name) {
+  blob.lastModifiedDate = new Date();
+  blob.name = name;
+  return blob;
+}
+
+function getFileObject(filePathOrUrl, cb) {
+  getFileBlob(filePathOrUrl, (blob) => {
+    cb(blobToFile(blob, 'test.jpg'));
+  });
+}
+
+// Inventory functions
+function incrementOrCreate(obj, key, increment) {
+  increment = increment || 1;
+
+  obj[key] = (key in obj) ? (obj[key] + increment) : increment;
+}
+
+function getMonthName(month) {
+  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+  ];
+
+  return monthNames[month];
+}
+
+function getZoneByState(state) {
+  const zones = {
+    Sudeste: ['SP', 'ES', 'MG', 'RG'],
+    Sul: ['PR', 'SC', 'RS'],
+    'Centro-Oeste': ['DF', 'GO', 'MS', 'MT'],
+    Nordeste: ['BA', 'AL', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE'],
+    Norte: ['AM', 'PA', 'RO', 'RR', 'AC', 'AP', 'TO'],
+  };
+
+  _.each(zones, (states, zone) => {
+    if (states.indexOf(state) > 0) {
+      return zone;
+    }
+  });
+}
+
 export const Films = new Mongo.Collection('films');
 
 Films.friendlySlugs({
@@ -13,39 +68,34 @@ Films.friendlySlugs({
   updateSlug: true,
 });
 
-Films.portfolio = function () {
-  return Films.find({
-    status: 'Portfolio',
-  });
-};
+Films.portfolio = () => Films.find({
+  status: 'Portfolio',
+});
 
-Films.disseminate = function () {
-  return Films.find({
-    $or: [{
-      status: 'Difusão',
-    }, {
-      status: 'Difusão/Portfolio',
-    }],
-  }).fetch();
-};
-Films.all = function () {
-  return Films.find({}, {
-    sort: {
-      sequence_number: 1,
-    },
-  });
-};
-Films.active = function () {
-  return Films.find({ status: { $not: /Oculto/ } }, {
-    sort: {
-      sequence_number: 1,
-    },
-  });
-};
-Films.count = function () {
-  return Films.active().count();
-};
-Films.by_user_id = function () {
+Films.disseminate = () => Films.find({
+  $or: [{
+    status: 'Difusão',
+  }, {
+    status: 'Difusão/Portfolio',
+  }],
+}).fetch();
+
+Films.all = () => Films.find({}, {
+  sort: {
+    sequence_number: 1,
+  },
+});
+
+Films.active = () => Films.find({
+  status: { $not: /Oculto/ } }, {
+  sort: {
+    sequence_number: 1,
+  },
+});
+
+Films.count = () => Films.active().count();
+
+Films.by_user_id = () => {
   const films = Films.find({
     status: { $not: /Oculto/ },
     'screening.user_id': Meteor.userId(),
@@ -53,15 +103,15 @@ Films.by_user_id = function () {
   return films;
 };
 
-Films.screenings_by_user_id = function () {
+Films.screenings_by_user_id = () => {
   const user_id = Meteor.userId();
   const films = Films.by_user_id(user_id);
   const user_screenings = [];
 
-  for (a = 0; a < films.length; a++) {
+  for (let a = 0; a < films.length; a += 1) {
     const f_scr = films[a].screening;
-    for (i = 0; i < f_scr.length; i++) {
-      if (f_scr[i].user_id == user_id) {
+    for (let i = 0; i < f_scr.length; i += 1) {
+      if (f_scr[i].user_id === user_id) {
         f_scr[i].title = films[a].title;
         f_scr[i].film_id = films[a]._id;
         f_scr[i].film_press_kit = films[a].press_kit_path;
@@ -72,13 +122,12 @@ Films.screenings_by_user_id = function () {
   return user_screenings;
 };
 
-Films.by_screening_id = function (screening_id) {
-  return Films.findOne({
-    status: { $not: /Oculto/ },
-    'screening._id': screening_id,
-  });
-};
-Films.return_film_and_screening = function (screening_id) {
+Films.by_screening_id = screening_id => Films.findOne({
+  status: { $not: /Oculto/ },
+  'screening._id': screening_id,
+});
+
+Films.return_film_and_screening = (screening_id) => {
   const film = Films.by_screening_id(screening_id);
   const screening = Films.return_screening(screening_id);
   return {
@@ -86,18 +135,21 @@ Films.return_film_and_screening = function (screening_id) {
     screening,
   };
 };
-Films.return_screening = function (screening_id) {
+
+Films.return_screening = (screening_id) => {
   const film = Films.by_screening_id(screening_id);
-  for (i = 0; i < film.screening.length; i++) {
-    if (film.screening[i]._id == screening_id) {
-      var screening = film.screening[i];
+  let screening;
+  for (let i = 0; i < film.screening.length; i += 1) {
+    if (film.screening[i]._id === screening_id) {
+      screening = film.screening[i];
     }
   }
   return screening;
 };
-Films.get_image_by_src = function (id, src) {
-  let film = Films.findOne(id),
-    image;
+
+Films.get_image_by_src = (id, src) => {
+  const film = Films.findOne(id);
+  let image;
 
   _.each(film.slideshow, (img) => {
     if (img.src == src) {
@@ -107,45 +159,48 @@ Films.get_image_by_src = function (id, src) {
 
   return image;
 };
-Films.inventory = function (film) {
-  console.debug(film);
+
+Films.inventory = (film) => {
   const legacyData = FilmScreeningInventory[film.title];
-  let screenings = film.screening || [],
-    initialInventory = {
-      viewers: 0,
-      viewers_from_reports: 0,
-      viewers_per_month: {},
-      legacy_viewers: 0,
-      sessions: 0,
-      sessions_with_reports: 0,
-      scheduled_sessions: 0,
-      states: [],
-      cities: [],
-      cities_total: 0,
-      categories: {},
-      subcategories: {},
-      viewers_zones: {},
-      past_sessions: 0,
-      future_sessions: 0,
-      film,
-    };
+  const screenings = film.screening || [];
+  const initialInventory = {
+    viewers: 0,
+    viewers_from_reports: 0,
+    viewers_per_month: {},
+    legacy_viewers: 0,
+    sessions: 0,
+    sessions_with_reports: 0,
+    scheduled_sessions: 0,
+    states: [],
+    cities: [],
+    cities_total: 0,
+    categories: {},
+    subcategories: {},
+    viewers_zones: {},
+    past_sessions: 0,
+    future_sessions: 0,
+    film,
+  };
+
   const inventory = $.extend({}, initialInventory, legacyData);
 
   if (legacyData) {
     inventory.legacy_viewers = legacyData.viewers;
   }
 
-  let now = new Date(),
-    states = [],
-    cities = [],
-    users = [];
+  const now = new Date();
+  const states = [];
+  const cities = [];
+  const users = [];
+
   inventory.scheduled_sessions += screenings.length;
 
-  const scr_id_real = [];
-  _.each(screenings, function (screening) {
+  // const scr_id_real = [];
+  _.each(screenings, (screening) => {
     // sessões - Sessões que não são rascunho
     let real_quorum = ('real_quorum' in screening) ? screening.real_quorum.replace(/[^0-9]/g, '') || 0 : 0;
     real_quorum = parseInt(real_quorum);
+
     if (!('draft' in screening) || ('draft' in screening && screening.draft == false)) {
       // sessoes jah exibidas
       if (screening.date < now) {
@@ -188,7 +243,7 @@ Films.inventory = function (film) {
   });
 
   if (users.length > 0) {
-    _.each(users, function (user) {
+    _.each(users, (user) => {
       // Categorias e subcategorias dos embaixadores
       if (user.profile && user.profile.name != 'admin') {
         incrementOrCreate(inventory.categories, user.profile.category);
@@ -205,64 +260,8 @@ Films.inventory = function (film) {
   }
 };
 
-const getFileBlob = function (url, cb) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', url);
-  xhr.responseType = 'blob';
-  xhr.addEventListener('load', () => {
-    cb(xhr.response);
-  });
-  xhr.send();
-};
-
-const blobToFile = function (blob, name) {
-  blob.lastModifiedDate = new Date();
-  blob.name = name;
-  return blob;
-};
-
-const getFileObject = function (filePathOrUrl, cb) {
-  getFileBlob(filePathOrUrl, function (blob) {
-    cb(blobToFile(blob, 'test.jpg'));
-  });
-};
-
-// Inventory functions
-function incrementOrCreate(obj, key, increment) {
-  increment = increment || 1;
-
-  obj[key] = (key in obj) ? (obj[key] + increment) : increment;
-}
-
-var getMonthName = function (month) {
-  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
-  ];
-
-  return monthNames[month];
-};
-
-var getZoneByState = function (state) {
-  const zones = {
-    Sudeste: ['SP', 'ES', 'MG', 'RG'],
-    Sul: ['PR', 'SC', 'RS'],
-    'Centro-Oeste': ['DF', 'GO', 'MS', 'MT'],
-    Nordeste: ['BA', 'AL', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE'],
-    Norte: ['AM', 'PA', 'RO', 'RR', 'AC', 'AP', 'TO'],
-  };
-
-  _.each(zones, function (states, zone) {
-    if (states.indexOf(state) > 0) {
-      return zone;
-    }
-  });
-};
-
-// End of inventory functions
-
-
 Films.allow({
-  insert(userId, doc) {
+  insert(userId) {
     // only allow posting if you are logged in
     return !!userId;
   },

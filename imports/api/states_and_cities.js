@@ -377,7 +377,6 @@ function slug(s, opt) {
   return opt.lowercase ? s.toLowerCase() : s;
 }
 
-
 function toTitleCase(str) {
   return str.replace(
     /\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
@@ -386,10 +385,9 @@ function toTitleCase(str) {
   );
 }
 
-States.with_screenings = function () {
-  return States.find({ has_screenings: true });
-};
-States.setHasScreenings = function (country, state) {
+States.with_screenings = () => States.find({ has_screenings: true });
+
+States.setHasScreenings = (country, state) => {
   state = States.findOne({
     abbr: state,
     country,
@@ -408,7 +406,8 @@ States.setHasScreenings = function (country, state) {
     });
   }
 };
-States.unsetHasScreenings = function (country, state) {
+
+States.unsetHasScreenings = (country, state) => {
   const has_screenings = (db.films.find(
     { screening: { $elemMatch: { s_country: country, uf: state } } }
   ).count() > 0);
@@ -425,10 +424,9 @@ States.unsetHasScreenings = function (country, state) {
   }
 };
 
-Cities.with_screenings = function () {
-  return Cities.find({ has_screenings: true });
-};
-Cities.setHasScreenings = function (country, state, city) {
+Cities.with_screenings = () => Cities.find({ has_screenings: true })
+
+Cities.setHasScreenings = (country, state, city) => {
   obj = Cities.findOne({
     state,
     name: city,
@@ -449,7 +447,8 @@ Cities.setHasScreenings = function (country, state, city) {
     });
   }
 };
-Cities.unsetHasScreenings = function (country, state, city) {
+
+Cities.unsetHasScreenings = (country, state, city) => {
   const has_screenings = (db.films.find(
     { screening: { $elemMatch: { s_country: country, uf: state, city } } }
   ).count() > 0);

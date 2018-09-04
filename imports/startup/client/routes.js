@@ -22,8 +22,6 @@ Router.route('contact');
 Router.route('adm/films', {
   data() {
     Session.set('poster_path', null);
-
-    return;
   },
 });
 
@@ -115,29 +113,26 @@ Router.route('film/:slug', {
 });
 // });
 
-const mustBeSignedIn = function (pause) {
+function mustBeSignedIn(pause) {
   if (!(Meteor.user() || Meteor.loggingIn())) {
     Router.go('login');
-  } else {
-    this.next();
   }
-};
+  this.next();
+}
 
-const isAdmin = function (going) {
+function isAdmin(going) {
   const self = this;
   const userId = Meteor.userId();
   if (userId == null) {
     Router.go('login');
   }
-  Meteor.users.find({ _id: Meteor.userId() }).map(function (user) {
-    if (user.profile.roles[0]==='admin') {
-      self.next();
-    } else {
-      Router.go('denied');
+  Meteor.users.find({ _id: Meteor.userId() }).map((user) => {
+    if (user.profile.roles[0] === 'admin') {
+      return self.next();
     }
+    return Router.go('denied');
   });
-};
-
+}
 
 const adminUris = [
   'adm',
