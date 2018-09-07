@@ -14,11 +14,9 @@ tracker@1.2.0                 # Meteor's client-side reactive programming librar
 
 es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.11.1              # Enable ECMAScript2015+ syntax in app code
-
 iron:router
 anback:bootstrap-validator
 fourseven:scss
-reywood:bootstrap3-sass
 tomi:upload-server
 tomi:upload-jquery
 udondan:slick
@@ -31,11 +29,8 @@ matb33:bootstrap-tab-js
 mrt:flash-messages
 stevezhu:lodash
 harrison:papa-parse
-mfpierre:chartist-js
 aramk:requirejs
-mspi:chartistlegend
 momentjs:moment
-casimcdaniels:breakpoint
 summernote:standalone
 todda00:friendly-slugs
 juliomac:prettyphoto

@@ -9,7 +9,7 @@ import { SSR } from 'meteor/templating';
 import { Accounts } from 'meteor/accounts-base';
 import { UploadServer } from 'meteor/tomi:upload-server';
 import { _ } from 'meteor/underscore';
-// import { SyncedCron } from 'meteor/meteor';
+import { SyncedCron } from 'meteor/percolate:synced-cron';
 
 import { Films } from '../../api/films/films';
 import { Cities, States } from '../../api/states_and_cities';
@@ -40,7 +40,7 @@ function removeNotifications(scrId) {
 }
 
 Meteor.methods({
-  sendEmail: function (pidgeon, template) {
+  sendEmail(pidgeon, template) {
     this.unblock();
 
     SSR.compileTemplate(template, Assets.getText(template));
@@ -53,7 +53,7 @@ Meteor.methods({
     });
   },
 
-  updateOrCreateFilm: function (film) {
+  updateOrCreateFilm(film) {
     const f_id = film.id;
     delete film.id;
 
@@ -91,16 +91,17 @@ Meteor.methods({
     }
   },
 
-  insertTask: function (detail) {
+  insertTask(detail) {
     return FutureTasks.insert(detail);
   },
-  scheduleNotify: function (id, content, template) {
+
+  scheduleNotify(id, content, template) {
     SyncedCron.add({
       name: content.subject,
-      schedule: function (parser) {
+      schedule(parser) {
         return parser.recur().on(content.when).fullDate();
       },
-      job: function () {
+      job() {
         sendNotify(content, template);
         FutureTasks.remove(id);
         SyncedCron.remove(id);
@@ -109,13 +110,13 @@ Meteor.methods({
     });
   },
 
-  verifyReport: function (id, content, template) {
+  verifyReport(id, content, template) {
     SyncedCron.add({
       name: content.subject,
-      schedule: function (parser) {
+      schedule(parser) {
         return parser.recur().on(content.when).fullDate();
       },
-      job: function () {
+      job() {
         missingReport(content, template);
         FutureTasks.remove(id);
         SyncedCron.remove(id);
@@ -124,17 +125,19 @@ Meteor.methods({
     });
   },
 
-  removeFilm: function (id) {
+  removeFilm(id) {
     Films.remove(id);
   },
-  addToSlideshow: function (id, image) {
+
+  addToSlideshow(id, image) {
     Films.update(id, {
       $push: {
         slideshow: image,
       },
     });
   },
-  removeFromSlideshow: function (id, src) {
+
+  removeFromSlideshow(id, src) {
     const image = Films.get_image_by_src(id, src);
     Films.update(id, {
       $pull: {
@@ -142,7 +145,8 @@ Meteor.methods({
       },
     });
   },
-  addScreening: function (film_id, new_screening) {
+
+  addScreening(film_id, new_screening) {
     new_screening.created_at = new Date();
 
     Films.update(film_id, {
@@ -156,6 +160,7 @@ Meteor.methods({
     );
     return new_screening._id;
   },
+
   updateScreening(f_screening) {
     const status = f_screening.status;
     const film = Films.by_screening_id(f_screening._id);
@@ -163,8 +168,8 @@ Meteor.methods({
 
     // fix this when have time, there is better ways to update an obj inside a
     // document array
-    for (i = 0; i < screenings.length; i++) {
-      if (screenings[i]._id == f_screening._id) {
+    for (let i = 0; i < screenings.length; i += 1) {
+      if (screenings[i]._id === f_screening._id) {
         f_screening.created_at = screenings[i].created_at;
         f_screening.user_id = screenings[i].user_id;
         f_screening.updated_at = new Date();
@@ -191,12 +196,12 @@ Meteor.methods({
       f_screening.s_country, f_screening.uf, f_screening.city
     );
   },
-  setScreeningDraftStatus: function (id, status) {
-    let film = Films.by_screening_id(id),
-      screenings = film.screening;
+  setScreeningDraftStatus(id, status) {
+    const film = Films.by_screening_id(id);
+    const screenings = film.screening;
 
-    _.each(screenings, function (screening, i) {
-      if (screening._id == id) {
+    _.each(screenings, (screening, i) => {
+      if (screening._id === id) {
         screenings[i].draft = status;
       }
     });
@@ -213,7 +218,7 @@ Meteor.methods({
       removeNotifications(id);
     }
   },
-  removeScreening: function (screening_id) {
+  removeScreening(screening_id) {
     const film = Films.by_screening_id(screening_id);
     const f_screening = Films.return_screening(screening_id);
     Films.update({
@@ -225,22 +230,22 @@ Meteor.methods({
     });
     removeNotifications(screening_id);
   },
-  addAddress: function (user_id, new_address) {
+  addAddress(user_id, new_address) {
     Meteor.users.update(user_id, {
       $push: {
         addresses: new_address,
       },
     });
   },
-  removeAddress: function (user_id, address) {
+  removeAddress(user_id, address) {
     Meteor.users.update(user_id, {
       $pull: {
         addresses: address,
       },
     });
   },
-  updateUser: function (profile, email) {
-    user = Meteor.user();
+  updateUser(profile, email) {
+    const user = Meteor.user();
 
     // Mantem o role do usuário
     profile.roles = user.profile.roles || ['ambassador'];
@@ -262,45 +267,36 @@ Meteor.methods({
   },
 });
 
-Meteor.startup(function () {
-
+Meteor.startup(() => {
   SyncedCron.start();
 
-  Meteor.publish('films', function () {
-    return Films.find({});
-  });
+  Meteor.publish('films', () => Films.find({}));
 
-  Meteor.publish('ambassadors', function () {
-    return Meteor.users.find({}, {
-      fields: {
-        createdAt: 1,
-        emails: 1,
-        profile: 1,
-        addresses: 1,
-      },
-    });
-  });
+  Meteor.publish('ambassadors', () => Meteor.users.find({}, {
+    fields: {
+      createdAt: 1,
+      emails: 1,
+      profile: 1,
+      addresses: 1,
+    },
+  }));
 
-  Meteor.publish('states', function () {
-    return States.find({});
-  });
+  Meteor.publish('states', () => States.find({}));
 
-  Meteor.publish('cities', function () {
-    return Cities.find({});
-  });
+  Meteor.publish('cities', () => Cities.find({}));
 
   UploadServer.init({
-    tmpDir: process.env.PWD + '/uploads/tmp',
-    uploadDir: process.env.PWD + '/uploads/',
+    tmpDir: `${process.env.PWD}/uploads/tmp`,
+    uploadDir: `${process.env.PWD}/uploads/`,
     checkCreateDirectories: true,
-    getDirectory: function (fileInfo, formData) {
+    getDirectory(fileInfo, formData) {
       return formData.contentType;
     },
-    getFileName: function (fileInfo, formData) {
+    getFileName(fileInfo, formData) {
       const name = fileInfo.name.replace(/\s/g, '');
       return formData.file_type + name;
     },
-    finished: function (fileInfo, formFields) {},
+    finished(fileInfo, formFields) {},
     cacheTime: 100,
     mimeTypes: {
       xml: 'application/xml',
@@ -310,23 +306,18 @@ Meteor.startup(function () {
 
   // Forgot Password Email
   Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
-  Accounts.emailTemplates.from = 'Taturana<admin@plataforma.taturana.com.br>';
-  Accounts.emailTemplates.resetPassword.subject = function (user) {
-    return '[Taturana] Esqueci minha senha';
-  };
-  Accounts.emailTemplates.resetPassword.text = function (user, url) {
-    return 'Olá,\n\n' + ' Para resetar sua senha, acesse o link abaixo:\n' + url;
-  };
+  Accounts.emailTemplates.from = 'Suporte <suporte@taturana.com.br>';
+  Accounts.emailTemplates.resetPassword.subject = () =>
+    '[Taturana] Esqueci minha senha';
 
-  Accounts.urls.resetPassword = function (token) {
-    return Meteor.absoluteUrl('reset-password/' + token);
-  };
+  Accounts.emailTemplates.resetPassword.text = (user, url) =>
+    `Olá,\n\nPara resetar sua senha, acesse o link abaixo:\n${url}`;
 
+  Accounts.urls.resetPassword = token => Meteor.absoluteUrl(`reset-password/${token}`);
 
   // Creating Slugs in Bulk for Existing Films
-  let count, docs;
-
-  docs = Films.find({
+  let count = 0;
+  const docs = Films.find({
     slug: {
       $exists: false,
     },
@@ -334,9 +325,7 @@ Meteor.startup(function () {
     limit: 50,
   });
 
-  count = 0;
-
-  docs.forEach(function (doc) {
+  docs.forEach((doc) => {
     Films.update({
       _id: doc._id,
     }, {
@@ -344,9 +333,8 @@ Meteor.startup(function () {
         fake: '',
       },
     });
-    return count += 1;
+    count += 1;
+    return count;
   });
-  return console.log('Update slugs for ' + count + ' Films.');
-
-
+  console.log(`Update slugs for ${count} Films.`);
 });

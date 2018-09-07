@@ -10,15 +10,15 @@
             <h1 class="section-title-lg">EDITE SUAS SESSÕES</h1>
             <p class="ambassador-edit-description">Veja aqui as sessões que estão agendadas e edite-as, caso necessário. Você também pode fazer download dos materiais de divulgação do filme. E não se esqueça de, após a sessão, preencher o relatório!</p>
             <ul class="status-meanings">
-              <li><img src="images/icon-edit.png" alt="" /><span>Rascunho</span></li>
-              <li><img src="images/icon-calendar.png" alt="" /><span>Agendada</span></li>
-              <li><img src="images/icon-report-pending.png" alt="" /><span>Relatório<br /> Pendente</span></li>
-              <li><img src="images/icon-complete.png" alt="" /><span>Relatório<br /> enviado</span></li>
+              <li><img src="/images/icon-edit.png" alt="" /><span>Rascunho</span></li>
+              <li><img src="/images/icon-calendar.png" alt="" /><span>Agendada</span></li>
+              <li><img src="/images/icon-report-pending.png" alt="" /><span>Relatório<br /> Pendente</span></li>
+              <li><img src="/images/icon-complete.png" alt="" /><span>Relatório<br /> enviado</span></li>
             </ul>
             {{#each ambassador_screenings}}
             <div class="col-md-4 session-edit-box">
               <div class="session-current-status">
-                <img src="images/icon-{{session_status_icon this}}.png" alt="" />
+                <img src="/images/icon-{{session_status_icon this}}.png" alt="" />
               </div>
               <div class="session-info">
                 <h2 class="film-thumb-title red">{{#if title_pt}}{{title_pt}}{{else}}{{title}}{{/if}}</h2>
@@ -26,12 +26,12 @@
               </div>
               <div class="session-edit-actions">
                 {{#if in_future this}}
-                  <a href="upload/{{film_press_kit}}"><span class="square_button"><img src="images/download.svg" alt="Download" /></span></a>
-                  <a href="edit-screening/{{_id}}"><span class="square_button"><img src="images/edit.svg" alt="Editar" /></span></a>
-                  <a href="#" class="destroy"><span class="square_button"><img src="images/delete.svg" alt="Deletar" /></span></a>
+                  <a href="upload/{{film_press_kit}}"><span class="square_button"><img src="/images/download.svg" alt="Download" /></span></a>
+                  <a href="edit-screening/{{_id}}"><span class="square_button"><img src="/images/edit.svg" alt="Editar" /></span></a>
+                  <a href="#" class="destroy"><span class="square_button"><img src="/images/delete.svg" alt="Deletar" /></span></a>
                 {{else}}
                   {{#if is_report_pending this}}
-                    <a href="report/{{_id}}"><span class="square_button"><img src="images/icon-report-pending.png" alt="Relatório pendente" /></span></a>
+                    <a href="report/{{_id}}"><span class="square_button"><img src="/images/icon-report-pending.png" alt="Relatório pendente" /></span></a>
                   {{/if}}
                 {{/if}}
               </div>
@@ -48,7 +48,7 @@
             <!-- {{sequence_number}} | {{#if title_pt}}{{title_pt}}{{else}}{{title}}{{/if}} | {{poster_path}} -->
             <div class="col-md-3">
               <a href="/new-screening/{{slug}}">
-                <img src="/upload/{{poster_path}}" class="full" alt="Cartaz do filme {{#if title_pt}}{{title_pt}}{{else}}{{title}}{{/if}}" />
+                <img src="http://taturana-assets.herokuapp.com/smartcrop?width=250&height=250&url=http://taturanamobi.com.br/upload/{{poster_path}}" class="full" alt="Cartaz do filme {{#if title_pt}}{{title_pt}}{{else}}{{title}}{{/if}}" />
                 <h2 class="film-thumb-title">{{#if title_pt}}{{title_pt}}{{else}}{{title}}{{/if}}</h2>
               </a>
             </div>

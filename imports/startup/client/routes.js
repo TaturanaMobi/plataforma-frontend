@@ -22,8 +22,6 @@ Router.route('contact');
 Router.route('adm/films', {
   data() {
     Session.set('poster_path', null);
-
-    return;
   },
 });
 
@@ -34,11 +32,11 @@ Router.route('reset-password/:token', {
 Router.route('adm/films/:slug/edit', {
   template: 'admFilms',
 
-  waitOn: function () {
+  waitOn() {
     return this.subscribe('films', this.params.slug);
   },
 
-  data: function () {
+  data() {
     Session.set('poster_path', null);
     return Films.findOne({ slug: this.params.slug });
   },
@@ -46,7 +44,7 @@ Router.route('adm/films/:slug/edit', {
 
 Router.route('adm/ambassador/:_id', {
   template: 'admAmbassador',
-  data: function () {
+  data() {
     return Meteor.users.findOne({ _id: this.params._id });
   },
 });
@@ -54,11 +52,11 @@ Router.route('adm/ambassador/:_id', {
 Router.route('new-screening/:slug', {
   template: 'newScreening',
 
-  waitOn: function () {
+  waitOn() {
     return this.subscribe('films', this.params.slug);
   },
 
-  data: function () {
+  data() {
     Session.set('address', null);
     const filmId = this.params._id;
     return Films.findOne({ slug: this.params.slug });
@@ -68,19 +66,19 @@ Router.route('new-screening/:slug', {
 Router.route('edit-screening/:_id', {
   name: 'edit-screening',
   template: 'admScreening',
-  data: function () {
+  data() {
     return Films.return_film_and_screening(this.params._id);
   },
 });
 Router.route('report/:_id', {
   template: 'report',
-  data: function () {
+  data() {
     return Films.return_film_and_screening(this.params._id);
   },
 });
 Router.route('adm/session/:_id', {
   template: 'admSession',
-  data: function () {
+  data() {
     const sessionId = this.params._id;
     return Films.return_screening(sessionId);
   },
@@ -88,7 +86,7 @@ Router.route('adm/session/:_id', {
 
 Router.route('adm/film/:_id/reports', {
   template: 'admReports',
-  data: function () {
+  data() {
     const filmId = this.params._id;
     return Films.findOne({ _id: filmId });
   },
@@ -96,7 +94,7 @@ Router.route('adm/film/:_id/reports', {
 
 Router.route('adm/report/:_id', {
   template: 'admReport',
-  data: function () {
+  data() {
     return Films.return_film_and_screening(this.params._id);
   },
 });
@@ -104,40 +102,37 @@ Router.route('adm/report/:_id', {
 Router.route('film/:slug', {
   template: 'showFilm',
 
-  waitOn: function () {
+  waitOn() {
     return this.subscribe('films', this.params.slug);
   },
 
-  data: function () {
+  data() {
     const filmId = this.params._id;
     return Films.findOne({ slug: this.params.slug });
   },
 });
 // });
 
-const mustBeSignedIn = function (pause) {
+function mustBeSignedIn(pause) {
   if (!(Meteor.user() || Meteor.loggingIn())) {
     Router.go('login');
-  } else {
-    this.next();
   }
-};
+  this.next();
+}
 
-const isAdmin = function (going) {
+function isAdmin(going) {
   const self = this;
   const userId = Meteor.userId();
   if (userId == null) {
     Router.go('login');
   }
-  Meteor.users.find({ _id: Meteor.userId() }).map(function (user) {
-    if (user.profile.roles[0]==='admin') {
-      self.next();
-    } else {
-      Router.go('denied');
+  Meteor.users.find({ _id: Meteor.userId() }).map((user) => {
+    if (user.profile.roles[0] === 'admin') {
+      return self.next();
     }
+    return Router.go('denied');
   });
-};
-
+}
 
 const adminUris = [
   'adm',

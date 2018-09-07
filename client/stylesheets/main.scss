@@ -1,4 +1,4 @@
-@import '{reywood:bootstrap3-sass}/bootstrap';
+@import '{}/node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 
 // Variables
 $large: 980px;
@@ -10,7 +10,7 @@ $medium: 600px;
 }
 #container-bg::before {
     content: " ";
-    background-image: url("images/home-background.jpg");
+    background-image: url("/images/home-background.jpg");
     background-color: #0e0e0e;
     background-repeat: no-repeat;
     // background-attachment: fixed;
@@ -97,7 +97,7 @@ select:not([multiple]) {
   -webkit-border-radius: 0px;
   background-position: right 50%;
   background-repeat: no-repeat;
-  background-image: url("images/select-arrow.png");
+  background-image: url("/images/select-arrow.png");
   background-size: 30px;
 }
 
@@ -131,13 +131,13 @@ a.btn, button{
 }
 
 .bg-wrapper {
-  // background: url("images/bg-default.jpg") center top no-repeat;
+  // background: url("/images/bg-default.jpg") center top no-repeat;
   // background-size: 100% auto;
   // min-height: 880px;
 }
 
 #contact {
-  // background: url("images/bg-contact.jpg") center top no-repeat;
+  // background: url("/images/bg-contact.jpg") center top no-repeat;
   // background-size: 100% auto;
   // min-height: 880px;
 }
@@ -171,7 +171,7 @@ a.btn, button{
   float: none;
 }
 .triangle-bullets{
-  list-style-image: url("images/triangle-bullet.svg");
+  list-style-image: url("/images/triangle-bullet.svg");
 }
 li{
   color:#fff;
@@ -199,7 +199,7 @@ section{
   line-height: 1.5em;
 }
 .thumb-poster{
-  width:75%;
+  width:100%;
 }
 .square_button{
   padding:1em;
