@@ -24,23 +24,19 @@ footer .col-md-5:nth-child(odd){
 		text-align:center;
 	}
 	& img{
-		width: 100%;
+		width: 49%;
 	}
 }
 footer .col-md-7:nth-child(even){
 	margin-top: 2.2em;
 	& img{
-		margin-left: 0.5em;
+    margin-left: 0.5em;
+    width: 5%;
 	}
 }
 
 .footer-logos {
   text-align: center;
-
-  img {
-    width: 170px !important;
-    height: 150px;
-  }
 
   &-description {
     position: relative;
