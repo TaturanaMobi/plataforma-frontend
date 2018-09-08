@@ -25,12 +25,10 @@ import '../../ui/pages/show-film.js';
 
 Router.configure({
   layoutTemplate: 'App_Body',
+  loadingTemplate: 'loading',
 });
 
 Router.route('/', {
-  // this template will be rendered until the subscriptions are ready
-  // loadingTemplate: 'loading',
-
   waitOn() {
     // return one handle, a function, or an array
     return Meteor.subscribe('films');

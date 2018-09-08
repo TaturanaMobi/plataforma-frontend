@@ -4,8 +4,9 @@ import { $ } from 'meteor/jquery';
 import { Uploader } from 'meteor/tomi:upload-jquery';
 import { FlashMessages } from 'meteor/mrt:flash-messages';
 
-import '../components/nav.html';
-import '../components/footer.html';
+import './../components/nav.html';
+import './../components/footer.html';
+import './../components/loading.html';
 import './app-body.html';
 
 Meteor.startup(() => {
