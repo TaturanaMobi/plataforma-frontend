@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
-import { Template } from 'meteor/templating';
 
 import { FilmScreeningInventory } from './../../../lib/film-screening-inventory';
 
@@ -269,12 +268,3 @@ Films.allow({
     return !!userId;
   },
 });
-
-if (Meteor.isClient) {
-  Meteor.subscribe('films');
-  Template.films.helpers({
-    films() {
-      return Films.active();
-    },
-  });
-}

@@ -1,0 +1,18 @@
+<template name="homeCarousel">
+  <div id="carousel" class="col-md-12">
+    {{! TODO: tem um bug no carrossel. Como todos os itens do carrossel são
+        exibidos no código o screen reader le todos eles e não só os que
+        estão sendo exibidos. Tbm qdo vc passa o mouse sobre o item, ele
+        sempre le o primeiro da fila, "filha da india" e nunca o que está
+        selecionado, é preciso esconder eles dos leitores qdo não estiverem
+        aparecendo na tela, mas eu não consegui sem zoar o carrossel.
+        A navegação via teclado também fica totalmente comprometida. Se você
+        esta vendo o quarto item na tela e começa a navegar com os tabs, você
+        acaba passando por todos os itens e pior, só vai ouvir "Mais informacões link" e
+        "Ver todos os filmes link", mas não sabe qual filme está sendo visto.
+        Eu dei uma tapa no "Mais informações" adicionando um `title`. }}
+    {{#each disseminate}}
+      {{> homeCarouselItem}}
+    {{/each}}
+  </div>
+</template>
