@@ -4,32 +4,50 @@ import { Session } from 'meteor/session';
 
 import { Films } from '../../api/films/films.js';
 
-Router.route('home', { path: '/' });
-Router.route('register');
-Router.route('ambassador-edit');
-Router.route('films');
-Router.route('adm');
-Router.route('adm/sessions');
-Router.route('adm/ambassadors');
-Router.route('screenings');
-Router.route('about');
-Router.route('login');
-Router.route('denied');
-Router.route('forget');
-Router.route('ambassador');
-Router.route('contact');
+Router.route('/', {
+  // this template will be rendered until the subscriptions are ready
+  // loadingTemplate: 'loading',
 
-Router.route('adm/films', {
+  waitOn() {
+    // return one handle, a function, or an array
+    return Meteor.subscribe('films');
+  },
+
+  data() {
+    // const filmId = this.params._id;
+    return Films.findOne({ slug: this.params.slug });
+  },
+
+  action() {
+    this.render('home');
+  },
+});
+
+Router.route('/register');
+Router.route('/ambassador-edit');
+Router.route('/films');
+Router.route('/adm');
+Router.route('/adm/sessions');
+Router.route('/adm/ambassadors');
+Router.route('/screenings');
+Router.route('/about');
+Router.route('/login');
+Router.route('/denied');
+Router.route('/forget');
+Router.route('/ambassador');
+Router.route('/contact');
+
+Router.route('/adm/films', {
   data() {
     Session.set('poster_path', null);
   },
 });
 
-Router.route('reset-password/:token', {
+Router.route('/reset-password/:token', {
   template: 'resetPassword',
 });
 
-Router.route('adm/films/:slug/edit', {
+Router.route('/adm/films/:slug/edit', {
   template: 'admFilms',
 
   waitOn() {
@@ -42,14 +60,14 @@ Router.route('adm/films/:slug/edit', {
   },
 });
 
-Router.route('adm/ambassador/:_id', {
+Router.route('/adm/ambassador/:_id', {
   template: 'admAmbassador',
   data() {
     return Meteor.users.findOne({ _id: this.params._id });
   },
 });
 
-Router.route('new-screening/:slug', {
+Router.route('/new-screening/:slug', {
   template: 'newScreening',
 
   waitOn() {
@@ -63,20 +81,20 @@ Router.route('new-screening/:slug', {
   },
 });
 
-Router.route('edit-screening/:_id', {
+Router.route('/edit-screening/:_id', {
   name: 'edit-screening',
   template: 'admScreening',
   data() {
     return Films.return_film_and_screening(this.params._id);
   },
 });
-Router.route('report/:_id', {
+Router.route('/report/:_id', {
   template: 'report',
   data() {
     return Films.return_film_and_screening(this.params._id);
   },
 });
-Router.route('adm/session/:_id', {
+Router.route('/adm/session/:_id', {
   template: 'admSession',
   data() {
     const sessionId = this.params._id;
@@ -84,7 +102,7 @@ Router.route('adm/session/:_id', {
   },
 });
 
-Router.route('adm/film/:_id/reports', {
+Router.route('/adm/film/:_id/reports', {
   template: 'admReports',
   data() {
     const filmId = this.params._id;
@@ -92,14 +110,14 @@ Router.route('adm/film/:_id/reports', {
   },
 });
 
-Router.route('adm/report/:_id', {
+Router.route('/adm/report/:_id', {
   template: 'admReport',
   data() {
     return Films.return_film_and_screening(this.params._id);
   },
 });
 
-Router.route('film/:slug', {
+Router.route('/film/:slug', {
   // this template will be rendered until the subscriptions are ready
   // loadingTemplate: 'loading',
 
