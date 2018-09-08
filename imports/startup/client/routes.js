@@ -33,7 +33,7 @@ Router.route('adm/films/:slug/edit', {
   template: 'admFilms',
 
   waitOn() {
-    return this.subscribe('films', this.params.slug);
+    return this.subscribe('films');
   },
 
   data() {
@@ -53,7 +53,7 @@ Router.route('new-screening/:slug', {
   template: 'newScreening',
 
   waitOn() {
-    return this.subscribe('films', this.params.slug);
+    return this.subscribe('films');
   },
 
   data() {
@@ -100,18 +100,23 @@ Router.route('adm/report/:_id', {
 });
 
 Router.route('film/:slug', {
-  template: 'showFilm',
+  // this template will be rendered until the subscriptions are ready
+  // loadingTemplate: 'loading',
 
   waitOn() {
-    return this.subscribe('films', this.params.slug);
+    // return one handle, a function, or an array
+    return Meteor.subscribe('films');
   },
 
   data() {
-    const filmId = this.params._id;
+    // const filmId = this.params._id;
     return Films.findOne({ slug: this.params.slug });
   },
+
+  action() {
+    this.render('showFilm');
+  },
 });
-// });
 
 function mustBeSignedIn(pause) {
   if (!(Meteor.user() || Meteor.loggingIn())) {

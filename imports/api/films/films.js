@@ -33,6 +33,7 @@ function incrementOrCreate(obj, key, increment) {
   increment = increment || 1;
 
   obj[key] = (key in obj) ? (obj[key] + increment) : increment;
+  return obj;
 }
 
 function getMonthName(month) {
@@ -160,7 +161,7 @@ Films.get_image_by_src = (id, src) => {
   return image;
 };
 
-Films.inventory = (film) => {
+Films.inventory = function inventoryFilm(film) {
   const legacyData = FilmScreeningInventory[film.title];
   const screenings = film.screening || [];
   const initialInventory = {
@@ -221,7 +222,10 @@ Films.inventory = (film) => {
       if (real_quorum > 0) {
         // real_quorum = parseInt(real_quorum);
         inventory.viewers += real_quorum;
-        incrementOrCreate(inventory.viewers_per_month, getMonthName(screening.date.getMonth()), real_quorum);
+        incrementOrCreate(
+          inventory.viewers_per_month,
+          getMonthName(screening.date.getMonth()), real_quorum
+        );
       }
 
       // Estados e viewers por area
@@ -244,8 +248,8 @@ Films.inventory = (film) => {
 
   if (users.length > 0) {
     _.each(users, (user) => {
-      // Categorias e subcategorias dos embaixadores
-      if (user.profile && user.profile.name != 'admin') {
+      // Categorias e subcategorias dos embaixadores?
+      if (user && user.profile && user.profile.name !== 'admin') {
         incrementOrCreate(inventory.categories, user.profile.category);
         incrementOrCreate(inventory.subcategories, user.profile.subcategory);
       }
@@ -253,7 +257,6 @@ Films.inventory = (film) => {
   }
   inventory.cities_total += _.uniq(cities).length;
   inventory.states = _.uniq(states.concat(inventory.states));
-
   // Não retorna inventorio sem sessões
   if (inventory.sessions > 0) {
     return inventory;
