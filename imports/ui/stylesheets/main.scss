@@ -5,38 +5,51 @@
 $large: 980px;
 $medium: 600px;
 
+
+body {
+  content: " ";
+  background-image: url("/images/home-background.jpg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 1300px;
+  background-position: 50% 20%;
+
+}
+
 #container-bg {
   position: relative;
   background: transparent;
+  margin: 140px auto 50px;
 }
-#container-bg::before {
-    content: " ";
-    background-image: url("/images/home-background.jpg");
-    background-color: #0e0e0e;
-    background-repeat: no-repeat;
-    // background-attachment: fixed;
-    background-size: 1300px;
-    background-position: -73px -60px;
-    position: absolute;
-    z-index: -1000;
+// #container-bg::before {
+//     content: " ";
+//     background-image: url("/images/home-background.jpg");
+//     background-color: #0e0e0e;
+//     background-repeat: no-repeat;
+//     // background-attachment: fixed;
+//     background-size: 1300px;
+//     background-position: -73px -60px;
+//     position: absolute;
+//     z-index: -1000;
 
-    @media (min-width: 768px) {
-      height: 1000px;
-      width: 100%;
-    }
-    @media (max-width: 1199px) {
-      background-position: -127px -42px;
-      background-size: 1199px;
-    }
-    @media (max-width: 992px) {
-      background-position: -132px 40px;
-      background-size: 992px;
-    }
-    @media (max-width: 768px) {
-      background-position: -132px 40px;
-      background-size: 992px;
-    }
-}
+//     @media (min-width: 768px) {
+//       height: 1000px;
+//       width: 100%;
+//     }
+//     @media (max-width: 1199px) {
+//       background-position: -127px -42px;
+//       background-size: 1199px;
+//     }
+//     @media (max-width: 992px) {
+//       background-position: -132px 40px;
+//       background-size: 992px;
+//     }
+//     @media (max-width: 768px) {
+//       background-position: -132px 40px;
+//       background-size: 992px;
+//     }
+// }
 
 body{
 	font-family: Roboto;
@@ -115,33 +128,33 @@ a.btn, button{
   padding-left: 0px;
 }
 
-#home, #ambassador-registration, #films, #agenda, #contact, #about, #show-film {
-  padding-top:15em;
+// #home, #ambassador-registration, #films, #agenda, #contact, #about, #show-film {
+//   padding-top:15em;
 
-  @media (max-width: 830px) {
-    padding-top: 15em;
-  }
-}
+//   @media (max-width: 830px) {
+//     padding-top: 15em;
+//   }
+// }
 
-#home {
-  padding-top: 200px;
-  @media (min-width: 1300px) {
-  }
-  @media (min-width: 1900px) {
-  }
-}
+// #home {
+//   padding-top: 200px;
+//   @media (min-width: 1300px) {
+//   }
+//   @media (min-width: 1900px) {
+//   }
+// }
 
-.bg-wrapper {
-  // background: url("/images/bg-default.jpg") center top no-repeat;
-  // background-size: 100% auto;
-  // min-height: 880px;
-}
+// .bg-wrapper {
+//   background: url("/images/bg-default.jpg") center top no-repeat;
+//   background-size: 100% auto;
+//   min-height: 880px;
+// }
 
-#contact {
-  // background: url("/images/bg-contact.jpg") center top no-repeat;
-  // background-size: 100% auto;
-  // min-height: 880px;
-}
+// #contact {
+//   background: url("/images/bg-contact.jpg") center top no-repeat;
+//   background-size: 100% auto;
+//   min-height: 880px;
+// }
 
 .image-description{
   text-align: center;

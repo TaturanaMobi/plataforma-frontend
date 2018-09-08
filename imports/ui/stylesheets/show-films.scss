@@ -46,6 +46,13 @@
     }
 
   }
+  .box{
+    margin-bottom: 1.5em;
+    border: 1px solid #df4944;
+    padding: 1.2em 1.4em;
+    color:#fff;
+    line-height: 1.8em;
+  }
 }
 .age-rating{
   width: 0.4em;
@@ -57,13 +64,6 @@
 }
 .data-row{
   margin-top: 4em;
-}
-.box{
-  margin-bottom: 1.5em;
-  border: 1px solid #df4944;
-  padding: 1.2em 1.4em;
-  color:#fff;
-  line-height: 1.8em;
 }
 .photo{
   position: relative;

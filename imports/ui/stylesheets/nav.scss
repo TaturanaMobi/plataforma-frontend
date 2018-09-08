@@ -4,12 +4,13 @@
   left: 0;
   z-index: 2000;
   width: 100%;
-  height: 160px;
-  background: url("/images/80_dark_bg.png") 0 0 repeat;
-  background: black;
+  // height: 200px;
+  // background: url("/images/80_dark_bg.png") 0 0 repeat;
+  background: transparent;
 
   .header-bg-wrapper {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff695c+0,da7fff+51,4caaff+100 */
+    // background: #df4944; /* Old browsers */
     background: rgb(255,105,92); /* Old browsers */
     /* IE9 SVG, needs conditional override of 'filter' to 'none' */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmNjk1YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iI2RhN2ZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM0Y2FhZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -21,13 +22,13 @@
     background: linear-gradient(to right, rgba(255,105,92,1) 0%,rgba(218,127,255,1) 51%,rgba(76,170,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff695c', endColorstr='#4caaff',GradientType=1 ); /* IE6-8 */
 
-    padding-bottom: .8rem;
-    height: 55px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    // padding-bottom: .8rem;
+    // height: 55px;
+    // border-bottom: 2px solid rgba(0, 0, 0, 0.5);
 
-    @media (max-width: 583px) {
-      height: 90px;
-    }
+    // @media (max-width: 583px) {
+    //   height: 90px;
+    // }
 
   }
 
@@ -35,12 +36,12 @@
     height: 160px;
   }
 
-  @media (min-width: 1150px) {
-    .container {
-      width: 1170px;
-      padding-right: 0;
-    }
-  }
+  // @media (min-width: 1150px) {
+  //   .container {
+  //     width: 1170px;
+  //     padding-right: 0;
+  //   }
+  // }
 
   @media (max-width: 768px) {
     .container {
@@ -57,10 +58,11 @@
   font-size: 15px;
 
   // height: 4.286em;
+  margin: 0;
   padding: 0;
   // margin-left: 55px;
   // margin-right: 55px;
-  margin-top: 41px;
+  // margin-top: 41px;
   // margin-right: 1.72w em;
   // margin-bottom: 0;
 
@@ -68,13 +70,13 @@
     display: inline-block;
     height: 100%;
     line-height: 3.2;
-    padding: 10px 15px;
+    padding: 15px;
 
     &:first-child {
-      padding: 10px 15px 10px 0;
+      padding: 15px 15px 15px 0;
     }
     &:last-child {
-      padding: 10px 0 10px 15px;
+      padding: 15px 0 15px 15px;
     }
 
     &.menu-left {
@@ -133,7 +135,7 @@
 
 #logo {
   position: absolute;
-  top: 28px;
+  top: 10px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -142,8 +144,8 @@
   height: 115px;
   width: 335px;
 
-  background: url("/images/taturana_logo.png") center top no-repeat;
-  background-size: 100%;
+  background: url("/images/taturana_logo.png") center top no-repeat transparent;
+  background-size: 90%;
 
   @media (max-width: 830px) {
     top: 95px;

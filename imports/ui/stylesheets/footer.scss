@@ -1,9 +1,8 @@
-footer{
-  background: url("/images/80_dark_bg.png") 0 0 repeat;
-  background: rgba(0, 0, 0, 0.8);
+footer {
+  // background: url("/images/80_dark_bg.png") 0 0 repeat;
+  background: rgba(0, 0, 0, 1);
   // background-size: 100% 100%;
-  min-height: 226px;
-  margin-top: 5em;
+  padding: 2.5em;
 
   clear: both;
 
@@ -11,35 +10,19 @@ footer{
     padding-bottom: 20px;
   }
 
-	& .container{
-	padding-top:1em;
-	}
-}
-footer .col-md-5, footer .col-md-7{
-	padding-right: 5%;
-  padding-left: 5%;
-}
-footer .col-md-5:nth-child(odd){
-	& p{
-		text-align:center;
-	}
-	& img{
-		width: 49%;
-	}
-}
-footer .col-md-7:nth-child(even){
-	margin-top: 2.2em;
-	& img{
-    margin-left: 0.5em;
-    width: 5%;
-	}
-}
+  .logos{
+    // padding-top:1em;
+    text-align: center;
 
-.footer-logos {
-  text-align: center;
+    img{
+      margin: 0 1em;
+    }
+  }
 
-  &-description {
-    position: relative;
-    top: -27px;
+  .redes {
+    img {
+      width: 2em;
+      margin: .5em 1em 1em 0;
+    }
   }
 }

@@ -3,7 +3,7 @@
 
   <div id="show-film">
     <div class="container">
-      <div class="col-md-12">
+      <div class="col-lg-12">
         <a href="/films">
           <h1 class="section-title-sm">FILMES | {{status}}</h1>
         </a>
@@ -17,7 +17,7 @@
         {{/if}}
         </div>
       </div>
-      <div class="col-md-12 data-row reset-div">
+      <div class="col-lg-12 data-row reset-div">
       {{! TODO: queria tbm usar uma definition list aqui, mas sem usar várias
           DLs não consigo o mesmo efeito da tabela, e ficaria horrivel no screen reader:
           "Lista com 1 elemento: Genêro: Documentário ... Lista com 1 elemento..." }}
@@ -38,11 +38,11 @@
           </tr>
         </table>
       </div>
-      <div class="col-md-12 data-row reset-div">
-        <div class="col-md-4 poster-wrapper">
+      <div class="col-lg-12 data-row reset-div">
+        <div class="col-lg-5 poster-wrapper">
           <img class="thumb-poster" src="http://taturana-assets.herokuapp.com/smartcrop?width=250&height=350&url=http://taturanamobi.com.br/upload/{{poster_path}}" alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-7">
           <p>{{{synopsis}}}</p>
         </div>
         {{#if tibr}}
