@@ -1,9 +1,8 @@
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
-
-// import { Chartist } from 'meteor/mfpierre:chartist-js';
-// import 'meteor/mspi:chartistlegend';
+import c3 from 'c3';
+import d3 from 'd3';
 
 import { Films } from './../../../imports/api/films/films.js';
 
@@ -85,36 +84,83 @@ Template.showFilm.onRendered(() => {
       _.keys(inventory.viewers_zones).forEach((k) => {
         labels.push(`${k} ( ${inventory.viewers_zones[k]} )`);
       });
-      new Chartist.Pie('#zone-chart', {
-        labels, // _.keys(inventory.viewers_zones),
-        series: _.values(inventory.viewers_zones),
-      }, {
-        width: 200,
-        donut: true,
-        donutWidth: 46,
-        showLabel: false,
-        plugins: [
-          Chartist.plugins.legend(),
-        ],
+      const chart = c3.generate({
+        bindto: '#zone-chart',
+        data: {
+          // iris data from R
+          columns: [
+            ['data1', 30],
+            ['data2', 120],
+          ],
+          type: 'pie',
+          // onclick: function (d, i) { console.log("onclick", d, i); },
+          // onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+          // onmouseout: function (d, i) { console.log("onmouseout", d, i); },
+        },
       });
+      // new Chartist.Pie('#zone-chart', {
+      //   labels, // _.keys(inventory.viewers_zones),
+      //   series: _.values(inventory.viewers_zones),
+      // }, {
+      //   width: 200,
+      //   donut: true,
+      //   donutWidth: 46,
+      //   showLabel: false,
+      //   plugins: [
+      //     Chartist.plugins.legend(),
+      //   ],
+      // });
     }
 
     if (inventory.viewers_per_month) {
       const series = _.values(inventory.viewers_per_month).slice(0, 4);
-      new Chartist.Line('#viewers-chart', {
-        labels: [
-          `<center>Primeiro Mês<br>(${series[0]})`,
-          `<center>Segundo Mês<br>(${series[1]})`,
-          `<center>Terceiro Mês<br>(${series[2]})`,
-          `<center>Quarto Mês<br>(${series[3]})`,
-        ],
-        series: [series],
-      }, {
-        height: 200,
-        chartPadding: {
-          right: 40,
+      const chart2 = c3.generate({
+        bindto: '#viewers-chart',
+        data: {
+          columns: [
+            ['data1', 30, 200, 100, 400, 150, 250],
+            ['data2', 50, 20, 10, 40, 15, 25]
+          ],
+          axes: {
+            data2: 'y2',
+          },
+          types: {
+            data2: 'bar',
+          },
+        },
+        axis: {
+          y: {
+            label: {
+              text: 'Y Label',
+              position: 'outer-middle',
+            },
+            tick: {
+              format: d3.format("$,"), // ADD
+            }
+          },
+          y2: {
+            show: true,
+            label: {
+              text: 'Y2 Label',
+              position: 'outer-middle',
+            },
+          },
         },
       });
+      // new Chartist.Line('#viewers-chart', {
+      //   labels: [
+      //     `<center>Primeiro Mês<br>(${series[0]})`,
+      //     `<center>Segundo Mês<br>(${series[1]})`,
+      //     `<center>Terceiro Mês<br>(${series[2]})`,
+      //     `<center>Quarto Mês<br>(${series[3]})`,
+      //   ],
+      //   series: [series],
+      // }, {
+      //   height: 200,
+      //   chartPadding: {
+      //     right: 40,
+      //   },
+      // });
     }
 
     if (inventory.categories) {
@@ -124,18 +170,18 @@ Template.showFilm.onRendered(() => {
           `${k} (${inventory.categories[k]})`
         );
       });
-      new Chartist.Pie('#institution-type-chart', {
-        labels, // _.keys(inventory.categories),
-        series: _.values(inventory.categories),
-      }, {
-        width: 200,
-        donut: true,
-        donutWidth: 46,
-        showLabel: false,
-        plugins: [
-          Chartist.plugins.legend(),
-        ],
-      });
+      // new Chartist.Pie('#institution-type-chart', {
+      //   labels, // _.keys(inventory.categories),
+      //   series: _.values(inventory.categories),
+      // }, {
+      //   width: 200,
+      //   donut: true,
+      //   donutWidth: 46,
+      //   showLabel: false,
+      //   plugins: [
+      //     Chartist.plugins.legend(),
+      //   ],
+      // });
     }
 
     if (inventory.subcategories) {
@@ -145,18 +191,18 @@ Template.showFilm.onRendered(() => {
           `${k} (${inventory.subcategories[k]})`
         );
       });
-      new Chartist.Pie('#institution-area-chart', {
-        labels, // _.keys(inventory.subcategories),
-        series: _.values(inventory.subcategories),
-      }, {
-        width: 200,
-        donut: true,
-        donutWidth: 46,
-        showLabel: false,
-        plugins: [
-          Chartist.plugins.legend(),
-        ],
-      });
+      // new Chartist.Pie('#institution-area-chart', {
+      //   labels, // _.keys(inventory.subcategories),
+      //   series: _.values(inventory.subcategories),
+      // }, {
+      //   width: 200,
+      //   donut: true,
+      //   donutWidth: 46,
+      //   showLabel: false,
+      //   plugins: [
+      //     Chartist.plugins.legend(),
+      //   ],
+      // });
     }
   }
 });
