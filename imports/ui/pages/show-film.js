@@ -58,7 +58,7 @@ Template.showFilm.helpers({
   tibr() {
     if (!this.technical_information) return;
 
-    this.technical_information.replace(/\n/g, '<br />');
+    return `<p>${this.technical_information.replace(/\n/g, '</p><p>')}</p>`;
   },
   has_categories(categories) {
     return !_.isEmpty(categories);

@@ -6,7 +6,8 @@
   width: 100%;
   // height: 200px;
   // background: url("/images/80_dark_bg.png") 0 0 repeat;
-  background: transparent;
+  // background: transparent;
+  background: rgba(0,0,0,.8);
 
   .header-bg-wrapper {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff695c+0,da7fff+51,4caaff+100 */
@@ -23,7 +24,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff695c', endColorstr='#4caaff',GradientType=1 ); /* IE6-8 */
 
     // padding-bottom: .8rem;
-    // height: 55px;
+    height: 50px;
     // border-bottom: 2px solid rgba(0, 0, 0, 0.5);
 
     // @media (max-width: 583px) {
@@ -69,14 +70,13 @@
   > li {
     display: inline-block;
     height: 100%;
-    line-height: 3.2;
-    padding: 15px;
+    padding: 65px 15px 15px;
 
     &:first-child {
-      padding: 15px 15px 15px 0;
+      padding-left: 0;
     }
     &:last-child {
-      padding: 15px 0 15px 15px;
+      padding-right: 0;
     }
 
     &.menu-left {
@@ -84,9 +84,10 @@
     }
 
     &.avatar-menu {
-      float: right;
+      padding: 0;
+      // float: right;
       position: relative;
-      top: -2px;
+      bottom: -14px;
     }
 
     > a {
@@ -135,7 +136,7 @@
 
 #logo {
   position: absolute;
-  top: 10px;
+  top: 25px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -145,7 +146,7 @@
   width: 335px;
 
   background: url("/images/taturana_logo.png") center top no-repeat transparent;
-  background-size: 90%;
+  // background-size: 90%;
 
   @media (max-width: 830px) {
     top: 95px;

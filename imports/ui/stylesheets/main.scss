@@ -19,8 +19,10 @@ body {
 
 #container-bg {
   position: relative;
-  background: transparent;
-  margin: 140px auto 50px;
+  // background: transparent;
+  margin: 140px auto 0;
+  padding-bottom: 50px;
+  background-color: rgba(0,0,0, .05);
 }
 // #container-bg::before {
 //     content: " ";
@@ -60,9 +62,9 @@ body{
     background-size: inherit;
   }
 }
-.reset-div{
-  padding:0;
-}
+// .reset-div{
+//   padding:0;
+// }
 .red{
   color: #df4944 !important;
 }
@@ -96,9 +98,11 @@ h6{
 }
 p, label{
   color: #fff;
-  line-height: 20pt;
-  font-weight: 300;
+  // line-height: 20pt;
+  // font-weight: 300;
   font-size: 1.1em;
+  margin-bottom: 1em;
+  text-shadow: 1px 1px 2px #000;
 }
 a, a:hover, a:visited, a:link{
   color:#fff;

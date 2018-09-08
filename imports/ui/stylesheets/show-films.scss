@@ -17,9 +17,9 @@
     font-weight:300;
     font-size:1.6em;
   }
-  & .thumb-poster{
-    width:75%;
-  }
+  // & .thumb-poster{
+  //   width:75%;
+  // }
   & #carousel{
     width:80%;
   }
@@ -170,7 +170,7 @@
 
 .film-detail-buttons {
   text-align: right;
-  margin-bottom: 2rem;
+  // margin-bottom: 2rem;
 
   @media (max-width: 650px) {
     .btn {

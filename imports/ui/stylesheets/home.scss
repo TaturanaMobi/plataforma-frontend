@@ -1,18 +1,19 @@
 #home {
-	// background: url("/images/home-background.svg") center top no-repeat;
-  // background-size: 100% auto;
-  // height: 615px;
+  background: url("/images/home-background.svg") center top no-repeat;
+  background-size: 100% auto;
+  background-position: 50% 20%;
+  height: 615px;
   // display: table;
   // position: relative;
   overflow: hidden;
 
   @media (max-width: 992px){
-  	height: 400px;
+    height: 400px;
   }
 
   @media (max-width: 600px){
     height: auto;
-  	display: block;
+    display: block;
   }
 }
 // .home-text-box{
@@ -31,15 +32,15 @@
   color: #fff;
   font-weight: 500;
   text-align: center;
-  // margin-bottom: 1.2em;
-	@media (max-width: 992px){
-		font-size:2em;
-  	top: 20%;
-  }
-  @media (max-width: 600px){
-  	font-size:1.5em;
-  	top: 10%;
-  }
+  margin: 1em 0;
+  // @media (max-width: 992px){
+  font-size: 3em;
+    // top: 20%;
+  // }
+  // @media (max-width: 600px){
+  //   font-size:1.5em;
+  //   top: 10%;
+  // }
 }
 .home-headers{
   color: #fff;
