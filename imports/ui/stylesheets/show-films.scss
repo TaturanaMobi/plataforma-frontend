@@ -91,17 +91,8 @@
 
 .ct-chart {
   position: relative;
-  min-height: 230px;
+  min-height: 280px;
   overflow: hidden;
-
-  &-donut {
-    position: absolute;
-    top: 0;
-    top: -15%;
-    height: 280px !important;
-    display: inline-block;
-  }
-
 }
 
 .ct-grid {
@@ -197,7 +188,7 @@
 
 .film-graphs {
   color: #FFF;
-  
+
   justify-content: space-between;
   margin-bottom:3em;
 

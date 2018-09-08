@@ -82,127 +82,92 @@ Template.showFilm.onRendered(() => {
     if (inventory.viewers_zones) {
       const labels = [];
       _.keys(inventory.viewers_zones).forEach((k) => {
-        labels.push(`${k} ( ${inventory.viewers_zones[k]} )`);
+        labels.push([k, inventory.viewers_zones[k]]);
       });
-      const chart = c3.generate({
+
+      c3.generate({
         bindto: '#zone-chart',
         data: {
-          // iris data from R
-          columns: [
-            ['data1', 30],
-            ['data2', 120],
-          ],
+          columns: labels,
           type: 'pie',
-          // onclick: function (d, i) { console.log("onclick", d, i); },
-          // onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-          // onmouseout: function (d, i) { console.log("onmouseout", d, i); },
+          onclick: function (d, i) { console.log("onclick", d, i); },
+        },
+        legend: {
+          item: {
+            onclick: function (d, i) { console.log("onclick", d, i); },
+          },
         },
       });
-      // new Chartist.Pie('#zone-chart', {
-      //   labels, // _.keys(inventory.viewers_zones),
-      //   series: _.values(inventory.viewers_zones),
-      // }, {
-      //   width: 200,
-      //   donut: true,
-      //   donutWidth: 46,
-      //   showLabel: false,
-      //   plugins: [
-      //     Chartist.plugins.legend(),
-      //   ],
-      // });
     }
 
     if (inventory.viewers_per_month) {
-      const series = _.values(inventory.viewers_per_month).slice(0, 4);
-      const chart2 = c3.generate({
+      const labels = [];
+      _.keys(inventory.viewers_per_month).forEach((k) => {
+        labels.push([k, parseInt(inventory.viewers_per_month[k], 10)]);
+      });
+      c3.generate({
         bindto: '#viewers-chart',
         data: {
           columns: [
-            ['data1', 30, 200, 100, 400, 150, 250],
-            ['data2', 50, 20, 10, 40, 15, 25]
+            [].concat(['Espectadores'], _.values(inventory.viewers_per_month)),
           ],
-          axes: {
-            data2: 'y2',
-          },
-          types: {
-            data2: 'bar',
-          },
+          type: 'bar',
+          onclick: function (d, i) { console.log("onclick", d, i); },
         },
         axis: {
-          y: {
-            label: {
-              text: 'Y Label',
-              position: 'outer-middle',
-            },
-            tick: {
-              format: d3.format("$,"), // ADD
-            }
+          x: {
+            type: 'category',
+            categories: _.keys(inventory.viewers_per_month),
           },
-          y2: {
-            show: true,
-            label: {
-              text: 'Y2 Label',
-              position: 'outer-middle',
-            },
+        },
+        legend: {
+          item: {
+            onclick: function (d, i) { console.log("onclick", d, i); },
           },
         },
       });
-      // new Chartist.Line('#viewers-chart', {
-      //   labels: [
-      //     `<center>Primeiro Mês<br>(${series[0]})`,
-      //     `<center>Segundo Mês<br>(${series[1]})`,
-      //     `<center>Terceiro Mês<br>(${series[2]})`,
-      //     `<center>Quarto Mês<br>(${series[3]})`,
-      //   ],
-      //   series: [series],
-      // }, {
-      //   height: 200,
-      //   chartPadding: {
-      //     right: 40,
-      //   },
-      // });
     }
 
     if (inventory.categories) {
       const labels = [];
       _.keys(inventory.categories).forEach((k) => {
-        labels.push(
-          `${k} (${inventory.categories[k]})`
-        );
+        labels.push([k, inventory.categories[k]]);
       });
-      // new Chartist.Pie('#institution-type-chart', {
-      //   labels, // _.keys(inventory.categories),
-      //   series: _.values(inventory.categories),
-      // }, {
-      //   width: 200,
-      //   donut: true,
-      //   donutWidth: 46,
-      //   showLabel: false,
-      //   plugins: [
-      //     Chartist.plugins.legend(),
-      //   ],
-      // });
+      c3.generate({
+        bindto: '#institution-type-chart',
+        data: {
+          columns: labels,
+          type: 'donut',
+          onclick: function (d, i) { console.log("onclick", d, i); },
+        },
+        legend: {
+          item: {
+            onclick: function (d, i) { console.log("onclick", d, i); },
+          },
+          position: 'right',
+        },
+      });
     }
 
     if (inventory.subcategories) {
-      labels = [];
+      const labels = [];
       _.keys(inventory.subcategories).forEach((k) => {
-        labels.push(
-          `${k} (${inventory.subcategories[k]})`
-        );
+        labels.push([k, inventory.subcategories[k]]);
       });
-      // new Chartist.Pie('#institution-area-chart', {
-      //   labels, // _.keys(inventory.subcategories),
-      //   series: _.values(inventory.subcategories),
-      // }, {
-      //   width: 200,
-      //   donut: true,
-      //   donutWidth: 46,
-      //   showLabel: false,
-      //   plugins: [
-      //     Chartist.plugins.legend(),
-      //   ],
-      // });
+      c3.generate({
+        bindto: '#institution-area-chart',
+        data: {
+          columns: labels,
+          type: 'donut',
+          onclick: function (d, i) { console.log("onclick", d, i); },
+        },
+        legend: {
+          item: {
+            onclick: function (d, i) { console.log("onclick", d, i); },
+          },
+          position: 'right',
+        },
+      });
     }
   }
 });

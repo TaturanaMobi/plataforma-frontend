@@ -223,7 +223,7 @@ Films.inventory = function inventoryFilm(film) {
         inventory.viewers += real_quorum;
         incrementOrCreate(
           inventory.viewers_per_month,
-          getMonthName(screening.date.getMonth()), real_quorum
+          `${getMonthName(screening.date.getMonth())} - ${screening.date.getFullYear()}`, real_quorum
         );
       }
 
