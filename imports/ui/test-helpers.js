@@ -1,6 +1,6 @@
 /* global document */
-
-// TODO -- this should probably be some kind of test package that people use
+/* eslint-env mocha */
+/* eslint-disable func-names, prefer-arrow-callback */
 
 import { _ } from 'meteor/underscore';
 import { Template } from 'meteor/templating';

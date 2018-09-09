@@ -129,6 +129,7 @@ Films.by_screening_id = screening_id => Films.findOne({
 
 Films.return_film_and_screening = (screening_id) => {
   const film = Films.by_screening_id(screening_id);
+  console.log(screening_id);
   const screening = Films.return_screening(screening_id);
   return {
     film,
@@ -152,7 +153,7 @@ Films.get_image_by_src = (id, src) => {
   let image;
 
   _.each(film.slideshow, (img) => {
-    if (img.src == src) {
+    if (img.src === src) {
       image = img;
     }
   });

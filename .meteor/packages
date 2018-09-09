@@ -31,7 +31,6 @@ stevezhu:lodash
 harrison:papa-parse
 aramk:requirejs
 momentjs:moment
-summernote:standalone
 todda00:friendly-slugs
 juliomac:prettyphoto
 meteorhacks:ssr
@@ -46,3 +45,4 @@ standard-minifier-js
 shell-server
 dynamic-import
 underscore
+summernote:summernote

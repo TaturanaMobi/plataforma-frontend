@@ -1,15 +1,23 @@
+/* global document, window */
+
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
+import { saveScreening } from './../../startup/client/helpers.js';
 import './edit-screening.html';
 
 Template.editScreening.onRendered(() => {
   const nowDate = new Date();
-  const today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 3, 0, 0, 0, 0);
+  const today = new Date(
+    nowDate.getFullYear(),
+    nowDate.getMonth(),
+    nowDate.getDate() + 3,
+    0, 0, 0, 0
+  );
 
-  $('.readonly').keydown(function (e) {
+  $('.readonly').keydown(function readOnlyKeyDown(e) {
     e.preventDefault();
   });
   $('#date').datepicker({

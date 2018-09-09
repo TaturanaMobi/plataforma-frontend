@@ -54,6 +54,11 @@
 .div-border{
   border-right: 2px solid #bf3c3c;
 }
+
+.slick-slide .carousel-box img {
+  max-height: 100%;
+}
+
 .slick-next, .slick-prev{
 	&:before {
 		font-family: 'icomoon';

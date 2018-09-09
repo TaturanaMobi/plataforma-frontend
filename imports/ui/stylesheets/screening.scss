@@ -1,5 +1,5 @@
 #new-screening{
-	padding-top: 10em;
+	// padding-top: 10em;
 	& h3 {
     font-weight: 400;
     font-size: 3em;
@@ -10,9 +10,9 @@
   	margin-top:2em;
   }
 }
-#report, #edit-screening{
-  padding-top: 19em;
-}
+// #report, #edit-screening{
+//   padding-top: 19em;
+// }
 .address-box{
   background-color:#df4944;
   color:#fff;
@@ -62,37 +62,8 @@
   }
 }
 
-.status-meanings {
-  list-style: none;
-  text-align: center;
-  margin-bottom: 9em;
-
-  li {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 7em;
-    opacity: .7;
-
-    span {
-      display: inline-block;
-      vertical-align: middle;
-      font-size: .9375em;
-    }
-
-    img {
-      margin-right: 1rem;
-    }
-  }
-
-  @media (max-width: 830px) {
-    li {
-      margin-bottom: 2rem;
-    }
-  }
-}
 
 .session-edit-box {
-  position: relative;
 
   .session-current-status,
   .session-info {

@@ -88,7 +88,21 @@ Router.route('/screenings', {
     this.render('screenings');
   },
 });
-Router.route('/ambassador');
+Router.route('/ambassador', {
+  waitOn() {
+    // return one handle, a function, or an array
+    return Meteor.subscribe('films');
+  },
+
+  data() {
+    // const filmId = this.params._id;
+    return Films.screenings_by_user_id();
+  },
+
+  action() {
+    this.render('ambassador');
+  },
+});
 
 Router.route('/film/:slug', {
   // this template will be rendered until the subscriptions are ready
@@ -131,6 +145,9 @@ Router.route('/new-screening/:slug', {
 Router.route('/edit-screening/:_id', {
   name: 'edit-screening',
   template: 'editScreening',
+  waitOn() {
+    return this.subscribe('films');
+  },
   data() {
     return Films.return_film_and_screening(this.params._id);
   },
@@ -148,8 +165,22 @@ Router.route('/adm/sessions');
 Router.route('/adm/ambassadors');
 
 Router.route('/adm/films', {
+  // this template will be rendered until the subscriptions are ready
+  // loadingTemplate: 'loading',
+
+  waitOn() {
+    // return one handle, a function, or an array
+    return Meteor.subscribe('films');
+  },
+
   data() {
     Session.set('poster_path', null);
+    // const filmId = this.params._id;
+    return Films.active();
+  },
+
+  action() {
+    this.render('admFilms');
   },
 });
 

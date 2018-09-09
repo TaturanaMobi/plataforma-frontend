@@ -27,6 +27,7 @@ Template.contact.events({
     const pidgeon = {
       to: 'contato@taturanamobi.com.br',
       from: 'suporte@taturanamobi.com.br',
+      replyTo: email,
       subject: 'Contato Site',
       name,
       email,

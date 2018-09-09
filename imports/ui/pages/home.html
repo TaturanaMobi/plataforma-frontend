@@ -11,25 +11,22 @@
       <div class="row">
         <div class="col-lg-12 center-block float-none">
           <h1 class="home-text">Seja cinema, liberte um filme</h1>
-          <p class="home-items">Organize uma sessão coletiva em seu espaço e fortaleça os circuitos alternativos da #RedeDeExibidoresTaturana pela democratização do acesso ao cinema!</p>
+          <p class="home-items">
+            Organize uma sessão coletiva em seu espaço e fortaleça os circuitos alternativos da #RedeDeExibidoresTaturana pela democratização do acesso ao cinema!
+          </p>
           {{! TODO: Quebre a imagem em três e separe os alt texts corretamente }}
-          <img src="/images/ilustracao-passos.png" class="img-responsive center-block divider" alt="1: CADASTRE-SE como embaixador e entre para a rede de exibidores!; 2: ESCOLHA UM FILME para exibidr e debater no seu espaço!; 3: CONTE COMO FOI a experiência, e contribua para a construção dessa rede cultural!"/>
+          <div class="col-lg-12 divider"></div>
+          <img src="/images/ilustracao-passos.png" class="img-responsive center-block" alt="1: CADASTRE-SE como embaixador e entre para a rede de exibidores!; 2: ESCOLHA UM FILME para exibidr e debater no seu espaço!; 3: CONTE COMO FOI a experiência, e contribua para a construção dessa rede cultural!"/>
         </div>
       </div>
     </section>
     <section id="home-carousel">
-      <div class="row">
-        <div class="col-lg-6 center-block float-none">
-          <h2 class="home-headers box">Escolha um filme:</h2>
-        </div>
+      <div class="col-lg-6 center-block float-none">
+        <h2 class="home-headers box">Escolha um filme:</h2>
       </div>
-      <div class="row">
-        {{>homeCarousel}}
-      </div>
-      <div class="row">
-        <div class="col-lg-12 center-btn">
-          <a href="/register" class="btn btn-lg">FAÇA PARTE DESSA REDE</a>
-        </div>
+      {{>homeCarousel}}
+      <div class="col-lg-12 center-btn">
+        <a href="/register" class="btn btn-lg">FAÇA PARTE DESSA REDE</a>
       </div>
     </section>
   </div>

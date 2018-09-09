@@ -79,6 +79,7 @@ Template.showFilm.onRendered(() => {
     const inventory = Films.inventory(thisData);
 
     if (!inventory) return;
+    console.log(inventory.viewers_zones);
     if (inventory.viewers_zones) {
       const labels = [];
       _.keys(inventory.viewers_zones).forEach((k) => {
@@ -111,7 +112,7 @@ Template.showFilm.onRendered(() => {
           columns: [
             [].concat(['Espectadores'], _.values(inventory.viewers_per_month)),
           ],
-          type: 'bar',
+          type: 'spline',
           onclick: function (d, i) { console.log("onclick", d, i); },
         },
         axis: {

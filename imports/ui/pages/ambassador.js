@@ -1,8 +1,9 @@
-import { Meteor, FlashMessages } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
-import { Router } from 'meteor/iron:router';
+// import { Router } from 'meteor/iron:router';
 import { _ } from 'meteor/underscore';
+import { moment } from 'meteor/momentjs:moment';
 
 import { Films } from './../../../imports/api/films/films.js';
 import './ambassador.html';
@@ -10,9 +11,8 @@ import './../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
   ambassador_screenings() {
-    screenings = Films.screenings_by_user_id();
-
-    _.each(screenings, function screenings(screening, i) {
+    const screenings = Films.screenings_by_user_id();
+    _.each(screenings, (screening, i) => {
       if (screening.date) {
         const d = moment(screening.date);
         screenings[i].formatted_date = d.format('D/M/Y [às] HH:mm');
@@ -20,9 +20,6 @@ Template.ambassador.helpers({
     });
     return screenings;
   },
-});
-
-Template.ambassador.helpers({
   disseminate() {
     return Films.disseminate();
   },

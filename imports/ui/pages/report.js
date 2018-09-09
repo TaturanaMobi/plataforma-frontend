@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
+import { FlashMessages } from 'meteor/mrt:flash-messages';
 
 import './report.html';
 

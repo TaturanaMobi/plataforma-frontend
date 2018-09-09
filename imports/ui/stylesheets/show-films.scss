@@ -20,9 +20,9 @@
   // & .thumb-poster{
   //   width:75%;
   // }
-  & #carousel{
-    width:80%;
-  }
+  // & #carousel{
+  //   width:80%;
+  // }
 
   dl {
     border-width: 1px 1px 1px 0;
@@ -46,12 +46,18 @@
     }
 
   }
-  .box{
-    margin-bottom: 1.5em;
-    border: 1px solid #df4944;
-    padding: 1.2em 1.4em;
-    color:#fff;
-    line-height: 1.8em;
+  .wrapper-fichaTecnica {
+    h3 {
+      margin: 0 0 1em;
+    }
+    .box-fichaTecnica{
+      // margin-bottom: 1.5em;
+      border: 1px solid #df4944;
+      padding: 2em;
+      // color:#fff;
+      // line-height: 1.8em;
+
+    }
   }
 }
 .age-rating{
@@ -65,16 +71,16 @@
 .data-row{
   margin-top: 4em;
 }
-.photo{
-  position: relative;
-}
+// .photo{
+//   position: relative;
+// }
 .photo-description{
-  position: absolute;
-  left: 10%;
-  width: 80%;
-  bottom: 17%;
-  opacity: 0.7;
-  font-size: 1.2em;
+  // position: relative;
+  // top: -100px;
+  // height: 100px;
+  padding: 20px;
+  // font-size: 1.2em;
+  background: rgba(0,0,0, .8);
 }
 .paragraph-icon{
   margin-right:1em;

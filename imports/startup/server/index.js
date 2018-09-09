@@ -3,9 +3,9 @@
 // import './fixtures.js';
 // import './register-api.js';
 
-import { Meteor, Assets } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { Email } from 'meteor/email';
-import { SSR } from 'meteor/templating';
+import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
 import { UploadServer } from 'meteor/tomi:upload-server';
 import { _ } from 'meteor/underscore';
@@ -42,15 +42,11 @@ function removeNotifications(scrId) {
 Meteor.methods({
   sendEmail(pidgeon, template) {
     this.unblock();
-
+    // Assets.getText(template)
     SSR.compileTemplate(template, Assets.getText(template));
+    pidgeon.html = SSR.render(template, pidgeon);
 
-    Email.send({
-      to: pidgeon.to,
-      from: pidgeon.from,
-      subject: pidgeon.subject,
-      html: SSR.render(template, pidgeon),
-    });
+    Email.send(pidgeon);
   },
 
   updateOrCreateFilm(film) {
