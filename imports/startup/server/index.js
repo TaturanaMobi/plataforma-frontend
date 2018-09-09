@@ -4,6 +4,7 @@
 // import './register-api.js';
 
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
@@ -41,6 +42,8 @@ function removeNotifications(scrId) {
 
 Meteor.methods({
   sendEmail(pidgeon, template) {
+    // check(pidgeon, {to, replyTo});
+    // check(template);
     this.unblock();
     // Assets.getText(template)
     SSR.compileTemplate(template, Assets.getText(template));
@@ -50,13 +53,14 @@ Meteor.methods({
   },
 
   updateOrCreateFilm(film) {
-    const f_id = film.id;
+    // check(film);
+    const fId = film.id;
     delete film.id;
 
-    if (f_id === undefined || f_id === '') {
+    if (fId === undefined || fId === '') {
       Films.insert(film);
     } else {
-      Films.update(f_id, {
+      Films.update(fId, {
         $set: {
           sequence_number: film.sequence_number,
           status: film.status,
@@ -292,7 +296,7 @@ Meteor.startup(() => {
       const name = fileInfo.name.replace(/\s/g, '');
       return formData.file_type + name;
     },
-    finished(fileInfo, formFields) {},
+    finished() {},
     cacheTime: 100,
     mimeTypes: {
       xml: 'application/xml',

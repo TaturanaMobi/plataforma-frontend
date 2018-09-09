@@ -228,14 +228,14 @@ Router.route('/adm/report/:_id', {
   },
 });
 
-function mustBeSignedIn(pause) {
+function mustBeSignedIn() {
   if (!(Meteor.user() || Meteor.loggingIn())) {
     Router.go('login');
   }
   this.next();
 }
 
-function isAdmin(going) {
+function isAdmin() {
   const self = this;
   const userId = Meteor.userId();
   if (userId == null) {
@@ -250,22 +250,22 @@ function isAdmin(going) {
 }
 
 const adminUris = [
-  'adm',
-  'adm/ambassador/:_id',
-  'adm/film/:_id/reports',
-  'adm/films',
-  'adm/films',
-  'adm/films/:slug/edit',
-  'adm/report/:_id',
-  'adm/session/:_id',
-  'adm/sessions',
+  '/adm',
+  '/adm/ambassador/:_id',
+  '/adm/film/:_id/reports',
+  '/adm/films',
+  '/adm/films',
+  '/adm/films/:slug/edit',
+  '/adm/report/:_id',
+  '/adm/session/:_id',
+  '/adm/sessions',
 ];
 const signedInUris = [
-  'ambassador',
-  'ambassador-edit',
-  'edit-screening/:_id',
-  'new-screening/:slug',
-  'report/:_id',
+  '/ambassador',
+  '/ambassador-edit',
+  '/edit-screening/:_id',
+  '/new-screening/:slug',
+  '/report/:_id',
 ];
 
 Router.onBeforeAction(mustBeSignedIn, { only: signedInUris });
