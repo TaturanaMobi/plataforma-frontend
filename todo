@@ -76,21 +76,12 @@
 
 ## Screening status
 
-Draft
-Legacy Inventory
-sessoes jah exibidas
-sessões com relatorio que ja foram exibidas
-sessoes a serem exibidas
-Espectadores por mês
-Estados e viewers por area
-quais cidades
-Usuários -         users.push(Meteor.users.findOne(screening.user_id));
-Categorias e subcategorias dos embaixadores?
-Não retorna inventorio sem sessões
+* Rascunho
+* Agendada
+* Relatório pendente
+* Relatório enviado
 
 ## Film status
-
-> Definicão de cada status
 
 * Oculto
 * Difusão
@@ -98,6 +89,20 @@ Não retorna inventorio sem sessões
 * Portfolio
 
 > Creating Slugs in Bulk for Existing Films
+
+## Film inventory
+
+* Legacy Inventory
+* sessoes jah exibidas
+* sessões com relatorio que ja foram exibidas
+* sessoes a serem exibidas
+* Espectadores por mês
+* Estados e viewers por area
+* quais cidades
+* Usuários -         users.push(Meteor.users.findOne(screening.user_id));
+* Categorias e subcategorias dos embaixadores?
+* Não retorna inventorio sem sessões
+
 
 ## Notifications Sent
 

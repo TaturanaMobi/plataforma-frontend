@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 
-import { FilmScreeningInventory } from './../../../lib/film-screening-inventory';
+import { FilmScreeningInventory } from './film-screening-inventory';
 
 // function getFileBlob(url, cb) {
 //   const xhr = new XMLHttpRequest();
@@ -130,7 +130,6 @@ Films.by_screening_id = screeningId => Films.findOne({
 
 Films.return_film_and_screening = (screeningId) => {
   const film = Films.by_screening_id(screeningId);
-  console.log(screeningId);
   const screening = Films.return_screening(screeningId);
   return {
     film,

@@ -3,6 +3,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 
+import { Films } from './films/films.js';
+
 export const States = new Mongo.Collection('states');
 export const Cities = new Mongo.Collection('cities');
 
@@ -408,7 +410,7 @@ States.setHasScreenings = (country, state) => {
 };
 
 States.unsetHasScreenings = (country, state) => {
-  const has_screenings = (db.films.find(
+  const has_screenings = (Films.find(
     { screening: { $elemMatch: { s_country: country, uf: state } } }
   ).count() > 0);
   if (has_screenings) {
@@ -449,7 +451,7 @@ Cities.setHasScreenings = (country, state, city) => {
 };
 
 Cities.unsetHasScreenings = (country, state, city) => {
-  const has_screenings = (db.films.find(
+  const has_screenings = (Films.find(
     { screening: { $elemMatch: { s_country: country, uf: state, city } } }
   ).count() > 0);
   if (has_screenings) {

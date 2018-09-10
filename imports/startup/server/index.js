@@ -161,19 +161,19 @@ Meteor.methods({
     return new_screening._id;
   },
 
-  updateScreening(f_screening) {
-    const status = f_screening.status;
-    const film = Films.by_screening_id(f_screening._id);
+  updateScreening(fScreening) {
+    const status = fScreening.status;
+    const film = Films.by_screening_id(fScreening._id);
     const screenings = film.screening;
 
     // fix this when have time, there is better ways to update an obj inside a
     // document array
     for (let i = 0; i < screenings.length; i += 1) {
-      if (screenings[i]._id === f_screening._id) {
-        f_screening.created_at = screenings[i].created_at;
-        f_screening.user_id = screenings[i].user_id;
-        f_screening.updated_at = new Date();
-        screenings.splice(i, 1, f_screening);
+      if (screenings[i]._id === fScreening._id) {
+        fScreening.created_at = screenings[i].created_at;
+        fScreening.user_id = screenings[i].user_id;
+        fScreening.updated_at = new Date();
+        screenings.splice(i, 1, fScreening);
       }
     }
     Films.update({
@@ -183,17 +183,17 @@ Meteor.methods({
         screening: screenings,
       },
     });
-    if (status == 'admin-draft' || status == true) {
-      removeNotifications(f_screening._id);
+    if (status === 'admin-draft' || status) {
+      removeNotifications(fScreening._id);
     }
-    States.unsetHasScreenings(f_screening.s_country, f_screening.uf);
+    States.unsetHasScreenings(fScreening.s_country, fScreening.uf);
     Cities.unsetHasScreenings(
-      f_screening.s_country, f_screening.uf, f_screening.city
+      fScreening.s_country, fScreening.uf, fScreening.city
     );
 
-    States.setHasScreenings(f_screening.s_country, f_screening.uf);
+    States.setHasScreenings(fScreening.s_country, fScreening.uf);
     Cities.setHasScreenings(
-      f_screening.s_country, f_screening.uf, f_screening.city
+      fScreening.s_country, fScreening.uf, fScreening.city
     );
   },
   setScreeningDraftStatus(id, status) {
@@ -220,12 +220,12 @@ Meteor.methods({
   },
   removeScreening(screening_id) {
     const film = Films.by_screening_id(screening_id);
-    const f_screening = Films.return_screening(screening_id);
+    const fScreening = Films.return_screening(screening_id);
     Films.update({
       _id: film._id,
     }, {
       $pull: {
-        screening: f_screening,
+        screening: fScreening,
       },
     });
     removeNotifications(screening_id);

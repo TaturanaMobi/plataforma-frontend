@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { FlashMessages } from 'meteor/mrt:flash-messages';
-
+import { Router } from 'meteor/iron:router';
 import './report.html';
 
 Template.report.events({
@@ -22,14 +22,20 @@ Template.report.events({
       author_3: event.target.author_3.value,
     };
 
-    for (i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i += 1) {
       if (report[items[i]] !== undefined) {
         screening[items[i]] = report[items[i]];
       }
     }
 
-    Meteor.call('updateScreening', screening);
-    FlashMessages.sendSuccess('Relatório enviado com sucesso!');
+    Meteor.call('updateScreening', screening, (error) => {
+      if (!error) {
+        FlashMessages.sendSuccess('Relatório enviado com sucesso!');
+        Router.go('ambassador');
+      } else {
+        FlashMessages.sendError('Erro encontrado ao enviar relatório. Tente novamente mais tarde.');
+      }
+    });
   },
 });
 

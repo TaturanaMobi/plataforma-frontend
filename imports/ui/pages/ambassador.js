@@ -5,7 +5,7 @@ import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
 
-import { Films } from './../../../imports/api/films/films.js';
+import { Films } from './../../api/films/films.js';
 import './ambassador.html';
 import './../components/ambassadorFormFields.js';
 

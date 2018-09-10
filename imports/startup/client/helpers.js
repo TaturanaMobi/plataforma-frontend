@@ -4,7 +4,7 @@ import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
 
-import { SUBCATEGORIES, CATEGORIES } from './../../api/film-form-data.js';
+import { SUBCATEGORIES, CATEGORIES, STATUS, ACTIVITY, AGE_RATING } from './../../api/film-form-data.js';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 
@@ -46,9 +46,9 @@ Template.registerHelper('format_time', (date) => {
 });
 
 Template.registerHelper('shortsynopsis', function shortSynopsis() {
-  const s_text = this.synopsis;
-  const n_text = s_text.substring(0, 430);
-  return `${n_text}...`;
+  const sText = this.synopsis;
+  const nText = sText.substring(0, 430);
+  return `${nText}...`;
 });
 
 Template.registerHelper('avatarPath', () => {
