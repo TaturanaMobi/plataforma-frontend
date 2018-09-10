@@ -1,0 +1,21 @@
+<template name="register">
+  <div id="ambassador-registration">
+    <div class="container">
+      <div class="col-lg-6 register-info">
+        <h3 style="margin-bottom:1em">O QUE VOCÊ PODE <br/> FAZER COMO EMBAIXADOR</h3>
+        <img src="/images/register-steps.png" class=" center-block red">
+      </div>
+      <div class="col-lg-6 register-form">
+        <h3>CADASTRE-SE</h3><br />
+        <div class="help-block with-errors form-errors"></div>
+        <form class="new-ambassador" temdata-toggle="validator">
+          {{>ambassadorFormFields}}
+          <div class="form-group col-md-6">
+            <button class="btn btn-lg btn-block" type="submit" value="Register">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+

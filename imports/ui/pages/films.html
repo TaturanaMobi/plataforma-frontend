@@ -1,0 +1,17 @@
+<template name="films">
+  <div class="container">
+    <div id="films">
+      <div class="col-lg-12">
+        <h2 class="section-title-lg">FILMES</h2>
+        <p class="section-description">
+          Estes filmes estão em cartaz no circuito de difusão social da Taturana! <br />
+          Você pode organizar uma sessão ou participar de alguma já programada.
+        </p>
+        {{#each films}}
+          {{> filmCard}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+</template>

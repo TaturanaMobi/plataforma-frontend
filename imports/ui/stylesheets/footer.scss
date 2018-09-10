@@ -1,0 +1,28 @@
+footer {
+  // background: url("/images/80_dark_bg.png") 0 0 repeat;
+  background: rgba(0, 0, 0, .8);
+  // background-size: 100% 100%;
+  padding: 2.5em;
+
+  clear: both;
+
+  @media(max-width: 600px) {
+    padding-bottom: 20px;
+  }
+
+  .logos{
+    // padding-top:1em;
+    text-align: center;
+
+    img{
+      margin: 0 1em;
+    }
+  }
+
+  .redes {
+    img {
+      width: 2em;
+      margin: .5em 1em 1em 0;
+    }
+  }
+}

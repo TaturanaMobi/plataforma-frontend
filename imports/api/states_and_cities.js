@@ -466,9 +466,9 @@ Cities.unsetHasScreenings = (country, state, city) => {
   }
 };
 
-if (Meteor.isClient) {
-  // Meteor.subscribe("cities", function(){ console.debug("Cities: " + Cities.find().count());});
-  // Meteor.subscribe("states", function(){ console.debug("States: " + States.find().count());});
-  Meteor.subscribe('cities');
-  Meteor.subscribe('states');
-}
+// if (Meteor.isClient) {
+//   Meteor.subscribe("cities", function(){ console.debug("Cities: " + Cities.find().count());});
+//   Meteor.subscribe("states", function(){ console.debug("States: " + States.find().count());});
+//   Meteor.subscribe('cities');
+//   Meteor.subscribe('states');
+// }

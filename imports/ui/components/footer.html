@@ -1,0 +1,35 @@
+<template name="footer">
+  <footer>
+    <div class="container">
+      <div class="col-md-6 col-sm-12 col-xs-12 logos">
+        <p>
+          <a target="_blank" href="http://www.taturanamobi.com.br"><img src="/images/logo_footer1.svg" alt="Acessar o site www.taturanamobi.com.br."/></a>
+          <a target="_blank" href="http://nucleodigital.cc"><img src="/images/logo_footer2.svg" alt="Acessar o site do Núcleo Digital."/></a>
+        </p>
+        <p>Tecnologia social e digital pela democratização do acesso ao cinema.</p>
+      </div>
+      <div class="col-md-6 col-sm-12 col-xs-12 redes">
+        <p><a href="/about">QUEM SOMOS E O QUE FAZEMOS</a></p>
+        <p><a href="https://www.facebook.com/TaturanaMobi/" alt="Siga-nos no Facebook."><img src="/images/footer-facebook.svg" alt="">SIGA-NOS!</a></p>
+        <p><a href="https://github.com/nucleo-digital/plataforma-taturana"><img src="/images/git.svg" alt="">A Plataforma Taturana é um projeto open-source</a></p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // Feature detects Navigation Timing API support.
+    if (window.performance) {
+      // Gets the number of milliseconds since page load
+      // (and rounds the result since the value must be an integer).
+      var timeSincePageLoad = Math.round(performance.now());
+
+      // Sends the timing hit to Google Analytics.
+      // ga('send', 'timing', 'JS Dependencies', 'load', timeSincePageLoad);
+      gtag('event', 'timing_complete', {
+        'name': 'load',
+        'value': timeSincePageLoad,
+        'event_category': 'JS Dependencies',
+        'event_label': 'timingLabel'
+      });
+    }
+  </script>
+  </template>

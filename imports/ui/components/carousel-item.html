@@ -1,0 +1,43 @@
+<template name="homeCarouselItem">
+  <div>
+    <div class="col-md-4 carousel-box background-light-red reset-div">
+      <img width="360" height="370" src="http://taturana-assets.herokuapp.com/smartcrop?width=360&height=370&url=http://taturanamobi.com.br/upload/{{poster_home_path}}" class="img-responsive center-block" alt="">
+    </div>
+    <div class="col-md-4 carousel-box background-dark-red">
+      {{#if title_pt }}
+      <h5 class="title" >{{title_pt}}</h5>
+      {{else}}
+      <h5 class="title">{{title}}</h5>
+      {{/if}}
+      <p class="synopsis max-lines">{{{shortsynopsis}}}</p>
+    </div>
+    <div class="col-md-4 carousel-box background-light-red center-btn reset-div">
+      {{! TODO: mudar esses H5 e paragrafo para algo como definition lists,
+          isso fica horrivel num leitor de tela, ex:
+
+          "Cabeçalho nivel 5: 1483 sessões realizadas"
+
+          Resolvi não tocar nisso por que não envolve questões de layout com cliente }}
+      {{#if inventory }}
+        {{#with inventory}}
+        <div class="col-md-6 numbers div-border">
+          <h5>{{sessions}}</h5>
+          <p class="image-description">Sessões realizadas</p>
+        </div>
+        <div class="col-md-6 numbers">
+          <h5>{{states.length}}</h5>
+          <p class="image-description">Estados</p>
+        </div>
+        <div class="col-md-12 numbers">
+          <h5>{{viewers}}</h5>
+          <p class="image-description">Pessoas impactadas</p>
+        </div>
+        {{/with}}
+      {{/if}}
+      <div class="col-md-12 button-bar">
+        <a type="submit" href="/film/{{slug}}" class="btn btn-sm" title="Mais informações sobre o filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}.">MAIS INFORMAÇÕES</a>
+        <a type="submit" href="/films" class="btn btn-sm">VER TODOS FILMES</a>
+      </div>
+    </div>
+  </div>
+</template>

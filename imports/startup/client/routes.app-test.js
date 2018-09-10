@@ -1,11 +1,12 @@
 /* eslint-env mocha */
+/* eslint-disable func-names, prefer-arrow-callback */
 
 import { Meteor } from 'meteor/meteor';
 // import { Tracker } from 'meteor/tracker';
-import { DDP } from 'meteor/ddp-client';
+// import { DDP } from 'meteor/ddp-client';
 // import { Router } from 'meteor/iron:router';
 import { assert } from 'chai';
-import { Promise } from 'meteor/promise';
+// import { Promise } from 'meteor/promise';
 // import { $ } from 'meteor/jquery';
 
 // import denodeify from './../../utils/denodeify';
