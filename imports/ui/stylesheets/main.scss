@@ -54,7 +54,7 @@ body {
 // }
 
 body{
-	font-family: Roboto;
+  font-family: Roboto;
   font-weight: 400;
   background-color: #0e0e0e;
 
@@ -124,10 +124,14 @@ select::-ms-expand{
 }
 
 a.btn, button{
-  margin-top: 1em;
   background-color: #df4944;
   color:#fff;
 }
+
+#films .btn {
+  margin-top: 1em;
+}
+
 .form-group{
   padding-left: 0px;
 }

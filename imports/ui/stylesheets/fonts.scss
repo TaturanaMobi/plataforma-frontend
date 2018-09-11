@@ -9,17 +9,17 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'helveticaneuebold';
-    src: url('/fonts/helveticaneuebold.eot');
-    src: url('/fonts/helveticaneuebold.eot') format('embedded-opentype'),
-         url('/fonts/helveticaneuebold.woff2') format('woff2'),
-         url('/fonts/helveticaneuebold.woff') format('woff'),
-         url('/fonts/helveticaneuebold.ttf') format('truetype'),
-         url('/fonts/helveticaneuebold.svg#helveticaneuebold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
+// @font-face {
+//     font-family: 'helveticaneuebold';
+//     src: url('/fonts/helveticaneuebold.eot');
+//     src: url('/fonts/helveticaneuebold.eot') format('embedded-opentype'),
+//          url('/fonts/helveticaneuebold.woff2') format('woff2'),
+//          url('/fonts/helveticaneuebold.woff') format('woff'),
+//          url('/fonts/helveticaneuebold.ttf') format('truetype'),
+//          url('/fonts/helveticaneuebold.svg#helveticaneuebold') format('svg');
+//     font-weight: normal;
+//     font-style: normal;
+// }
 
 [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */

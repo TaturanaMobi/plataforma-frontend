@@ -3,6 +3,7 @@ import { FlashMessages } from 'meteor/mrt:flash-messages';
 import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
+import { Router } from 'meteor/iron:router';
 
 import { SUBCATEGORIES, CATEGORIES, STATUS, ACTIVITY, AGE_RATING } from './../../api/film-form-data.js';
 
@@ -37,6 +38,12 @@ Template.registerHelper('format_date', (date) => {
   const d = moment(date);
 
   return d.format('D/M/Y');
+});
+
+Template.registerHelper('format_date_from_now', (date) => {
+  const d = moment(date);
+
+  return d.fromNow();
 });
 
 Template.registerHelper('format_time', (date) => {
@@ -118,7 +125,7 @@ export function saveScreening(form, film_id, isDraft, action) {
     screening.draft = true;
   }
 
-  if (action == 'create' || action == 'create-publish') {
+  if (action === 'create' || action === 'create-publish') {
     screening.created_at = new Date();
     screening.user_id = user_id;
     screening._id = new Meteor.Collection.ObjectID().valueOf();

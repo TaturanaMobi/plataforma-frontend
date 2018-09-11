@@ -1,10 +1,155 @@
 <template name="admSessions2">
   <div class="bg-wrapper">
     <div id="adm-sessions" class="container adm">
-      <div class="col-lg-12">
+      {{>admSidebar page="sessions"}}
+
+      <div class="col-md-8 col-md-offset-1">
         <h2>Sessões</h2>
+        <br />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="datepicker-container">
+              <div class="btn-group form-group">
+                <button type="button" class="btn btn-datepicker" data-month="01">Jan</button>
+                <button type="button" class="btn btn-datepicker" data-month="02">Fev</button>
+                <button type="button" class="btn btn-datepicker" data-month="03">Mar</button>
+                <button type="button" class="btn btn-datepicker" data-month="04">Abr</button>
+                <button type="button" class="btn btn-datepicker" data-month="05">Mai</button>
+                <button type="button" class="btn btn-datepicker" data-month="06">Jun</button>
+                <button type="button" class="btn btn-datepicker" data-month="07">Jul</button>
+                <button type="button" class="btn btn-datepicker" data-month="08">Ago</button>
+                <button type="button" class="btn btn-datepicker" data-month="09">Set</button>
+                <button type="button" class="btn btn-datepicker" data-month="10">Out</button>
+                <button type="button" class="btn btn-datepicker" data-month="11">Nov</button>
+                <button type="button" class="btn btn-datepicker" data-month="12">Dez</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group col-md-2">
+              <label for="state-selector">Estado</label>
+              <select class="form-control" name="state-selector" id="st-selector">
+                <option value="">Selecione</option>
+                {{#each states_options}}
+                  <option>{{abbr}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="city-selector">Cidade</label>
+              <select class="form-control" name="city-selector" id="city-selector">
+                  <option value="">Selecione</option>
+                  {{#each cities_options}}
+                  <option value="{{name}}">{{name}} ({{state}})</option>
+                  {{/each}}
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="filmSelector">Filme</label>
+              <select class="form-control" name="filmSelector" id="film-selector">
+                <option value="">Selecione</option>
+                {{#each films}}
+                <option>{{title}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="ambassador-selector">Embaixador</label>
+              <select class="form-control" name="ambassador-selector" id="ambassador-selector">
+                <option value="">Selecione</option>
+                {{#each ambassador_options films}}
+                <option value="{{_id}}">{{profile.name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+            <div class="filters">
+              <div class="col-md-12">
+                <div class="col-md-12 division"></div>
+                <div class="row">
+                <div class="col-md-4">
+                  <input type="checkbox" name="teamParticipation" id="team-selector" />
+                  <label for="teamParticipation">Participação da equipe</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="checkbox" name="publicEvent" id="public-event" />
+                  <label for="publicEvent">Aberta ao público</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="checkbox" name="comment" id="comment" />
+                  <label for="comment">Comentarios? </label>
+                </div>
+                <div class="col-md-4">
+                    <input type="checkbox" name="pendingReport" id="pendingReport" />
+                  <label for="pendingReport">Tem relatórios pendentes? </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
         {{> reactiveTable class="table table-bordered table-hover" settings=settings}}
       </div>
     </div>
   </div>
+</template>
+
+<template name="filmCellTmpl">
+  <a target="_blank" href="/film/{{film_slug}}">{{film_title}}</a>
+</template>
+
+<template name="screeningCellTmpl">
+  <a href="/adm/session/{{_id}}">{{place_name}}</a>
+</template>
+
+<template name="embaixadorCellTmpl">
+    <a target="_blank" href="/adm/ambassador/{{user._id}}">{{user.profile.name}}</a>
+  </template>
+
+<template name="quorumCellTmpl">
+  {{quorum_expectation}} / {{real_quorum}}
+</template>
+
+<template name="dateCellTmpl">
+  <i title="{{date}}">{{format_date date}}</i>
+</template>
+
+<template name="createdAtCellTmpl">
+  <i title="{{created_at}}">{{format_date_from_now created_at}}</i>
+</template>
+
+<template name="infoCellTmpl">
+  <p>
+    {{#if accept_terms}}
+      <i title="Aceito termos" class="fas fa-user-check"></i>
+    {{/if}}
+
+    {{#if public_event}}
+      <i title="Evento público" class="fas fa-globe-americas"></i>
+    {{/if}}
+
+    {{#if comments}}
+      <i title="{{comments}}" class="fas fa-comments"></i>
+    {{/if}}
+
+    {{#if team_member}}
+      <i title="Participação da equipe" class="fas fa-question-circle"></i>
+    {{/if}}
+
+    {{#if report_description}}
+    <i title="{{report_description}}" class="fas fa-clipboard-list"></i>
+    {{/if}}
+  </p>
+</template>
+
+<template name="actionsCellTmpl">
+  <p>
+    <a class="btn btn-xs" href="/edit-screening/{{_id}}">Editar</a>
+    {{#if draft}}
+    <button class="btn btn-xs btn-unset-draft" data-session-id="{{_id}}">Desmarcar rascunho</button>
+    {{else}}
+    <button class="btn btn-xs btn-set-draft" data-session-id="{{_id}}">Marcar rascunho</button>
+    {{/if}}
+  </p>
 </template>

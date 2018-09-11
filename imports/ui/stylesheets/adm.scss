@@ -137,16 +137,22 @@ $grey: #aaa;
 
 #adm-sessions {
   .filters {
-    margin-top: 25px;
+    // margin-top: 25px;
     .division {
-      width: 100%;
+      // width: 100%;
       background: $red;
       height: 2px;
-      maring: 10px;
+      margin: 10px 0;
     }
   }
 
   .table-hover > tbody > tr:hover {
     background-color: #333;
+  }
+  .table .is-draft {
+    background-color: rgba(255,255,255,.1);
+  }
+  .table .is-pending {
+    background-color: rgba(221, 78, 78, 0.199);
   }
 }
