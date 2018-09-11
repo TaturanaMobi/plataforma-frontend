@@ -145,4 +145,8 @@ $grey: #aaa;
       maring: 10px;
     }
   }
+
+  .table-hover > tbody > tr:hover {
+    background-color: #333;
+  }
 }

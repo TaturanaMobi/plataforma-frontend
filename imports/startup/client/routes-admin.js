@@ -19,6 +19,8 @@ import './../../ui/pages/admin/adm-session.html';
 import './../../ui/pages/admin/adm-session.js';
 import './../../ui/pages/admin/adm-sessions.html';
 import './../../ui/pages/admin/adm-sessions.js';
+import './../../ui/pages/admin/adm-sessions2.html';
+import './../../ui/pages/admin/adm-sessions2.js';
 import './../../ui/pages/admin/adm.html';
 
 // Router.configure({
@@ -39,11 +41,30 @@ Router.route('/adm/sessions', {
   data() {
     // Session.set('poster_path', null);
     // const filmId = this.params._id;
-    return Films.all().fetch();
+    return Films.find({});
   },
 
   action() {
     this.render('admSessions');
+  },
+});
+
+Router.route('/adm/sessions2', {
+  // this template will be rendered until the subscriptions are ready
+  // loadingTemplate: 'loading',
+  waitOn() {
+    // return one handle, a function, or an array
+    return Meteor.subscribe('films');
+  },
+
+  data() {
+    // Session.set('poster_path', null);
+    // const filmId = this.params._id;
+    return Films.find({});
+  },
+
+  action() {
+    this.render('admSessions2');
   },
 });
 
