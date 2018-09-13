@@ -78,15 +78,15 @@ Template.editScreening.helpers({
 
     return Session.get('address');
   },
-  is_selected(state) {
-    const address = Session.get('address');
+  // is_selected(state) {
+  //   const address = Session.get('address');
 
-    if (!address) return;
-
-    if (address.uf == state) {
-      return 'selected';
-    }
-  },
+  //   if (!address) return;
+  //   console.log(address.uf, state);
+  //   if (address.uf === state) {
+  //     return 'selected';
+  //   }
+  // },
   is_draft() {
     return this.screening.draft;
   },

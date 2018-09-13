@@ -53,9 +53,12 @@ Template.registerHelper('format_time', (date) => {
 });
 
 Template.registerHelper('shortsynopsis', function shortSynopsis() {
-  const sText = this.synopsis;
-  const nText = sText.substring(0, 430);
-  return `${nText}...`;
+  const sText = String(this.synopsis).toString();
+
+  if (sText.length > 430) {
+    return `${sText.substring(0, 430)} ...`;
+  }
+  return sText;
 });
 
 Template.registerHelper('avatarPath', () => {

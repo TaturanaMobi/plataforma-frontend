@@ -111,3 +111,16 @@
 * Report created
 * User register
 * Screening register
+
+
+## TODO
+
+* Tamanho do texto da sinopse do filme na listagem
+* Na edição de sessão a UF não vem preenchida, ocasionando em erro caso não seja alterado
+* Filtro por ano na agenda pública
+* Na página do admin de embaixador, adicionar lista de sessões relacionada
+
+# MONGO QUERIES
+
+{ screening: { $elemMatch: { _id: 'xx' } } } - Find by screeningId
+

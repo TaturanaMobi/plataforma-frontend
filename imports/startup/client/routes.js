@@ -137,19 +137,20 @@ Router.route('/new-screening/:slug', {
 
   data() {
     Session.set('address', null);
-    const filmId = this.params._id;
+    // const filmId = this.params._id;
     return Films.findOne({ slug: this.params.slug });
   },
 });
 
 Router.route('/edit-screening/:_id', {
-  name: 'edit-screening',
-  template: 'editScreening',
   waitOn() {
     return this.subscribe('films');
   },
   data() {
     return Films.return_film_and_screening(this.params._id);
+  },
+  action() {
+    this.render('editScreening');
   },
 });
 
