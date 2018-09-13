@@ -3,8 +3,9 @@ import { FlashMessages } from 'meteor/mrt:flash-messages';
 import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
+import { Router } from 'meteor/iron:router';
 
-import { SUBCATEGORIES, CATEGORIES } from './../../api/film-form-data.js';
+import { SUBCATEGORIES, CATEGORIES, STATUS, ACTIVITY, AGE_RATING } from './../../api/film-form-data.js';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 
@@ -39,6 +40,12 @@ Template.registerHelper('format_date', (date) => {
   return d.format('D/M/Y');
 });
 
+Template.registerHelper('format_date_from_now', (date) => {
+  const d = moment(date);
+
+  return d.fromNow();
+});
+
 Template.registerHelper('format_time', (date) => {
   const d = moment(date);
 
@@ -46,9 +53,9 @@ Template.registerHelper('format_time', (date) => {
 });
 
 Template.registerHelper('shortsynopsis', function shortSynopsis() {
-  const s_text = this.synopsis;
-  const n_text = s_text.substring(0, 430);
-  return `${n_text}...`;
+  const sText = this.synopsis;
+  const nText = sText.substring(0, 430);
+  return `${nText}...`;
 });
 
 Template.registerHelper('avatarPath', () => {
@@ -118,7 +125,7 @@ export function saveScreening(form, film_id, isDraft, action) {
     screening.draft = true;
   }
 
-  if (action == 'create' || action == 'create-publish') {
+  if (action === 'create' || action === 'create-publish') {
     screening.created_at = new Date();
     screening.user_id = user_id;
     screening._id = new Meteor.Collection.ObjectID().valueOf();

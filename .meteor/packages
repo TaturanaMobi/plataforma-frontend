@@ -46,3 +46,5 @@ shell-server
 dynamic-import
 underscore
 summernote:summernote
+aslagle:reactive-table
+reactive-var

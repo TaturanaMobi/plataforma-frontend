@@ -11,7 +11,6 @@ import { Films } from './films.js';
 
 describe('films', function () {
   it('load correct from db', function () {
-    // console.log(Films);
     assert.typeOf(Films, 'object');
     // assert.typeOf(Films[0].get(), 'date');
   });
