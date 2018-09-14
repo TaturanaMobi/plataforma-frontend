@@ -42,7 +42,7 @@
           <div class="col-lg-8">
             <div class="row">
               <div class="col-lg-6 poster-wrapper">
-                <img class="thumb-poster" src="http://taturana-assets.herokuapp.com/smartcrop?width=720&height=1080&url=http://taturanamobi.com.br/upload/{{poster_path}}" alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
+                <img class="thumb-poster" src="https://images.taturanamobi.com.br/smartcrop?width=720&height=1080&file={{poster_path}}" alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
               </div>
 
               <div class="col-lg-6">
@@ -137,7 +137,7 @@
         <div id="carousel" class="col-lg-10 col-lg-offset-1">
           {{#each slideshow}}
           <div>
-            <img class="photo" src="http://taturana-assets.herokuapp.com/smartcrop?width=920&height=400&url=http://taturanamobi.com.br/upload/{{src}}"/>
+            <img class="photo" src="https://images.taturanamobi.com.br/smartcrop?width=920&height=400&file={{src}}"/>
             <p class="photo-description">{{caption}} - Autor: {{author}}</p>
           </div>
           {{/each}}
