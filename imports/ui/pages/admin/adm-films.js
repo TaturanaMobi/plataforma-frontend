@@ -7,7 +7,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import 'meteor/summernote:summernote';
 import { Router } from 'meteor/iron:router';
-import { Films } from './../../../api/films/films.js';
+import Films from './../../../api/films/films.js';
 
 Template.admFilms.onRendered(() => {
   $('#synopsis').summernote();

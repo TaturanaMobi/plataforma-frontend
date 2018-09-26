@@ -1,7 +1,7 @@
 // Fill the DB with example data on startup
 
 import { Meteor } from 'meteor/meteor';
-import { Films } from '../../api/films/films.js';
+import Films from '../../api/films/films.js';
 
 Meteor.startup(() => {
   // if the Links collection is empty

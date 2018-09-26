@@ -4,7 +4,7 @@
 // import './register-api.js';
 
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
+// import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
@@ -12,7 +12,7 @@ import { UploadServer } from 'meteor/tomi:upload-server';
 import { _ } from 'meteor/underscore';
 import { SyncedCron } from 'meteor/percolate:synced-cron';
 
-import { Films } from '../../api/films/films';
+import Films from '../../api/films/films';
 import { Cities, States } from '../../api/states_and_cities';
 
 const FutureTasks = new Meteor.Collection('future_tasks');
@@ -268,7 +268,7 @@ Meteor.methods({
 });
 
 Meteor.startup(() => {
-  SyncedCron.start();
+  // SyncedCron.start();
 
   Meteor.publish('films', () => Films.find({}));
 

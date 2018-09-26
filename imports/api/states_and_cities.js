@@ -3,7 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 
-import { Films } from './films/films.js';
+import Films from './films/films.js';
 
 export const States = new Mongo.Collection('states');
 export const Cities = new Mongo.Collection('cities');

@@ -9,7 +9,7 @@ import { $ } from 'meteor/jquery';
 // import { FlashMessages } from 'meteor/mrt:flash-messages';
 // import { moment } from 'meteor/momentjs:moment';
 
-// import { Films } from '../../api/films/films.js';
+// import Films from '../../api/films/films.js';
 
 import './new-screening.html';
 

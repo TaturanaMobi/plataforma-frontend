@@ -7,7 +7,7 @@ import { $ } from 'meteor/jquery';
 import { moment } from 'meteor/momentjs:moment';
 import { Papa } from 'meteor/harrison:papa-parse';
 
-import { Films } from './../../../api/films/films.js';
+import Films from './../../../api/films/films.js';
 import { States, Cities } from './../../../api/states_and_cities.js';
 
 function getUserProfile(user_id) {

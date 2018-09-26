@@ -2,30 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
+import SimpleSchema from 'simpl-schema';
 
 import { FilmScreeningInventory } from './film-screening-inventory';
 
-// function getFileBlob(url, cb) {
-//   const xhr = new XMLHttpRequest();
-//   xhr.open('GET', url);
-//   xhr.responseType = 'blob';
-//   xhr.addEventListener('load', () => {
-//     cb(xhr.response);
-//   });
-//   xhr.send();
-// }
+const Films = new Mongo.Collection('films');
 
-// function blobToFile(blob, name) {
-//   blob.lastModifiedDate = new Date();
-//   blob.name = name;
-//   return blob;
-// }
-
-// function getFileObject(filePathOrUrl, cb) {
-//   getFileBlob(filePathOrUrl, (blob) => {
-//     cb(blobToFile(blob, 'test.jpg'));
-//   });
-// }
+Films.schema = new SimpleSchema({
+  name: {
+    type: String,
+    label: 'Nome',
+    max: 200,
+  },
+});
 
 // Inventory functions
 function incrementOrCreate(obj, key, increment) {
@@ -60,14 +49,12 @@ function getZoneByState(state) {
   });
 }
 
-export const Films = new Mongo.Collection('films');
-
-Films.friendlySlugs({
-  slugFrom: 'title',
-  slugField: 'slug',
-  distinct: true,
-  updateSlug: true,
-});
+// Films.friendlySlugs({
+//   slugFrom: 'title',
+//   slugField: 'slug',
+//   distinct: true,
+//   updateSlug: true,
+// });
 
 Films.portfolio = () => Films.find({
   status: 'Portfolio',
@@ -273,3 +260,7 @@ Films.allow({
     return !!userId;
   },
 });
+
+Films.attachSchema(Films.schema);
+
+export default Films;
