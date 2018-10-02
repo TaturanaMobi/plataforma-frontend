@@ -9,12 +9,161 @@ import { FilmScreeningInventory } from './film-screening-inventory';
 const Films = new Mongo.Collection('films');
 
 Films.schema = new SimpleSchema({
-  name: {
+  title: {
     type: String,
-    label: 'Nome',
-    max: 200,
+    label: 'Título original*',
+    max: 30,
+    optional: false
   },
-});
+  title_pt: {
+    type: String,
+    label: 'Título em português',
+    max: 30,
+    optional: true
+  },
+  trailer_url: {
+    type: String,
+    label: 'Url do Trailer',
+    max: 30,
+    optional: true
+  },
+  genre: {
+    type: String,
+    label: 'Gênero*',
+    optional: false
+  },
+  year: {
+    type: String,
+    label: 'Ano*',
+    max: 4,
+    optional: false
+  },
+  length: {
+    type: String,
+    label: 'Duração*',
+    max: 10,
+    optional: false
+  },
+  country: {
+    type: String,
+    label: 'País*',
+    max: 30,
+    optional: false
+  },
+  distributor: {
+    type: String,
+    label: 'Distribuidor*',
+    max: 50,
+    optional: false
+  },
+  editor: {
+    type: String,
+    label: 'Editor*',
+    max: 50,
+    optional: false
+  },
+  producer: {
+    type: String,
+    label: 'Produtor*',
+    max: 50,
+    optional: false
+  },
+  coproducer: {
+    type: String,
+    label: 'Co-Produtor*',
+    max: 50,
+    optional: false
+  },
+  associate_producer: {
+    type: String,
+    label: 'Produtora Associada',
+    max: 50,
+    optional: true
+  },
+  executive_producer: {
+    type: String,
+    label: 'Produção Executiva',
+    max: 50,
+    optional: true
+  },
+  soundtrack: {
+    type: String,
+    label: 'Trilha*',
+    max: 50,
+    optional: false
+  },
+  createdAt: {
+    type: Date,
+    optional: false
+  },
+  synopsis: {
+    type: String,
+    label: 'Sinopse*',
+    max: 400,
+    optional: false
+  },
+  poster_path: {
+    type: String,
+    label: 'Poster',
+    max: 30,
+  },
+  poster_home_path: {
+    type: String,
+    label: 'Poster para a home',
+    max: 30,
+  },
+  poster_slice_path: {
+    type: String,
+    label: 'Poster cortado para a home',
+    max: 30,
+  },
+  poster_thumb_path: {
+    type: String,
+    label: 'Poster thumbnail',
+    max: 30,
+  },
+  press_kit_path: {
+    type: String,
+    label: 'Press kit',
+    max: 30,
+  },
+  technical_information: {
+    type: String,
+    label: 'Informações técnicas',
+    max: 400,
+    optional: true
+  },
+  site: {
+    type: String,
+    label: 'Site',
+    max: 30,
+    optional: true
+  },
+  facebook: {
+    type: String,
+    label: 'Facebook',
+    max: 30,
+    optional: true
+  },
+  twitter: {
+    type: String,
+    label: 'Twitter',
+    max: 30,
+    optional: true
+  },
+  instagram: {
+    type: String,
+    label: 'Instagram',
+    max: 30,
+    optional: true
+  },
+  youtube: {
+    type: String,
+    label: 'YouTube',
+    max: 30,
+    optional: true
+  }
+}, {tracker: Tracker});
 
 // Inventory functions
 function incrementOrCreate(obj, key, increment) {

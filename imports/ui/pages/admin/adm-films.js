@@ -8,6 +8,8 @@ import { $ } from 'meteor/jquery';
 import 'meteor/summernote:summernote';
 import { Router } from 'meteor/iron:router';
 import Films from './../../../api/films/films.js';
+import SimpleSchema from 'simpl-schema';
+SimpleSchema.extendOptions(['autoform']);
 
 Template.admFilms.onRendered(() => {
   $('#synopsis').summernote();
@@ -47,10 +49,14 @@ Template.admFilms.helpers({
 
     return Session.get('poster_home_path');
   },
+  collectionFilms() {
+    return Films;
+  }
 });
 
 Template.admFilms.events({
-  'submit .new-film'(event) {
+  'submit #insertFilmsForm'(event) {
+    console.log('insertFilmsForm!');
     event.preventDefault();
 
     const el = event.target;
