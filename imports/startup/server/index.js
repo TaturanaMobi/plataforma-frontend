@@ -57,6 +57,8 @@ Meteor.methods({
     const fId = film.id;
     delete film.id;
 
+    console.log('film:', film);
+
     if (fId === undefined || fId === '') {
       Films.insert(film);
     } else {

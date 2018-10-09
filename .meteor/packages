@@ -47,3 +47,7 @@ aldeed:autoform
 aldeed:autoform-bs-datepicker
 aldeed:autoform-bs-datetimepicker
 mrt:moment-timezone
+ostrio:autoform-files
+ostrio:files
+dburles:mongo-collection-instances
+vazco:universe-autoform-select

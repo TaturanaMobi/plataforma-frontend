@@ -3,39 +3,130 @@ import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 import SimpleSchema from 'simpl-schema';
+import { AGE_RATING, STATUS } from './../../api/film-form-data.js';
+
+SimpleSchema.setDefaultMessages({
+  initialLanguage: 'pt',
+  messages: {
+    pt: {
+      uploadError: 'Erro ao fazer upload!', //File-upload
+    },
+  }
+});
+SimpleSchema.extendOptions(['autoform']);
 
 import { FilmScreeningInventory } from './film-screening-inventory';
 
 const Films = new Mongo.Collection('films');
 
+import { FilesCollection } from 'meteor/ostrio:files';
+
+const Images = new FilesCollection({
+  collectionName: 'Images',
+  allowClientCode: false,
+  onBeforeUpload(file) {
+    if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
+      return true;
+    }
+    return 'Please upload image, with size equal or less than 10MB';
+  }
+});
+
+if (Meteor.isClient) {
+  Meteor.subscribe('files.images.all');
+}
+
+if (Meteor.isServer) {
+  Meteor.publish('files.images.all', () => {
+    return Images.collection.find({});
+  });
+}
+
 Films.schema = new SimpleSchema({
+  _id: {
+    type: String,
+    label: 'Id',
+    max: 30,
+    optional: true
+  },
+  createdAt: {
+    type: Date,
+    optional: true
+  },
+  fake: {
+    type: String,
+    label: 'Fake',
+    max: 30,
+    optional: true
+  },
+  slug: {
+    type: String,
+    label: 'slug',
+    max: 30,
+    optional: true
+  },
+  sequence_number: {
+    type: String,
+    label: 'Ordenação',
+    max: 30,
+    optional: true
+  },
+  status: {
+    type: String,
+    label: 'Status',
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions (STATUS),
+        uniPlaceholder: 'Selecione'
+      }
+    }
+  },
+  poster_path: {
+    type: String,
+    label: 'Cartaz',
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true
+        }
+      }
+    }
+  },
   title: {
     type: String,
-    label: 'Título original*',
+    label: 'Titulo do filme*',
     max: 30,
     optional: false
   },
-  title_pt: {
+  synopsis: {
     type: String,
-    label: 'Título em português',
-    max: 30,
-    optional: true
-  },
-  trailer_url: {
-    type: String,
-    label: 'Url do Trailer',
-    max: 30,
-    optional: true
-  },
-  genre: {
-    type: String,
-    label: 'Gênero*',
-    optional: false
+    label: 'Sinopse*',
+    max: 400,
+    optional: false,
+    autoform: {
+      rows: 10,
+      class: "editor"
+    }
   },
   year: {
     type: String,
     label: 'Ano*',
     max: 4,
+    optional: false
+  },
+  genre: {
+    type: String,
+    label: 'Gênero*',
     optional: false
   },
   length: {
@@ -50,88 +141,100 @@ Films.schema = new SimpleSchema({
     max: 30,
     optional: false
   },
-  distributor: {
+  director: {
     type: String,
-    label: 'Distribuidor*',
-    max: 50,
-    optional: false
-  },
-  editor: {
-    type: String,
-    label: 'Editor*',
-    max: 50,
-    optional: false
-  },
-  producer: {
-    type: String,
-    label: 'Produtor*',
-    max: 50,
-    optional: false
-  },
-  coproducer: {
-    type: String,
-    label: 'Co-Produtor*',
-    max: 50,
-    optional: false
-  },
-  associate_producer: {
-    type: String,
-    label: 'Produtora Associada',
-    max: 50,
+    label: 'Diretor',
+    max: 30,
     optional: true
   },
-  executive_producer: {
+  production_company: {
     type: String,
-    label: 'Produção Executiva',
-    max: 50,
+    label: 'Production Company',
+    max: 30,
     optional: true
   },
-  soundtrack: {
+  age_rating: {
     type: String,
-    label: 'Trilha*',
-    max: 50,
-    optional: false
-  },
-  createdAt: {
-    type: Date,
-    optional: false
-  },
-  synopsis: {
-    type: String,
-    label: 'Sinopse*',
-    max: 400,
-    optional: false
-  },
-  poster_path: {
-    type: String,
-    label: 'Poster',
-    max: 30,
-  },
-  poster_home_path: {
-    type: String,
-    label: 'Poster para a home',
-    max: 30,
-  },
-  poster_slice_path: {
-    type: String,
-    label: 'Poster cortado para a home',
-    max: 30,
-  },
-  poster_thumb_path: {
-    type: String,
-    label: 'Poster thumbnail',
-    max: 30,
-  },
-  press_kit_path: {
-    type: String,
-    label: 'Press kit',
-    max: 30,
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions (AGE_RATING),
+        uniPlaceholder: 'Selecione'
+      }
+    }
   },
   technical_information: {
     type: String,
     label: 'Informações técnicas',
     max: 400,
     optional: true
+  },
+  trailer_url: {
+    type: String,
+    label: 'Url do Trailer',
+    max: 30,
+    optional: true
+  },
+  link_for_download: {
+    type: String,
+    label: 'Link para download',
+    max: 30,
+    optional: true
+  },
+  password_for_download: {
+    type: String,
+    label: 'Senha para download',
+    max: 30,
+    optional: true
+  },
+  first_scheduling_notification: {
+    type: String,
+    label:'Texto extra para email de confirmação de sessão',
+    max: 400,
+    optional: true,
+    autoform: {
+      rows: 10
+    }
+  },
+  press_kit_path: {
+    type: String,
+    label: 'Press kit',
+    max: 30,
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: { // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true
+        }
+      }
+    }
+  },
+  poster_home_path: {
+    type: String,
+    label: 'Imagem para home (360x370)',
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: { // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true
+        }
+      }
+    }
   },
   site: {
     type: String,
@@ -196,6 +299,13 @@ function getZoneByState(state) {
     }
     return null;
   });
+}
+
+function getSelectOptions(names) {
+  const options = _.map(names, item => ({
+    label: item,
+    value: item }));
+  return options;
 }
 
 // Films.friendlySlugs({

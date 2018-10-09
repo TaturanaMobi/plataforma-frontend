@@ -21,33 +21,39 @@
           <div role="tabpanel" class="tab-pane active" id="cadastro">
             <div class="row">
               <h1>CADASTRO DE FILMES</h1>
+              <!-- {{>admInsertFilm }} -->
 
-              {{#autoForm collection=collectionFilms id="insertFilmsForm" type="insert"}}
+
+              {{#autoForm collection=collectionFilms id='insertFilmsForm' type='insert' validation='submit'}}
                 <fieldset>
+                  {{> afQuickField name='sequence_number' }}
+                  {{> afQuickField name='status' }}
+                  {{> afQuickField name='poster_path' }}
                   {{> afQuickField name='title' }}
-                  {{> afQuickField name='title_pt' }}
-                  {{> afQuickField name='trailer_url' }}
-                  {{> afQuickField name='genre' }}
+                  {{> afQuickField name='synopsis' }}
                   {{> afQuickField name='year' }}
+                  {{> afQuickField name='genre' }}
                   {{> afQuickField name='length' }}
                   {{> afQuickField name='country' }}
-                  {{> afQuickField name='distributor' }}
-                  {{> afQuickField name='editor' }}
-                  {{> afQuickField name='producer' }}
-                  {{> afQuickField name='coproducer' }}
-                  {{> afQuickField name='associate_producer' }}
-                  {{> afQuickField name='executive_producer' }}
-                  {{> afQuickField name='soundtrack' }}
-                  {{> afQuickField name='synopsis' }}
-                  {{> afQuickField name='poster_path' }}
-                  {{> afQuickField name='poster_home_path' }}
-                  {{> afQuickField name='poster_slice_path' }}
-                  {{> afQuickField name='poster_thumb_path' }}
-                  {{> afQuickField name='press_kit_path' }}
+                  {{> afQuickField name='director' }}
+                  {{> afQuickField name='production_company' }}
+                  {{> afQuickField name='age_rating' type="universe-select" multiple=false }}
                   {{> afQuickField name='technical_information' }}
+                  {{> afQuickField name='trailer_url' }}
+                  {{> afQuickField name='link_for_download' }}
+                  {{> afQuickField name='password_for_download' }}
+                  {{> afQuickField name='first_scheduling_notification' }}
+                  {{> afQuickField name='press_kit_path' }}
+                  {{> afQuickField name='poster_home_path' }}
+                  {{> afQuickField name='site' }}
+                  {{> afQuickField name='facebook' }}
+                  {{> afQuickField name='twitter' }}
+                  {{> afQuickField name='instagram' }}
+                  {{> afQuickField name='youtube' }}
                 </fieldset>
                 <button type="submit" class="btn btn-primary">Enviar</button>
               {{/autoForm}}
+
             </div>
 
           </div>

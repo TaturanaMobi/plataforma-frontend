@@ -11,6 +11,8 @@ import './../../ui/pages/admin/adm-ambassadors.html';
 import './../../ui/pages/admin/adm-ambassadors.js';
 import './../../ui/pages/admin/adm-films.html';
 import './../../ui/pages/admin/adm-films.js';
+// import './../../ui/pages/admin/films/adm-insert-film.html';
+// import './../../ui/pages/admin/films/adm-insert-film.js';
 import './../../ui/pages/admin/adm-report.html';
 import './../../ui/pages/admin/adm-report.js';
 import './../../ui/pages/admin/adm-reports.html';

@@ -12,15 +12,29 @@ import SimpleSchema from 'simpl-schema';
 SimpleSchema.extendOptions(['autoform']);
 
 Template.admFilms.onRendered(() => {
-  $('#synopsis').summernote();
+  $("[name='synopsis']").summernote();
 
   const thisData = Template.currentData();
   if (thisData !== null &&
     thisData !== undefined &&
     thisData.synopsis !== null) {
-    $('#synopsis').summernote('code', thisData.synopsis);
+    $("[name='synopsis']").summernote('code', thisData.synopsis);
   }
 });
+
+// Template.AdminDashboardNew.rendered = function() {
+//   initEditor();
+// };
+
+// Template.AdminDashboardEdit.rendered = function() {
+//   initEditor();
+// };
+
+// function initEditor() {
+//   $('.editor').summernote({
+//     // summernote options
+//   });
+// };
 
 Template.admFilms.helpers({
   films() {
@@ -60,11 +74,13 @@ Template.admFilms.events({
     event.preventDefault();
 
     const el = event.target;
-    const synopsis = $('#synopsis').summernote('code');
+    const synopsis = $("[name='synopsis']").summernote('code');
 
     const poster = (el.poster_path === undefined) ? Session.get('poster_path') : el.poster_path.value;
     const press_kit = (el.press_kit_path === undefined) ? Session.get('press_kit_path') : el.press_kit_path.value;
     const poster_home = (el.poster_home_path === undefined) ? Session.get('poster_home_path') : el.poster_home_path.value;
+
+    console.log('el.age_rating.value:', el.age_rating.value);
 
     const film = {
       poster_path: poster,
