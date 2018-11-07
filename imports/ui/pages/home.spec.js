@@ -11,7 +11,7 @@ import { assert } from 'chai';
 // import { withRenderedTemplate } from './../test-helpers.js';
 // import './../components/carousel.html';
 import './home.js';
-// import { Films } from './../imports/api/films/films.js';
+// import Films from './../imports/api/films/films.js';
 
 describe('UI_Page_Home', function () {
   // beforeEach(function () {

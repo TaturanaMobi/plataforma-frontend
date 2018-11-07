@@ -4,7 +4,7 @@ import { moment } from 'meteor/momentjs:moment';
 import { _ } from 'meteor/underscore';
 import { Template } from 'meteor/templating';
 
-import { Films } from '../../../api/films/films.js';
+import Films from '../../../api/films/films.js';
 
 Template.admSessions2.helpers({
   settings() {

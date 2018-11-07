@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import { Films } from './../../api/films/films.js';
+import Films from './../../api/films/films.js';
 
 import '../../ui/components/adm-sidebar.html';
 
@@ -11,6 +11,8 @@ import './../../ui/pages/admin/adm-ambassadors.html';
 import './../../ui/pages/admin/adm-ambassadors.js';
 import './../../ui/pages/admin/adm-films.html';
 import './../../ui/pages/admin/adm-films.js';
+// import './../../ui/pages/admin/films/adm-insert-film.html';
+// import './../../ui/pages/admin/films/adm-insert-film.js';
 import './../../ui/pages/admin/adm-report.html';
 import './../../ui/pages/admin/adm-report.js';
 import './../../ui/pages/admin/adm-reports.html';

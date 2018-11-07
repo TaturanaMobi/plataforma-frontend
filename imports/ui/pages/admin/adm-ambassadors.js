@@ -6,7 +6,7 @@ import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
 
-import { Films } from './../../../api/films/films.js';
+import Films from './../../../api/films/films.js';
 
 const hasValue = prop => prop !== undefined && prop.value.length > 0;
 

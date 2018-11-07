@@ -2,30 +2,271 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
+import SimpleSchema from 'simpl-schema';
+import { AGE_RATING, STATUS } from './../../api/film-form-data.js';
+
+SimpleSchema.setDefaultMessages({
+  initialLanguage: 'pt',
+  messages: {
+    pt: {
+      uploadError: 'Erro ao fazer upload!', //File-upload
+    },
+  }
+});
+SimpleSchema.extendOptions(['autoform']);
 
 import { FilmScreeningInventory } from './film-screening-inventory';
 
-// function getFileBlob(url, cb) {
-//   const xhr = new XMLHttpRequest();
-//   xhr.open('GET', url);
-//   xhr.responseType = 'blob';
-//   xhr.addEventListener('load', () => {
-//     cb(xhr.response);
-//   });
-//   xhr.send();
-// }
+const Films = new Mongo.Collection('films');
 
-// function blobToFile(blob, name) {
-//   blob.lastModifiedDate = new Date();
-//   blob.name = name;
-//   return blob;
-// }
+import { FilesCollection } from 'meteor/ostrio:files';
 
-// function getFileObject(filePathOrUrl, cb) {
-//   getFileBlob(filePathOrUrl, (blob) => {
-//     cb(blobToFile(blob, 'test.jpg'));
-//   });
-// }
+const Images = new FilesCollection({
+  collectionName: 'Images',
+  allowClientCode: false,
+  onBeforeUpload(file) {
+    if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
+      return true;
+    }
+    return 'Please upload image, with size equal or less than 10MB';
+  }
+});
+
+if (Meteor.isClient) {
+  Meteor.subscribe('files.images.all');
+}
+
+if (Meteor.isServer) {
+  Meteor.publish('files.images.all', () => {
+    return Images.collection.find({});
+  });
+}
+
+Films.schema = new SimpleSchema({
+  _id: {
+    type: String,
+    label: 'Id',
+    max: 30,
+    optional: true
+  },
+  createdAt: {
+    type: Date,
+    optional: true
+  },
+  fake: {
+    type: String,
+    label: 'Fake',
+    max: 30,
+    optional: true
+  },
+  slug: {
+    type: String,
+    label: 'slug',
+    max: 30,
+    optional: true
+  },
+  sequence_number: {
+    type: String,
+    label: 'Ordenação',
+    max: 30,
+    optional: true
+  },
+  status: {
+    type: String,
+    label: 'Status',
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions (STATUS),
+        uniPlaceholder: 'Selecione'
+      }
+    }
+  },
+  poster_path: {
+    type: String,
+    label: 'Cartaz',
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true
+        }
+      }
+    }
+  },
+  title: {
+    type: String,
+    label: 'Titulo do filme*',
+    max: 30,
+    optional: false
+  },
+  synopsis: {
+    type: String,
+    label: 'Sinopse*',
+    max: 400,
+    optional: false,
+    autoform: {
+      rows: 10,
+      class: "editor"
+    }
+  },
+  year: {
+    type: String,
+    label: 'Ano*',
+    max: 4,
+    optional: false
+  },
+  genre: {
+    type: String,
+    label: 'Gênero*',
+    optional: false
+  },
+  length: {
+    type: String,
+    label: 'Duração*',
+    max: 10,
+    optional: false
+  },
+  country: {
+    type: String,
+    label: 'País*',
+    max: 30,
+    optional: false
+  },
+  director: {
+    type: String,
+    label: 'Diretor',
+    max: 30,
+    optional: true
+  },
+  production_company: {
+    type: String,
+    label: 'Production Company',
+    max: 30,
+    optional: true
+  },
+  age_rating: {
+    type: String,
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions (AGE_RATING),
+        uniPlaceholder: 'Selecione'
+      }
+    }
+  },
+  technical_information: {
+    type: String,
+    label: 'Informações técnicas',
+    max: 400,
+    optional: true
+  },
+  trailer_url: {
+    type: String,
+    label: 'Url do Trailer',
+    max: 30,
+    optional: true
+  },
+  link_for_download: {
+    type: String,
+    label: 'Link para download',
+    max: 30,
+    optional: true
+  },
+  password_for_download: {
+    type: String,
+    label: 'Senha para download',
+    max: 30,
+    optional: true
+  },
+  first_scheduling_notification: {
+    type: String,
+    label:'Texto extra para email de confirmação de sessão',
+    max: 400,
+    optional: true,
+    autoform: {
+      rows: 10
+    }
+  },
+  press_kit_path: {
+    type: String,
+    label: 'Press kit',
+    max: 30,
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: { // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true
+        }
+      }
+    }
+  },
+  poster_home_path: {
+    type: String,
+    label: 'Imagem para home (360x370)',
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: { // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true
+        }
+      }
+    }
+  },
+  site: {
+    type: String,
+    label: 'Site',
+    max: 30,
+    optional: true
+  },
+  facebook: {
+    type: String,
+    label: 'Facebook',
+    max: 30,
+    optional: true
+  },
+  twitter: {
+    type: String,
+    label: 'Twitter',
+    max: 30,
+    optional: true
+  },
+  instagram: {
+    type: String,
+    label: 'Instagram',
+    max: 30,
+    optional: true
+  },
+  youtube: {
+    type: String,
+    label: 'YouTube',
+    max: 30,
+    optional: true
+  }
+}, {tracker: Tracker});
 
 // Inventory functions
 function incrementOrCreate(obj, key, increment) {
@@ -60,14 +301,19 @@ function getZoneByState(state) {
   });
 }
 
-export const Films = new Mongo.Collection('films');
+function getSelectOptions(names) {
+  const options = _.map(names, item => ({
+    label: item,
+    value: item }));
+  return options;
+}
 
-Films.friendlySlugs({
-  slugFrom: 'title',
-  slugField: 'slug',
-  distinct: true,
-  updateSlug: true,
-});
+// Films.friendlySlugs({
+//   slugFrom: 'title',
+//   slugField: 'slug',
+//   distinct: true,
+//   updateSlug: true,
+// });
 
 Films.portfolio = () => Films.find({
   status: 'Portfolio',
@@ -273,3 +519,7 @@ Films.allow({
     return !!userId;
   },
 });
+
+Films.attachSchema(Films.schema);
+
+export default Films;
