@@ -1,0 +1,35 @@
+debug = true
+
+# logLevel = "ERROR"
+defaultEntryPoints = ["https","http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[retry]
+[api]
+[ping]
+[stats]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "taturana"
+watch = true
+exposedByDefault = false
+
+[acme]
+email = "contato@taturana"
+storage = "acme.json"
+entryPoint = "https"
+onHostRule = true
+[acme.httpChallenge]
+entryPoint = "http"
+
+# [accessLog]
+# filePath = "log/traefik.log"

@@ -1,27 +1,31 @@
-# docker-compose.yml
 version: '2'
 
-services:
-  app:
-    image: taturanamobi/plataforma-frontend
-    build: .
-    ports:
-      - 3000:3000
-    depends_on:
-      - mongo
-    links:
-      - mongo
-    # volumes:
-    #   - "$PWD:/opt/meteor/src"
-    environment:
-      - ROOT_URL=http://taturanamobi
-      - MONGO_URL=mongodb://mongo:27017/taturana
+networks:
+  taturana:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 10.0.0.10/8
 
+volumes:
+  redis_data:
+    driver: local
+  s3_data:
+    driver: local
+  mongo_data:
+    driver: local
+  local_postgres_data:
+    driver: local
+
+services:
   mongo:
     image: mongo
     restart: always
     ports:
       - 27017:27017
+    networks:
+      taturana:
     volumes:
       - mongo_data:/data/db
       - ./backups:/backups
@@ -30,14 +34,218 @@ services:
       #MONGO_INITDB_ROOT_USERNAME: root
       #MONGO_INITDB_ROOT_PASSWORD: example
 
+  postgres:
+    build:
+      context: ../plataforma-v2/docker
+      dockerfile: ./production/postgres/Dockerfile
+    image: dev_db
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: taturana
+      POSTGRES_USER: debug
+      POSTGRES_PASSWORD: debug
+    networks:
+      taturana:
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    environment:
+      MINIO_ACCESS_KEY: admin
+      MINIO_SECRET_KEY: password
+    volumes:
+    - s3_data:/data
+    ports:
+    - 4000:9000/tcp
+    networks:
+      taturana:
+    command:
+    - server
+    - /data
+    labels:
+      traefik.frontend.rule: Host:minio.taturana
+      traefik.port: '9000'
+      traefik.enable: 'true'
+
+  redis:
+    image: redis:latest # that's safe
+    networks:
+      taturana:
+
+  fake-smtp:
+    image: mailhog/mailhog
+    environment:
+      MH_HOSTNAME: fake-smtp.taturana
+    ports:
+    - 1025:1025/tcp
+    - 4001:8025/tcp
+    networks:
+      taturana:
+    labels:
+      traefik.frontend.rule: Host:fake-smtp.taturana
+      traefik.port: '8025'
+      traefik.enable: 'true'
+
+  traefik:
+    image: containous/traefik
+    ports:
+      - 80:80/tcp
+      - 4002:8080/tcp
+      - 443:443/tcp
+    networks:
+      taturana:
+        ipv4_address: 10.0.0.50
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.toml:/etc/traefik/traefik.toml
+    labels:
+      traefik.frontend.rule: Host:traefik.taturana
+      traefik.port: '8080'
+      traefik.enable: 'true'
+
+  images:
+    image: h2non/imaginary
+    stdin_open: true
+    tty: true
+    ports:
+    - 4003:9000/tcp
+    volumes:
+      - ./uploads:/uploads
+    networks:
+      taturana:
+    command:
+    - -cors
+    - -gzip
+    - -concurrency
+    - '10'
+    - -enable-url-source
+    - -mount
+    - /uploads
+    labels:
+      traefik.frontend.rule: Host:images.taturana
+      traefik.enable: 'true'
+      traefik.port: '9000'
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+    - 4004:8080
+    networks:
+      taturana:
+    labels:
+      traefik.frontend.rule: Host:adminer.taturana
+      traefik.port: '8080'
+      traefik.enable: 'true'
+
   mongo-express:
     image: mongo-express
     restart: always
     ports:
-      - 8081:8081
+      - 4005:8081
+    networks:
+      taturana:
     #environment:
       #ME_CONFIG_MONGODB_ADMINUSERNAME: root
       #ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    labels:
+      traefik.frontend.rule: Host:mongo-express.taturana
+      traefik.port: '8081'
+      traefik.enable: 'true'
 
-volumes:
-  mongo_data:
+  metabase:
+    image: metabase/metabase
+    environment:
+      JAVA_TIMEZONE: America/Sao_Paulo
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: '5432'
+      MB_DB_USER: debug
+      MB_DB_PASS: debug
+      MB_DB_HOST: postgres
+    depends_on:
+    - postgres
+    ports:
+    - 4006:3000/tcp
+    networks:
+      taturana:
+    labels:
+      traefik.frontend.rule: Host:reports.taturana
+      traefik.enable: 'true'
+      traefik.port: '3000'
+
+  frontend:
+    image: taturanamobi/plataforma-frontend
+    build: .
+    ports:
+      - 3000:3000
+    networks:
+      taturana:
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    volumes:
+      - "$PWD:/opt/meteor/src"
+      - "./uploads:/opt/meteor/uploads"
+    environment:
+      - ROOT_URL=https://taturanamobi
+      - MONGO_URL=mongodb://mongo:27017/taturana
+      - MAIL_URL=smtp:1045
+    labels:
+      traefik.frontend.rule: Host:taturana
+      traefik.port: '3000'
+      traefik.enable: 'true'
+
+  worker-v1:
+    image: taturanamobi/worker-v1
+    build: email_scripts
+    environment:
+      TATURANA_CONF_FILE: /taturana.conf
+    volumes:
+      - ./email_scripts/taturana.conf:/taturana.conf
+    networks:
+      taturana:
+
+  worker-v1-confirm_scheduling:
+    extends:
+      service: worker-v1
+    command: python ./confirm_scheduling.py
+
+  worker-v1-confirm_scheduling_less_than_10_days:
+    extends:
+      service: worker-v1
+    command: python ./confirm_scheduling_less_than_10_days.py
+
+  worker-v1-confirm_screening_date:
+    extends:
+      service: worker-v1
+    command: python ./confirm_screening_date.py
+
+  worker-v1-send_the_movie_10_days:
+    extends:
+      service: worker-v1
+    command: python ./send_the_movie_10_days.py
+
+  worker-v1-send_the_movie_9_days:
+    extends:
+      service: worker-v1
+    command: python ./send_the_movie_9_days.py
+
+  worker-v1-send_the_movie_3_days:
+    extends:
+      service: worker-v1
+    command: python ./send_the_movie_3_days.py
+
+  worker-v1-ask_for_report:
+    extends:
+      service: worker-v1
+    command: python ./ask_for_report.py
+
+  worker-v1-ask_for_report_take_2:
+    extends:
+      service: worker-v1
+    command: python ./ask_for_report_take_2.py
+
