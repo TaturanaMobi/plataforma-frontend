@@ -6,7 +6,7 @@ networks:
     ipam:
       driver: default
       config:
-      - subnet: 10.0.0.10/8
+      - subnet: 11.0.0.10/8
 
 volumes:
   redis_data:
@@ -96,7 +96,7 @@ services:
       - 443:443/tcp
     networks:
       taturana:
-        ipv4_address: 10.0.0.50
+        ipv4_address: 11.0.0.50
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.toml:/etc/traefik/traefik.toml
