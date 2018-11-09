@@ -42,8 +42,8 @@ aslagle:reactive-table
 reactive-var@1.0.11
 aldeed:collection2@3.0.0
 underscore@1.0.10
-percolate:migrations
 aldeed:autoform
 aldeed:autoform-bs-datepicker
 aldeed:autoform-bs-datetimepicker
 mrt:moment-timezone
+percolate:migrations

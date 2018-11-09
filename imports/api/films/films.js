@@ -2,19 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
-import SimpleSchema from 'simpl-schema';
 
 import { FilmScreeningInventory } from './film-screening-inventory';
 
 const Films = new Mongo.Collection('films');
-
-Films.schema = new SimpleSchema({
-  name: {
-    type: String,
-    label: 'Nome',
-    max: 200,
-  },
-});
 
 // Inventory functions
 function incrementOrCreate(obj, key, increment) {
