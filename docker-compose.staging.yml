@@ -55,6 +55,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.staging.toml:/etc/traefik/traefik.toml
+      - ./acme.staging.json:/acme.json
     networks:
       taturana:
     labels:
@@ -72,7 +73,6 @@ services:
       traefik.frontend.rule: Host:images.staging.taturanamobi.com.br
       traefik.enable: 'true'
       traefik.port: '9000'
-
 
   postgres:
     build:
