@@ -171,7 +171,6 @@ services:
 
   frontend:
     image: taturanamobi/plataforma-frontend
-    build: .
     ports:
       - 3000:3000
     networks:
@@ -181,12 +180,11 @@ services:
     links:
       - mongo
     volumes:
-      - "$PWD:/opt/meteor/src"
       - "./uploads:/opt/meteor/uploads"
     environment:
       - ROOT_URL=https://staging.taturanamobi.com.br
       - MONGO_URL=mongodb://mongo:27017/taturana
-      - MAIL_URL=smtp:1045
+      - MAIL_URL=fake-smtp:1045
     labels:
       traefik.frontend.rule: Host:staging.taturanamobi.com.br
       traefik.port: '3000'
@@ -201,6 +199,8 @@ services:
       - ./email_scripts/taturana.conf:/taturana.conf
     networks:
       taturana:
+    labels:
+      cron.schedule: "0 * * * ? *"
 
   worker-v1-confirm_scheduling:
     extends:
@@ -242,3 +242,10 @@ services:
       service: worker-v1
     command: python ./ask_for_report_take_2.py
 
+  container-crontab:
+    privileged: true
+    image: rancher/container-crontab:v0.3.0
+    environment:
+      DOCKER_API_VERSION: '1.24'
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
