@@ -45,6 +45,14 @@ docker-compose exec mongo mongorestore -d taturana /backups/taturana.json/tatura
 docker-compose exec mongo mongorestore -h taturana.mongo.com:23812 -d taturana -u external -p  /backups/taturana.json/taturanamobi --drop
 ```
 
+## Schema & Collections
+
+* https://guide.meteor.com/collections.html
+* https://github.com/aldeed/simple-schema-js
+* https://github.com/aldeed/meteor-collection2
+* https://github.com/aldeed/meteor-autoform
+* https://github.com/percolatestudio/meteor-migrations
+
 ## Para extrair o banco de prod localmente
 
 ```bash

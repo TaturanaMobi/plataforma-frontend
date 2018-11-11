@@ -1,10 +1,5 @@
 // Import server startup through a single index entry point
-
-// import './fixtures.js';
-// import './register-api.js';
-
 import { Meteor } from 'meteor/meteor';
-// import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
@@ -12,6 +7,8 @@ import { UploadServer } from 'meteor/tomi:upload-server';
 import { _ } from 'meteor/underscore';
 import { SyncedCron } from 'meteor/percolate:synced-cron';
 
+import './fixtures.js';
+import './migrations';
 import Films from '../../api/films/films';
 import { Cities, States } from '../../api/states_and_cities';
 
@@ -316,25 +313,25 @@ Meteor.startup(() => {
   Accounts.urls.resetPassword = token => Meteor.absoluteUrl(`reset-password/${token}`);
 
   // Creating Slugs in Bulk for Existing Films
-  let count = 0;
-  const docs = Films.find({
-    slug: {
-      $exists: false,
-    },
-  }, {
-    limit: 50,
-  });
+  // let count = 0;
+  // const docs = Films.find({
+  //   slug: {
+  //     $exists: false,
+  //   },
+  // }, {
+  //   limit: 50,
+  // });
 
-  docs.forEach((doc) => {
-    Films.update({
-      _id: doc._id,
-    }, {
-      $set: {
-        fake: '',
-      },
-    });
-    count += 1;
-    return count;
-  });
-  console.log(`Update slugs for ${count} Films.`);
+  // docs.forEach((doc) => {
+  //   Films.update({
+  //     _id: doc._id,
+  //   }, {
+  //     $set: {
+  //       fake: '',
+  //     },
+  //   });
+  //   count += 1;
+  //   return count;
+  // });
+  // console.log(`Update slugs for ${count} Films.`);
 });
