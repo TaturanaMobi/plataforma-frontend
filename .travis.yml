@@ -8,8 +8,7 @@ cache:
   directories:
   - node_modules
 before_install:
-- openssl aes-256-cbc -K $encrypted_ecafe84576f0_key -iv $encrypted_ecafe84576f0_iv
-  -in deploy_key.pem.enc -out .travis/deploy_key.pem -d
+- openssl aes-256-cbc -K $encrypted_ecafe84576f0_key -iv $encrypted_ecafe84576f0_iv -in taturana_key -out .travis/taturana_key -d
 - export PATH="$HOME/.meteor:$PATH"
 - curl https://install.meteor.com | /bin/sh
 before_script:
@@ -17,10 +16,10 @@ before_script:
 - sh -e /etc/init.d/xvfb start
 after_success:
 - eval "$(ssh-agent -s)"
-- chmod 600 .travis/deploy_key.pem
-- echo -e "Host $SERVER_IP_ADDRESS\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- ssh-add .travis/deploy_key.pem
-- ssh -i .travis/deploy_key.pem mariposas@staging.taturanamobi.com.br pwd
+- chmod 600 .travis/taturana_key
+- echo -e "Host staging.taturanamobi.com.br\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- ssh -i .travis/taturana_key mariposas@staging.taturanamobi.com.br "cd Code/plataforma-frontend/ && git fetch && git checkout $TRAVIS_COMMIT"
+- ssh -i .travis/taturana_key mariposas@staging.taturanamobi.com.br docker-compose -f Code/plataforma-frontend/docker-compose.staging.yml up --build -d
 # deploy:
 #   provider: script
 #   script: bash deploy.sh production $TRAVIS_TAG

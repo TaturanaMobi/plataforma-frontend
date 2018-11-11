@@ -31,3 +31,4 @@ uploads/.idea
 uploads/images
 backups/*
 !backups/taturana-films.json
+traefik.staging.yml
