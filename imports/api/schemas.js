@@ -1,54 +1,48 @@
 import { Tracker } from 'meteor/tracker';
 import SimpleSchema from 'simpl-schema';
-import { _ } from 'meteor/underscore';
+// import { _ } from 'meteor/underscore';
 
-import { AGE_RATING, STATUS } from './film-form-data.js';
+// import { AGE_RATING, STATUS } from './film-form-data.js';
 
-function getSelectOptions(names) {
-  const options = _.map(names, item => ({
-    label: item,
-    value: item,
-  }));
-  return options;
-}
+// function getSelectOptions(names) {
+//   const options = _.map(names, item => ({
+//     label: item,
+//     value: item,
+//   }));
+//   return options;
+// }
 
 const Schemas = {};
 
 Schemas.User = new SimpleSchema({
   username: {
     type: String,
-    // For accounts-password, either emails or username is required, but not both. It is OK to make this
-    // optional here because the accounts-password package does its own validation.
-    // Third-party login packages may not require either. Adjust this schema as necessary for your usage.
-    optional: true
+    optional: true,
   },
   emails: {
     type: Array,
-    // For accounts-password, either emails or username is required, but not both. It is OK to make this
-    // optional here because the accounts-password package does its own validation.
-    // Third-party login packages may not require either. Adjust this schema as necessary for your usage.
-    optional: true
+    optional: true,
   },
   'emails.$': {
-    type: Object
+    type: Object,
   },
   'emails.$.address': {
     type: String,
-    regEx: SimpleSchema.RegEx.Email
+    regEx: SimpleSchema.RegEx.Email,
   },
   'emails.$.verified': {
-    type: Boolean
+    type: Boolean,
   },
   registered_emails: {
     type: Array,
-    optional: true
+    optional: true,
   },
   'registered_emails.$': {
     type: Object,
-    blackbox: true
+    blackbox: true,
   },
   createdAt: {
-    type: Date
+    type: Date,
   },
   // profile: {
   //   type: Schemas.User,
@@ -58,7 +52,7 @@ Schemas.User = new SimpleSchema({
   services: {
     type: Object,
     optional: true,
-    blackbox: true
+    blackbox: true,
   },
   // Add `roles` to your schema if you use the meteor-roles package.
   // Option 1: Object type
@@ -71,148 +65,142 @@ Schemas.User = new SimpleSchema({
   roles: {
     type: Object,
     optional: true,
-    blackbox: true
-  },
-  // Option 2: [String] type
-  // If you are sure you will never need to use role groups, then
-  // you can specify [String] as the type
-  roles: {
-    type: Array,
-    optional: true
-  },
-  'roles.$': {
-    type: String
+    blackbox: true,
   },
   // In order to avoid an 'Exception in setInterval callback' from Meteor
   heartbeat: {
     type: Date,
-    optional: true
-  }
+    optional: true,
+  },
 });
 
 Schemas.Screening = new SimpleSchema({
   filmId: {
-    type: SimpleSchema.Integer,
+    type: String,
   },
   date: {
     type: Date,
     label: 'Data de criação',
-    optional: true
+    optional: true,
   },
   team_member: {
     type: Boolean,
-    label: 'É membro?'
+    label: 'É membro?',
   },
   activity: {
     type: String,
     label: 'Atividade',
-    max: 200
+    max: 200,
+    optional: true,
   },
   activity_theme: {
     type: String,
     label: 'Tema da Atividade',
-    max: 200
+    max: 1200,
+    optional: true,
   },
   quorum_expectation: {
     type: SimpleSchema.Integer,
     label: 'Expectativa de Quórum',
-    min: 1
   },
   comments: {
     type: String,
     label: 'Comentários',
     optional: true,
-    max: 1000
+    max: 8000,
   },
   accept_terms: {
     type: Boolean,
-    label: 'É membro?'
+    label: 'Aceita os termos?',
   },
   place_name: {
     type: String,
     label: 'Nome do Local',
     optional: true,
-    max: 1000
+    max: 1000,
   },
   cep: {
     type: SimpleSchema.Integer,
-    label: 'Expectativa de Quórum',
-    min: 8
+    label: 'CEP',
+    min: 8,
   },
   street: {
     type: String,
-    label: 'Nome do Local',
+    label: 'Logradouro',
     optional: true,
-    max: 1000
+    max: 1000,
   },
   number: {
-    type: SimpleSchema.Integer
+    type: SimpleSchema.Integer,
   },
   complement: {
-    type: String
+    type: String,
+    optional: true,
   },
   zone: {
     type: String,
-    label: 'Nome do Local',
+    label: 'Bairro',
     optional: true,
-    max: 1000
+    max: 1000,
   },
   city: {
     type: String,
-    label: 'Nome do Local',
+    label: 'Cidade',
     optional: true,
-    max: 1000
+    max: 1000,
   },
   public_event: {
-    type: Boolean
+    type: Boolean,
+    optional: true,
   },
   uf: {
     type: String,
     label: 'Estado',
     optional: true,
-    max: 3
+    max: 3,
   },
   s_country: {
     type: String,
     label: 'País',
     optional: true,
-    max: 1000
+    max: 1000,
   },
   created_at: {
     type: Date,
     label: 'Data de criação',
-    optional: true
+    optional: true,
   },
   user_id: {
-    type: String
+    type: String,
+    optional: true,
   },
   real_quorum: {
-    type: SimpleSchema.Integer
+    type: SimpleSchema.Integer,
   },
   report_description: {
     type: String,
     label: 'Relatório',
     optional: true,
-    max: 10000
+    max: 10000,
   },
   author_1: {
     type: String,
-    label: 'Autor',
+    label: 'Autor 1',
     optional: true,
-    max: 100
+    max: 200,
   },
   author_2: {
     type: String,
-    label: 'Autor',
+    label: 'Autor 2',
     optional: true,
-    max: 100
+    max: 200,
   },
   author_3: {
     type: String,
-    label: 'Autor',
+    label: 'Autor 3',
     optional: true,
-    max: 100
-  }
+    max: 200,
+  },
 });
 
 Schemas.Slideshow = new SimpleSchema({
@@ -240,14 +228,14 @@ Schemas.Slideshow = new SimpleSchema({
     type: String,
     label: 'Legenda',
     max: 1000,
-    optional: true
+    optional: true,
   },
   author: {
     type: String,
     label: 'Autor',
     max: 100,
-    optional: true
-  }
+    optional: true,
+  },
 });
 
 Schemas.Film = new SimpleSchema(
@@ -295,19 +283,19 @@ Schemas.Film = new SimpleSchema(
       type: String,
       label: 'Link para download',
       max: 30,
-      optional: true
+      optional: true,
     },
     password_for_download: {
       type: String,
       label: 'Senha para download',
       max: 30,
-      optional: true
+      optional: true,
     },
     sequence_number: {
       type: String,
       label: 'Ordenação',
       max: 30,
-      required: true
+      required: true,
     },
     status: {
       type: String,
@@ -325,7 +313,7 @@ Schemas.Film = new SimpleSchema(
       type: String,
       label: 'Titulo do filme*',
       max: 30,
-      optional: false
+      optional: false,
     },
     synopsis: {
       type: String,
@@ -341,30 +329,30 @@ Schemas.Film = new SimpleSchema(
       type: String,
       label: 'Url do Trailer',
       max: 30,
-      optional: true
+      optional: true,
     },
     genre: {
       type: String,
       label: 'Gênero*',
-      optional: false
+      optional: false,
     },
     year: {
       type: SimpleSchema.Integer,
       label: 'Ano*',
       max: 4,
-      optional: false
+      optional: false,
     },
     length: {
       type: SimpleSchema.Integer,
       label: 'Duração em minutos*',
       max: 10,
-      optional: false
+      optional: false,
     },
     country: {
       type: String,
       label: 'País*',
       max: 30,
-      optional: false
+      optional: false,
     },
     age_rating: {
       type: String,
@@ -381,43 +369,43 @@ Schemas.Film = new SimpleSchema(
       type: String,
       label: 'Production Company',
       max: 100,
-      optional: true
+      optional: true,
     },
     director: {
       type: String,
       label: 'Diretor',
       max: 100,
-      optional: true
+      optional: true,
     },
     technical_information: {
       type: String,
       label: 'Informações técnicas',
       max: 1000,
-      optional: true
+      optional: true,
     },
     site: {
       type: String,
       label: 'Site',
       max: 100,
-      optional: true
+      optional: true,
     },
     facebook: {
       type: String,
       label: 'Facebook',
       max: 30,
-      optional: true
+      optional: true,
     },
     twitter: {
       type: String,
       label: 'Twitter',
       max: 30,
-      optional: true
+      optional: true,
     },
     instagram: {
       type: String,
       label: 'Instagram',
       max: 30,
-      optional: true
+      optional: true,
     },
     youtube: {
       type: String,
@@ -443,13 +431,13 @@ Schemas.Film = new SimpleSchema(
       type: String,
       label: 'Fake',
       max: 30,
-      optional: true
+      optional: true,
     },
     slug: {
       type: String,
       label: 'slug',
       max: 30,
-      optional: true
+      optional: true,
     },
 
     poster_thumb_path: {
@@ -494,7 +482,7 @@ Schemas.Film = new SimpleSchema(
       //   }
       // }
     },
-    slideshow: [Schemas.Slideshow]
+    slideshow: [Schemas.Slideshow],
   },
   { tracker: Tracker }
 );
