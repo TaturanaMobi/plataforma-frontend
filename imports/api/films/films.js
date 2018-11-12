@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 
+import '../../api/images/images';
 import { FilmScreeningInventory } from './film-screening-inventory';
 import Schemas from '../schemas';
 

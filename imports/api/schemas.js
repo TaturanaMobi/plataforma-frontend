@@ -271,62 +271,62 @@ Schemas.Screening = new SimpleSchema({
     type: String,
     label: 'Imagem para relatório',
     optional: true,
-    // autoform: {
-    //   afFieldInput: {
-    //     type: 'fileUpload',
-    //     collection: 'Images',
-    //     allowClientCode: true, // Required to let you remove uploaded file
-    //     insertConfig: {
-    //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-    //       meta: {},
-    //       isBase64: false,
-    //       transport: 'ddp',
-    //       streams: 'dynamic',
-    //       chunkSize: 'dynamic',
-    //       allowWebWorkers: true,
-    //     },
-    //   },
-    // },
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        allowClientCode: true, // Required to let you remove uploaded file
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
+        },
+      },
+    },
   },
   report_image_2: {
     type: String,
     label: 'Imagem para relatório 2',
     optional: true,
-    // autoform: {
-    //   afFieldInput: {
-    //     type: 'fileUpload',
-    //     collection: 'Images',
-    //     insertConfig: {
-    //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-    //       meta: {},
-    //       isBase64: false,
-    //       transport: 'ddp',
-    //       streams: 'dynamic',
-    //       chunkSize: 'dynamic',
-    //       allowWebWorkers: true,
-    //     },
-    //   },
-    // },
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
+        },
+      },
+    },
   },
   report_image_3: {
     type: String,
     label: 'Imagem para relatório 3',
     optional: true,
-    // autoform: {
-    //   afFieldInput: {
-    //     type: 'fileUpload',
-    //     collection: 'Images',
-    //     insertConfig: {
-    //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-    //       meta: {},
-    //       isBase64: false,
-    //       transport: 'ddp',
-    //       streams: 'dynamic',
-    //       chunkSize: 'dynamic',
-    //       allowWebWorkers: true,
-    //     },
-    //   },
-    // },
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
+        },
+      },
+    },
   },
 }, { tracker: Tracker });
 
@@ -335,21 +335,21 @@ Schemas.Slideshow = new SimpleSchema({
     type: String,
     label: 'Imagem para home (360x370)',
     optional: true,
-    // autoform: {
-    //   afFieldInput: {
-    //     type: 'fileUpload',
-    //     collection: 'Images',
-    //     insertConfig: {
-    //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-    //       meta: {},
-    //       isBase64: false,
-    //       transport: 'ddp',
-    //       streams: 'dynamic',
-    //       chunkSize: 'dynamic',
-    //       allowWebWorkers: true,
-    //     },
-    //   },
-    // },
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
+        },
+      },
+    },
   },
   caption: {
     type: String,
@@ -371,40 +371,40 @@ Schemas.Film = new SimpleSchema(
       type: String,
       label: 'Cartaz',
       optional: true,
-      // autoform: {
-      //   afFieldInput: {
-      //     type: 'fileUpload',
-      //     collection: 'Images',
-      //     insertConfig: {
-      //       meta: {},
-      //       isBase64: false,
-      //       transport: 'ddp',
-      //       streams: 'dynamic',
-      //       chunkSize: 'dynamic',
-      //       allowWebWorkers: true
-      //     }
-      //   }
-      // },
+      autoform: {
+        afFieldInput: {
+          type: 'fileUpload',
+          collection: 'Images',
+          insertConfig: {
+            meta: {},
+            isBase64: false,
+            transport: 'ddp',
+            streams: 'dynamic',
+            chunkSize: 'dynamic',
+            allowWebWorkers: true
+          }
+        }
+      },
     },
     poster_home_path: {
       type: String,
       label: 'Imagem para home (360x370)',
       optional: true,
-      // autoform: {
-      //   afFieldInput: {
-      //     type: 'fileUpload',
-      //     collection: 'Images',
-      //     insertConfig: {
-      //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-      //       meta: {},
-      //       isBase64: false,
-      //       transport: 'ddp',
-      //       streams: 'dynamic',
-      //       chunkSize: 'dynamic',
-      //       allowWebWorkers: true,
-      //     },
-      //   },
-      // },
+      autoform: {
+        afFieldInput: {
+          type: 'fileUpload',
+          collection: 'Images',
+          insertConfig: {
+            // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+            meta: {},
+            isBase64: false,
+            transport: 'ddp',
+            streams: 'dynamic',
+            chunkSize: 'dynamic',
+            allowWebWorkers: true,
+          },
+        },
+      },
     },
     link_for_download: {
       type: String,
@@ -572,42 +572,42 @@ Schemas.Film = new SimpleSchema(
       label: 'Press kit',
       max: 30,
       optional: true,
-      // autoform: {
-      //   afFieldInput: {
-      //     type: 'fileUpload',
-      //     collection: 'Images',
-      //     insertConfig: {
-      //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-      //       meta: {},
-      //       isBase64: false,
-      //       transport: 'ddp',
-      //       streams: 'dynamic',
-      //       chunkSize: 'dynamic',
-      //       allowWebWorkers: true
-      //     }
-      //   }
-      // }
+      autoform: {
+        afFieldInput: {
+          type: 'fileUpload',
+          collection: 'Images',
+          insertConfig: {
+            // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+            meta: {},
+            isBase64: false,
+            transport: 'ddp',
+            streams: 'dynamic',
+            chunkSize: 'dynamic',
+            allowWebWorkers: true
+          }
+        }
+      }
     },
     press_kit_path: {
       type: String,
       label: 'Press kit',
       max: 30,
       optional: true,
-      // autoform: {
-      //   afFieldInput: {
-      //     type: 'fileUpload',
-      //     collection: 'Images',
-      //     insertConfig: {
-      //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-      //       meta: {},
-      //       isBase64: false,
-      //       transport: 'ddp',
-      //       streams: 'dynamic',
-      //       chunkSize: 'dynamic',
-      //       allowWebWorkers: true
-      //     }
-      //   }
-      // }
+      autoform: {
+        afFieldInput: {
+          type: 'fileUpload',
+          collection: 'Images',
+          insertConfig: {
+            // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+            meta: {},
+            isBase64: false,
+            transport: 'ddp',
+            streams: 'dynamic',
+            chunkSize: 'dynamic',
+            allowWebWorkers: true
+          }
+        }
+      }
     },
     slideshow: [Schemas.Slideshow],
   }, { tracker: Tracker }

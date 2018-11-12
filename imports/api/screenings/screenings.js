@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import Schemas from '../schemas';
+import '../../api/images/images';
 
 const Screenings = new Mongo.Collection('screenings');
 Screenings.attachSchema(Schemas.Screening);

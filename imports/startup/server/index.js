@@ -10,7 +10,7 @@ import { SyncedCron } from 'meteor/percolate:synced-cron';
 import './fixtures.js';
 import './migrations';
 import Films from '../../api/films/films';
-import ImagesFiles from '../../api/images/images';
+import Images from '../../api/images/images';
 import { Cities, States } from '../../api/states_and_cities';
 
 const FutureTasks = new Meteor.Collection('future_tasks');
@@ -302,6 +302,10 @@ Meteor.startup(() => {
     },
   });
 
+  Meteor.publish('files.images.all', function () {
+    return Images.find().cursor;
+  });
+
   // Forgot Password Email
   Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
   Accounts.emailTemplates.from = 'Suporte <suporte@taturana.com.br>';
@@ -312,13 +316,6 @@ Meteor.startup(() => {
     `Olá,\n\nPara resetar sua senha, acesse o link abaixo:\n${url}`;
 
   Accounts.urls.resetPassword = token => Meteor.absoluteUrl(`reset-password/${token}`);
-
-
-  if (Meteor.isClient) {
-    Meteor.subscribe('files.images.all');
-  }
-
-  Meteor.publish('files.images.all', () => ImagesFiles.collection.find({}));
 
   // Creating Slugs in Bulk for Existing Films
   // let count = 0;

@@ -2,6 +2,7 @@
 
 import { Template } from 'meteor/templating';
 // import { AutoForm } from 'meteor/aldeed:autoform';
+import { Meteor } from 'meteor/meteor';
 
 import Schemas from '../imports/api/schemas';
 import Films from '../imports/api/films/films';
@@ -14,3 +15,5 @@ Template.registerHelper('Films', Films);
 Template.registerHelper('Screenings', Screenings);
 
 // AutoForm.setDefaultTemplate('plain');
+
+Meteor.subscribe('files.images.all');
