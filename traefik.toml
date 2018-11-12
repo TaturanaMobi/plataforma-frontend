@@ -25,7 +25,7 @@ exposedByDefault = false
 
 [acme]
 email = "contato@taturana"
-storage = "acme.json"
+storage = "/acme.json"
 entryPoint = "https"
 onHostRule = true
 [acme.httpChallenge]

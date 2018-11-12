@@ -40,11 +40,11 @@ services:
       file: docker-compose.yml
       service: fake-smtp
     environment:
-      MH_HOSTNAME: fake-smtp.staging.taturanamobi.com.br
+      MH_HOSTNAME: fake-smtp.stag.taturanamobi.com.br
     networks:
       taturana:
     labels:
-      traefik.frontend.rule: Host:fake-smtp.staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:fake-smtp.stag.taturanamobi.com.br
       traefik.port: '8025'
       traefik.enable: 'true'
 
@@ -59,7 +59,7 @@ services:
     networks:
       taturana:
     labels:
-      traefik.frontend.rule: Host:traefik.staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:traefik.stag.taturanamobi.com.br
       traefik.port: '8080'
       traefik.enable: 'true'
 
@@ -70,7 +70,7 @@ services:
     networks:
       taturana:
     labels:
-      traefik.frontend.rule: Host:images.staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:images.stag.taturanamobi.com.br
       traefik.enable: 'true'
       traefik.port: '9000'
 
@@ -105,7 +105,7 @@ services:
     - server
     - /data
     labels:
-      traefik.frontend.rule: Host:minio.staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:minio.stag.taturanamobi.com.br
       traefik.port: '9000'
       traefik.enable: 'true'
 
@@ -117,7 +117,7 @@ services:
     networks:
       taturana:
     labels:
-      traefik.frontend.rule: Host:adminer.staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:adminer.stag.taturanamobi.com.br
       traefik.port: '8080'
       traefik.enable: 'true'
 
@@ -138,7 +138,7 @@ services:
     networks:
       taturana:
     labels:
-      traefik.frontend.rule: Host:reports.staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:reports.stag.taturanamobi.com.br
       traefik.enable: 'true'
       traefik.port: '3000'
 
@@ -150,7 +150,7 @@ services:
     networks:
       taturana:
     labels:
-      traefik.frontend.rule: Host:mongo-express.staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:mongo-express.stag.taturanamobi.com.br
       traefik.port: '8081'
       traefik.enable: 'true'
 
@@ -165,7 +165,7 @@ services:
     networks:
       taturana:
     labels:
-      traefik.frontend.rule: Host:portainer.staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:portainer.stag.taturanamobi.com.br
       traefik.port: '9000'
       traefik.enable: 'true'
 
@@ -180,13 +180,13 @@ services:
     links:
       - mongo
     volumes:
-      - "./uploads:/opt/meteor/uploads"
+      - "./uploads:/opt/meteor/dist/bundle/uploads"
     environment:
-      - ROOT_URL=https://staging.taturanamobi.com.br
+      - ROOT_URL=https://stag.taturanamobi.com.br
       - MONGO_URL=mongodb://mongo:27017/taturana
       - MAIL_URL=fake-smtp:1045
     labels:
-      traefik.frontend.rule: Host:staging.taturanamobi.com.br
+      traefik.frontend.rule: Host:stag.taturanamobi.com.br
       traefik.port: '3000'
       traefik.enable: 'true'
 

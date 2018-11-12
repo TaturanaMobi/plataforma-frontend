@@ -49,3 +49,5 @@ mrt:moment-timezone
 percolate:migrations
 dburles:collection-helpers
 tsega:bootstrap3-datetimepicker@=3.1.3_3
+ostrio:autoform-files
+ostrio:files

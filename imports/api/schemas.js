@@ -1,19 +1,69 @@
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
-// import { _ } from 'meteor/underscore';
+import { _ } from 'meteor/underscore';
 
+import { AGE_RATING, STATUS } from './film-form-data.js';
 
-// import { AGE_RATING, STATUS } from './film-form-data.js';
-
-// function getSelectOptions(names) {
-//   const options = _.map(names, item => ({
-//     label: item,
-//     value: item,
-//   }));
-//   return options;
-// }
+function getSelectOptions(names) {
+  const options = _.map(names, item => ({
+    label: item,
+    value: item,
+  }));
+  return options;
+}
 
 SimpleSchema.extendOptions(['autoform']);
+
+SimpleSchema.setDefaultMessages({
+  initialLanguage: 'pt',
+  messages: {
+    pt: {
+      uploadError: 'Erro ao fazer upload!', // File-upload
+      required: '{{{label}}} é obrigatório',
+      minString: '{{{label}}} precisa ter no mínimo {{min}} caracteres',
+      maxString: '{{{label}}} não pode ultrapassar {{max}} caracteres',
+      minNumber: '{{{label}}} precisa ter no mínimo {{min}}',
+      maxNumber: '{{{label}}} não pode ultrappasar {{max}}',
+      minNumberExclusive: '{{{label}}} deve ser maior que {{min}}',
+      maxNumberExclusive: '{{{label}}} deve ser menor que {{max}}',
+      minDate: '{{{label}}} deve ser ao menos {{min}}',
+      maxDate: '{{{label}}} não pode ser depois {{max}}',
+      badDate: '{{{label}}} não é uma data válida',
+      minCount: 'Você precisa especificar ao menos {{minCount}} valores',
+      maxCount: 'Você não pode especificar mais que {{maxCount}} valores',
+      noDecimal: '{{{label}}} deve conter apenas números',
+      notAllowed: '{{{value}}} não é um valor permitido',
+      expectedType: '{{{label}}} deve ser do tipo {{dataType}}',
+
+      regEx({ label, regExp }) {
+        switch (regExp) {
+          case (SimpleSchema.RegEx.Email.toString()):
+          case (SimpleSchema.RegEx.EmailWithTLD.toString()):
+              return "Cette adresse e-mail est incorrecte";
+          case (SimpleSchema.RegEx.Domain.toString()):
+          case (SimpleSchema.RegEx.WeakDomain.toString()):
+              return "Ce champ doit être un domaine valide";
+          case (SimpleSchema.RegEx.IP.toString()):
+              return "Cette adresse IP est invalide";
+          case (SimpleSchema.RegEx.IPv4.toString()):
+              return "Cette adresse IPv4 est invalide";
+          case (SimpleSchema.RegEx.IPv6.toString()):
+              return "Cette adresse IPv6 est invalide";
+          case (SimpleSchema.RegEx.Url.toString()):
+              return "Cette URL is invalide";
+          case (SimpleSchema.RegEx.Id.toString()):
+              return "Cet identifiant alphanumérique est invalide";
+          case (SimpleSchema.RegEx.ZipCode.toString()):
+              return "Ce code ZIP est invalide";
+          case (SimpleSchema.RegEx.Phone.toString()):
+              return "Ce numéro de téléphone est invalide";
+          default:
+              return "Ce champ a échoué la validation par Regex";
+        }
+      },
+    }
+  },
+});
 
 const Schemas = {};
 
@@ -83,7 +133,7 @@ Schemas.Screening = new SimpleSchema({
   },
   date: {
     type: Date,
-    label: 'Data de criação',
+    label: 'Data de Exibição',
     optional: true,
     autoform: {
       afFieldInput: {
@@ -134,14 +184,16 @@ Schemas.Screening = new SimpleSchema({
   },
   street: {
     type: String,
-    label: 'Logradouro',
+    label: 'Endereço',
     optional: true,
     max: 1000,
   },
   number: {
     type: SimpleSchema.Integer,
+    label: 'Número',
   },
   complement: {
+    label: 'Complemento',
     type: String,
     optional: true,
   },
@@ -189,6 +241,7 @@ Schemas.Screening = new SimpleSchema({
   },
   real_quorum: {
     type: SimpleSchema.Integer,
+    label: 'Quórum presente',
   },
   report_description: {
     type: String,
@@ -214,6 +267,67 @@ Schemas.Screening = new SimpleSchema({
     optional: true,
     max: 200,
   },
+  report_image_1: {
+    type: String,
+    label: 'Imagem para relatório',
+    optional: true,
+    // autoform: {
+    //   afFieldInput: {
+    //     type: 'fileUpload',
+    //     collection: 'Images',
+    //     allowClientCode: true, // Required to let you remove uploaded file
+    //     insertConfig: {
+    //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+    //       meta: {},
+    //       isBase64: false,
+    //       transport: 'ddp',
+    //       streams: 'dynamic',
+    //       chunkSize: 'dynamic',
+    //       allowWebWorkers: true,
+    //     },
+    //   },
+    // },
+  },
+  report_image_2: {
+    type: String,
+    label: 'Imagem para relatório 2',
+    optional: true,
+    // autoform: {
+    //   afFieldInput: {
+    //     type: 'fileUpload',
+    //     collection: 'Images',
+    //     insertConfig: {
+    //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+    //       meta: {},
+    //       isBase64: false,
+    //       transport: 'ddp',
+    //       streams: 'dynamic',
+    //       chunkSize: 'dynamic',
+    //       allowWebWorkers: true,
+    //     },
+    //   },
+    // },
+  },
+  report_image_3: {
+    type: String,
+    label: 'Imagem para relatório 3',
+    optional: true,
+    // autoform: {
+    //   afFieldInput: {
+    //     type: 'fileUpload',
+    //     collection: 'Images',
+    //     insertConfig: {
+    //       // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+    //       meta: {},
+    //       isBase64: false,
+    //       transport: 'ddp',
+    //       streams: 'dynamic',
+    //       chunkSize: 'dynamic',
+    //       allowWebWorkers: true,
+    //     },
+    //   },
+    // },
+  },
 }, { tracker: Tracker });
 
 Schemas.Slideshow = new SimpleSchema({
@@ -232,10 +346,10 @@ Schemas.Slideshow = new SimpleSchema({
     //       transport: 'ddp',
     //       streams: 'dynamic',
     //       chunkSize: 'dynamic',
-    //       allowWebWorkers: true
-    //     }
-    //   }
-    // }
+    //       allowWebWorkers: true,
+    //     },
+    //   },
+    // },
   },
   caption: {
     type: String,
@@ -270,7 +384,7 @@ Schemas.Film = new SimpleSchema(
       //       allowWebWorkers: true
       //     }
       //   }
-      // }
+      // },
     },
     poster_home_path: {
       type: String,
@@ -287,10 +401,10 @@ Schemas.Film = new SimpleSchema(
       //       transport: 'ddp',
       //       streams: 'dynamic',
       //       chunkSize: 'dynamic',
-      //       allowWebWorkers: true
-      //     }
-      //   }
-      // }
+      //       allowWebWorkers: true,
+      //     },
+      //   },
+      // },
     },
     link_for_download: {
       type: String,
@@ -313,14 +427,14 @@ Schemas.Film = new SimpleSchema(
     status: {
       type: String,
       label: 'Status',
-      // autoform: {
-      //   type: 'universe-select',
-      //   afFieldInput: {
-      //     multiple: false,
-      //     options: getSelectOptions(STATUS),
-      //     uniPlaceholder: 'Selecione'
-      //   }
-      // }
+      autoform: {
+        type: 'universe-select',
+        afFieldInput: {
+          multiple: false,
+          options: getSelectOptions(STATUS),
+          uniPlaceholder: 'Selecione',
+        },
+      },
     },
     title: {
       type: String,
@@ -369,14 +483,14 @@ Schemas.Film = new SimpleSchema(
     },
     age_rating: {
       type: String,
-      // autoform: {
-      //   type: 'universe-select',
-      //   afFieldInput: {
-      //     multiple: false,
-      //     options: getSelectOptions(AGE_RATING),
-      //     uniPlaceholder: 'Selecione'
-      //   }
-      // }
+      autoform: {
+        type: 'universe-select',
+        afFieldInput: {
+          multiple: false,
+          options: getSelectOptions(AGE_RATING),
+          uniPlaceholder: 'Selecione',
+        },
+      },
     },
     production_company: {
       type: String,
