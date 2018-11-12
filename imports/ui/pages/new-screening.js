@@ -14,20 +14,21 @@ import { $ } from 'meteor/jquery';
 import './new-screening.html';
 
 import { saveScreening } from './../../startup/client/helpers.js';
+// import Schema from './../../api/schemas'
 
 Template.newScreening.onRendered(() => {
-  const nowDate = new Date();
-  const today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 3, 0, 0, 0, 0);
+  // const nowDate = new Date();
+  // const today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 3, 0, 0, 0, 0);
 
   $('.readonly').keydown(function (e) {
     e.preventDefault();
   });
-  $('#date').datepicker({
-    format: 'dd/mm/yyyy',
-    language: 'pt-BR',
-    startDate: today,
-  });
-  $('.datetimepicker').timepicker();
+  // $('#date').datepicker({
+  //   format: 'dd/mm/yyyy',
+  //   language: 'pt-BR',
+  //   startDate: today,
+  // });
+  // $('.datetimepicker').timepicker();
   $("a[rel^='prettyPhoto']").prettyPhoto();
 });
 

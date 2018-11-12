@@ -197,15 +197,11 @@ services:
       TATURANA_CONF_FILE: /taturana.conf
     volumes:
       - ./email_scripts/taturana.conf:/taturana.conf
+    command: python ./confirm_scheduling.py
     networks:
       taturana:
     labels:
       cron.schedule: "0 * * * ? *"
-
-  worker-v1-confirm_scheduling:
-    extends:
-      service: worker-v1
-    command: python ./confirm_scheduling.py
 
   worker-v1-confirm_scheduling_less_than_10_days:
     extends:

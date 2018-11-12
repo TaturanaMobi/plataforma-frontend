@@ -4,6 +4,7 @@ import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 
 import { FilmScreeningInventory } from './film-screening-inventory';
+import Schemas from '../schemas';
 
 const Films = new Mongo.Collection('films');
 
@@ -252,6 +253,6 @@ Films.allow({
   },
 });
 
-Films.attachSchema(Films.schema);
+Films.attachSchema(Schemas.Film);
 
 export default Films;

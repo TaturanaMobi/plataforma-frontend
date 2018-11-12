@@ -1,6 +1,7 @@
-import { Tracker } from 'meteor/tracker';
 import SimpleSchema from 'simpl-schema';
+import { Tracker } from 'meteor/tracker';
 // import { _ } from 'meteor/underscore';
+
 
 // import { AGE_RATING, STATUS } from './film-form-data.js';
 
@@ -11,6 +12,8 @@ import SimpleSchema from 'simpl-schema';
 //   }));
 //   return options;
 // }
+
+SimpleSchema.extendOptions(['autoform']);
 
 const Schemas = {};
 
@@ -28,7 +31,7 @@ Schemas.User = new SimpleSchema({
   },
   'emails.$.address': {
     type: String,
-    regEx: SimpleSchema.RegEx.Email,
+    regEx: SimpleSchema['RegEx'].Email,
   },
   'emails.$.verified': {
     type: Boolean,
@@ -72,7 +75,7 @@ Schemas.User = new SimpleSchema({
     type: Date,
     optional: true,
   },
-});
+}, { tracker: Tracker });
 
 Schemas.Screening = new SimpleSchema({
   filmId: {
@@ -82,6 +85,11 @@ Schemas.Screening = new SimpleSchema({
     type: Date,
     label: 'Data de criação',
     optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'bootstrap-datetimepicker',
+      },
+    },
   },
   team_member: {
     type: Boolean,
@@ -169,6 +177,11 @@ Schemas.Screening = new SimpleSchema({
     type: Date,
     label: 'Data de criação',
     optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'bootstrap-datetimepicker',
+      },
+    },
   },
   user_id: {
     type: String,
@@ -201,7 +214,7 @@ Schemas.Screening = new SimpleSchema({
     optional: true,
     max: 200,
   },
-});
+}, { tracker: Tracker });
 
 Schemas.Slideshow = new SimpleSchema({
   src: {
@@ -236,7 +249,7 @@ Schemas.Slideshow = new SimpleSchema({
     max: 100,
     optional: true,
   },
-});
+}, { tracker: Tracker });
 
 Schemas.Film = new SimpleSchema(
   {
@@ -483,8 +496,7 @@ Schemas.Film = new SimpleSchema(
       // }
     },
     slideshow: [Schemas.Slideshow],
-  },
-  { tracker: Tracker }
+  }, { tracker: Tracker }
 );
 
 export default Schemas;
