@@ -16,7 +16,7 @@
         <form class="ambassador-edit">
           <label class="control-label" for="avatar_path">Avatar</label>
           {{#if currentUser.profile.avatar_path}}
-            <img src="https://images.taturanamobi.com.br/smartcrop?width=100&height=100&file={{currentUser.profile.avatar_path}}" class="full" alt="Avatar" />
+            <img src="https://images.stag.taturanamobi.com.br/smartcrop?width=100&height=100&file={{currentUser.profile.avatar_path}}" class="full" alt="Avatar" />
             <input type="hidden" name="avatar_path" value="{{currentUser.profile.avatar_path}}"/>
           {{else}}
             {{> upload_bootstrap contentType='images' multiple=false formData=avatarData}}
