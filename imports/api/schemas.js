@@ -2,7 +2,7 @@ import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 import { _ } from 'meteor/underscore';
 
-import { AGE_RATING, STATUS } from './film-form-data.js';
+import { AGE_RATING, STATUS, ACTIVITY, STATES } from './film-form-data.js';
 
 function getSelectOptions(names) {
   const options = _.map(names, item => ({
@@ -131,61 +131,24 @@ Schemas.Screening = new SimpleSchema({
   filmId: {
     type: String,
   },
-  date: {
-    type: Date,
-    label: 'Data de Exibição',
-    optional: true,
-    autoform: {
-      afFieldInput: {
-        type: 'bootstrap-datetimepicker',
-      },
-    },
-  },
-  team_member: {
-    type: Boolean,
-    label: 'É membro?',
-  },
-  activity: {
+  user_id: {
     type: String,
-    label: 'Atividade',
-    max: 200,
-    optional: true,
   },
-  activity_theme: {
-    type: String,
-    label: 'Tema da Atividade',
-    max: 1200,
-    optional: true,
-  },
-  quorum_expectation: {
-    type: SimpleSchema.Integer,
-    label: 'Expectativa de Quórum',
-  },
-  comments: {
-    type: String,
-    label: 'Comentários',
-    optional: true,
-    max: 8000,
-  },
-  accept_terms: {
-    type: Boolean,
-    label: 'Aceita os termos?',
-  },
+
   place_name: {
     type: String,
     label: 'Nome do Local',
-    optional: true,
     max: 1000,
   },
   cep: {
     type: SimpleSchema.Integer,
     label: 'CEP',
+    optional: true,
     min: 8,
   },
   street: {
     type: String,
     label: 'Endereço',
-    optional: true,
     max: 1000,
   },
   number: {
@@ -206,28 +169,91 @@ Schemas.Screening = new SimpleSchema({
   city: {
     type: String,
     label: 'Cidade',
-    optional: true,
+    // autoform: {
+    //   type: 'universe-select',
+    //   afFieldInput: {
+    //     multiple: false,
+    //     optionsMethod: 'getSelectCities',
+    //     uniPlaceholder: 'Selecione',
+    //   },
+    // },
     max: 1000,
-  },
-  public_event: {
-    type: Boolean,
-    optional: true,
   },
   uf: {
     type: String,
     label: 'Estado',
-    optional: true,
+    allowedValues: STATES,
+    // autoform: {
+    //   type: 'universe-select',
+    //   afFieldInput: {
+    //     multiple: false,
+    //     options: getSelectOptions(STATUS),
+    //     uniPlaceholder: 'Selecione',
+    //   },
+    // },
     max: 3,
   },
   s_country: {
     type: String,
     label: 'País',
-    optional: true,
     max: 1000,
   },
+
+  date: {
+    type: Date,
+    label: 'Data de Exibição',
+    autoform: {
+      afFieldInput: {
+        type: 'bootstrap-datetimepicker',
+      },
+    },
+  },
+  public_event: {
+    type: Boolean,
+    optional: true,
+  },
+  activity: {
+    type: String,
+    label: 'Atividade',
+    allowedValues: ACTIVITY,
+    max: 200,
+    optional: true,
+  },
+  activity_theme: {
+    type: String,
+    label: 'Tema da Atividade',
+    optional: true,
+  },
+  team_member: {
+    type: Boolean,
+    label: 'É membro?',
+  },
+  quorum_expectation: {
+    type: SimpleSchema.Integer,
+    label: 'Expectativa de Quórum',
+  },
+  comments: {
+    type: String,
+    label: 'Comentários',
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'summernote',
+        // class: 'editor'
+        // settings: // summernote options goes here
+      },
+    },
+    max: 8000,
+  },
+  accept_terms: {
+    type: Boolean,
+    label: 'Aceita os termos?',
+  },
+
   created_at: {
     type: Date,
     label: 'Data de criação',
+    defaultValue: new Date(),
     optional: true,
     autoform: {
       afFieldInput: {
@@ -235,12 +261,10 @@ Schemas.Screening = new SimpleSchema({
       },
     },
   },
-  user_id: {
-    type: String,
-    optional: true,
-  },
+
   real_quorum: {
     type: SimpleSchema.Integer,
+    optional: true,
     label: 'Quórum presente',
   },
   report_description: {

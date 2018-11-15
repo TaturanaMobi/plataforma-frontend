@@ -47,7 +47,7 @@
       </table>
     </div>
     <!-- <div class="col-md-12"> -->
-    {{> quickForm schema=Schemas.Screening collection=Screenings omitFields="author_1,author_2,author_3,report_image_1,report_image_2,report_image_3,report_description,user_id,filmId" id="insertScreeningForm" type="insert"}}
+    {{> quickForm schema=Schemas.Screening doc=form collection=Screenings omitFields="created_at,author_1,author_2,author_3,report_image_1,report_image_2,report_image_3,report_description" id="insertScreeningForm" type="insert"}}
 
     <form id="new-screening-form">
       <div class="row data-row reset-div">

@@ -58,6 +58,12 @@ Template.newScreening.events({
 });
 
 Template.newScreening.helpers({
+  form() {
+    return {
+      user_id: Meteor.user()._id,
+      filmId: this._id,
+    };
+  },
   user_addresses() {
     if (!Meteor.user()) return;
 
