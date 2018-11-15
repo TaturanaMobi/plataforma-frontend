@@ -1,4 +1,4 @@
-export const CATEGORIES = [
+export const FILM_CATEGORIES = [
   'Cineclube',
   'Coletivo',
   'Organização Social',
@@ -16,7 +16,7 @@ export const CATEGORIES = [
   'Outro',
 ];
 
-export const SUBCATEGORIES = [
+export const FILM_SUBCATEGORIES = [
   'Audiovisual',
   'Artes Plásticas',
   'Cultura',
@@ -43,14 +43,17 @@ export const SUBCATEGORIES = [
   'Outro',
 ];
 
-export const STATUS =
+export const SCREENING_STATUS =
+['Publicada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada'];
+
+export const FILM_STATUS =
 ['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
 
-export const AGE_RATING =
+export const FILM_AGE_RATING =
 ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
-export const ACTIVITY =
+export const SCREENING_ACTIVITY =
 ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula'];
 
 export const STATES =
-['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO']
+['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'OUTRO'];

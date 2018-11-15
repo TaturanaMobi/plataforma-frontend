@@ -1,7 +1,6 @@
 // Client entry point, imports all client code
 
 import { Template } from 'meteor/templating';
-// import { AutoForm } from 'meteor/aldeed:autoform';
 import { Meteor } from 'meteor/meteor';
 
 import Schemas from '../imports/api/schemas';
@@ -13,7 +12,5 @@ import '../imports/startup/both';
 Template.registerHelper('Schemas', Schemas);
 Template.registerHelper('Films', Films);
 Template.registerHelper('Screenings', Screenings);
-
-// AutoForm.setDefaultTemplate('plain');
 
 Meteor.subscribe('files.images.all');

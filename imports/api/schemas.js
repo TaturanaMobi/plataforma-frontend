@@ -2,15 +2,16 @@ import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 import { _ } from 'meteor/underscore';
 
-import { AGE_RATING, STATUS, ACTIVITY, STATES } from './film-form-data.js';
+import wNumb from './autoform/wNumb';
+import { FILM_AGE_RATING, FILM_STATUS, SCREENING_ACTIVITY, SCREENING_STATUS, STATES } from './film-form-data.js';
 
-function getSelectOptions(names) {
+export const getSelectOptions = (names) => {
   const options = _.map(names, item => ({
     label: item,
     value: item,
   }));
   return options;
-}
+};
 
 SimpleSchema.extendOptions(['autoform']);
 
@@ -35,33 +36,36 @@ SimpleSchema.setDefaultMessages({
       notAllowed: '{{{value}}} não é um valor permitido',
       expectedType: '{{{label}}} deve ser do tipo {{dataType}}',
 
-      regEx({ label, regExp }) {
+      regEx({
+        // label,
+        regExp,
+      }) {
         switch (regExp) {
           case (SimpleSchema.RegEx.Email.toString()):
           case (SimpleSchema.RegEx.EmailWithTLD.toString()):
-              return "Cette adresse e-mail est incorrecte";
+            return 'Cette adresse e-mail est incorrecte';
           case (SimpleSchema.RegEx.Domain.toString()):
           case (SimpleSchema.RegEx.WeakDomain.toString()):
-              return "Ce champ doit être un domaine valide";
+            return 'Ce champ doit être un domaine valide';
           case (SimpleSchema.RegEx.IP.toString()):
-              return "Cette adresse IP est invalide";
+            return 'Cette adresse IP est invalide';
           case (SimpleSchema.RegEx.IPv4.toString()):
-              return "Cette adresse IPv4 est invalide";
+            return 'Cette adresse IPv4 est invalide';
           case (SimpleSchema.RegEx.IPv6.toString()):
-              return "Cette adresse IPv6 est invalide";
+            return 'Cette adresse IPv6 est invalide';
           case (SimpleSchema.RegEx.Url.toString()):
-              return "Cette URL is invalide";
+            return 'Cette URL is invalide';
           case (SimpleSchema.RegEx.Id.toString()):
-              return "Cet identifiant alphanumérique est invalide";
+            return 'Cet identifiant alphanumérique est invalide';
           case (SimpleSchema.RegEx.ZipCode.toString()):
-              return "Ce code ZIP est invalide";
+            return 'Ce code ZIP est invalide';
           case (SimpleSchema.RegEx.Phone.toString()):
-              return "Ce numéro de téléphone est invalide";
+            return 'Ce numéro de téléphone est invalide';
           default:
-              return "Ce champ a échoué la validation par Regex";
+            return 'Ce champ a échoué la validation par Regex';
         }
       },
-    }
+    },
   },
 });
 
@@ -81,7 +85,7 @@ Schemas.User = new SimpleSchema({
   },
   'emails.$.address': {
     type: String,
-    regEx: SimpleSchema['RegEx'].Email,
+    regEx: SimpleSchema.RegEx.Email,
   },
   'emails.$.verified': {
     type: Boolean,
@@ -130,9 +134,15 @@ Schemas.User = new SimpleSchema({
 Schemas.Screening = new SimpleSchema({
   filmId: {
     type: String,
+    autoform: {
+      type: 'hidden',
+    },
   },
   user_id: {
     type: String,
+    autoform: {
+      type: 'hidden',
+    },
   },
 
   place_name: {
@@ -148,7 +158,7 @@ Schemas.Screening = new SimpleSchema({
   },
   street: {
     type: String,
-    label: 'Endereço',
+    label: 'Rua',
     max: 1000,
   },
   number: {
@@ -169,29 +179,29 @@ Schemas.Screening = new SimpleSchema({
   city: {
     type: String,
     label: 'Cidade',
-    // autoform: {
-    //   type: 'universe-select',
-    //   afFieldInput: {
-    //     multiple: false,
-    //     optionsMethod: 'getSelectCities',
-    //     uniPlaceholder: 'Selecione',
-    //   },
-    // },
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        // multiple: false,
+        optionsMethod: 'getSelectCities',
+        uniPlaceholder: 'Selecione',
+      },
+    },
     max: 1000,
   },
   uf: {
     type: String,
     label: 'Estado',
     allowedValues: STATES,
-    // autoform: {
-    //   type: 'universe-select',
-    //   afFieldInput: {
-    //     multiple: false,
-    //     options: getSelectOptions(STATUS),
-    //     uniPlaceholder: 'Selecione',
-    //   },
-    // },
-    max: 3,
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions(STATES),
+        uniPlaceholder: 'Selecione',
+      },
+    },
+    max: 5,
   },
   s_country: {
     type: String,
@@ -201,7 +211,7 @@ Schemas.Screening = new SimpleSchema({
 
   date: {
     type: Date,
-    label: 'Data de Exibição',
+    label: 'Data de exibição (Dia e Horário)',
     autoform: {
       afFieldInput: {
         type: 'bootstrap-datetimepicker',
@@ -209,36 +219,62 @@ Schemas.Screening = new SimpleSchema({
     },
   },
   public_event: {
+    label: 'Aberta ao público',
     type: Boolean,
     optional: true,
   },
   activity: {
     type: String,
-    label: 'Atividade',
-    allowedValues: ACTIVITY,
+    label: 'Haverá alguma atividade antes ou depois da exibição?',
+    allowedValues: SCREENING_ACTIVITY,
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions(SCREENING_ACTIVITY),
+        uniPlaceholder: 'Selecione',
+      },
+    },
     max: 200,
-    optional: true,
   },
   activity_theme: {
     type: String,
-    label: 'Tema da Atividade',
+    label: 'Esta atividade tem um tema?',
     optional: true,
   },
   team_member: {
     type: Boolean,
-    label: 'É membro?',
+    label: 'Tenho interesse em que o diretor e/ou integrante da equipe do filme participem do bate-papo após a sessão ',
+    optional: true,
   },
   quorum_expectation: {
     type: SimpleSchema.Integer,
-    label: 'Expectativa de Quórum',
+    label: 'Quantas pessoas você projeta que irão assistir ao filme?',
+    autoform: {
+      afFieldInput: {
+        type: 'noUiSlider',
+        noUiSliderOptions: {
+          tooltips: true,
+          start: 5,
+          format: wNumb({
+            decimals: 0,
+          }),
+          range: {
+            min: 5,
+            max: 500,
+          },
+          step: 5,
+        },
+      },
+    },
   },
   comments: {
     type: String,
-    label: 'Comentários',
-    optional: true,
+    label: 'Quer contar algo mais sobre a atividade ou fazer algum comentário?',
     autoform: {
       afFieldInput: {
-        type: 'summernote',
+        type: 'textarea',
+        rows: 5,
         // class: 'editor'
         // settings: // summernote options goes here
       },
@@ -247,21 +283,48 @@ Schemas.Screening = new SimpleSchema({
   },
   accept_terms: {
     type: Boolean,
-    label: 'Aceita os termos?',
+    allowedValues: [true],
+    optional: false,
+    label: 'Li e aceito os termos.',
+    autoform: {
+      type: 'boolean-checkbox',
+    },
   },
-
+  saveAddress: {
+    type: Boolean,
+    label: 'Salvar esse endereço',
+    optional: true,
+  },
   created_at: {
     type: Date,
     label: 'Data de criação',
     defaultValue: new Date(),
     optional: true,
+  },
+  updatedAt: {
+    type: Date,
+    label: 'Data da última atualização da sessão',
+    defaultValue: new Date(),
+    optional: true,
+  },
+  reportCreatedAt: {
+    type: Date,
+    label: 'Data de criação do relatório',
+    defaultValue: new Date(),
+    optional: true,
+  },
+  status: {
+    type: String,
+    label: 'Status',
     autoform: {
+      type: 'universe-select',
       afFieldInput: {
-        type: 'bootstrap-datetimepicker',
+        multiple: false,
+        options: getSelectOptions(SCREENING_STATUS),
+        uniPlaceholder: 'Selecione',
       },
     },
   },
-
   real_quorum: {
     type: SimpleSchema.Integer,
     optional: true,
@@ -405,9 +468,9 @@ Schemas.Film = new SimpleSchema(
             transport: 'ddp',
             streams: 'dynamic',
             chunkSize: 'dynamic',
-            allowWebWorkers: true
-          }
-        }
+            allowWebWorkers: true,
+          },
+        },
       },
     },
     poster_home_path: {
@@ -455,20 +518,20 @@ Schemas.Film = new SimpleSchema(
         type: 'universe-select',
         afFieldInput: {
           multiple: false,
-          options: getSelectOptions(STATUS),
+          options: getSelectOptions(FILM_STATUS),
           uniPlaceholder: 'Selecione',
         },
       },
     },
     title: {
       type: String,
-      label: 'Titulo do filme*',
+      label: 'Titulo do filme',
       max: 30,
       optional: false,
     },
     synopsis: {
       type: String,
-      label: 'Sinopse*',
+      label: 'Sinopse',
       max: 400,
       optional: false,
       // autoform: {
@@ -484,24 +547,24 @@ Schemas.Film = new SimpleSchema(
     },
     genre: {
       type: String,
-      label: 'Gênero*',
+      label: 'Gênero',
       optional: false,
     },
     year: {
       type: SimpleSchema.Integer,
-      label: 'Ano*',
+      label: 'Ano',
       max: 4,
       optional: false,
     },
     length: {
       type: SimpleSchema.Integer,
-      label: 'Duração em minutos*',
+      label: 'Duração em minutos',
       max: 10,
       optional: false,
     },
     country: {
       type: String,
-      label: 'País*',
+      label: 'País',
       max: 30,
       optional: false,
     },
@@ -511,7 +574,7 @@ Schemas.Film = new SimpleSchema(
         type: 'universe-select',
         afFieldInput: {
           multiple: false,
-          options: getSelectOptions(AGE_RATING),
+          options: getSelectOptions(FILM_AGE_RATING),
           uniPlaceholder: 'Selecione',
         },
       },
@@ -607,10 +670,10 @@ Schemas.Film = new SimpleSchema(
             transport: 'ddp',
             streams: 'dynamic',
             chunkSize: 'dynamic',
-            allowWebWorkers: true
-          }
-        }
-      }
+            allowWebWorkers: true,
+          },
+        },
+      },
     },
     press_kit_path: {
       type: String,
@@ -628,10 +691,10 @@ Schemas.Film = new SimpleSchema(
             transport: 'ddp',
             streams: 'dynamic',
             chunkSize: 'dynamic',
-            allowWebWorkers: true
-          }
-        }
-      }
+            allowWebWorkers: true,
+          },
+        },
+      },
     },
     slideshow: [Schemas.Slideshow],
   }, { tracker: Tracker }

@@ -5,7 +5,6 @@ import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
 import { UploadServer } from 'meteor/tomi:upload-server';
 import { _ } from 'meteor/underscore';
-import { SyncedCron } from 'meteor/percolate:synced-cron';
 
 import './fixtures.js';
 import './migrations';
@@ -13,32 +12,45 @@ import Films from '../../api/films/films';
 import Images from '../../api/images/images';
 import { Cities, States } from '../../api/states_and_cities';
 
-const FutureTasks = new Meteor.Collection('future_tasks');
+// const FutureTasks = new Meteor.Collection('future_tasks');
 
 // Envia as notifações
-function sendNotify(notify, template) {
-  Meteor.call('sendEmail', notify, template);
-}
+// function sendNotify(notify, template) {
+//   Meteor.call('sendEmail', notify, template);
+// }
 
-function missingReport(content, template) {
-  const report = Films.return_screening(content.screening_id);
-  if (report.real_quorum) {
-    return Meteor.call('sendEmail', content, template);
-  }
-  return false;
-}
+// function missingReport(content, template) {
+//   const report = Films.return_screening(content.screening_id);
+//   if (report.real_quorum) {
+//     return Meteor.call('sendEmail', content, template);
+//   }
+//   return false;
+// }
 
-function removeNotifications(scrId) {
-  const scrTasks = FutureTasks.find({
-    screening_id: scrId,
-  }).fetch();
+// function removeNotifications(scrId) {
+//   const scrTasks = FutureTasks.find({
+//     screening_id: scrId,
+//   }).fetch();
 
-  _.each(scrTasks, (task) => {
-    FutureTasks.remove(task._id);
-  });
-}
+//   _.each(scrTasks, (task) => {
+//     FutureTasks.remove(task._id);
+//   });
+// }
 
 Meteor.methods({
+  getSelectCities(options) {
+    // this.unblock();
+    var searchText = options.searchText;
+    var values = options.values;
+
+    if (searchText) {
+      return Cities.find({ name: { $regex: searchText } }, { limit: 5 }).fetch().map(v => ({ label: v.name, value: v.slug }));
+    } else if (values.length) {
+      return Cities.find({ value: { $in: values } }).fetch().map(v => ({ label: v.name, value: v.slug }));
+    }
+    return Cities.find({}, { limit: 5 }).fetch().map(v => ({ label: v.name, value: v.slug }));
+  },
+
   sendEmail(pidgeon, template) {
     // check(pidgeon, {to, replyTo});
     // check(template);
@@ -89,39 +101,39 @@ Meteor.methods({
     }
   },
 
-  insertTask(detail) {
-    return FutureTasks.insert(detail);
-  },
+  // insertTask(detail) {
+  //   return FutureTasks.insert(detail);
+  // },
 
-  scheduleNotify(id, content, template) {
-    SyncedCron.add({
-      name: content.subject,
-      schedule(parser) {
-        return parser.recur().on(content.when).fullDate();
-      },
-      job() {
-        sendNotify(content, template);
-        FutureTasks.remove(id);
-        SyncedCron.remove(id);
-        return id;
-      },
-    });
-  },
+  // scheduleNotify(id, content, template) {
+  //   SyncedCron.add({
+  //     name: content.subject,
+  //     schedule(parser) {
+  //       return parser.recur().on(content.when).fullDate();
+  //     },
+  //     job() {
+  //       sendNotify(content, template);
+  //       FutureTasks.remove(id);
+  //       SyncedCron.remove(id);
+  //       return id;
+  //     },
+  //   });
+  // },
 
-  verifyReport(id, content, template) {
-    SyncedCron.add({
-      name: content.subject,
-      schedule(parser) {
-        return parser.recur().on(content.when).fullDate();
-      },
-      job() {
-        missingReport(content, template);
-        FutureTasks.remove(id);
-        SyncedCron.remove(id);
-        return id;
-      },
-    });
-  },
+  // verifyReport(id, content, template) {
+  //   SyncedCron.add({
+  //     name: content.subject,
+  //     schedule(parser) {
+  //       return parser.recur().on(content.when).fullDate();
+  //     },
+  //     job() {
+  //       missingReport(content, template);
+  //       FutureTasks.remove(id);
+  //       SyncedCron.remove(id);
+  //       return id;
+  //     },
+  //   });
+  // },
 
   removeFilm(id) {
     Films.remove(id);
@@ -142,21 +154,6 @@ Meteor.methods({
         slideshow: image,
       },
     });
-  },
-
-  addScreening(film_id, new_screening) {
-    new_screening.created_at = new Date();
-
-    Films.update(film_id, {
-      $push: {
-        screening: new_screening,
-      },
-    });
-    States.setHasScreenings(new_screening.s_country, new_screening.uf);
-    Cities.setHasScreenings(
-      new_screening.s_country, new_screening.uf, new_screening.city
-    );
-    return new_screening._id;
   },
 
   updateScreening(fScreening) {
@@ -268,20 +265,20 @@ Meteor.methods({
 Meteor.startup(() => {
   // SyncedCron.start();
 
-  Meteor.publish('films', () => Films.find({}));
-
-  Meteor.publish('ambassadors', () => Meteor.users.find({}, {
+  Meteor.publish('films', () => Films.find({}, {
     fields: {
-      createdAt: 1,
-      emails: 1,
-      profile: 1,
-      addresses: 1,
+      screenings: 0,
     },
   }));
 
-  Meteor.publish('states', () => States.find({}));
-
-  Meteor.publish('cities', () => Cities.find({}));
+  // Meteor.publish('ambassadors', () => Meteor.users.find({}, {
+  //   fields: {
+  //     createdAt: 1,
+  //     emails: 1,
+  //     profile: 1,
+  //     addresses: 1,
+  //   },
+  // }));
 
   UploadServer.init({
     tmpDir: `${process.env.PWD}/uploads/tmp`,
