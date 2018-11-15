@@ -13,4 +13,4 @@ const Images = new FilesCollection({
   },
 });
 
-export default Images
+export default Images;

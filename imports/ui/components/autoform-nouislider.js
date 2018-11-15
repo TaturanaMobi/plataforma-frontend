@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* global AutoForm, _, Template */
 import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';

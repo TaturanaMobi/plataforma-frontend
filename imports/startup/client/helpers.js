@@ -5,17 +5,17 @@ import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
 import { Router } from 'meteor/iron:router';
+import { FILM_SUBCATEGORIES, FILM_CATEGORIES, STATES } from './../../api/film-form-data.js';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 
 Template.registerHelper('isAdmin', () => Meteor.user().profile.roles.indexOf('admin') > -1);
 
-Template.registerHelper('returnSelectOptions', (names, film_var) => {
-  const ret = _.map(eval(names), item => ({
-    name: item,
-    status: (item === film_var) ? 'selected' : '' }));
-  return ret;
-});
+Template.registerHelper('categories', () => _.map(FILM_CATEGORIES, item => ({ name: item })));
+
+Template.registerHelper('subcategories', () => _.map(FILM_SUBCATEGORIES, item => ({ name: item })));
+
+Template.registerHelper('ufs', () => STATES);
 
 Template.registerHelper('isSelected', function isSelected(selectedValue) {
   return (this === selectedValue) ? 'selected' : '';
@@ -56,7 +56,7 @@ Template.registerHelper('avatarPath', () => {
 
 Template.registerHelper('snakecase', str => str.split(' ').join('_').toLowerCase());
 
-export function saveAddress(form, user_id) {
+export function saveAddress(form, userId) {
   const address = {
     _id: new Meteor.Collection.ObjectID().valueOf(),
     place_name: form.place_name.value,
@@ -71,16 +71,16 @@ export function saveAddress(form, user_id) {
   };
 
   if (form.add_address.checked) {
-    Meteor.call('addAddress', user_id, address);
+    Meteor.call('addAddress', userId, address);
   }
 
   return address;
 }
 
 export function getDateObject(date, time) {
-  let d = date.value.split('/');
-  let t = time.value.split(':');
-  let t2 = t[1].split(' ');
+  const d = date.value.split('/');
+  const t = time.value.split(':');
+  const t2 = t[1].split(' ');
 
   if (t2[1] === 'PM') t[0] = parseInt(t[0], 10) + 12;
 
@@ -101,8 +101,9 @@ AutoForm.addHooks(['new-screening-form'], {
   },
 
   // Called when any submit operation fails
-  onError: function(formType, error) {
+  onError: (formType, error) => {
     FlashMessages.sendError('Preencha todas as informações.');
+    console.log(error, formType);
   },
 
 });

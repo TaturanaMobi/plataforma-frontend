@@ -1,6 +1,4 @@
 /* eslint-disable */
-
-import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 
 import Films from './films/films.js';
