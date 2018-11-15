@@ -9,6 +9,7 @@ import { _ } from 'meteor/underscore';
 import './fixtures.js';
 import './migrations';
 import Films from '../../api/films/films';
+import Screenings from '../../api/screenings/screenings';
 import Images from '../../api/images/images';
 import { Cities, States } from '../../api/states_and_cities';
 
@@ -44,11 +45,17 @@ Meteor.methods({
     var values = options.values;
 
     if (searchText) {
-      return Cities.find({ name: { $regex: searchText } }, { limit: 5 }).fetch().map(v => ({ label: v.name, value: v.slug }));
+      return Cities.find(
+        { name: { $regex: searchText } },
+        { limit: 5 }
+      ).fetch().map(v => ({ label: v.name, value: v.name }));
     } else if (values.length) {
-      return Cities.find({ value: { $in: values } }).fetch().map(v => ({ label: v.name, value: v.slug }));
+      return Cities.find(
+        { value: { $in: values } }
+      ).fetch().map(v => ({ label: v.name, value: v.name }));
     }
-    return Cities.find({}, { limit: 5 }).fetch().map(v => ({ label: v.name, value: v.slug }));
+    return Cities.find({}, { limit: 5 })
+      .fetch().map(v => ({ label: v.name, value: v.name }));
   },
 
   sendEmail(pidgeon, template) {
@@ -267,7 +274,36 @@ Meteor.startup(() => {
 
   Meteor.publish('films', () => Films.find({}, {
     fields: {
+      title: 1,
+      slug: 1,
+      createdAt: 1,
       screenings: 0,
+    },
+  }));
+
+  Meteor.publish('screenings', () => Screenings.find({}, {
+    fields: {
+      filmId: 1,
+      user_id: 1,
+      place_name: 1,
+      city: 1,
+      uf: 1,
+      date: 1,
+      public_event: 1,
+      team_member: 1,
+      quorum_expectation: 1,
+      comments: 1,
+      accept_terms: 1,
+      created_at: 1,
+      status: 1,
+      real_quorum: 1,
+      report_description: 1,
+      author_1: 1,
+      report_image_1: 1,
+      author_2: 1,
+      report_image_2: 1,
+      author_3: 1,
+      report_image_3: 1,
     },
   }));
 

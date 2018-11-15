@@ -56,7 +56,7 @@ Template.newScreening.helpers({
     return {
       user_id: Meteor.user()._id,
       filmId: this._id,
-      status: 'Publicada',
+      status: 'Agendada',
     };
   },
   user_addresses() {

@@ -5,34 +5,34 @@ import { _ } from 'meteor/underscore';
 import { Template } from 'meteor/templating';
 
 import Films from '../../../api/films/films.js';
+import Screenings from '../../../api/screenings/screenings.js';
 
 Template.admSessions2.helpers({
   settings() {
-    const d = Films.find({});
-    const screenings = [];
-    if (d !== null) {
-      d.forEach((f) => {
-        if (f !== null && f.screening !== null) {
-          // const sNotDuplicated = [];
-          _(f.screening).each((s) => {
-            if (!screenings.find(x => parseInt(x._id, 16) === parseInt(s._id, 16))) {
-              s.film_title = f.title;
-              s.film_slug = f.slug;
-              s.user = Meteor.users.findOne(s.user_id);
-              screenings.push(s);
-            } else {
-              console.log(s); // log duplicated entries
-            }
-          });
-        }
-      });
-    }
-    const s = screenings;
-    console.log(s);
+    // const d = Films.find({});
+    // console.log(d);
+    // const screenings = Screenings.find({});
+    // if (d !== null) {
+    //   d.forEach((f) => {
+    //     if (f !== null) {
+    //       // const sNotDuplicated = [];
+    //       _(screenings).each((s, i) => {
+    //         s.film_title = f.title;
+    //         s.film_slug = f.slug;
+    //         s.user = Meteor.users.findOne(s.user_id);
+    //         screenings[i] = s;
+    //       });
+    //     }
+    //   });
+    // }
+    // const s = screenings;
+    // console.log(s);
+    const instance = Template.instance();
     return {
-      collection: s,
+      collection: instance.data,
+      // filters: ['filterTeamMember'],
       rowsPerPage: 10,
-      showFilter: true,
+      showFilter: false,
       showRowCount: true,
       rowClass: (item) => {
         if (item.draft) {
@@ -51,16 +51,16 @@ Template.admSessions2.helpers({
       },
       fields: [
         { key: 'infos', label: 'Informações', tmpl: Template.infoCellTmpl, headerClass: 'col-md-1' },
-        { key: 'film_title', label: 'Filme', tmpl: Template.filmCellTmpl, headerClass: 'col-md-2' },
+        { key: 'film', label: 'Filme', tmpl: Template.filmCellTmpl, headerClass: 'col-md-2' },
         { key: 'date', label: 'Data de exibição', tmpl: Template.dateCellTmpl, headerClass: 'col-md-1' },
         { key: 'place_name', label: 'Local de exibição', tmpl: Template.screeningCellTmpl, headerClass: 'col-md-2' },
         // 'activity_theme',
         {
-          key: 'user',
+          key: 'ambassador',
           label: 'Embaixador',
           tmpl: Template.embaixadorCellTmpl,
           headerClass: 'col-md-2',
-          // fn: value => value.profile.name,
+          // fn: (value, object) => console.log(object),
         },
         // {
         //   key: 'email',

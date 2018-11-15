@@ -72,6 +72,80 @@ SimpleSchema.setDefaultMessages({
 const Schemas = {};
 
 Schemas.User = new SimpleSchema({
+  // profile: {
+  //   type: Object,
+  // },
+  addresses: {
+    type: Array,
+    optional: true,
+  },
+  'addresses.$': {
+    type: Object,
+  },
+  'addresses.$.place_name': {
+    type: String,
+    label: 'Nome do Local',
+    max: 1000,
+  },
+  'addresses.$.cep': {
+    type: SimpleSchema.Integer,
+    label: 'CEP',
+    optional: true,
+    min: 8,
+  },
+  'addresses.$.street': {
+    type: String,
+    label: 'Rua',
+    max: 1000,
+  },
+  'addresses.$.number': {
+    type: SimpleSchema.Integer,
+    label: 'Número',
+  },
+  'addresses.$.complement': {
+    label: 'Complemento',
+    type: String,
+    optional: true,
+  },
+  'addresses.$.zone': {
+    type: String,
+    label: 'Bairro',
+    optional: true,
+    max: 1000,
+  },
+  'addresses.$.city': {
+    type: String,
+    label: 'Cidade',
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        // multiple: false,
+        optionsMethod: 'getSelectCities',
+        uniPlaceholder: 'Selecione',
+      },
+    },
+    max: 1000,
+  },
+  'addresses.$.uf': {
+    type: String,
+    label: 'Estado',
+    allowedValues: STATES,
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions(STATES),
+        uniPlaceholder: 'Selecione',
+      },
+    },
+    max: 5,
+  },
+  'addresses.$.s_country': {
+    type: String,
+    label: 'País',
+    max: 1000,
+  },
+
   username: {
     type: String,
     optional: true,
