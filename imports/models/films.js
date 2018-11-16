@@ -6,8 +6,15 @@ import { $ } from 'meteor/jquery';
 import './images';
 import { FilmScreeningInventory } from './film-screening-inventory';
 import Schemas from './schemas';
+import Screenings from './screenings';
 
 const Films = new Mongo.Collection('films');
+
+Films.helpers({
+  screenings() {
+    return Screenings.find({ filmId: this._id });
+  },
+});
 
 // Inventory functions
 function incrementOrCreate(obj, key, increment) {

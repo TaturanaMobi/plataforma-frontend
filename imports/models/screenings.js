@@ -1,3 +1,4 @@
+// import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import Schemas from './schemas';
 import './images';

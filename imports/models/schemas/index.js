@@ -1,25 +1,21 @@
 // import UserSchema from './users';
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
-import { _ } from 'meteor/underscore';
+// import { _ } from 'meteor/underscore';
 
+import { Schema as userSchema } from './../users';
 import wNumb from './../utils/wNumb';
 import { FILM_AGE_RATING, FILM_STATUS, SCREENING_ACTIVITY, SCREENING_STATUS, STATES } from './../films';
-
-export const getSelectOptions = (names) => {
-  const options = _.map(names, item => ({
-    label: item,
-    value: item,
-  }));
-  return options;
-};
+import getSelectOptions from './getSelectOptions';
 
 SimpleSchema.extendOptions(['autoform']);
 
+SimpleSchema.extendOptions(['autoform']);
 SimpleSchema.setDefaultMessages({
   initialLanguage: 'pt',
   messages: {
     pt: {
+      passwordMismatch: 'Passwords não são iguais.',
       uploadError: 'Erro ao fazer upload!', // File-upload
       required: '{{{label}}} é obrigatório',
       minString: '{{{label}}} precisa ter no mínimo {{min}} caracteres',
@@ -44,26 +40,26 @@ SimpleSchema.setDefaultMessages({
         switch (regExp) {
           case (SimpleSchema.RegEx.Email.toString()):
           case (SimpleSchema.RegEx.EmailWithTLD.toString()):
-            return 'Cette adresse e-mail est incorrecte';
+            return 'E-mail inválido';
           case (SimpleSchema.RegEx.Domain.toString()):
           case (SimpleSchema.RegEx.WeakDomain.toString()):
-            return 'Ce champ doit être un domaine valide';
+            return 'Domínio inválido ou frágil';
           case (SimpleSchema.RegEx.IP.toString()):
-            return 'Cette adresse IP est invalide';
+            return 'Endereço de IP inválido';
           case (SimpleSchema.RegEx.IPv4.toString()):
-            return 'Cette adresse IPv4 est invalide';
+            return 'Endereço de IPv4 inválido';
           case (SimpleSchema.RegEx.IPv6.toString()):
-            return 'Cette adresse IPv6 est invalide';
+            return 'Endereço de IPv6 inválido';
           case (SimpleSchema.RegEx.Url.toString()):
-            return 'Cette URL is invalide';
+            return 'URL inválida';
           case (SimpleSchema.RegEx.Id.toString()):
-            return 'Cet identifiant alphanumérique est invalide';
+            return 'ID inválido';
           case (SimpleSchema.RegEx.ZipCode.toString()):
-            return 'Ce code ZIP est invalide';
+            return 'ZIP inválido';
           case (SimpleSchema.RegEx.Phone.toString()):
-            return 'Ce numéro de téléphone est invalide';
+            return 'Número de telefone inválido';
           default:
-            return 'Ce champ a échoué la validation par Regex';
+            return 'Validação por expressão regular inválida';
         }
       },
     },
@@ -72,139 +68,7 @@ SimpleSchema.setDefaultMessages({
 
 const Schemas = {};
 
-Schemas.User = new SimpleSchema({
-  // profile: {
-  //   type: Object,
-  // },
-  addresses: {
-    type: Array,
-    optional: true,
-  },
-  'addresses.$': {
-    type: Object,
-  },
-  'addresses.$.place_name': {
-    type: String,
-    label: 'Nome do Local',
-    max: 1000,
-  },
-  'addresses.$.cep': {
-    type: SimpleSchema.Integer,
-    label: 'CEP',
-    optional: true,
-    min: 8,
-  },
-  'addresses.$.street': {
-    type: String,
-    label: 'Rua',
-    max: 1000,
-  },
-  'addresses.$.number': {
-    type: SimpleSchema.Integer,
-    label: 'Número',
-  },
-  'addresses.$.complement': {
-    label: 'Complemento',
-    type: String,
-    optional: true,
-  },
-  'addresses.$.zone': {
-    type: String,
-    label: 'Bairro',
-    optional: true,
-    max: 1000,
-  },
-  'addresses.$.city': {
-    type: String,
-    label: 'Cidade',
-    autoform: {
-      type: 'universe-select',
-      afFieldInput: {
-        // multiple: false,
-        optionsMethod: 'getSelectCities',
-        uniPlaceholder: 'Selecione',
-      },
-    },
-    max: 1000,
-  },
-  'addresses.$.uf': {
-    type: String,
-    label: 'Estado',
-    allowedValues: STATES,
-    autoform: {
-      type: 'universe-select',
-      afFieldInput: {
-        multiple: false,
-        options: getSelectOptions(STATES),
-        uniPlaceholder: 'Selecione',
-      },
-    },
-    max: 5,
-  },
-  'addresses.$.s_country': {
-    type: String,
-    label: 'País',
-    max: 1000,
-  },
-
-  username: {
-    type: String,
-    optional: true,
-  },
-  emails: {
-    type: Array,
-    optional: true,
-  },
-  'emails.$': {
-    type: Object,
-  },
-  'emails.$.address': {
-    type: String,
-    regEx: SimpleSchema.RegEx.Email,
-  },
-  'emails.$.verified': {
-    type: Boolean,
-  },
-  registered_emails: {
-    type: Array,
-    optional: true,
-  },
-  'registered_emails.$': {
-    type: Object,
-    blackbox: true,
-  },
-  createdAt: {
-    type: Date,
-  },
-  // profile: {
-  //   type: Schemas.User,
-  //   optional: true
-  // },
-  // Make sure this services field is in your schema if you're using any of the accounts packages
-  services: {
-    type: Object,
-    optional: true,
-    blackbox: true,
-  },
-  // Add `roles` to your schema if you use the meteor-roles package.
-  // Option 1: Object type
-  // If you specify that type as Object, you must also specify the
-  // `Roles.GLOBAL_GROUP` group whenever you add a user to a role.
-  // Example:
-  // Roles.addUsersToRoles(userId, ['admin'], Roles.GLOBAL_GROUP);
-  // You can't mix and match adding with and without a group since
-  // you will fail validation in some cases.
-  roles: {
-    type: Object,
-    optional: true,
-    blackbox: true,
-  },
-  // In order to avoid an 'Exception in setInterval callback' from Meteor
-  heartbeat: {
-    type: Date,
-    optional: true,
-  },
-}, { tracker: Tracker });
+Schemas.User = userSchema.User;
 
 Schemas.Screening = new SimpleSchema({
   filmId: {

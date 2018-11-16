@@ -1,10 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { AutoForm } from 'meteor/aldeed:autoform';
-import { FlashMessages } from 'meteor/mrt:flash-messages';
 import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
-import { Router } from 'meteor/iron:router';
 import { FILM_SUBCATEGORIES, FILM_CATEGORIES, STATES } from './../../models/films';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
@@ -86,24 +83,3 @@ export function getDateObject(date, time) {
 
   return new Date(d[2], parseInt(d[1], 10) - 1, d[0], t[0], t2[0]);
 }
-
-// AutoForm.setDefaultTemplate('plain');
-
-AutoForm.addHooks(['new-screening-form'], {
-
-  // Called when any submit operation succeeds
-  onSuccess: (formType, result) => {
-    FlashMessages.sendSuccess('Sessão salva com sucesso!');
-    setTimeout(() => {
-      Router.go('/ambassador');
-    }, 2000);
-    return result;
-  },
-
-  // Called when any submit operation fails
-  onError: (formType, error) => {
-    FlashMessages.sendError('Preencha todas as informações.');
-    console.log(error, formType);
-  },
-
-});

@@ -2,10 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 
-import Films from './../../models/films.js';
+import Films from './../../models/films';
+// import Screenings from './../../models/screenings';
 
 import '../../ui/layouts/app-body.js';
-
 import '../../ui/pages/about.js';
 import '../../ui/pages/ambassador-edit.js';
 import '../../ui/pages/ambassador.js';
@@ -51,7 +51,11 @@ Router.route('/forget');
 Router.route('/register');
 Router.route('/contact');
 
-Router.route('/ambassador-edit');
+Router.route('/ambassador-edit', {
+  waitOn() {
+    return Meteor.subscribe('ambassadors');
+  },
+});
 Router.route('/films', {
   // this template will be rendered until the subscriptions are ready
   // loadingTemplate: 'loading',
@@ -91,13 +95,16 @@ Router.route('/screenings', {
 Router.route('/ambassador', {
   waitOn() {
     // return one handle, a function, or an array
-    return Meteor.subscribe('films');
+    return [
+      Meteor.subscribe('screenings'),
+      Meteor.subscribe('films'),
+    ];
   },
 
-  data() {
+  // data() {
     // const filmId = this.params._id;
-    return Films.screenings_by_user_id();
-  },
+    // return Screenings.find({ user_id: Meteor.userId()});
+  // },
 
   action() {
     this.render('ambassador');

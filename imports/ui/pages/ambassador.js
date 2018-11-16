@@ -3,22 +3,16 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 // import { Router } from 'meteor/iron:router';
 import { _ } from 'meteor/underscore';
-import { moment } from 'meteor/momentjs:moment';
+// import { moment } from 'meteor/momentjs:moment';
 
-import Films from './../../models/films.js';
+import Films from './../../models/films';
+import Screenings from './../../models/screenings';
 import './ambassador.html';
 import './../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
-  ambassador_screenings() {
-    const screenings = Films.screenings_by_user_id();
-    _.each(screenings, (screening, i) => {
-      if (screening.date) {
-        const d = moment(screening.date);
-        screenings[i].formatted_date = d.format('D/M/Y [às] HH:mm');
-      }
-    });
-    return screenings;
+  screenings() {
+    return Screenings.find({ user_id: Meteor.userId() });
   },
   disseminate() {
     return Films.disseminate();

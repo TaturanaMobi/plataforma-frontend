@@ -304,14 +304,14 @@ Meteor.startup(() => {
     },
   }));
 
-  // Meteor.publish('ambassadors', () => Meteor.users.find({}, {
-  //   fields: {
-  //     createdAt: 1,
-  //     emails: 1,
-  //     profile: 1,
-  //     addresses: 1,
-  //   },
-  // }));
+  Meteor.publish('ambassadors', () => Meteor.users.find({ _id: Meteor.userId() }, {
+    fields: {
+      createdAt: 1,
+      emails: 1,
+      profile: 1,
+      addresses: 1,
+    },
+  }));
 
   UploadServer.init({
     tmpDir: `${process.env.PWD}/uploads/tmp`,

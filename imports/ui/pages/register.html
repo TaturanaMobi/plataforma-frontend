@@ -10,10 +10,9 @@
         <div class="help-block with-errors form-errors"></div>
         {{#autoForm
           schema=Schemas.User
-          doc=form collection=Meteor.users
-          omitFields="_id"
+          doc=form
+          collection=Users
           id="new-user-form"
-          type="insert"
         }}
               {{>ambassadorFormFields}}
           <div class="form-group col-md-6">
