@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import Films from './../../api/films/films.js';
+import Films from './../../models/films.js';
 
 import '../../ui/components/adm-sidebar.html';
 
@@ -22,7 +22,7 @@ import './../../ui/pages/admin/adm-sessions.js';
 import './../../ui/pages/admin/adm-sessions2.html';
 import './../../ui/pages/admin/adm-sessions2.js';
 import './../../ui/pages/admin/adm.html';
-import Screenings from '../../api/screenings/screenings.js';
+import Screenings from '../../models/screenings.js';
 
 // Router.configure({
 //   layoutTemplate: 'App_Body',

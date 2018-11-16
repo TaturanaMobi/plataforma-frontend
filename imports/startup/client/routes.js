@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 
-import Films from '../../api/films/films.js';
+import Films from './../../models/films.js';
 
 import '../../ui/layouts/app-body.js';
 

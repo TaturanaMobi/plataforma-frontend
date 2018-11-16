@@ -8,10 +8,10 @@ import { _ } from 'meteor/underscore';
 
 import './fixtures.js';
 import './migrations';
-import Films from '../../api/films/films';
-import Screenings from '../../api/screenings/screenings';
-import Images from '../../api/images/images';
-import { Cities, States } from '../../api/states_and_cities';
+import Films from '../../models/films';
+import Screenings from '../../models/screenings';
+import Images from '../../models/images';
+import { Cities, States } from '../../models/states_and_cities';
 
 // const FutureTasks = new Meteor.Collection('future_tasks');
 
@@ -274,9 +274,6 @@ Meteor.startup(() => {
 
   Meteor.publish('films', () => Films.find({}, {
     fields: {
-      title: 1,
-      slug: 1,
-      createdAt: 1,
       screenings: 0,
     },
   }));

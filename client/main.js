@@ -3,9 +3,9 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 
-import Schemas from '../imports/api/schemas';
-import Films from '../imports/api/films/films';
-import Screenings from '../imports/api/screenings/screenings';
+import Schemas from '../imports/models/schemas';
+import Films from '../imports/models/films';
+import Screenings from '../imports/models/screenings';
 import '../imports/startup/client';
 import '../imports/startup/both';
 

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Migrations } from 'meteor/percolate:migrations';
-import Films from '../../api/films/films';
-import Screenings from '../../api/screenings/screenings';
+import Films from '../../models/films';
+import Screenings from '../../models/screenings';
 
 function convertInteger(value) {
   if (value === undefined) {

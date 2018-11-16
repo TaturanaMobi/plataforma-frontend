@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo';
-import Schemas from './../schemas';
-import './../../api/images/images';
-import Films from './../films/films';
-import Users from './../users/users';
+import Schemas from './schemas';
+import './images';
+import Films from './films';
+import Users from './users';
 
 const Screenings = new Mongo.Collection('screenings');
 Screenings.attachSchema(Schemas.Screening);

@@ -1,9 +1,10 @@
+// import UserSchema from './users';
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 import { _ } from 'meteor/underscore';
 
-import wNumb from './autoform/wNumb';
-import { FILM_AGE_RATING, FILM_STATUS, SCREENING_ACTIVITY, SCREENING_STATUS, STATES } from './film-form-data.js';
+import wNumb from './../utils/wNumb';
+import { FILM_AGE_RATING, FILM_STATUS, SCREENING_ACTIVITY, SCREENING_STATUS, STATES } from './../films';
 
 export const getSelectOptions = (names) => {
   const options = _.map(names, item => ({

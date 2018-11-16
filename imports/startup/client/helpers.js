@@ -5,7 +5,7 @@ import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
 import { Router } from 'meteor/iron:router';
-import { FILM_SUBCATEGORIES, FILM_CATEGORIES, STATES } from './../../api/film-form-data.js';
+import { FILM_SUBCATEGORIES, FILM_CATEGORIES, STATES } from './../../models/films';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 

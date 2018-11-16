@@ -8,12 +8,18 @@
       <div class="col-lg-6 register-form">
         <h3>CADASTRE-SE</h3><br />
         <div class="help-block with-errors form-errors"></div>
-        <form class="new-ambassador" temdata-toggle="validator">
-          {{>ambassadorFormFields}}
+        {{#autoForm
+          schema=Schemas.User
+          doc=form collection=Meteor.users
+          omitFields="_id"
+          id="new-user-form"
+          type="insert"
+        }}
+              {{>ambassadorFormFields}}
           <div class="form-group col-md-6">
             <button class="btn btn-lg btn-block" type="submit" value="Register">Enviar</button>
           </div>
-        </form>
+        {{/autoForm}}
       </div>
     </div>
   </div>

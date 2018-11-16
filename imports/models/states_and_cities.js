@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Mongo } from 'meteor/mongo';
 
-import Films from './films/films.js';
+import Films from './films';
 
 export const States = new Mongo.Collection('states');
 export const Cities = new Mongo.Collection('cities');

@@ -4,7 +4,7 @@ import { _ } from 'meteor/underscore';
 import c3 from 'c3';
 import d3 from 'd3';
 
-import Films from './../../api/films/films.js';
+import Films from './../../models/films.js';
 
 import './show-film.html';
 
