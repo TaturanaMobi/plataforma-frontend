@@ -235,18 +235,27 @@ Schema.UserProfile = new SimpleSchema({
       },
     },
   },
+  roles: {
+    type: Array,
+    optional: true,
+  },
+  'roles.$': {
+    type: String,
+  },
 });
 
 Schema.User = new SimpleSchema({
   email: {
     type: String,
     regEx: SimpleSchema.RegEx.Email,
+    optional: true,
     label: 'E-mail',
   },
   confirmEmail: {
     type: String,
     regEx: SimpleSchema.RegEx.Email,
     label: 'Repita seu E-mail',
+    optional: true,
     custom() {
       if (this.value !== this.field('email').value) {
         return 'emailMismatch';
@@ -258,6 +267,7 @@ Schema.User = new SimpleSchema({
     type: String,
     label: 'Senha',
     min: 8,
+    optional: true,
     autoform: {
       type: 'password',
     },
@@ -265,6 +275,7 @@ Schema.User = new SimpleSchema({
   confirmPassword: {
     type: String,
     label: 'Repita a senha',
+    optional: true,
     min: 8,
     custom() {
       if (this.value !== this.field('password').value) {
@@ -310,7 +321,6 @@ Schema.User = new SimpleSchema({
   },
   profile: {
     type: Schema.UserProfile,
-    optional: true,
   },
   addresses: {
     type: Array,
@@ -327,13 +337,6 @@ Schema.User = new SimpleSchema({
   heartbeat: {
     type: Date,
     optional: true,
-  },
-  roles: {
-    type: Array,
-    optional: true,
-  },
-  'roles.$': {
-    type: String,
   },
 }, { tracker: Tracker });
 

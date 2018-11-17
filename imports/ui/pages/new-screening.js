@@ -54,7 +54,7 @@ Template.newScreening.events({
 Template.newScreening.helpers({
   form() {
     return {
-      user_id: Meteor.user()._id,
+      user_id: Meteor.userId(),
       filmId: this._id,
       status: 'Agendada',
     };
@@ -67,13 +67,4 @@ Template.newScreening.helpers({
   address(replace_address) {
     return Session.get('address');
   },
-  is_selected(state) {
-    const address = Session.get('address');
-
-    if (!address) return;
-
-    if (address.uf == state) {
-      return 'selected';
-    }
-  }
 });

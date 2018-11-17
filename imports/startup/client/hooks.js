@@ -34,9 +34,11 @@ AutoForm.hooks({
       //   return false;
       // }
       this.event.preventDefault();
-      insertDoc.roles = ['ambassador'];
-      console.log(insertDoc, updateDoc, currentDoc);
-      Accounts.createUser(insertDoc, function inserUser() {
+      insertDoc.profile.roles = ['ambassador'];
+      // console.log(insertDoc, updateDoc, currentDoc);
+      const self = this;
+      Accounts.createUser(insertDoc, function inser(err) {
+        console.log( err, insertDoc );
         Router.go('ambassador');
 
         // Envia email para o ambassador cadastrado
@@ -47,11 +49,11 @@ AutoForm.hooks({
           from: 'suporte@taturanamobi.com.br',
           subject: 'Bem Vind@ à Taturana!',
           absoluteurl: Meteor.absoluteUrl(),
-          name: insertDoc.name,
+          name: insertDoc.profile.name,
         };
         Meteor.call('sendEmail', ambassadorEmail, ambassadorTemplate);
         // Fim do envio de email
-        this.done();
+        self.done();
       });
     },
 

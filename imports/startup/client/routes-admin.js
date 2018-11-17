@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import Films from './../../models/films.js';
 
 import '../../ui/components/adm-sidebar.html';
 
@@ -22,73 +21,32 @@ import './../../ui/pages/admin/adm-sessions.js';
 import './../../ui/pages/admin/adm-sessions2.html';
 import './../../ui/pages/admin/adm-sessions2.js';
 import './../../ui/pages/admin/adm.html';
-import Screenings from '../../models/screenings.js';
 
-// Router.configure({
-//   layoutTemplate: 'App_Body',
-//   loadingTemplate: 'loading',
-// });
+import Screenings from '../../models/screenings.js';
+import Films from './../../models/films.js';
+
+import { publicRoutes } from './routes-ambassador.js';
 
 Router.route('/adm');
+
 Router.route('/adm/sessions', {
-  // this template will be rendered until the subscriptions are ready
-  // loadingTemplate: 'loading',
-
-  waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('films');
-  },
-
-  data() {
-    // Session.set('poster_path', null);
-    // const filmId = this.params._id;
-    return Films.find({});
-  },
-
-  action() {
-    this.render('admSessions');
-  },
+  waitOn() { return Meteor.subscribe('films'); },
+  data() { return Films.find({}); },
+  action() { this.render('admSessions'); },
 });
 
 Router.route('/adm/sessions2', {
-  // this template will be rendered until the subscriptions are ready
-  // loadingTemplate: 'loading',
-  waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('screenings');
-  },
-
-  data() {
-    // Session.set('poster_path', null);
-    // const filmId = this.params._id;
-    return Screenings.find({});
-  },
-
-  action() {
-    this.render('admSessions2');
-  },
+  waitOn() { return Meteor.subscribe('screenings'); },
+  data() { return Screenings.find({}); },
+  action() { this.render('admSessions2'); },
 });
 
 Router.route('/adm/ambassadors');
 
 Router.route('/adm/films', {
-  // this template will be rendered until the subscriptions are ready
-  // loadingTemplate: 'loading',
-
-  waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('films');
-  },
-
-  data() {
-    Session.set('poster_path', null);
-    // const filmId = this.params._id;
-    return Films.active();
-  },
-
-  action() {
-    this.render('admFilms');
-  },
+  waitOn() { return Meteor.subscribe('films'); },
+  data() { return Films.active(); },
+  action() { this.render('admFilms'); },
 });
 
 Router.route('/adm/films/:slug/edit', {
@@ -159,48 +117,34 @@ Router.route('/adm/report/:_id', {
   },
 });
 
-function mustBeSignedIn() {
-  if (!(Meteor.user() || Meteor.loggingIn())) {
-    Router.go('login');
-  }
-  console.log
-  this.next();
-}
 
 function isAdmin() {
+  console.log('entrou no auth admin!');
   const self = this;
   const userId = Meteor.userId();
   if (userId == null) {
     Router.go('login');
   }
   Meteor.users.find({ _id: userId }).map((user) => {
-    if (user.profile.roles[0] === 'admin') {
-      return self.next();
+    if (
+      user.profile.roles !== undefined &&
+      user.profile.roles[0] === 'admin'
+    ) {
+      self.next();
     }
-    return Router.go('denied');
+    Router.go('denied');
   });
+  // this.next();
 }
 
-const adminUris = [
-  'adm',
-  'adm/ambassador/:_id',
-  'adm/film/:_id/reports',
-  'adm/films',
-  'adm/films',
-  'adm/films/:slug/edit',
-  'adm/report/:_id',
-  'adm/session/:_id',
-  'adm/sessions',
-];
-const signedInUris = [
+const ambassadorRoutes = [
   'ambassador',
   'ambassador-edit',
-  'edit-screening/:_id',
-  'new-screening/:slug',
-  'report/:_id',
+  'edit-screening',
+  'new-screening',
+  'report',
 ];
 
-Router.onBeforeAction(mustBeSignedIn, { only: signedInUris });
-Router.onBeforeAction(isAdmin, { only: adminUris });
-
-// Router.onBeforeAction(fn, {only: ['index']});
+Router.onBeforeAction(isAdmin, {
+  except: [].concat(ambassadorRoutes, publicRoutes),
+});

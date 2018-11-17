@@ -312,7 +312,7 @@ export const FILM_SUBCATEGORIES = [
 ];
 
 export const SCREENING_STATUS =
-['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada'];
+['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
 
 export const FILM_STATUS =
 ['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];

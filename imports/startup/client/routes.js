@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
-import { Session } from 'meteor/session';
 
 import Films from './../../models/films';
 // import Screenings from './../../models/screenings';
@@ -16,6 +15,7 @@ import '../../ui/pages/forget.js';
 import '../../ui/pages/home.js';
 import '../../ui/pages/login.js';
 import '../../ui/pages/logout.js';
+import '../../ui/components/denied.html';
 import '../../ui/pages/new-screening.js';
 import '../../ui/pages/register.js';
 import '../../ui/pages/report.js';
@@ -29,141 +29,41 @@ Router.configure({
 });
 
 Router.route('/', {
-  waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('films');
-  },
-
-  data() {
-    // const filmId = this.params._id;
-    return Films.findOne({ slug: this.params.slug });
-  },
-
-  action() {
-    this.render('home');
-  },
+  name: 'home',
+  waitOn() { return Meteor.subscribe('films'); },
+  data() { return Films.findOne({ slug: this.params.slug }); },
+  action() { this.render('home'); },
 });
 
-Router.route('/about');
-Router.route('/login');
-Router.route('/denied');
-Router.route('/forget');
-Router.route('/register');
-Router.route('/contact');
+Router.route('/about', { name: 'about' });
+Router.route('/login', { name: 'login' });
+Router.route('/denied', { name: 'denied' });
+Router.route('/forget', { name: 'forget' });
+Router.route('/register', { name: 'register' });
+Router.route('/contact', { name: 'contact' });
 
-Router.route('/ambassador-edit', {
-  waitOn() {
-    return Meteor.subscribe('ambassadors');
-  },
-});
 Router.route('/films', {
-  // this template will be rendered until the subscriptions are ready
-  // loadingTemplate: 'loading',
-
-  waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('films');
-  },
-
-  data() {
-    // const filmId = this.params._id;
-    return Films.active();
-  },
-
-  action() {
-    this.render('films');
-  },
+  name: 'films',
+  waitOn() { return Meteor.subscribe('films'); },
+  data() { return Films.active(); },
+  action() { this.render('films'); },
 });
 Router.route('/screenings', {
-  // this template will be rendered until the subscriptions are ready
-  // loadingTemplate: 'loading',
-
-  waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('films');
-  },
-
-  data() {
-    // const filmId = this.params._id;
-    return Films.active();
-  },
-
-  action() {
-    this.render('screenings');
-  },
-});
-Router.route('/ambassador', {
-  waitOn() {
-    // return one handle, a function, or an array
-    return [
-      Meteor.subscribe('screenings'),
-      Meteor.subscribe('films'),
-    ];
-  },
-
-  // data() {
-    // const filmId = this.params._id;
-    // return Screenings.find({ user_id: Meteor.userId()});
-  // },
-
-  action() {
-    this.render('ambassador');
-  },
+  name: 'screenings',
+  waitOn() { return Meteor.subscribe('films'); },
+  data() { return Films.active(); },
+  action() { this.render('screenings'); },
 });
 
 Router.route('/film/:slug', {
-  // this template will be rendered until the subscriptions are ready
-  // loadingTemplate: 'loading',
-
-  waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('films');
-  },
-
-  data() {
-    // const filmId = this.params._id;
-    return Films.findOne({ slug: this.params.slug });
-  },
-
-  action() {
-    this.render('showFilm');
-  },
+  name: 'showFilm',
+  waitOn() { return Meteor.subscribe('films'); },
+  data() { return Films.findOne({ slug: this.params.slug }); },
+  action() { this.render('showFilm'); },
 });
 
-
 Router.route('/reset-password/:token', {
+  name: 'resetPassword',
   template: 'resetPassword',
 });
 
-Router.route('/new-screening/:slug', {
-  template: 'new-screening',
-
-  waitOn() {
-    return this.subscribe('films');
-  },
-
-  data() {
-    Session.set('address', null);
-    // const filmId = this.params._id;
-    return Films.findOne({ slug: this.params.slug });
-  },
-});
-
-Router.route('/edit-screening/:_id', {
-  waitOn() {
-    return this.subscribe('films');
-  },
-  data() {
-    return Films.return_film_and_screening(this.params._id);
-  },
-  action() {
-    this.render('editScreening');
-  },
-});
-
-Router.route('/report/:_id', {
-  template: 'report',
-  data() {
-    return Films.return_film_and_screening(this.params._id);
-  },
-});
