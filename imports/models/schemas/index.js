@@ -200,9 +200,9 @@ Schemas.Screening = new SimpleSchema({
           }),
           range: {
             min: 5,
-            max: 500,
+            max: 1000,
           },
-          step: 5,
+          step: 1,
         },
       },
     },
@@ -396,7 +396,6 @@ Schemas.Film = new SimpleSchema(
     poster_path: {
       type: String,
       label: 'Cartaz',
-      optional: true,
       autoform: {
         afFieldInput: {
           type: 'fileUpload',
@@ -415,7 +414,6 @@ Schemas.Film = new SimpleSchema(
     poster_home_path: {
       type: String,
       label: 'Imagem para home (360x370)',
-      optional: true,
       autoform: {
         afFieldInput: {
           type: 'fileUpload',
@@ -436,19 +434,12 @@ Schemas.Film = new SimpleSchema(
       type: String,
       label: 'Link para download',
       max: 30,
-      optional: true,
     },
     password_for_download: {
       type: String,
       label: 'Senha para download',
       max: 30,
       optional: true,
-    },
-    sequence_number: {
-      type: String,
-      label: 'Ordenação',
-      max: 30,
-      required: true,
     },
     status: {
       type: String,
@@ -465,14 +456,12 @@ Schemas.Film = new SimpleSchema(
     title: {
       type: String,
       label: 'Titulo do filme',
-      max: 30,
-      optional: false,
+      max: 100,
     },
     synopsis: {
       type: String,
       label: 'Sinopse',
-      max: 400,
-      optional: false,
+      max: 600,
       // autoform: {
       //   rows: 10,
       //   class: 'editor'
@@ -487,25 +476,21 @@ Schemas.Film = new SimpleSchema(
     genre: {
       type: String,
       label: 'Gênero',
-      optional: false,
     },
     year: {
       type: SimpleSchema.Integer,
       label: 'Ano',
       max: 4,
-      optional: false,
     },
     length: {
       type: SimpleSchema.Integer,
       label: 'Duração em minutos',
       max: 10,
-      optional: false,
     },
     country: {
       type: String,
       label: 'País',
       max: 30,
-      optional: false,
     },
     age_rating: {
       type: String,
@@ -568,22 +553,6 @@ Schemas.Film = new SimpleSchema(
     },
     createdAt: {
       type: Date,
-    },
-
-    first_scheduling_notification: {
-      type: String,
-      label: 'Texto extra para email de confirmação de sessão',
-      max: 400,
-      optional: true,
-      // autoform: {
-      //   rows: 10
-      // }
-    },
-
-    fake: {
-      type: String,
-      label: 'Fake',
-      max: 30,
       optional: true,
     },
     slug: {
@@ -592,33 +561,10 @@ Schemas.Film = new SimpleSchema(
       max: 30,
       optional: true,
     },
-
-    poster_thumb_path: {
-      type: String,
-      label: 'Press kit',
-      max: 30,
-      optional: true,
-      autoform: {
-        afFieldInput: {
-          type: 'fileUpload',
-          collection: 'Images',
-          insertConfig: {
-            // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-            meta: {},
-            isBase64: false,
-            transport: 'ddp',
-            streams: 'dynamic',
-            chunkSize: 'dynamic',
-            allowWebWorkers: true,
-          },
-        },
-      },
-    },
     press_kit_path: {
       type: String,
       label: 'Press kit',
       max: 30,
-      optional: true,
       autoform: {
         afFieldInput: {
           type: 'fileUpload',
@@ -635,7 +581,13 @@ Schemas.Film = new SimpleSchema(
         },
       },
     },
-    slideshow: [Schemas.Slideshow],
+    slideshow: {
+      type: Array,
+      optional: true,
+    },
+    'slideshow.$': {
+      type: Schemas.Slideshow,
+    },
   }, { tracker: Tracker }
 );
 

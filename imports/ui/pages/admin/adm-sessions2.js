@@ -5,7 +5,7 @@ import { _ } from 'meteor/underscore';
 import { Template } from 'meteor/templating';
 
 import Films from '../../../models/films.js';
-import Screenings from '../../../models/screenings.js';
+// import Screenings from '../../../models/screenings.js';
 
 Template.admSessions2.helpers({
   settings() {

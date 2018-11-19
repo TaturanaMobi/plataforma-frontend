@@ -9,44 +9,104 @@ import 'meteor/summernote:summernote';
 import { Router } from 'meteor/iron:router';
 import Films from './../../../models/films.js';
 
-Template.admFilms.onRendered(() => {
-  $('#synopsis').summernote();
+// Template.admFilms.onRendered(() => {
+//   $('#synopsis').summernote();
 
-  const thisData = Template.currentData();
-  if (thisData !== null &&
-    thisData !== undefined &&
-    thisData.synopsis !== null) {
-    $('#synopsis').summernote('code', thisData.synopsis);
-  }
-});
+//   const thisData = Template.currentData();
+//   if (thisData !== null &&
+//     thisData !== undefined &&
+//     thisData.synopsis !== null) {
+//     $('#synopsis').summernote('code', thisData.synopsis);
+//   }
+// });
 
 Template.admFilms.helpers({
-  films() {
-    return Films.all();
-  },
-  posterData() {
-    return { file_type: 'poster_path' };
-  },
-  pressKitData() {
-    return { file_type: 'press_kit_path' };
-  },
-  posterHomeData() {
-    return { file_type: 'poster_home_path' };
-  },
-  posterPath() {
-    if (!Session.get('poster_path') && this.poster_path) {
-      Session.set('poster_path', this.poster_path);
-    }
+  settings() {
+    const instance = Template.instance();
+    return {
+      collection: instance.data,
+      // filters: ['filterTeamMember'],
+      rowsPerPage: 100,
+      showFilter: false,
+      showRowCount: true,
+      // rowClass: (item) => {
+      //   if (item.draft) {
+      //     return 'is-draft';
+      //   }
 
-    return Session.get('poster_path');
+      //   const today = new Date();
+      //   if (
+      //     today.getTime() > item.date.getTime() &&
+      //     item.report_description === undefined
+      //   ) {
+      //     return 'is-pending';
+      //   }
+      //   return '';
+      //   //  || screening.draft == 'admin-draft');
+      // },
+      fields: [
+        { label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl2 },
+        'title',
+        'status',
+        { label: 'Press Kit', key: 'press_kit_path', tmpl: Template.pressKitCellTmpl },
+        { label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2 },
+        // 'slug',
+        'genre',
+        { label: 'Poster', key: 'poster_path', tmpl: Template.posterCellTmpl },
+        { label: 'Poster Home', key: 'poster_home_path', tmpl: Template.posterHomeCellTmpl },
+      ],
+      //   { key: 'infos', label: 'Informações', tmpl: Template.infoCellTmpl, headerClass: 'col-md-1' },
+      //   { key: 'film', label: 'Filme', tmpl: Template.filmCellTmpl, headerClass: 'col-md-2' },
+      //   { key: 'date', label: 'Data de exibição', tmpl: Template.dateCellTmpl, headerClass: 'col-md-1' },
+      //   { key: 'place_name', label: 'Local de exibição', tmpl: Template.screeningCellTmpl, headerClass: 'col-md-2' },
+      //   // 'activity_theme',
+      //   {
+      //     key: 'ambassador',
+      //     label: 'Embaixador',
+      //     tmpl: Template.embaixadorCellTmpl,
+      //     headerClass: 'col-md-2',
+      //     // fn: (value, object) => console.log(object),
+      //   },
+      //   // {
+      //   //   key: 'email',
+      //   //   hidden: true,
+      //   //   fn: (value, object) => object.user.emails[0].address,
+      //   // },
+      //   { key: 'quorum', label: 'Público', tmpl: Template.quorumCellTmpl },
+      //   { key: 'city', label: 'Cidade', headerClass: 'col-md-1' },
+      //   'uf',
+      //   // 's_country', 'street', 'number', 'complement', 'zone', 'cep',
+      //   //  'author_1', 'author_2', 'author_3',
+      //   { label: 'Data criação', key: 'created_at', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl },
+      // ],
+    };
   },
-  homePath() {
-    if (!Session.get('poster_home_path') && this.poster_home_path) {
-      Session.set('poster_home_path', this.poster_home_path);
-    }
+  // films() {
+  //   return Films.all();
+  // },
+  // posterData() {
+  //   return { file_type: 'poster_path' };
+  // },
+  // pressKitData() {
+  //   return { file_type: 'press_kit_path' };
+  // },
+  // posterHomeData() {
+  //   return { file_type: 'poster_home_path' };
+  // },
+  // posterPath() {
+  //   if (!Session.get('poster_path') && this.poster_path) {
+  //     Session.set('poster_path', this.poster_path);
+  //   }
 
-    return Session.get('poster_home_path');
-  },
+  //   return Session.get('poster_path');
+  // },
+  // homePath() {
+  //   if (!Session.get('poster_home_path') && this.poster_home_path) {
+  //     Session.set('poster_home_path', this.poster_home_path);
+  //   }
+
+  //   return Session.get('poster_home_path');
+  // },
 });
 
 Template.admFilms.events({

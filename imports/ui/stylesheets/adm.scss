@@ -4,136 +4,135 @@ $blue: #232e4d;
 $grey: #aaa;
 
 .adm.container {
-  // padding-top: 15em;
+//   // padding-top: 15em;
   color: #fff;
-  // min-height: 1000px;
-
-  h1 { margin-left: 3em; }
-
-  .adm-links {
-    list-style: none;
-
-    li {
-      margin: 1em 0;
-      a {
-        width: 100%;
-        &.active {
-          background: #fff;
-          color: $red;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 830px) {
-    .adm-links {
-      padding-left: 0;
-    }
-
-    h1 {
-      margin-left: 0;
-    }
-  }
+//   // min-height: 1000px;
 }
 
-#adm {
-  .adm-hello {
-    margin-top: 2em;
-    font-size: 2em;
-    color: #ddd;
-    font-weight: 500;
-    text-align: center;
-  }
-}
+//   .adm-links {
+//     list-style: none;
 
-#adm-films {
-  @media (max-width: 830px) {
-    .films-list {
-      padding-left: 0;
-    }
-  }
+//     li {
+//       margin: 1em 0;
+//       a {
+//         width: 100%;
+//         &.active {
+//           background: #fff;
+//           color: $red;
+//         }
+//       }
+//     }
+//   }
 
-  .nav-tabs {
-    margin-top: 30px;
-    border-bottom: solid 1px $red;
+//   @media (max-width: 830px) {
+//     .adm-links {
+//       padding-left: 0;
+//     }
 
-    li {
-      &.active, &:hover {
-        border: solid 1px $red;
-        border-bottom: none;
+//     h1 {
+//       margin-left: 0;
+//     }
+//   }
+// }
 
-      }
-      a { color: $red; margin: 0; }
-    }
-  }
+// #adm {
+//   .adm-hello {
+//     margin-top: 2em;
+//     font-size: 2em;
+//     color: #ddd;
+//     font-weight: 500;
+//     text-align: center;
+//   }
+// }
 
-  .films-list {
-    margin: 2em 0;
-    list-style: none;
+// #adm-films {
+//   @media (max-width: 830px) {
+//     .films-list {
+//       padding-left: 0;
+//     }
+//   }
+
+//   .nav-tabs {
+//     margin-top: 30px;
+//     border-bottom: solid 1px $red;
+
+//     li {
+//       &.active, &:hover {
+//         border: solid 1px $red;
+//         border-bottom: none;
+
+//       }
+//       a { color: $red; margin: 0; }
+//     }
+//   }
+
+//   .films-list {
+//     margin: 2em 0;
+//     list-style: none;
 
 
-    li {
-      padding: 10px 5px;
-      margin: 10px 0;
-      border-bottom: solid 1px $grey;
+//     li {
+//       padding: 10px 5px;
+//       margin: 10px 0;
+//       border-bottom: solid 1px $grey;
 
-      small { color: $grey; }
-      strong { margin-left: 10px; }
+//       small { color: $grey; }
+//       strong { margin-left: 10px; }
 
-      .actions {
-        float: right;
-        a {
-          margin: 0 5px;
-          color: $grey;
-          &:hover { color: #fff; text-decoration: none; }
-        }
-      }
-    }
-  }
-}
+//       .actions {
+//         float: right;
+//         a {
+//           margin: 0 5px;
+//           color: $grey;
+//           &:hover { color: #fff; text-decoration: none; }
+//         }
+//       }
+//     }
+//   }
+// }
 
-#adm-ambassadors {
-  @media (max-width: 830px) {
-    .ambassadors-list {
-      padding-left: 0;
-    }
-  }
+// #adm-ambassadors {
+//   @media (max-width: 830px) {
+//     .ambassadors-list {
+//       padding-left: 0;
+//     }
+//   }
 
-  .filters {
-    border: solid 1px $red;
-    border-radius: 5px;
-    padding: 10px;
-    display: block;
+//   .filters {
+//     border: solid 1px $red;
+//     border-radius: 5px;
+//     padding: 10px;
+//     display: block;
 
-    .filters-header {
-      color: $red;
-      font-size: 1.5em;
-      text-align: center;
-      margin-bottom: 10px;
-    }
+//     .filters-header {
+//       color: $red;
+//       font-size: 1.5em;
+//       text-align: center;
+//       margin-bottom: 10px;
+//     }
 
-    form {
-      margin: 0 auto;
-      width: 90%;
-      font-size: 0.75em;
+//     form {
+//       margin: 0 auto;
+//       width: 90%;
+//       font-size: 0.75em;
 
-      input[type=checkbox] {margin-top: 14px; }
-    }
-  }
-  .ambassadors-list {
-    margin: 2em 0;
-    list-style: none;
+//       input[type=checkbox] {margin-top: 14px; }
+//     }
+//   }
+//   .ambassadors-list {
+//     margin: 2em 0;
+//     list-style: none;
 
-    li {
-      padding: 10px 5px;
-      margin: 10px 0;
-      border-bottom: solid 1px $grey;
+//     li {
+//       padding: 10px 5px;
+//       margin: 10px 0;
+//       border-bottom: solid 1px $grey;
 
-      a { color: $grey; }
-      strong { margin-left: 10px; }
-    }
-  }
-}
+//       a { color: $grey; }
+//       strong { margin-left: 10px; }
+//     }
+//   }
+// }
 
 #adm-sessions {
   .filters {

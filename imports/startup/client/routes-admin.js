@@ -10,6 +10,7 @@ import './../../ui/pages/admin/adm-ambassadors.html';
 import './../../ui/pages/admin/adm-ambassadors.js';
 import './../../ui/pages/admin/adm-films.html';
 import './../../ui/pages/admin/adm-films.js';
+import './../../ui/pages/admin/adm-films-edit.html';
 import './../../ui/pages/admin/adm-report.html';
 import './../../ui/pages/admin/adm-report.js';
 import './../../ui/pages/admin/adm-reports.html';
@@ -45,24 +46,22 @@ Router.route('/adm/ambassadors');
 
 Router.route('/adm/films', {
   waitOn() { return Meteor.subscribe('films'); },
-  data() { return Films.active(); },
+  data() { return Films.find({}); },
   action() { this.render('admFilms'); },
 });
 
-Router.route('/adm/films/:slug/edit', {
-  template: 'admFilms',
+Router.route('/adm/films-edit/:_id', {
+  template: 'admFilmsEdit',
 
   waitOn() {
     return this.subscribe('films');
   },
 
   data() {
-    Session.set('poster_path', null);
-    return Films.findOne({ slug: this.params.slug });
+    return Films.findOne({ _id: this.params._id });
   },
   action() {
-    this.render('admFilms');
-    $('.nav-tabs li:eq(0) a').tab('show');
+    this.render('admFilmsEdit');
   },
 });
 
@@ -127,14 +126,14 @@ function isAdmin() {
   }
   Meteor.users.find({ _id: userId }).map((user) => {
     if (
-      user.profile.roles !== undefined &&
-      user.profile.roles[0] === 'admin'
+      user.profile.roles === undefined ||
+      user.profile.roles[0] !== 'admin'
     ) {
-      self.next();
+      Router.go('denied');
     }
-    Router.go('denied');
+    return user;
   });
-  // this.next();
+  this.next();
 }
 
 const ambassadorRoutes = [
