@@ -83,7 +83,6 @@ Schemas.Screening = new SimpleSchema({
       type: 'hidden',
     },
   },
-
   place_name: {
     type: String,
     label: 'Nome do Local',
@@ -147,7 +146,6 @@ Schemas.Screening = new SimpleSchema({
     label: 'País',
     max: 1000,
   },
-
   date: {
     type: Date,
     label: 'Data de exibição (Dia e Horário)',
@@ -461,11 +459,20 @@ Schemas.Film = new SimpleSchema(
     synopsis: {
       type: String,
       label: 'Sinopse',
-      max: 600,
-      // autoform: {
-      //   rows: 10,
-      //   class: 'editor'
-      // }
+      autoform: {
+        afFieldInput: {
+          type: 'summernote',
+          class: 'editor',
+          settings: {
+            toolbar: [
+              ['style', ['bold', 'italic', 'underline', 'clear']],
+              ['fontsize', ['fontsize']],
+              ['para', ['ul']],
+              ['insert', ['link', 'video', 'hr']],
+            ],
+          },
+        },
+      },
     },
     trailer_url: {
       type: String,
@@ -511,14 +518,27 @@ Schemas.Film = new SimpleSchema(
     },
     director: {
       type: String,
-      label: 'Diretor',
+      label: 'Diretor(a)',
       max: 100,
       optional: true,
     },
     technical_information: {
       type: String,
       label: 'Informações técnicas',
-      max: 1000,
+      autoform: {
+        afFieldInput: {
+          type: 'summernote',
+          class: 'editor',
+          settings: {
+            toolbar: [
+              ['style', ['bold', 'italic', 'underline', 'clear']],
+              ['fontsize', ['fontsize']],
+              ['para', ['ul']],
+              ['insert', ['link', 'video', 'hr']],
+            ],
+          },
+        },
+      },
       optional: true,
     },
     site: {

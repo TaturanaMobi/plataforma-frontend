@@ -5,20 +5,8 @@ import { FlashMessages } from 'meteor/mrt:flash-messages';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
-import 'meteor/summernote:summernote';
 import { Router } from 'meteor/iron:router';
 import Films from './../../../models/films.js';
-
-// Template.admFilms.onRendered(() => {
-//   $('#synopsis').summernote();
-
-//   const thisData = Template.currentData();
-//   if (thisData !== null &&
-//     thisData !== undefined &&
-//     thisData.synopsis !== null) {
-//     $('#synopsis').summernote('code', thisData.synopsis);
-//   }
-// });
 
 Template.admFilms.helpers({
   settings() {
@@ -29,21 +17,6 @@ Template.admFilms.helpers({
       rowsPerPage: 100,
       showFilter: false,
       showRowCount: true,
-      // rowClass: (item) => {
-      //   if (item.draft) {
-      //     return 'is-draft';
-      //   }
-
-      //   const today = new Date();
-      //   if (
-      //     today.getTime() > item.date.getTime() &&
-      //     item.report_description === undefined
-      //   ) {
-      //     return 'is-pending';
-      //   }
-      //   return '';
-      //   //  || screening.draft == 'admin-draft');
-      // },
       fields: [
         { label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl2 },
         'title',
@@ -55,30 +28,6 @@ Template.admFilms.helpers({
         { label: 'Poster', key: 'poster_path', tmpl: Template.posterCellTmpl },
         { label: 'Poster Home', key: 'poster_home_path', tmpl: Template.posterHomeCellTmpl },
       ],
-      //   { key: 'infos', label: 'Informações', tmpl: Template.infoCellTmpl, headerClass: 'col-md-1' },
-      //   { key: 'film', label: 'Filme', tmpl: Template.filmCellTmpl, headerClass: 'col-md-2' },
-      //   { key: 'date', label: 'Data de exibição', tmpl: Template.dateCellTmpl, headerClass: 'col-md-1' },
-      //   { key: 'place_name', label: 'Local de exibição', tmpl: Template.screeningCellTmpl, headerClass: 'col-md-2' },
-      //   // 'activity_theme',
-      //   {
-      //     key: 'ambassador',
-      //     label: 'Embaixador',
-      //     tmpl: Template.embaixadorCellTmpl,
-      //     headerClass: 'col-md-2',
-      //     // fn: (value, object) => console.log(object),
-      //   },
-      //   // {
-      //   //   key: 'email',
-      //   //   hidden: true,
-      //   //   fn: (value, object) => object.user.emails[0].address,
-      //   // },
-      //   { key: 'quorum', label: 'Público', tmpl: Template.quorumCellTmpl },
-      //   { key: 'city', label: 'Cidade', headerClass: 'col-md-1' },
-      //   'uf',
-      //   // 's_country', 'street', 'number', 'complement', 'zone', 'cep',
-      //   //  'author_1', 'author_2', 'author_3',
-      //   { label: 'Data criação', key: 'created_at', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl },
-      // ],
     };
   },
   // films() {

@@ -99,6 +99,15 @@ p, label{
   margin-bottom: 1em;
   text-shadow: 1px 1px 2px #000;
 }
+
+.modal p, .modal label,
+.note-editable.panel-body p {
+  color: inherit;
+  text-shadow: none;
+  margin: inherit;
+  font-size: inherit;
+}
+
 a, a:hover, a:visited, a:link{
   color:#fff;
 }

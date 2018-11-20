@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
-import { Session } from 'meteor/session';
-import { $ } from 'meteor/jquery';
+// import { Session } from 'meteor/session';
+// import { $ } from 'meteor/jquery';
 
 import '../../ui/components/adm-sidebar.html';
 
@@ -10,7 +10,7 @@ import './../../ui/pages/admin/adm-ambassadors.html';
 import './../../ui/pages/admin/adm-ambassadors.js';
 import './../../ui/pages/admin/adm-films.html';
 import './../../ui/pages/admin/adm-films.js';
-import './../../ui/pages/admin/adm-films-edit.html';
+import './../../ui/pages/admin/adm-films-edit.js';
 import './../../ui/pages/admin/adm-report.html';
 import './../../ui/pages/admin/adm-report.js';
 import './../../ui/pages/admin/adm-reports.html';
