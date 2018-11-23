@@ -114,6 +114,10 @@ a, a:hover, a:visited, a:link{
 a, input, button, textarea{
   border-radius: 0 !important;
 }
+.fr-box.fr-basic .fr-wrapper {
+  background: transparent;
+  border-color: #fff;
+}
 select:not([multiple]) {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;

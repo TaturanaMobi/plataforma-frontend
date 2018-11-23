@@ -8,10 +8,10 @@
 }}
   <div class="container">
     <div class="row">
-        <div class="col-lg-12">
-          <h1>Filme: {{title}}</h1>
-        </div>
-        <div class="col-lg-4">
+      <div class="col-lg-12">
+        <h1>Filme: {{title}}</h1>
+      </div>
+      <div class="col-lg-4">
         <h3>BÁSICA</h3>
         <div class="form-group col-md-12">
           {{#if poster_path}}
@@ -27,7 +27,7 @@
           {{> afQuickField name='title' }}
         </div>
         <div class="form-group col-md-12">
-          {{> afQuickField name='synopsis' class='editor' }}
+          {{> afQuickField name='synopsis' }}
         </div>
         <div class="form-group col-md-12">
             {{> afQuickField name='genre' }}
@@ -36,9 +36,12 @@
             {{> afQuickField name='trailer_url' }}
         </div>
         <div class="form-group col-md-12">
-            {{> afQuickField name='status' }}
-          </div>
+          {{> afQuickField name='status' }}
         </div>
+        <div class="form-group col-md-12">
+          {{> afQuickField name='slug' }}
+        </div>
+      </div>
       <div class="col-lg-4">
         <h3>TÉCNICA</h3>
         <div class="form-group col-md-12">

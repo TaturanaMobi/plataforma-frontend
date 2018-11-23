@@ -37,8 +37,8 @@ AutoForm.hooks({
       insertDoc.profile.roles = ['ambassador'];
       // console.log(insertDoc, updateDoc, currentDoc);
       const self = this;
-      Accounts.createUser(insertDoc, function inser(err) {
-        console.log( err, insertDoc );
+      Accounts.createUser(insertDoc, (err) => {
+        console.log(err, insertDoc);
         Router.go('ambassador');
 
         // Envia email para o ambassador cadastrado
@@ -72,4 +72,18 @@ AutoForm.hooks({
     //   console.log(error, formType);
     // },
   },
+  'edit-film-form': {
+    // Called when any submit operation succeeds
+    onSuccess: (formType, result) => {
+      FlashMessages.sendSuccess('Filme salvo com sucesso!');
+      return result;
+    },
+
+    // Called when any submit operation fails
+    // onError: (formType, error) => {
+    //   FlashMessages.sendError('Preencha todas as informações corretamente.');
+    //   console.log(error, formType);
+    // },
+  },
+
 });

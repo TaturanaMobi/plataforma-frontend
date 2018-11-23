@@ -2,7 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
-import { FILM_SUBCATEGORIES, FILM_CATEGORIES, STATES } from './../../models/films';
+
+import Schemas from './../../models/schemas';
+import { Films, FILM_SUBCATEGORIES, FILM_CATEGORIES, STATES } from './../../models/films';
+import Users from './../../models/users';
+import Screenings from './../../models/screenings';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 
@@ -83,3 +87,9 @@ export function getDateObject(date, time) {
 
   return new Date(d[2], parseInt(d[1], 10) - 1, d[0], t[0], t2[0]);
 }
+
+Template.registerHelper('Schemas', Schemas);
+Template.registerHelper('Films', Films);
+Template.registerHelper('Screenings', Screenings);
+Template.registerHelper('Users', Users);
+Meteor.subscribe('files.images.all');

@@ -259,6 +259,10 @@ Films.allow({
     // only allow posting if you are logged in
     return !!userId;
   },
+  update(userId) {
+    // only allow posting if you are logged in
+    return !!userId;
+  },
 });
 
 Films.attachSchema(Schemas.Film);

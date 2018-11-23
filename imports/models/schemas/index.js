@@ -429,14 +429,15 @@ Schemas.Film = new SimpleSchema(
       },
     },
     link_for_download: {
+      regEx: SimpleSchema.RegEx.Url,
       type: String,
       label: 'Link para download',
-      max: 30,
+      max: 255,
     },
     password_for_download: {
       type: String,
       label: 'Senha para download',
-      max: 30,
+      max: 255,
       optional: true,
     },
     status: {
@@ -461,23 +462,17 @@ Schemas.Film = new SimpleSchema(
       label: 'Sinopse',
       autoform: {
         afFieldInput: {
-          type: 'summernote',
+          type: 'textarea',
           class: 'editor',
-          settings: {
-            toolbar: [
-              ['style', ['bold', 'italic', 'underline', 'clear']],
-              ['fontsize', ['fontsize']],
-              ['para', ['ul']],
-              ['insert', ['link', 'video', 'hr']],
-            ],
-          },
+          rows: 6,
         },
       },
     },
     trailer_url: {
       type: String,
       label: 'Url do Trailer',
-      max: 30,
+      max: 255,
+      regEx: SimpleSchema.RegEx.Url,
       optional: true,
     },
     genre: {
@@ -487,20 +482,19 @@ Schemas.Film = new SimpleSchema(
     year: {
       type: SimpleSchema.Integer,
       label: 'Ano',
-      max: 4,
     },
     length: {
       type: SimpleSchema.Integer,
       label: 'Duração em minutos',
-      max: 10,
     },
     country: {
       type: String,
       label: 'País',
-      max: 30,
+      max: 100,
     },
     age_rating: {
       type: String,
+      label: 'Classificação Indicativa',
       autoform: {
         type: 'universe-select',
         afFieldInput: {
@@ -512,7 +506,7 @@ Schemas.Film = new SimpleSchema(
     },
     production_company: {
       type: String,
-      label: 'Production Company',
+      label: 'Produtora',
       max: 100,
       optional: true,
     },
@@ -524,19 +518,12 @@ Schemas.Film = new SimpleSchema(
     },
     technical_information: {
       type: String,
-      label: 'Informações técnicas',
+      label: 'Ficha técnica',
       autoform: {
         afFieldInput: {
-          type: 'summernote',
+          type: 'textarea',
           class: 'editor',
-          settings: {
-            toolbar: [
-              ['style', ['bold', 'italic', 'underline', 'clear']],
-              ['fontsize', ['fontsize']],
-              ['para', ['ul']],
-              ['insert', ['link', 'video', 'hr']],
-            ],
-          },
+          rows: 6,
         },
       },
       optional: true,
@@ -545,30 +532,35 @@ Schemas.Film = new SimpleSchema(
       type: String,
       label: 'Site',
       max: 100,
+      regEx: SimpleSchema.RegEx.Url,
       optional: true,
     },
     facebook: {
       type: String,
       label: 'Facebook',
-      max: 30,
+      max: 255,
+      regEx: SimpleSchema.RegEx.Url,
       optional: true,
     },
     twitter: {
       type: String,
       label: 'Twitter',
-      max: 30,
+      max: 255,
+      regEx: SimpleSchema.RegEx.Url,
       optional: true,
     },
     instagram: {
       type: String,
       label: 'Instagram',
-      max: 30,
+      max: 255,
+      regEx: SimpleSchema.RegEx.Url,
       optional: true,
     },
     youtube: {
       type: String,
       label: 'YouTube',
-      max: 30,
+      max: 255,
+      regEx: SimpleSchema.RegEx.Url,
       optional: true,
     },
     createdAt: {
@@ -577,14 +569,12 @@ Schemas.Film = new SimpleSchema(
     },
     slug: {
       type: String,
-      label: 'slug',
-      max: 30,
-      optional: true,
+      label: 'Identificador Único',
+      max: 100,
     },
     press_kit_path: {
       type: String,
       label: 'Press kit',
-      max: 30,
       autoform: {
         afFieldInput: {
           type: 'fileUpload',
@@ -600,6 +590,10 @@ Schemas.Film = new SimpleSchema(
           },
         },
       },
+    },
+    sequence_number: {
+      type: SimpleSchema.Integer,
+      optional: true,
     },
     slideshow: {
       type: Array,
