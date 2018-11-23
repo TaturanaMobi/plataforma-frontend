@@ -119,7 +119,7 @@ Template.admSessions2.helpers({
   },
 });
 
-Template.admSessions.events({
+Template.admSessions2.events({
   'change .list-sessions'(event) {
     const list = $(event.currentTarget).val();
     Session.set('list', list);
