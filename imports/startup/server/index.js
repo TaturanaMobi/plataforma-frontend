@@ -282,16 +282,11 @@ Meteor.methods({
 Meteor.startup(() => {
   // SyncedCron.start();
 
-  Meteor.publish('films', () =>
-    Films.find(
-      {},
-      {
-        fields: {
-          screenings: 0,
-        },
-      }
-    )
-  );
+  Meteor.publish('films.all', () => Films.find({}, {
+    fields: {
+      screenings: 0,
+    },
+  }));
 
   Meteor.publish('screenings.all', () => Screenings.find({}));
 

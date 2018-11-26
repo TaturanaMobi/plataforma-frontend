@@ -15,7 +15,7 @@ Router.route('/ambassador-edit', {
 Router.route('/ambassador', {
   name: 'ambassador',
   waitOn() {
-    return [Meteor.subscribe('screenings.my'), Meteor.subscribe('films')];
+    return [Meteor.subscribe('screenings.my'), Meteor.subscribe('films.all')];
   },
   action() { this.render('ambassador'); },
 });
@@ -25,7 +25,7 @@ Router.route('/new-screening/:slug', {
   name: 'new-screening',
 
   waitOn() {
-    return this.subscribe('films');
+    return this.subscribe('films.all');
   },
 
   data() {
@@ -38,7 +38,7 @@ Router.route('/new-screening/:slug', {
 Router.route('/edit-screening/:_id', {
   name: 'edit-screening',
   waitOn() {
-    return this.subscribe('films');
+    return this.subscribe('films.all');
   },
   data() {
     return Films.return_film_and_screening(this.params._id);

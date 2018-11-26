@@ -3,11 +3,67 @@ import { Tracker } from 'meteor/tracker';
 
 import { Schema as userSchema } from './../users';
 import wNumb from './../utils/wNumb';
-import { FILM_AGE_RATING, FILM_STATUS, STATES } from './../films';
-import { SCREENING_ACTIVITY, SCREENING_STATUS } from './../screenings';
 import getSelectOptions from './getSelectOptions';
 
-SimpleSchema.extendOptions(['autoform']);
+export const FILM_CATEGORIES = [
+  'Cineclube',
+  'Coletivo',
+  'Organização Social',
+  'Universidade',
+  'Escola Pública',
+  'Escola Privada',
+  'Instituição Governamental',
+  'Espaços e Centros Culturais',
+  'Equipamento Público',
+  'Mídia/Blog/Site',
+  'Formador de Opinião/Especialista',
+  'Empresa',
+  'Grupo Religioso',
+  'Parque',
+  'Outro',
+];
+
+export const FILM_SUBCATEGORIES = [
+  'Audiovisual',
+  'Artes Plásticas',
+  'Cultura',
+  'Educação/Ensino/Pedagogia',
+  'Música',
+  'Grafite',
+  'Saúde',
+  'SESC',
+  'Meio Ambiente',
+  'Gênero',
+  'Ponto de Cultura',
+  'Comunicação',
+  'Direito',
+  'Cidadania',
+  'Psicologia/Psicanálise',
+  'Juventude',
+  'Dança',
+  'Teatro',
+  'Infância',
+  'Política',
+  'Maternidade',
+  'Cidade',
+  'Literatura',
+  'Outro',
+];
+
+const FILM_STATUS =
+['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
+
+const STATES =
+['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
+
+const FILM_AGE_RATING =
+['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
+
+const SCREENING_STATUS =
+['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
+
+const SCREENING_ACTIVITY =
+['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre'];
 
 SimpleSchema.extendOptions(['autoform']);
 SimpleSchema.setDefaultMessages({
@@ -387,220 +443,218 @@ Schemas.Slideshow = new SimpleSchema({
   },
 }, { tracker: Tracker });
 
-Schemas.Film = new SimpleSchema(
-  {
-    poster_path: {
-      type: String,
-      label: 'Cartaz',
-      autoform: {
-        afFieldInput: {
-          type: 'fileUpload',
-          collection: 'Images',
-          insertConfig: {
-            meta: {},
-            isBase64: false,
-            transport: 'ddp',
-            streams: 'dynamic',
-            chunkSize: 'dynamic',
-            allowWebWorkers: true,
-          },
+Schemas.Film = new SimpleSchema({
+  poster_path: {
+    type: String,
+    label: 'Cartaz',
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
         },
       },
     },
-    poster_home_path: {
-      type: String,
-      label: 'Imagem para home (360x370)',
-      autoform: {
-        afFieldInput: {
-          type: 'fileUpload',
-          collection: 'Images',
-          insertConfig: {
-            // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-            meta: {},
-            isBase64: false,
-            transport: 'ddp',
-            streams: 'dynamic',
-            chunkSize: 'dynamic',
-            allowWebWorkers: true,
-          },
+  },
+  poster_home_path: {
+    type: String,
+    label: 'Imagem para home (360x370)',
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
         },
       },
     },
-    link_for_download: {
-      regEx: SimpleSchema.RegEx.Url,
-      type: String,
-      label: 'Link para download',
-      max: 255,
+  },
+  link_for_download: {
+    regEx: SimpleSchema.RegEx.Url,
+    type: String,
+    label: 'Link para download',
+    max: 255,
+  },
+  password_for_download: {
+    type: String,
+    label: 'Senha para download',
+    max: 255,
+    optional: true,
+  },
+  status: {
+    type: String,
+    label: 'Status',
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions(FILM_STATUS),
+        uniPlaceholder: 'Selecione',
+      },
     },
-    password_for_download: {
-      type: String,
-      label: 'Senha para download',
-      max: 255,
-      optional: true,
+  },
+  title: {
+    type: String,
+    label: 'Titulo do filme',
+    max: 100,
+  },
+  synopsis: {
+    type: String,
+    label: 'Sinopse',
+    autoform: {
+      afFieldInput: {
+        type: 'textarea',
+        class: 'editor',
+        rows: 6,
+      },
     },
-    status: {
-      type: String,
-      label: 'Status',
-      autoform: {
-        type: 'universe-select',
-        afFieldInput: {
-          multiple: false,
-          options: getSelectOptions(FILM_STATUS),
-          uniPlaceholder: 'Selecione',
+  },
+  trailer_url: {
+    type: String,
+    label: 'Url do Trailer',
+    max: 255,
+    regEx: SimpleSchema.RegEx.Url,
+    optional: true,
+  },
+  genre: {
+    type: String,
+    label: 'Gênero',
+  },
+  year: {
+    type: SimpleSchema.Integer,
+    label: 'Ano',
+  },
+  length: {
+    type: SimpleSchema.Integer,
+    label: 'Duração em minutos',
+  },
+  country: {
+    type: String,
+    label: 'País',
+    max: 100,
+  },
+  age_rating: {
+    type: String,
+    label: 'Classificação Indicativa',
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions(FILM_AGE_RATING),
+        uniPlaceholder: 'Selecione',
+      },
+    },
+  },
+  production_company: {
+    type: String,
+    label: 'Produtora',
+    max: 100,
+    optional: true,
+  },
+  director: {
+    type: String,
+    label: 'Diretor(a)',
+    max: 100,
+    optional: true,
+  },
+  technical_information: {
+    type: String,
+    label: 'Ficha técnica',
+    autoform: {
+      afFieldInput: {
+        type: 'textarea',
+        class: 'editor',
+        rows: 6,
+      },
+    },
+    optional: true,
+  },
+  site: {
+    type: String,
+    label: 'Site',
+    max: 100,
+    regEx: SimpleSchema.RegEx.Url,
+    optional: true,
+  },
+  facebook: {
+    type: String,
+    label: 'Facebook',
+    max: 255,
+    regEx: SimpleSchema.RegEx.Url,
+    optional: true,
+  },
+  twitter: {
+    type: String,
+    label: 'Twitter',
+    max: 255,
+    regEx: SimpleSchema.RegEx.Url,
+    optional: true,
+  },
+  instagram: {
+    type: String,
+    label: 'Instagram',
+    max: 255,
+    regEx: SimpleSchema.RegEx.Url,
+    optional: true,
+  },
+  youtube: {
+    type: String,
+    label: 'YouTube',
+    max: 255,
+    regEx: SimpleSchema.RegEx.Url,
+    optional: true,
+  },
+  createdAt: {
+    type: Date,
+    optional: true,
+  },
+  slug: {
+    type: String,
+    label: 'Identificador Único',
+    max: 100,
+  },
+  press_kit_path: {
+    type: String,
+    label: 'Press kit',
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
         },
       },
     },
-    title: {
-      type: String,
-      label: 'Titulo do filme',
-      max: 100,
-    },
-    synopsis: {
-      type: String,
-      label: 'Sinopse',
-      autoform: {
-        afFieldInput: {
-          type: 'textarea',
-          class: 'editor',
-          rows: 6,
-        },
-      },
-    },
-    trailer_url: {
-      type: String,
-      label: 'Url do Trailer',
-      max: 255,
-      regEx: SimpleSchema.RegEx.Url,
-      optional: true,
-    },
-    genre: {
-      type: String,
-      label: 'Gênero',
-    },
-    year: {
-      type: SimpleSchema.Integer,
-      label: 'Ano',
-    },
-    length: {
-      type: SimpleSchema.Integer,
-      label: 'Duração em minutos',
-    },
-    country: {
-      type: String,
-      label: 'País',
-      max: 100,
-    },
-    age_rating: {
-      type: String,
-      label: 'Classificação Indicativa',
-      autoform: {
-        type: 'universe-select',
-        afFieldInput: {
-          multiple: false,
-          options: getSelectOptions(FILM_AGE_RATING),
-          uniPlaceholder: 'Selecione',
-        },
-      },
-    },
-    production_company: {
-      type: String,
-      label: 'Produtora',
-      max: 100,
-      optional: true,
-    },
-    director: {
-      type: String,
-      label: 'Diretor(a)',
-      max: 100,
-      optional: true,
-    },
-    technical_information: {
-      type: String,
-      label: 'Ficha técnica',
-      autoform: {
-        afFieldInput: {
-          type: 'textarea',
-          class: 'editor',
-          rows: 6,
-        },
-      },
-      optional: true,
-    },
-    site: {
-      type: String,
-      label: 'Site',
-      max: 100,
-      regEx: SimpleSchema.RegEx.Url,
-      optional: true,
-    },
-    facebook: {
-      type: String,
-      label: 'Facebook',
-      max: 255,
-      regEx: SimpleSchema.RegEx.Url,
-      optional: true,
-    },
-    twitter: {
-      type: String,
-      label: 'Twitter',
-      max: 255,
-      regEx: SimpleSchema.RegEx.Url,
-      optional: true,
-    },
-    instagram: {
-      type: String,
-      label: 'Instagram',
-      max: 255,
-      regEx: SimpleSchema.RegEx.Url,
-      optional: true,
-    },
-    youtube: {
-      type: String,
-      label: 'YouTube',
-      max: 255,
-      regEx: SimpleSchema.RegEx.Url,
-      optional: true,
-    },
-    createdAt: {
-      type: Date,
-      optional: true,
-    },
-    slug: {
-      type: String,
-      label: 'Identificador Único',
-      max: 100,
-    },
-    press_kit_path: {
-      type: String,
-      label: 'Press kit',
-      autoform: {
-        afFieldInput: {
-          type: 'fileUpload',
-          collection: 'Images',
-          insertConfig: {
-            // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
-            meta: {},
-            isBase64: false,
-            transport: 'ddp',
-            streams: 'dynamic',
-            chunkSize: 'dynamic',
-            allowWebWorkers: true,
-          },
-        },
-      },
-    },
-    sequence_number: {
-      type: SimpleSchema.Integer,
-      optional: true,
-    },
-    slideshow: {
-      type: Array,
-      optional: true,
-    },
-    'slideshow.$': {
-      type: Schemas.Slideshow,
-    },
-  }, { tracker: Tracker }
-);
+  },
+  sequence_number: {
+    type: SimpleSchema.Integer,
+    optional: true,
+  },
+  slideshow: {
+    type: Array,
+    optional: true,
+  },
+  'slideshow.$': {
+    type: Schemas.Slideshow,
+  },
+}, { tracker: Tracker });
 
 export default Schemas;

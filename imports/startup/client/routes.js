@@ -30,7 +30,7 @@ Router.configure({
 
 Router.route('/', {
   name: 'home',
-  waitOn() { return Meteor.subscribe('films'); },
+  waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.findOne({ slug: this.params.slug }); },
   action() { this.render('home'); },
 });
@@ -44,20 +44,20 @@ Router.route('/contact', { name: 'contact' });
 
 Router.route('/films', {
   name: 'films',
-  waitOn() { return Meteor.subscribe('films'); },
+  waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.active(); },
   action() { this.render('films'); },
 });
 Router.route('/screenings', {
   name: 'screenings',
-  waitOn() { return Meteor.subscribe('films'); },
+  waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.active(); },
   action() { this.render('screenings'); },
 });
 
 Router.route('/film/:slug', {
   name: 'showFilm',
-  waitOn() { return Meteor.subscribe('films'); },
+  waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.findOne({ slug: this.params.slug }); },
   action() { this.render('showFilm'); },
 });

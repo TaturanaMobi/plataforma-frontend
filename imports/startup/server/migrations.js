@@ -99,5 +99,5 @@ Migrations.add({
 Meteor.startup(() => {
   Migrations.migrateTo('latest');
   Migrations.unlock();
-  Migrations.migrateTo('1,rerun');
+  // Migrations.migrateTo('1,rerun');
 });

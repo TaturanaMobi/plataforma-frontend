@@ -40,7 +40,7 @@ Router.route('/adm/ambassadors', {
 });
 
 Router.route('/adm/films', {
-  waitOn() { return Meteor.subscribe('films'); },
+  waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.find({}); },
   action() { this.render('admFilms'); },
 });
@@ -49,7 +49,7 @@ Router.route('/adm/films-edit/:_id', {
   template: 'admFilmsEdit',
 
   waitOn() {
-    return this.subscribe('films');
+    return this.subscribe('films.all');
   },
 
   data() {
