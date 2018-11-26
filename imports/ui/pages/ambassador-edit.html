@@ -9,34 +9,21 @@
         <p>{{amount_film_screenings.people}} pessoas impactadas pela difusão de filmes</p>
       {{/if}}
     </div>
-    <div class="col-md-12 data-row">
-      <div class="help-block with-errors form-errors"></div>
-      <div class="col-md-6 reset-div">
-        <h3>MEUS DADOS</h3>
-        <form class="ambassador-edit">
-          <label class="control-label" for="avatar_path">Avatar</label>
-          {{#if form.profile.avatar_path}}
-            <img src="https://images.stag.taturanamobi.com.br/smartcrop?width=100&height=100&file={{currentUser.profile.avatar_path}}" class="full" alt="Avatar" />
-            <input type="hidden" name="avatar_path" value="{{currentUser.profile.avatar_path}}"/>
-          {{else}}
-            {{> upload_bootstrap contentType='images' multiple=false formData=avatarData}}
-            <span class="help-block with-errors"></span>
-          {{/if}}
-          {{#autoForm
-            schema=Schemas.User
-            doc=form
-            collection=Users
-            id="edit-user-form"
-            type="update"
-          }}
-            {{>ambassadorFormFields}}
+    <div class="col-md-6">
+      {{#autoForm
+        schema=Schemas.User
+        doc=form
+        collection=Users
+        id="edit-user-form"
+        type="update"
+      }}
 
-          <div class="form-group col-md-5">
-            <button class="btn btn-lg btn-block" type="submit">Salvar alterações</button>
-          </div>
-          {{/autoForm}}
-        </form>
-      </div>
+        {{>ambassadorFormFields isUpdate="true" }}
+
+        <div class="form-group col-md-5">
+          <button class="btn btn-lg btn-block" type="submit">Salvar alterações</button>
+        </div>
+      {{/autoForm}}
 
       {{#if form.addresses}}
       <div class="col-md-6">

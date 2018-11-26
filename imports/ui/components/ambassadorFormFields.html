@@ -1,7 +1,19 @@
 <template name="ambassadorFormFields">
+  {{#if isUpdate}}
+  <div class="form-group col-md-12">
+    {{#if profile.avatar_path}}
+    <div class="col-lg-4">
+      <img src="https://images.stag.taturanamobi.com.br/smartcrop?width=100&height=100&file={{profile.avatar_path}}" alt="Avatar" />
+    </div>
+    {{/if}}
+    {{> afQuickField name='profile.avatar_path' }}
+  </div>
+  {{/if}}
   <div class="form-group col-md-12">
     {{> afQuickField name='profile.name' }}
   </div>
+  {{#if isUpdate}}
+  {{else}}
   <div class="form-group col-md-6">
       {{> afQuickField name='email' }}
     </div>
@@ -14,6 +26,7 @@
   <div class="form-group col-md-6">
     {{> afQuickField name='confirmPassword' }}
   </div>
+  {{/if}}
   <div class="form-group col-md-6">
       {{> afQuickField name='profile.cell_phone' }}
   </div>

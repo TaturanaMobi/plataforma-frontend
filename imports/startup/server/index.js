@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
-import { UploadServer } from 'meteor/tomi:upload-server';
 import { _ } from 'meteor/underscore';
 
 import './fixtures.js';
@@ -41,21 +40,21 @@ import { Cities, States } from '../../models/states_and_cities';
 Meteor.methods({
   getSelectCities(options) {
     // this.unblock();
-    var searchText = options.searchText;
-    var values = options.values;
+    const searchText = options.searchText;
+    const values = options.values;
 
     if (searchText) {
-      return Cities.find(
-        { name: { $regex: searchText } },
-        { limit: 5 }
-      ).fetch().map(v => ({ label: v.name, value: v.name }));
+      return Cities.find({ name: { $regex: searchText } }, { limit: 5 })
+        .fetch()
+        .map(v => ({ label: v.name, value: v.name }));
     } else if (values.length) {
-      return Cities.find(
-        { value: { $in: values } }
-      ).fetch().map(v => ({ label: v.name, value: v.name }));
+      return Cities.find({ value: { $in: values } })
+        .fetch()
+        .map(v => ({ label: v.name, value: v.name }));
     }
     return Cities.find({}, { limit: 5 })
-      .fetch().map(v => ({ label: v.name, value: v.name }));
+      .fetch()
+      .map(v => ({ label: v.name, value: v.name }));
   },
 
   sendEmail(pidgeon, template) {
@@ -178,25 +177,24 @@ Meteor.methods({
         screenings.splice(i, 1, fScreening);
       }
     }
-    Films.update({
-      _id: film._id,
-    }, {
-      $set: {
-        screening: screenings,
+    Films.update(
+      {
+        _id: film._id,
       },
-    });
+      {
+        $set: {
+          screening: screenings,
+        },
+      }
+    );
     if (status === 'admin-draft' || status) {
       removeNotifications(fScreening._id);
     }
     States.unsetHasScreenings(fScreening.s_country, fScreening.uf);
-    Cities.unsetHasScreenings(
-      fScreening.s_country, fScreening.uf, fScreening.city
-    );
+    Cities.unsetHasScreenings(fScreening.s_country, fScreening.uf, fScreening.city);
 
     States.setHasScreenings(fScreening.s_country, fScreening.uf);
-    Cities.setHasScreenings(
-      fScreening.s_country, fScreening.uf, fScreening.city
-    );
+    Cities.setHasScreenings(fScreening.s_country, fScreening.uf, fScreening.city);
   },
   setScreeningDraftStatus(id, status) {
     const film = Films.by_screening_id(id);
@@ -208,13 +206,16 @@ Meteor.methods({
       }
     });
 
-    Films.update({
-      _id: film._id,
-    }, {
-      $set: {
-        screening: screenings,
+    Films.update(
+      {
+        _id: film._id,
       },
-    });
+      {
+        $set: {
+          screening: screenings,
+        },
+      }
+    );
 
     if (status == 'admin-draft' || status == true) {
       removeNotifications(id);
@@ -223,13 +224,16 @@ Meteor.methods({
   removeScreening(screening_id) {
     const film = Films.by_screening_id(screening_id);
     const fScreening = Films.return_screening(screening_id);
-    Films.update({
-      _id: film._id,
-    }, {
-      $pull: {
-        screening: fScreening,
+    Films.update(
+      {
+        _id: film._id,
       },
-    });
+      {
+        $pull: {
+          screening: fScreening,
+        },
+      }
+    );
     removeNotifications(screening_id);
   },
   addAddress(user_id, new_address) {
@@ -252,95 +256,100 @@ Meteor.methods({
     // Mantem o role do usuário
     profile.roles = user.profile.roles || ['ambassador'];
 
-    Meteor.users.update({
-      _id: Meteor.userId(),
-    }, {
-      $set: {
-        profile,
+    Meteor.users.update(
+      {
+        _id: Meteor.userId(),
       },
-    });
-    Meteor.users.update({
-      _id: Meteor.userId(),
-    }, {
-      $set: {
-        'emails.0.address': email,
+      {
+        $set: {
+          profile,
+        },
+      }
+    );
+    Meteor.users.update(
+      {
+        _id: Meteor.userId(),
       },
-    });
+      {
+        $set: {
+          'emails.0.address': email,
+        },
+      }
+    );
   },
 });
 
 Meteor.startup(() => {
   // SyncedCron.start();
 
-  Meteor.publish('films', () => Films.find({}, {
-    fields: {
-      screenings: 0,
-    },
-  }));
+  Meteor.publish('films', () =>
+    Films.find(
+      {},
+      {
+        fields: {
+          screenings: 0,
+        },
+      }
+    )
+  );
 
-  Meteor.publish('screenings', () => Screenings.find({}, {
-    fields: {
-      filmId: 1,
-      user_id: 1,
-      place_name: 1,
-      city: 1,
-      uf: 1,
-      date: 1,
-      public_event: 1,
-      team_member: 1,
-      quorum_expectation: 1,
-      comments: 1,
-      accept_terms: 1,
-      created_at: 1,
-      status: 1,
-      real_quorum: 1,
-      report_description: 1,
-      author_1: 1,
-      report_image_1: 1,
-      author_2: 1,
-      report_image_2: 1,
-      author_3: 1,
-      report_image_3: 1,
-    },
-  }));
+  Meteor.publish('screenings.all', () => Screenings.find({}));
 
-  Meteor.publish('ambassadors', () => Meteor.users.find({ _id: Meteor.userId() }, {
-    fields: {
-      createdAt: 1,
-      emails: 1,
-      profile: 1,
-      addresses: 1,
-    },
-  }));
+  Meteor.publish('screenings.my', () => Screenings.find({ user_id: Meteor.userId() }));
 
-  UploadServer.init({
-    tmpDir: `${process.env.PWD}/uploads/tmp`,
-    uploadDir: `${process.env.PWD}/uploads/`,
-    checkCreateDirectories: true,
-    getDirectory(fileInfo, formData) {
-      return formData.contentType;
-    },
-    getFileName(fileInfo, formData) {
-      const name = fileInfo.name.replace(/\s/g, '');
-      return formData.file_type + name;
-    },
-    finished() {},
-    cacheTime: 100,
-    mimeTypes: {
-      xml: 'application/xml',
-      vcf: 'text/x-vcard',
-    },
-  });
+  // fields: {
+  //   filmId: 1,
+  //   user_id: 1,
+  //   place_name: 1,
+  //   city: 1,
+  //   uf: 1,
+  //   date: 1,
+  //   public_event: 1,
+  //   team_member: 1,
+  //   quorum_expectation: 1,
+  //   comments: 1,
+  //   accept_terms: 1,
+  //   created_at: 1,
+  //   status: 1,
+  //   real_quorum: 1,
+  //   report_description: 1,
+  //   author_1: 1,
+  //   report_image_1: 1,
+  //   author_2: 1,
+  //   report_image_2: 1,
+  //   author_3: 1,
+  //   report_image_3: 1,
+  // },
 
-  Meteor.publish('files.images.all', function () {
-    return Images.find().cursor;
-  });
+  Meteor.publish('users.me', () => Meteor.users.find({ _id: Meteor.userId() }));
+
+  Meteor.publish('users.all', () => Meteor.users.find({}, { sort: { createdAt: -1 } }));
+
+  // UploadServer.init({
+  //   tmpDir: `${process.env.PWD}/uploads/tmp`,
+  //   uploadDir: `${process.env.PWD}/uploads/`,
+  //   checkCreateDirectories: true,
+  //   getDirectory(fileInfo, formData) {
+  //     return formData.contentType;
+  //   },
+  //   getFileName(fileInfo, formData) {
+  //     const name = fileInfo.name.replace(/\s/g, '');
+  //     return formData.file_type + name;
+  //   },
+  //   finished() {},
+  //   cacheTime: 100,
+  //   mimeTypes: {
+  //     xml: 'application/xml',
+  //     vcf: 'text/x-vcard',
+  //   },
+  // });
+
+  Meteor.publish('files.images.all', () => Images.find().cursor);
 
   // Forgot Password Email
   Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
   Accounts.emailTemplates.from = 'Suporte <suporte@taturana.com.br>';
-  Accounts.emailTemplates.resetPassword.subject = () =>
-    '[Taturana] Esqueci minha senha';
+  Accounts.emailTemplates.resetPassword.subject = () => '[Taturana] Esqueci minha senha';
 
   Accounts.emailTemplates.resetPassword.text = (user, url) =>
     `Olá,\n\nPara resetar sua senha, acesse o link abaixo:\n${url}`;

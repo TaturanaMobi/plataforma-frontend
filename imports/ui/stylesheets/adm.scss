@@ -3,7 +3,7 @@ $red: #df4944;
 $blue: #232e4d;
 $grey: #aaa;
 
-.adm.container {
+.container {
 //   // padding-top: 15em;
   color: #fff;
 //   // min-height: 1000px;
@@ -145,13 +145,17 @@ $grey: #aaa;
     }
   }
 
-  .table-hover > tbody > tr:hover {
-    background-color: #333;
-  }
-  .table .is-draft {
-    background-color: rgba(255,255,255,.1);
-  }
-  .table .is-pending {
-    background-color: rgba(221, 78, 78, 0.199);
-  }
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: #333;
+}
+.table .is-draft {
+  background-color: rgba(255,255,255,.1);
+}
+.table .is-pending {
+  background-color: rgba(221, 78, 78, 0.199);
+}
+.table-hover > tbody > tr:hover {
+  background-color: #222;
 }

@@ -21,24 +21,23 @@ import './../../ui/pages/admin/adm.html';
 
 import Screenings from '../../models/screenings.js';
 import Films from './../../models/films.js';
+import Users from './../../models/users';
 
 import { publicRoutes } from './routes-ambassador.js';
 
 Router.route('/adm');
 
-Router.route('/adm/sessions', {
-  waitOn() { return Meteor.subscribe('films'); },
-  data() { return Films.find({}); },
-  action() { this.render('admSessions'); },
-});
-
 Router.route('/adm/sessions2', {
-  waitOn() { return Meteor.subscribe('screenings'); },
+  waitOn() { return Meteor.subscribe('screenings.all'); },
   data() { return Screenings.find({}); },
   action() { this.render('admSessions2'); },
 });
 
-Router.route('/adm/ambassadors');
+Router.route('/adm/ambassadors', {
+  waitOn() { return Meteor.subscribe('users.all'); },
+  data() { return Users.find({}); },
+  action() { this.render('admAmbassadors'); },
+});
 
 Router.route('/adm/films', {
   waitOn() { return Meteor.subscribe('films'); },
@@ -114,8 +113,6 @@ Router.route('/adm/report/:_id', {
 
 
 function isAdmin() {
-  console.log('entrou no auth admin!');
-  const self = this;
   const userId = Meteor.userId();
   if (userId == null) {
     Router.go('login');

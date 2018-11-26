@@ -1,19 +1,21 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
-import { Session } from 'meteor/session';
+// import { Session } from 'meteor/session';
 import Films from './../../models/films.js';
 
 // Must be loggedIn
 
 Router.route('/ambassador-edit', {
   name: 'ambassador-edit',
-  waitOn() { return Meteor.subscribe('ambassadors'); },
+  waitOn() { return Meteor.subscribe('users.me'); },
+  data() { return Meteor.users.findOne({ _id: Meteor.userId() }); },
+  action() { this.render('ambassador-edit'); },
 });
 
 Router.route('/ambassador', {
   name: 'ambassador',
   waitOn() {
-    return [Meteor.subscribe('screenings'), Meteor.subscribe('films')];
+    return [Meteor.subscribe('screenings.my'), Meteor.subscribe('films')];
   },
   action() { this.render('ambassador'); },
 });
@@ -27,7 +29,7 @@ Router.route('/new-screening/:slug', {
   },
 
   data() {
-    Session.set('address', null);
+    // Session.set('address', null);
     // const filmId = this.params._id;
     return Films.findOne({ slug: this.params.slug });
   },

@@ -2,9 +2,55 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 
-import { STATES, FILM_SUBCATEGORIES, FILM_CATEGORIES } from './films';
 import getSelectOptions from './schemas/getSelectOptions';
 
+const STATES =
+['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'OUTRO'];
+
+const FILM_CATEGORIES = [
+  'Cineclube',
+  'Coletivo',
+  'Organização Social',
+  'Universidade',
+  'Escola Pública',
+  'Escola Privada',
+  'Instituição Governamental',
+  'Espaços e Centros Culturais',
+  'Equipamento Público',
+  'Mídia/Blog/Site',
+  'Formador de Opinião/Especialista',
+  'Empresa',
+  'Grupo Religioso',
+  'Parque',
+  'Outro',
+];
+
+const FILM_SUBCATEGORIES = [
+  'Audiovisual',
+  'Artes Plásticas',
+  'Cultura',
+  'Educação/Ensino/Pedagogia',
+  'Música',
+  'Grafite',
+  'Saúde',
+  'SESC',
+  'Meio Ambiente',
+  'Gênero',
+  'Ponto de Cultura',
+  'Comunicação',
+  'Direito',
+  'Cidadania',
+  'Psicologia/Psicanálise',
+  'Juventude',
+  'Dança',
+  'Teatro',
+  'Infância',
+  'Política',
+  'Maternidade',
+  'Cidade',
+  'Literatura',
+  'Outro',
+];
 // import { Tracker } from 'meteor/tracker';
 SimpleSchema.extendOptions(['autoform']);
 SimpleSchema.setDefaultMessages({
@@ -131,6 +177,25 @@ Schema.UserAddresses = new SimpleSchema({
 });
 
 Schema.UserProfile = new SimpleSchema({
+  avatar_path: {
+    type: String,
+    label: 'Avatar',
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
+        },
+      },
+    },
+  },
   name: {
     type: String,
     label: 'Nome completo',
@@ -350,5 +415,16 @@ Users.attachSchema(Schema.User);
 //     return Users.findOne(this.user_id);
 //   }
 // });
+
+Users.allow({
+  insert() {
+    return true;
+  },
+
+  update(userId, doc) {
+    // Can only change your own documents.
+    return doc._id === userId;
+  },
+});
 
 export default Users;

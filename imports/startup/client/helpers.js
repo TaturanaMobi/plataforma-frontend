@@ -1,26 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
 
 import Schemas from './../../models/schemas';
-import { Films, FILM_SUBCATEGORIES, FILM_CATEGORIES, STATES } from './../../models/films';
+import { Films } from './../../models/films';
 import Users from './../../models/users';
 import Screenings from './../../models/screenings';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 
 Template.registerHelper('isAdmin', () => Meteor.user().profile.roles.indexOf('admin') > -1);
-
-Template.registerHelper('categories', () => _.map(FILM_CATEGORIES, item => ({ name: item })));
-
-Template.registerHelper('subcategories', () => _.map(FILM_SUBCATEGORIES, item => ({ name: item })));
-
-Template.registerHelper('ufs', () => STATES);
-
-Template.registerHelper('isSelected', function isSelected(selectedValue) {
-  return (this === selectedValue) ? 'selected' : '';
-});
 
 Template.registerHelper('format_date', (date) => {
   const d = moment(date);
