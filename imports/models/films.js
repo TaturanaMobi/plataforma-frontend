@@ -315,17 +315,11 @@ export const FILM_SUBCATEGORIES = [
   'Outro',
 ];
 
-export const SCREENING_STATUS =
-['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
-
 export const FILM_STATUS =
 ['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
 
 export const FILM_AGE_RATING =
 ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
-export const SCREENING_ACTIVITY =
-['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula'];
-
 export const STATES =
-['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'OUTRO'];
+['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];

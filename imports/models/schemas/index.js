@@ -1,11 +1,10 @@
-// import UserSchema from './users';
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
-// import { _ } from 'meteor/underscore';
 
 import { Schema as userSchema } from './../users';
 import wNumb from './../utils/wNumb';
-import { FILM_AGE_RATING, FILM_STATUS, SCREENING_ACTIVITY, SCREENING_STATUS, STATES } from './../films';
+import { FILM_AGE_RATING, FILM_STATUS, STATES } from './../films';
+import { SCREENING_ACTIVITY, SCREENING_STATUS } from './../screenings';
 import getSelectOptions from './getSelectOptions';
 
 SimpleSchema.extendOptions(['autoform']);
@@ -89,10 +88,9 @@ Schemas.Screening = new SimpleSchema({
     max: 1000,
   },
   cep: {
-    type: SimpleSchema.Integer,
+    type: String,
     label: 'CEP',
     optional: true,
-    min: 8,
   },
   street: {
     type: String,

@@ -37,3 +37,9 @@ Screenings.helpers({
 });
 
 export default Screenings;
+
+export const SCREENING_STATUS =
+['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
+
+export const SCREENING_ACTIVITY =
+['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula'];
