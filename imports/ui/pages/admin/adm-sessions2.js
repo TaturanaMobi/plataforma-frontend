@@ -6,6 +6,7 @@ import { Template } from 'meteor/templating';
 
 import Films from '../../../models/films.js';
 // import Screenings from '../../../models/screenings.js';
+import { Cities, States } from '../../../models/states_and_cities';
 
 Template.admSessions2.helpers({
   settings() {
@@ -72,35 +73,36 @@ Template.admSessions2.helpers({
         'uf',
         // 's_country', 'street', 'number', 'complement', 'zone', 'cep',
         //  'author_1', 'author_2', 'author_3',
-        { label: 'Data criação', key: 'created_at', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl},
+        { label: 'Data criação', key: 'created_at', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl },
         { label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl, headerClass: 'col-md-2' },
       ],
     };
   },
 
-  ambassador_options(films) {
-    let ambassadorsIds = [];
+  ambassador_options() {
+  //   let ambassadorsIds = [];
 
-    _.each(films, (film) => {
-      _.each(film.screening, (screening) => {
-        if (screening.user_id) {
-          ambassadorsIds.push(screening.user_id);
-        }
-      });
-    });
+  //   _.each(films, (film) => {
+  //     _.each(film.screening, (screening) => {
+  //       if (screening.user_id) {
+  //         ambassadorsIds.push(screening.user_id);
+  //       }
+  //     });
+  //   });
 
-    ambassadorsIds = _.uniq(ambassadorsIds);
-    const ambassadors = Meteor.users.find({
-      _id: {
-        $in: ambassadorsIds,
-      },
-    }, {
-      _id: 1,
-      'profile.name': 1,
-      sort: { 'profile.name': 1 },
-    }).fetch();
+  //   ambassadorsIds = _.uniq(ambassadorsIds);
+  //   const ambassadors = Meteor.users.find({
+  //     _id: {
+  //       $in: ambassadorsIds,
+  //     },
+  //   }, {
+  //     _id: 1,
+  //     'profile.name': 1,
+  //     sort: { 'profile.name': 1 },
+  //   }).fetch();
 
-    return _.uniq(ambassadors);
+  //   return _.uniq(ambassadors);
+    return [];
   },
 
   states_options() {

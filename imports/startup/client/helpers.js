@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { moment } from 'meteor/momentjs:moment';
 
 import Schemas from './../../models/schemas';
-import { Films } from './../../models/films';
+import Films from './../../models/films';
 import Users from './../../models/users';
 import Screenings from './../../models/screenings';
 

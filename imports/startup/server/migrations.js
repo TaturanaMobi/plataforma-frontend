@@ -61,6 +61,9 @@ Migrations.add({
             screening.author_3 = toTitleCase(screening.author_3);
           }
           screening.status = getScreeningStatus(screening);
+          if (screening.status === 'Concluída') {
+            screening.reportCreatedAt = new Date();
+          }
           screening.street = toTitleCase(screening.street);
           screening.uf = (screening.uf.length > 3 ? '' : screening.uf);
           screening.created_at = (!screening.created_at ? '' : screening.created_at);
