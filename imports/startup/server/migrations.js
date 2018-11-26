@@ -76,17 +76,18 @@ Migrations.add({
           screening.accept_terms = true;
           screening.activity = (!screening.activity ? 'Debate' : screening.activity);
           screening.comments = (!screening.comments ? 'Sem comentários.' : screening.comments);
+          screening.oldId = screening._id;
           delete screening._id;
           Screenings.insert(screening);
         });
       }
 
       // delete film.screening;
-      film.length = convertInteger(film.length);
+      film.duration = convertInteger(film.length);
 
       Films.update(film._id, {
         $set: {
-          length: film.length,
+          duration: film.duration,
         },
       });
     });

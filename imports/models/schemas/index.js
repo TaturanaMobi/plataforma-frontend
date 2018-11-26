@@ -126,6 +126,12 @@ const Schemas = {};
 Schemas.User = userSchema.User;
 
 Schemas.Screening = new SimpleSchema({
+  oldId: {
+    type: String,
+    autoform: {
+      type: 'hidden',
+    },
+  },
   filmId: {
     type: String,
     autoform: {
@@ -536,7 +542,7 @@ Schemas.Film = new SimpleSchema({
     type: SimpleSchema.Integer,
     label: 'Ano',
   },
-  length: {
+  duration: {
     type: SimpleSchema.Integer,
     label: 'Duração em minutos',
   },
