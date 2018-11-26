@@ -118,6 +118,9 @@ a, input, button, textarea{
   background: transparent;
   border-color: #fff;
 }
+.fr-box.fr-basic .fr-element {
+  color: #fff;
+}
 select:not([multiple]) {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;

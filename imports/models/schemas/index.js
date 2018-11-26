@@ -566,7 +566,14 @@ Schemas.Film = new SimpleSchema({
   production_company: {
     type: String,
     label: 'Produtora',
-    max: 100,
+    max: 255,
+    optional: true,
+  },
+  productionCompanyEmail: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
+    max: 255,
+    label: 'E-mail da Produtora',
     optional: true,
   },
   director: {
