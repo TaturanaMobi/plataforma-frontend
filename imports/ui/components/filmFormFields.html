@@ -1,0 +1,121 @@
+<template name="filmFormFields">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Filme: {{title}}</h1>
+    </div>
+    <div class="col-lg-4">
+      <h3>BÁSICA</h3>
+      <div class="form-group col-md-12">
+        {{#if poster_path}}
+        <img
+          src="https://images.stag.taturanamobi.com.br/thumbnail?height=320&file={{poster_path}}"
+          class="adm-thumb destroy-img"
+        />
+        {{/if}}
+
+        {{> afQuickField name='poster_path' }}
+      </div>
+      <div class="form-group col-md-12">
+        {{> afQuickField name='title' }}
+      </div>
+      <div class="form-group col-md-12">
+        {{> afQuickField name='synopsis' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='genre' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='trailer_url' }}
+      </div>
+      <div class="form-group col-md-12">
+        {{> afQuickField name='status' }}
+      </div>
+      <div class="form-group col-md-12">
+        {{> afQuickField name='slug' }}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <h3>TÉCNICA</h3>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='technical_information' }}
+      </div>
+      <div class="form-group col-md-6">
+        {{> afQuickField name='country' }}
+      </div>
+      <div class="form-group col-md-6">
+        {{> afQuickField name='age_rating' }}
+      </div>
+      <div class="form-group col-md-6">
+        {{> afQuickField name='year' }}
+      </div>
+      <div class="form-group col-md-6">
+          {{> afQuickField name='duration' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='director' }}
+      </div>
+      <div class="form-group col-md-12">
+        {{> afQuickField name='production_company' }}
+      </div>
+      <div class="form-group col-md-12">
+        {{> afQuickField name='productionCompanyEmail' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='link_for_download' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='password_for_download' }}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>DIVULGAÇÃO</h3>
+      <div class="form-group col-md-12">
+        {{#if press_kit_path}}
+        <a href="https://stag.taturanamobi.com.br/upload/{{press_kit_path}}" class=""
+          >Ver material cadastrado</a
+        >
+        {{/if}}
+
+        {{> afQuickField name='press_kit_path' }}
+      </div>
+      <div class="form-group col-md-12">
+        {{#if poster_home_path}}
+        <img
+          src="https://images.stag.taturanamobi.com.br/smartcrop?width=360&height=370&file={{poster_home_path}}"
+          class="adm-thumb destroy-img"
+        />
+        {{/if}}
+        {{> afQuickField name='poster_home_path' }}
+      </div>
+
+      <h3>REDES SOCIAIS</h3>
+      <div class="form-group col-md-12">
+        {{> afQuickField name='site' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='facebook' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='twitter' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='instagram' }}
+      </div>
+      <div class="form-group col-md-12">
+          {{> afQuickField name='youtube' }}
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group col-md-2">
+        <button class="btn btn-lg btn-block" type="submit">
+          Enviar
+        </button>
+      </div>
+      <div class="form-group col-md-1">
+        <button class="btn btn-lg btn-block" type="button">
+          Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+</template>

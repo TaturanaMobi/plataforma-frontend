@@ -17,6 +17,8 @@ import './../../ui/pages/admin/adm-reports.html';
 import './../../ui/pages/admin/adm-reports.js';
 import './../../ui/pages/admin/adm-sessions2.html';
 import './../../ui/pages/admin/adm-sessions2.js';
+import './../../ui/pages/admin/adm-screening-edit.js';
+import './../../ui/pages/admin/adm-films-new.js';
 import './../../ui/pages/admin/adm.html';
 
 import Screenings from '../../models/screenings.js';
@@ -57,6 +59,18 @@ Router.route('/adm/films-edit/:_id', {
   },
   action() {
     this.render('admFilmsEdit');
+  },
+});
+
+Router.route('/adm/films-new', {
+  template: 'admFilmsNew',
+
+  waitOn() {
+    return this.subscribe('films.all');
+  },
+
+  action() {
+    this.render('admFilmsNew');
   },
 });
 
@@ -111,6 +125,17 @@ Router.route('/adm/report/:_id', {
   },
 });
 
+Router.route('/adm/edit-screening/:_id', {
+  waitOn() {
+    return [this.subscribe('screenings.all'), this.subscribe('films.all')];
+  },
+  data() {
+    return Screenings.findOne({ _id: this.params._id });
+  },
+  action() {
+    this.render('adminEditScreening');
+  },
+});
 
 function isAdmin() {
   const userId = Meteor.userId();

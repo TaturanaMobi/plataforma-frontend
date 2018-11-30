@@ -1,11 +1,12 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
 import 'bootstrap-sass';
 import './../../components/filmFormFields.html';
-import './adm-films-edit.html';
+import './adm-films-new.html';
 
-Template.admFilmsEdit.onRendered(() => {
+Template.admFilmsNew.onRendered(() => {
   $(() => {
     $('textarea.editor').froalaEditor({
       toolbarButtons: [
@@ -24,4 +25,12 @@ Template.admFilmsEdit.onRendered(() => {
       toolbarSticky: false,
     });
   });
+});
+
+Template.admFilmsNew.helpers({
+  form() {
+    return {
+      userId: Meteor.userId(),
+    };
+  },
 });
