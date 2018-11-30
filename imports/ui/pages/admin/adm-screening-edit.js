@@ -5,9 +5,9 @@ import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import { saveScreening } from './../../startup/client/helpers.js';
-import './../components/screeningFormFields.html';
-import './edit-screening.html';
+import { saveScreening } from './../../../startup/client/helpers.js';
+import './../../components/screeningFormFields.html';
+import './adm-screening-edit.html';
 
 Template.editScreening.onRendered(() => {
   // const nowDate = new Date();

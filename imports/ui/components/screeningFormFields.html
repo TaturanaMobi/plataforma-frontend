@@ -1,0 +1,121 @@
+<template name="screeningFormFields">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="col-md-12">
+        <h3>ENDEREÇO</h3>
+        <div class="help-block with-errors red form-errors"></div>
+        {{> afFieldInput name='user_id' value=form.user_id}}
+        {{> afFieldInput name='filmId' value=form.filmId}}
+        {{> afFieldInput name='status' value=form.status type='hidden'}}
+        {{> afQuickField name='place_name' }}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-12">
+        {{> afQuickField name='cep' }}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-8">
+        {{> afQuickField name='street' }}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-4">
+        {{> afQuickField name='number' }}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-4">
+        {{> afQuickField name='complement' }}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-8">
+        {{> afQuickField name='zone' }}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-4">
+        {{> afQuickField name='city' }}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-4">
+        {{> afQuickField name='uf'}}
+      </div>
+      <div class="col-md-4">
+        {{> afQuickField name='s_country'}}
+      </div>
+      <div class="col-md-8 checkbox">
+          {{> afQuickField name='saveAddress'}}
+        </div>
+    </div>
+    <div class="col-md-6">
+      <h3>ENDEREÇOS SALVOS</h3>
+      {{#each user_addresses}}
+      <div class="col-md-12">
+        <div class="address-box">
+          <button class="remove_address">X</button>
+          <h4>{{place_name}}</h4>
+          <a href="#" class="replace_address"><p class="address-text">{{street}}, {{number}} {{complement}} <br/> {{zone}}, {{city}} - {{uf}}</p></a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="col-md-12">
+        <h3>SESSÃO</h3>
+        {{> afQuickField name='date'}}
+      </div>
+      <div class="col-md-12">
+        <p class="sub-label red">Você nos diz quando e onde fará a exibição e ajudamos a divulgá-la!</p>
+      </div>
+      <div class="col-md-12 checkbox">
+        {{> afQuickField name='public_event'}}
+      </div>
+      <div class="col-md-12">
+        {{> afQuickField name='activity'}}
+        <!-- <label class="control-label" for="activity">Haverá alguma atividade antes ou depois da exibição?</label> -->
+        <p class="sub-label red">Um filme é sempre um bom ponto de partida para uma conversa! Aproveite a sessão para trocar ideias com o público presente! Convidar pessoas para mediar e trazer mais conteúdo para a discussão pode ajudar a esquentar o bate-papo!</p>
+      </div>
+      <div class="col-md-12">
+          {{> afQuickField name='activity_theme'}}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-12 checkbox">
+          {{> afQuickField name='team_member'}}
+        <p class="sub-label red">Alguns diretores e integrantes do filme muitas vezes se dispõe a participar de um bate-papo após a sessão. Pode ser bacana convida-los! Mas reforçamos que os custos de transporte e hospedagem, quando for o caso, são de responsabilidade do embaixador/instituição.</p>
+      </div>
+      <div class="col-md-12">
+          {{> afQuickField name='quorum_expectation'}}
+        <div class="help-block with-errors red"></div>
+      </div>
+      <div class="col-md-12">
+          {{> afQuickField name='comments'}}
+        <span class="help-block with-errors red"></span>
+      </div>
+      <div class="col-md-12">
+        <p>Termo de compromisso</p>
+        <p class="sub-label">Trabalhamos em rede pela
+        democratização do acesso ao cinema e disponibilizamos o
+        filme aos embaixadores em troca de sua difusão! Como
+        contrapartida, esperamos que o embaixador nos ajude a
+        medir o impacto do filme e se comprometa e enviar um
+        relatório com: 1) contagem de participantes, 2) fotos da
+        exibição+atividade, e 3) um breve relatório
+        descritivo. O parceiro também se compromete a exibir o
+        filme na ocasião acordada entre as partes. O filme não
+        poderá ser fornecido a terceiros, nem ser exibido em
+        outra ocasião ou qualquer meio sem autorização
+        prévia. Também fica proibida a publicação do filme na
+        internet.</p>
+        <div class="checkbox">
+          {{> afQuickField type='boolean-checkbox' name='accept_terms'}}
+        </div>
+        <span class="help-block with-errors red"></span>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <button class="btn btn-lg" id="btn-send" type="submit" value="Register">Agendar</button>
+          <button class="btn btn-lg" id="btn-save">Salvar como rascunho</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
