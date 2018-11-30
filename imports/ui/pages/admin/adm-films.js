@@ -101,8 +101,8 @@ Template.admFilms.events({
 
     event.target.reset();
     FlashMessages.sendSuccess('Filme cadastrado com sucesso!');
-    Session.set('poster_path', null);
-    Session.set('poster_home_path', null);
+    // Session.set('poster_path', null);
+    // Session.set('poster_home_path', null);
     Router.go('adm/films');
   },
   'click .destroy'() {
@@ -117,12 +117,12 @@ Template.admFilms.events({
     event.preventDefault();
 
     this.poster_path = null;
-    Session.set('poster_path', null);
+    // Session.set('poster_path', null);
   },
   'click .btn-change-home'(event) {
     event.preventDefault();
 
     this.poster_home_path = null;
-    Session.set('poster_home_path', null);
+    // Session.set('poster_home_path', null);
   },
 });

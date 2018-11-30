@@ -44,7 +44,7 @@ Template.editScreening.events({
   'click .replace_address'() {
     // set state
     $('#uf').find(`#${this.uf}`).attr('selected', 'selected');
-    Session.set('address', this);
+    // Session.set('address', this);
   },
 });
 
@@ -76,7 +76,7 @@ Template.editScreening.helpers({
         s_country: this.screening.s_country,
       };
 
-      Session.set('address', saved_address);
+      // Session.set('address', saved_address);
     }
 
     return Session.get('address');

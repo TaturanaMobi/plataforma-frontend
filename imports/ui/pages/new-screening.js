@@ -66,6 +66,7 @@ Template.newScreening.helpers({
     return Meteor.user().addresses;
   },
   address(replace_address) {
-    return Session.get('address');
+    return [];
+    // Session.get('address');
   },
 });

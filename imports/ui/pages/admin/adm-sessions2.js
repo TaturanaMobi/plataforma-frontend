@@ -124,42 +124,42 @@ Template.admSessions2.helpers({
 Template.admSessions2.events({
   'change .list-sessions'(event) {
     const list = $(event.currentTarget).val();
-    Session.set('list', list);
+    // Session.set('list', list);
   },
   'change #city-selector'(event) {
     const city = $(event.currentTarget).val();
-    Session.set('city', city);
+    // Session.set('city', city);
   },
   'change #st-selector'(event) {
     const state = $(event.currentTarget).val();
-    Session.set('state', state);
+    // Session.set('state', state);
   },
   'change #film-selector'(event) {
     const title = $(event.currentTarget).val();
-    Session.set('title', title);
+    // Session.set('title', title);
   },
   'change #ambassador-selector'(event) {
     const ambassador = $(event.currentTarget).val();
-    Session.set('ambassador', ambassador);
+    // Session.set('ambassador', ambassador);
   },
   'change #team-selector'(event) {
-    Session.set('team', event.currentTarget.checked);
+    // Session.set('team', event.currentTarget.checked);
   },
   'change #public-event'(event) {
-    Session.set('public', event.currentTarget.checked);
+    // Session.set('public', event.currentTarget.checked);
   },
   'change #comment'(event) {
-    Session.set('comment', event.currentTarget.checked);
+    // Session.set('comment', event.currentTarget.checked);
   },
   'change #pendingReport'(event) {
-    Session.set('report', event.currentTarget.checked);
+    // Session.set('report', event.currentTarget.checked);
   },
   'change #creation-date'(event) {
-    Session.set('creation_date', event.currentTarget.checked);
+    // Session.set('creation_date', event.currentTarget.checked);
   },
   'click .btn-datepicker'(event) {
     const month = $(event.currentTarget).data('month');
-    Session.set('month', month);
+    // Session.set('month', month);
   },
   'click .btn-set-draft'() {
     const id = this._id;
