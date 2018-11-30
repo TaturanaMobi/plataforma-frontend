@@ -12,39 +12,37 @@ import './../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
   screenings() {
-    return Screenings.find({ user_id: Meteor.userId() });
+    return Screenings.find(
+      { user_id: Meteor.userId() },
+      { sort: { date: -1 } },
+    );
   },
   disseminate() {
     return Films.disseminate();
   },
-  session_status_icon(screening) {
+  session_status_icon() {
     // Rascunho
-    if (screening.draft) {
+    if (this.status === 'Rascunho') {
       return 'edit';
     }
 
-    // Agendada
-    const today = new Date();
-
-    if (today.getTime() < screening.date.getTime()) {
+    if (this.status === 'Agendada') {
       return 'calendar';
     }
 
     // Completo
-    if (_.has(screening, 'report_description')) {
+    if (this.status === 'Concluída') {
       return 'complete';
     }
 
     // Falta relatório
     return 'report-pending';
   },
-  in_future(screening) {
-    const today = new Date();
-
-    return (today.getTime() < screening.date.getTime() || screening.draft == 'admin-draft');
+  in_future() {
+    return (this.status === 'Rascunho' || this.status === 'Agendada');
   },
-  is_report_pending(screening) {
-    return !_.has(screening, 'report_description');
+  is_report_pending() {
+    return this.status === 'Pendente';
   },
 });
 Template.ambassador.events({

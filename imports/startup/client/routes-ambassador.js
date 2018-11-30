@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 // import { Session } from 'meteor/session';
 import Films from './../../models/films.js';
+import Screenings from './../../models/screenings.js';
 
 // Must be loggedIn
 
@@ -38,10 +39,10 @@ Router.route('/new-screening/:slug', {
 Router.route('/edit-screening/:_id', {
   name: 'edit-screening',
   waitOn() {
-    return this.subscribe('films.all');
+    return [this.subscribe('screenings.my'), this.subscribe('films.all')];
   },
   data() {
-    return Films.return_film_and_screening(this.params._id);
+    return Screenings.findOne({ _id: this.params._id });
   },
   action() {
     this.render('editScreening');
