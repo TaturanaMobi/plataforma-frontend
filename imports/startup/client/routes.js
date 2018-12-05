@@ -18,7 +18,6 @@ import '../../ui/pages/logout.js';
 import '../../ui/components/denied.html';
 import '../../ui/pages/new-screening.js';
 import '../../ui/pages/register.js';
-import '../../ui/pages/report.js';
 import '../../ui/pages/reset-password.js';
 import '../../ui/pages/screenings.js';
 import '../../ui/pages/show-film.js';
@@ -39,7 +38,14 @@ Router.route('/about', { name: 'about' });
 Router.route('/login', { name: 'login' });
 Router.route('/denied', { name: 'denied' });
 Router.route('/forget', { name: 'forget' });
-Router.route('/register', { name: 'register' });
+
+Router.route('/register', {
+  name: 'register',
+  // waitOn() { return Meteor.subscribe('users'); },
+  // data() { return Films.findOne({ slug: this.params.slug }); },
+  action() { this.render('register'); },
+});
+
 Router.route('/contact', { name: 'contact' });
 
 Router.route('/films', {

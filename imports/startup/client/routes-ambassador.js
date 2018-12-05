@@ -4,6 +4,8 @@ import { Router } from 'meteor/iron:router';
 import Films from './../../models/films.js';
 import Screenings from './../../models/screenings.js';
 
+import '../../ui/pages/report.js';
+
 // Must be loggedIn
 
 Router.route('/ambassador-edit', {
@@ -52,8 +54,11 @@ Router.route('/edit-screening/:_id', {
 Router.route('/report/:_id', {
   name: 'report',
   template: 'report',
+  waitOn() {
+    return [this.subscribe('screenings.my'), this.subscribe('films.all')];
+  },
   data() {
-    return Films.return_film_and_screening(this.params._id);
+    return Screenings.findOne({ _id: this.params._id });
   },
 });
 

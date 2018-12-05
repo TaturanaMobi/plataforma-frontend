@@ -36,9 +36,7 @@
                   <a href="/edit-screening/{{_id}}"><span class="square_button"><img src="/images/edit.svg" alt="Editar" /></span></a>
                   <a href="#" class="destroy"><span class="square_button"><img src="/images/delete.svg" alt="Deletar" /></span></a>
                 {{else}}
-                  {{#if is_report_pending this}}
-                    <a href="/report/{{_id}}"><span class="square_button"><img src="/images/icon-report-pending.png" alt="Relatório pendente" /></span></a>
-                  {{/if}}
+                  <a href="/report/{{_id}}"><span class="square_button"><img src="/images/icon-{{session_status_icon}}.png" /></span></a>
                 {{/if}}
               </div>
             </div>

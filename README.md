@@ -50,8 +50,16 @@ docker-compose exec mongo mongorestore -h taturana.mongo.com:23812 -d taturana -
 * https://guide.meteor.com/collections.html
 * https://github.com/aldeed/simple-schema-js
 * https://github.com/aldeed/meteor-collection2
-* https://github.com/aldeed/meteor-autoform
+* https://github.com/dburles/mongo-collection-instances
+* https://github.com/dburles/meteor-collection-helpers
 * https://github.com/percolatestudio/meteor-migrations
+
+* https://github.com/aldeed/meteor-autoform
+* https://github.com/VeliovGroup/meteor-autoform-file
+* https://github.com/VeliovGroup/Meteor-Files
+
+* https://github.com/aslagle/reactive-table
+* https://github.com/Urigo/awesome-meteor
 
 ## Para extrair o banco de prod localmente
 

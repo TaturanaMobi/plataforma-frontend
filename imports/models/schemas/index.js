@@ -258,7 +258,7 @@ Schemas.Screening = new SimpleSchema({
           }),
           range: {
             min: 5,
-            max: 1000,
+            max: 500,
           },
           step: 1,
         },
@@ -325,13 +325,41 @@ Schemas.Screening = new SimpleSchema({
   real_quorum: {
     type: SimpleSchema.Integer,
     optional: true,
-    label: 'Quórum presente',
+    autoform: {
+      afFieldInput: {
+        type: 'noUiSlider',
+        noUiSliderOptions: {
+          tooltips: true,
+          // start: 5,
+          format: wNumb({
+            decimals: 0,
+          }),
+          range: {
+            min: 5,
+            max: 500,
+          },
+          // step: 1,
+        },
+      },
+    },
+    label: 'Quantas pessoas viram o filme neste sessão?',
   },
   report_description: {
     type: String,
-    label: 'Relatório',
+    label: `Conte como foi a sessão! Tente detalhar ao máximo, explicando por
+exemplo como foi a reação/retorno dos participantes, e também como foi o
+bate-papo e a atividade após o filme. Se puder, cite os conteúdos
+abordados, relate as discussões mais interessantes e reproduza frases e
+depoimentos relevantes.`,
     optional: true,
     max: 10000,
+    autoform: {
+      afFieldInput: {
+        type: 'textarea',
+        class: 'editor',
+        rows: 10,
+      },
+    },
   },
   author_1: {
     type: String,
@@ -353,7 +381,7 @@ Schemas.Screening = new SimpleSchema({
   },
   report_image_1: {
     type: String,
-    label: 'Imagem para relatório',
+    label: 'Imagem para relatório 1',
     optional: true,
     autoform: {
       afFieldInput: {
@@ -396,6 +424,161 @@ Schemas.Screening = new SimpleSchema({
     type: String,
     label: 'Imagem para relatório 3',
     optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
+        },
+      },
+    },
+  },
+}, { tracker: Tracker });
+
+Schemas.Report = new SimpleSchema({
+  _id: {
+    type: String,
+    autoform: {
+      type: 'hidden',
+    },
+  },
+  oldId: {
+    type: String,
+    autoform: {
+      type: 'hidden',
+    },
+  },
+  filmId: {
+    type: String,
+    autoform: {
+      type: 'hidden',
+    },
+  },
+  user_id: {
+    type: String,
+    autoform: {
+      type: 'hidden',
+    },
+  },
+
+  reportCreatedAt: {
+    type: Date,
+    label: 'Data de criação do relatório',
+    defaultValue: new Date(),
+  },
+  status: {
+    type: String,
+    label: 'Status',
+    autoform: {
+      type: 'universe-select',
+      afFieldInput: {
+        multiple: false,
+        options: getSelectOptions(SCREENING_STATUS),
+        uniPlaceholder: 'Selecione',
+      },
+    },
+  },
+  real_quorum: {
+    type: SimpleSchema.Integer,
+    autoform: {
+      afFieldInput: {
+        type: 'noUiSlider',
+        noUiSliderOptions: {
+          tooltips: true,
+          // start: 5,
+          format: wNumb({
+            decimals: 0,
+          }),
+          range: {
+            min: 5,
+            max: 500,
+          },
+          // step: 1,
+        },
+      },
+    },
+    label: 'Quantas pessoas viram o filme neste sessão?',
+  },
+  report_description: {
+    type: String,
+    label: `Conte como foi a sessão! Tente detalhar ao máximo, explicando por
+  exemplo como foi a reação/retorno dos participantes, e também como foi o
+  bate-papo e a atividade após o filme. Se puder, cite os conteúdos
+  abordados, relate as discussões mais interessantes e reproduza frases e
+  depoimentos relevantes.`,
+    max: 10000,
+    autoform: {
+      afFieldInput: {
+        type: 'textarea',
+        class: 'editor',
+        rows: 10,
+      },
+    },
+  },
+  author_1: {
+    type: String,
+    label: 'Autor 1',
+    max: 200,
+  },
+  author_2: {
+    type: String,
+    label: 'Autor 2',
+    max: 200,
+  },
+  author_3: {
+    type: String,
+    label: 'Autor 3',
+    max: 200,
+  },
+  report_image_1: {
+    type: String,
+    label: 'Imagem para relatório 1',
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        allowClientCode: true, // Required to let you remove uploaded file
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
+        },
+      },
+    },
+  },
+  report_image_2: {
+    type: String,
+    label: 'Imagem para relatório 2',
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images',
+        insertConfig: {
+          // <- Optional, .insert() method options, see: https://github.com/VeliovGroup/Meteor-Files/wiki/Insert-(Upload)
+          meta: {},
+          isBase64: false,
+          transport: 'ddp',
+          streams: 'dynamic',
+          chunkSize: 'dynamic',
+          allowWebWorkers: true,
+        },
+      },
+    },
+  },
+  report_image_3: {
+    type: String,
+    label: 'Imagem para relatório 3',
     autoform: {
       afFieldInput: {
         type: 'fileUpload',

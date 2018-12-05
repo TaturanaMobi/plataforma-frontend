@@ -24,6 +24,7 @@ AutoForm.hooks({
     //   console.log(error, formType);
     // },
   },
+
   'new-user-form': {
     // // Called when any submit operation succeeds
     onSubmit(insertDoc, updateDoc, currentDoc) {
@@ -56,7 +57,6 @@ AutoForm.hooks({
         self.done();
       });
     },
-
     // Called when any submit operation succeeds
     onSuccess: (formType, result) => {
       FlashMessages.sendSuccess('Usuário criado com sucesso!');
@@ -72,18 +72,38 @@ AutoForm.hooks({
     //   console.log(error, formType);
     // },
   },
+
   'edit-film-form': {
     // Called when any submit operation succeeds
     onSuccess: (formType, result) => {
       FlashMessages.sendSuccess('Filme salvo com sucesso!');
+      setTimeout(() => {
+        Router.go('/adm/films');
+      }, 2000);
       return result;
     },
+  },
 
-    // Called when any submit operation fails
-    // onError: (formType, error) => {
-    //   FlashMessages.sendError('Preencha todas as informações corretamente.');
-    //   console.log(error, formType);
-    // },
+  'edit-screening-form': {
+    // Called when any submit operation succeeds
+    onSuccess: (formType, result) => {
+      FlashMessages.sendSuccess('Sessão atualizada com sucesso!');
+      setTimeout(() => {
+        Router.go('/ambassador');
+      }, 2000);
+      return result;
+    },
+  },
+
+  'edit-report-form': {
+    // Called when any submit operation succeeds
+    onSuccess: (formType, result) => {
+      FlashMessages.sendSuccess('Relatório salvo com sucesso!');
+      setTimeout(() => {
+        Router.go('/ambassador');
+      }, 2000);
+      return result;
+    },
   },
 
 });
