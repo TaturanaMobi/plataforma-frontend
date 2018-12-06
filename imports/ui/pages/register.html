@@ -10,11 +10,10 @@
         <div class="help-block with-errors form-errors"></div>
         {{#autoForm
           schema=Schemas.User
-          doc=form
           collection=Users
           id="new-user-form"
         }}
-              {{>ambassadorFormFields autoformType="insert"}}
+          {{>ambassadorFormFields }}
           <div class="form-group col-md-6">
             <button class="btn btn-lg btn-block" type="submit" value="Register">Enviar</button>
           </div>
@@ -23,4 +22,3 @@
     </div>
   </div>
 </template>
-

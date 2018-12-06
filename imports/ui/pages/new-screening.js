@@ -33,13 +33,13 @@ Template.newScreening.events({
   //   const form = document.getElementById('new-screening-form');
   //   saveScreening(form, this._id, false, 'create-publish');
   // },
-  'click #btn-save'(event) {
-    // Salva coomo rascunho
-    // TODO: add validation to the form
-    event.preventDefault();
-    const form = document.getElementById('new-screening-form');
-    saveScreening(form, this._id, true, 'create');
-  },
+  // 'click #btn-save'(event) {
+  //   // Salva coomo rascunho
+  //   // TODO: add validation to the form
+  //   event.preventDefault();
+  //   const form = document.getElementById('new-screening-form');
+  //   saveScreening(form, this._id, true, 'create');
+  // },
   'click .remove_address'(event) {
     Meteor.call('removeAddress', Meteor.user()._id, this);
   },

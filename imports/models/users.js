@@ -108,6 +108,7 @@ SimpleSchema.setDefaultMessages({
     },
   },
 });
+
 export const Schema = {};
 
 Schema.UserAddresses = new SimpleSchema({
@@ -173,6 +174,7 @@ Schema.UserAddresses = new SimpleSchema({
     type: String,
     label: 'País',
     max: 1000,
+    optional: true,
   },
 });
 
@@ -405,9 +407,8 @@ Schema.User = new SimpleSchema({
   },
 }, { tracker: Tracker });
 
-const Users = Meteor.users;
-Users.attachSchema(Schema.User);
-// Users.helpers({
+Meteor.users.attachSchema(Schema.User);
+// Meteor.users.helpers({
 //   film() {
 //     return Films.findOne(this.filmId);
 //   },
@@ -416,7 +417,7 @@ Users.attachSchema(Schema.User);
 //   }
 // });
 
-Users.allow({
+Meteor.users.allow({
   insert() {
     return true;
   },
@@ -427,4 +428,4 @@ Users.allow({
   },
 });
 
-export default Users;
+export default Meteor.users;

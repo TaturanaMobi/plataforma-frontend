@@ -131,6 +131,7 @@ Schemas.Screening = new SimpleSchema({
     autoform: {
       type: 'hidden',
     },
+    optional: true,
   },
   filmId: {
     type: String,
@@ -205,6 +206,7 @@ Schemas.Screening = new SimpleSchema({
     type: String,
     label: 'País',
     max: 1000,
+    optional: true,
   },
   date: {
     type: Date,
@@ -252,7 +254,7 @@ Schemas.Screening = new SimpleSchema({
         type: 'noUiSlider',
         noUiSliderOptions: {
           tooltips: true,
-          start: 5,
+          // start: 5,
           format: wNumb({
             decimals: 0,
           }),
@@ -260,7 +262,7 @@ Schemas.Screening = new SimpleSchema({
             min: 5,
             max: 500,
           },
-          step: 1,
+          // step: 1,
         },
       },
     },

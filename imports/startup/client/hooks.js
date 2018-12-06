@@ -19,10 +19,11 @@ AutoForm.hooks({
     },
 
     // Called when any submit operation fails
-    // onError: (formType, error) => {
-    //   FlashMessages.sendError('Preencha todas as informações.');
-    //   console.log(error, formType);
-    // },
+    onError: (formType, error) => {
+      const e = error.toString();
+      FlashMessages.sendError(`Preencha todas as informações. ${e.substring(6)}`);
+      console.log(error, formType);
+    },
   },
 
   'new-user-form': {
@@ -67,10 +68,11 @@ AutoForm.hooks({
     },
 
     // Called when any submit operation fails
-    // onError: (formType, error) => {
-    //   FlashMessages.sendError('Preencha todas as informações.');
-    //   console.log(error, formType);
-    // },
+    onError: (formType, error) => {
+      const e = error.toString();
+      FlashMessages.sendError(`Preencha todas as informações. ${e.substring(6)}`);
+      console.log(error, formType);
+    },
   },
 
   'edit-film-form': {
@@ -93,6 +95,11 @@ AutoForm.hooks({
       }, 2000);
       return result;
     },
+    onError: (formType, error) => {
+      const e = error.toString();
+      FlashMessages.sendError(`Preencha todas as informações. ${e.substring(6)}`);
+      console.log(error, formType);
+    },
   },
 
   'edit-report-form': {
@@ -104,6 +111,27 @@ AutoForm.hooks({
       }, 2000);
       return result;
     },
+    onError: (formType, error) => {
+      FlashMessages.sendError('Preencha todas as informações.');
+      console.log(error, formType);
+    },
   },
 
+  'edit-user-form': {
+    // Called when any submit operation succeeds
+    onSuccess: (formType, result) => {
+      FlashMessages.sendSuccess('Usuário criado com sucesso!');
+      setTimeout(() => {
+        Router.go('/ambassador');
+      }, 2000);
+      return result;
+    },
+
+    // Called when any submit operation fails
+    onError: (formType, error) => {
+      const e = error.toString();
+      FlashMessages.sendError(`Preencha todas as informações. ${e.substring(6)}`);
+      console.log(error, formType);
+    },
+  },
 });
