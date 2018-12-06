@@ -1,31 +1,48 @@
 <template name="admSessions2">
   <div class="bg-wrapper">
     <div id="adm-sessions" class="container adm">
-      {{>admSidebar page="sessions"}}
-
-      <div class="col-md-8 col-md-offset-1">
+      <div class="col-md-12">
         <h2>Sessões</h2>
         <br />
         <div class="row">
           <div class="col-md-12">
-            <div class="datepicker-container">
-              <div class="btn-group form-group">
-                <button type="button" class="btn btn-datepicker" data-month="01">Jan</button>
-                <button type="button" class="btn btn-datepicker" data-month="02">Fev</button>
-                <button type="button" class="btn btn-datepicker" data-month="03">Mar</button>
-                <button type="button" class="btn btn-datepicker" data-month="04">Abr</button>
-                <button type="button" class="btn btn-datepicker" data-month="05">Mai</button>
-                <button type="button" class="btn btn-datepicker" data-month="06">Jun</button>
-                <button type="button" class="btn btn-datepicker" data-month="07">Jul</button>
-                <button type="button" class="btn btn-datepicker" data-month="08">Ago</button>
-                <button type="button" class="btn btn-datepicker" data-month="09">Set</button>
-                <button type="button" class="btn btn-datepicker" data-month="10">Out</button>
-                <button type="button" class="btn btn-datepicker" data-month="11">Nov</button>
-                <button type="button" class="btn btn-datepicker" data-month="12">Dez</button>
-              </div>
+              <div class="form-group col-md-2">
+                  <label for="ambassador-selector">Mês de referência</label>
+                  <select class="form-control" name="ambassador-selector" id="ambassador-selector">
+                    <option value="">Selecione</option>
+                    {{#each ambassador_options films}}
+                    <option value="{{_id}}">{{profile.name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+
+            <div class="form-group col-md-2">
+              <label for="filmSelector">Filme</label>
+              <select class="form-control" name="filmSelector" id="film-selector">
+                <option value="">Selecione</option>
+                {{#each films}}
+                <option>{{title}}</option>
+                {{/each}}
+              </select>
             </div>
-          </div>
-          <div class="col-md-12">
+            <div class="form-group col-md-2">
+              <label for="ambassador-selector">Embaixador</label>
+              <select class="form-control" name="ambassador-selector" id="ambassador-selector">
+                <option value="">Selecione</option>
+                {{#each ambassador_options films}}
+                <option value="{{_id}}">{{profile.name}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="city-selector">Cidade</label>
+              <select class="form-control" name="city-selector" id="city-selector">
+                  <option value="">Selecione</option>
+                  {{#each cities_options}}
+                  <option value="{{name}}">{{name}} ({{state}})</option>
+                  {{/each}}
+              </select>
+            </div>
             <div class="form-group col-md-2">
               <label for="state-selector">Estado</label>
               <select class="form-control" name="state-selector" id="st-selector">
@@ -35,55 +52,28 @@
                 {{/each}}
               </select>
             </div>
-            <div class="form-group col-md-3">
-              <label for="city-selector">Cidade</label>
-              <select class="form-control" name="city-selector" id="city-selector">
-                  <option value="">Selecione</option>
-                  {{#each cities_options}}
-                  <option value="{{name}}">{{name}} ({{state}})</option>
-                  {{/each}}
-              </select>
-            </div>
-            <div class="form-group col-md-3">
-              <label for="filmSelector">Filme</label>
-              <select class="form-control" name="filmSelector" id="film-selector">
-                <option value="">Selecione</option>
-                {{#each films}}
-                <option>{{title}}</option>
-                {{/each}}
-              </select>
-            </div>
-            <div class="form-group col-md-3">
-              <label for="ambassador-selector">Embaixador</label>
-              <select class="form-control" name="ambassador-selector" id="ambassador-selector">
-                <option value="">Selecione</option>
-                {{#each ambassador_options films}}
-                <option value="{{_id}}">{{profile.name}}</option>
-                {{/each}}
-              </select>
-            </div>
           </div>
             <div class="filters">
               <div class="col-md-12">
                 <div class="col-md-12 division"></div>
                 <div class="row">
-                <div class="col-md-4">
-                  <input type="checkbox" name="teamParticipation" id="team-selector" />
-                  <label for="teamParticipation">Participação da equipe</label>
+                  <div class="col-md-3">
+                    <input type="checkbox" name="teamParticipation" id="team-selector" />
+                    <label for="teamParticipation">Participação da equipe</label>
+                  </div>
+                  <div class="col-md-3">
+                      <input type="checkbox" name="publicEvent" id="public-event" />
+                    <label for="publicEvent">Aberta ao público</label>
+                  </div>
+                  <div class="col-md-3">
+                      <input type="checkbox" name="comment" id="comment" />
+                    <label for="comment">Comentarios? </label>
+                  </div>
+                  <div class="col-md-3">
+                      <input type="checkbox" name="pendingReport" id="pendingReport" />
+                    <label for="pendingReport">Tem relatórios pendentes? </label>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                    <input type="checkbox" name="publicEvent" id="public-event" />
-                  <label for="publicEvent">Aberta ao público</label>
-                </div>
-                <div class="col-md-4">
-                    <input type="checkbox" name="comment" id="comment" />
-                  <label for="comment">Comentarios? </label>
-                </div>
-                <div class="col-md-4">
-                    <input type="checkbox" name="pendingReport" id="pendingReport" />
-                  <label for="pendingReport">Tem relatórios pendentes? </label>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -96,7 +86,7 @@
 </template>
 
 <template name="filmCellTmpl">
-  <a target="_blank" href="/film/{{film_slug}}">{{film_title}}</a>
+  <a target="_blank" href="/film/{{slug}}">{{title}}</a>
 </template>
 
 <template name="screeningCellTmpl">
@@ -104,7 +94,7 @@
 </template>
 
 <template name="embaixadorCellTmpl">
-    <a target="_blank" href="/adm/ambassador/{{user._id}}">{{user.profile.name}}</a>
+    <a target="_blank" href="/adm/ambassador/{{_id}}">{{profile.name}}</a>
   </template>
 
 <template name="quorumCellTmpl">
@@ -145,7 +135,7 @@
 
 <template name="actionsCellTmpl">
   <p>
-    <a class="btn btn-xs" href="/edit-screening/{{_id}}">Editar</a>
+    <a class="btn btn-xs" href="/adm/edit-screening/{{_id}}">Editar</a>
     {{#if draft}}
     <button class="btn btn-xs btn-unset-draft" data-session-id="{{_id}}">Desmarcar rascunho</button>
     {{else}}

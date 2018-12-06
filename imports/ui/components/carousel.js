@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import Films from '../../api/films/films.js';
+import Films from '../../models/films.js';
 import './carousel.html';
 
 Template.homeCarousel.onRendered(() => {

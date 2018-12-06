@@ -2,3 +2,4 @@
 .meteor/local
 node_modules
 packages/*/.build*
+uploads/*

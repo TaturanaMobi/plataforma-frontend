@@ -6,26 +6,21 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
 import { saveScreening } from './../../startup/client/helpers.js';
+import './../components/screeningFormFields.html';
 import './edit-screening.html';
 
 Template.editScreening.onRendered(() => {
-  const nowDate = new Date();
-  const today = new Date(
-    nowDate.getFullYear(),
-    nowDate.getMonth(),
-    nowDate.getDate() + 3,
-    0, 0, 0, 0
-  );
+  // const nowDate = new Date();
+  // const today = new Date(
+  //   nowDate.getFullYear(),
+  //   nowDate.getMonth(),
+  //   nowDate.getDate() + 3,
+  //   0, 0, 0, 0
+  // );
 
-  $('.readonly').keydown(function readOnlyKeyDown(e) {
-    e.preventDefault();
-  });
-  $('#date').datepicker({
-    format: 'dd/mm/yyyy',
-    language: 'pt-BR',
-    startDate: today,
-  });
-  $('.datetimepicker').timepicker();
+  // $('.readonly').keydown(function readOnlyKeyDown(e) {
+  //   e.preventDefault();
+  // });
   $("a[rel^='prettyPhoto']").prettyPhoto();
 });
 
@@ -49,11 +44,19 @@ Template.editScreening.events({
   'click .replace_address'() {
     // set state
     $('#uf').find(`#${this.uf}`).attr('selected', 'selected');
-    Session.set('address', this);
+    // Session.set('address', this);
   },
 });
 
 Template.editScreening.helpers({
+  // form() {
+  //   return this;
+  // },
+  // film() {
+  //   // console.log(this);
+  //   return this.film().fetch();
+  // },
+
   user_addresses() {
     if (!Meteor.user()) return;
     return Meteor.user().addresses;
@@ -73,7 +76,7 @@ Template.editScreening.helpers({
         s_country: this.screening.s_country,
       };
 
-      Session.set('address', saved_address);
+      // Session.set('address', saved_address);
     }
 
     return Session.get('address');

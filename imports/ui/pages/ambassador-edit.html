@@ -9,39 +9,34 @@
         <p>{{amount_film_screenings.people}} pessoas impactadas pela difusão de filmes</p>
       {{/if}}
     </div>
-    <div class="col-md-12 data-row">
-      <div class="help-block with-errors form-errors"></div>
-      <div class="col-md-6 reset-div">
-        <h3>MEUS DADOS</h3>
-        <form class="ambassador-edit">
-          <label class="control-label" for="avatar_path">Avatar</label>
-          {{#if currentUser.profile.avatar_path}}
-            <img src="https://images.taturanamobi.com.br/smartcrop?width=100&height=100&file={{currentUser.profile.avatar_path}}" class="full" alt="Avatar" />
-            <input type="hidden" name="avatar_path" value="{{currentUser.profile.avatar_path}}"/>
-          {{else}}
-            {{> upload_bootstrap contentType='images' multiple=false formData=avatarData}}
-            <span class="help-block with-errors"></span>
-          {{/if}}
-          {{>ambassadorFormFields}}
-          <div class="form-group col-md-5">
-            <button class="btn btn-lg btn-block" type="submit">Salvar alterações</button>
-          </div>
-        </form>
-      </div>
+    <div class="col-md-6">
+      {{#autoForm
+        schema=Schemas.User
+        doc=form
+        collection=Users
+        id="edit-user-form"
+        type="update"
+      }}
 
-      {{#if currentUser.addresses}}
-      <div class="col-md-6">
-        <h3>ENDEREÇOS SALVOS</h3>
-        {{#each currentUser.addresses}}
-        <div class="col-md-4 reset-div">
-          <h2 class="film-thumb-title red">{{city}} - {{uf}}</h2>
-          <p>{{place_name}} <br/>{{street}}, {{number}} - {{zone}}</p>
-          <!-- <a href="edit-screening/{{_id}}"><span class="square_button"><img src="/images/edit.svg"/></span></a> -->
-          <a href="#" class="destroy"><span class="square_button"><img src="/images/delete.svg" alt="Deletar"/></span></a>
+        {{>ambassadorFormFields isUpdate="true" }}
+
+        <div class="form-group col-md-5">
+          <button class="btn btn-lg btn-block" type="submit">Salvar alterações</button>
         </div>
-        {{/each}}
-      </div>
-      {{/if}}
+      {{/autoForm}}
     </div>
+    {{#if form.addresses}}
+    <div class="col-md-6">
+      <h3>ENDEREÇOS SALVOS</h3>
+      {{#each form.addresses}}
+      <div class="col-md-4 reset-div">
+        <h2 class="film-thumb-title red">{{city}} - {{uf}}</h2>
+        <p>{{place_name}} <br/>{{street}}, {{number}} - {{zone}}</p>
+        <!-- <a href="edit-screening/{{_id}}"><span class="square_button"><img src="/images/edit.svg"/></span></a> -->
+        <a href="#" class="destroy"><span class="square_button"><img src="/images/delete.svg" alt="Deletar"/></span></a>
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
   </div>
 </template>

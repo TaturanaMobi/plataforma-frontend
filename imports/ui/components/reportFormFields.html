@@ -1,0 +1,58 @@
+<template name="reportFormFields">
+  <div class="col-md-6">
+    {{> afQuickField name='status' value='Concluída' type='hidden' }}
+
+    <h3>INFORMAÇÕES</h3>
+
+    <div class="form-group col-md-12">
+      {{> afQuickField name='real_quorum' }}
+    </div>
+    <div class="form-group col-md-12">
+      {{> afQuickField name='report_description' }}
+    </div>
+  </div>
+  <div class="col-md-6">
+
+    <h3>FOTOS</h3>
+
+    <div class="form-group col-md-12">
+      {{#if screening.report_image_1}}
+      <img
+        src="https://images.stag.taturanamobi.com.br/smartcrop?width=300&height=300&file={{report_image_1}}"
+        class="adm-thumb destroy-img"
+      />
+      {{else}}
+      <div class="form-group col-md-12"></div>
+          {{> afQuickField name='report_image_1' }}
+      {{/if}}
+      {{> afQuickField name='author_1' }}
+    </div>
+
+    <div class="form-group col-md-12">
+      {{#if screening.report_image_2}}
+      <img
+        src="https://images.stag.taturanamobi.com.br/smartcrop?width=300&height=300&file={{report_image_2}}"
+        class="adm-thumb destroy-img"
+      />
+      {{else}}
+      <div class="form-group col-md-12"></div>
+          {{> afQuickField name='report_image_2' }}
+      {{/if}}
+      {{> afQuickField name='author_2' }}
+    </div>
+
+    <div class="form-group col-md-12">
+      {{#if screening.report_image_3}}
+      <img
+        src="https://images.stag.taturanamobi.com.br/smartcrop?width=300&height=300&file={{report_image_3}}"
+        class="adm-thumb destroy-img"
+      />
+      {{else}}
+      <div class="form-group col-md-12"></div>
+          {{> afQuickField name='report_image_3' }}
+      {{/if}}
+      {{> afQuickField name='author_3' }}
+    </div>
+
+  </div>
+</template>

@@ -5,7 +5,6 @@
 $large: 980px;
 $medium: 600px;
 
-
 body {
   content: " ";
   background-image: url("/images/home-background.jpg");
@@ -57,10 +56,6 @@ body{
   font-family: Roboto;
   font-weight: 400;
   background-color: #0e0e0e;
-
-  @media (max-width: 583px) {
-    background-size: inherit;
-  }
 }
 // .reset-div{
 //   padding:0;
@@ -104,11 +99,27 @@ p, label{
   margin-bottom: 1em;
   text-shadow: 1px 1px 2px #000;
 }
+
+.modal p, .modal label,
+.note-editable.panel-body p {
+  color: inherit;
+  text-shadow: none;
+  margin: inherit;
+  font-size: inherit;
+}
+
 a, a:hover, a:visited, a:link{
   color:#fff;
 }
 a, input, button, textarea{
   border-radius: 0 !important;
+}
+.fr-box.fr-basic .fr-wrapper {
+  background: transparent;
+  border-color: #fff;
+}
+.fr-box.fr-basic .fr-element {
+  color: #fff;
 }
 select:not([multiple]) {
   -webkit-appearance: none;
@@ -242,4 +253,25 @@ section{
   .close {
     margin-top: -5px;
   }
+}
+
+[data-required] label:after {
+  content: ' *';
+  color: #df4944;
+}
+[data-required] .radio label:after {
+  content: '';
+}
+
+.nouislider {
+  margin: 40px 20px;
+}
+
+.bootstrap-datetimepicker-widget {
+  background-color: #333;
+}
+.bootstrap-datetimepicker-widget td span:hover,
+.bootstrap-datetimepicker-widget thead tr:first-child th:hover,
+.bootstrap-datetimepicker-widget td.day:hover, .bootstrap-datetimepicker-widget td.hour:hover, .bootstrap-datetimepicker-widget td.minute:hover, .bootstrap-datetimepicker-widget td.second:hover {
+  background-color: #222;
 }

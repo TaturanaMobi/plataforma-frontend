@@ -1,17 +1,18 @@
 /* global document, window */
 
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
+import { Papa } from 'meteor/harrison:papa-parse';
 
-import Films from './../../../api/films/films.js';
+import Films from './../../../models/films.js';
 
 const hasValue = prop => prop !== undefined && prop.value.length > 0;
 
 const filteredAmbassadors = () => {
-  const filters = Session.get('ambassadorsFilters') || {};
+  // const filters = Session.get('ambassadorsFilters') || {};
+  const filters = {};
   const findAttrs = _.pick(filters, ['profile.category', 'profile.subcategory', 'profile.city', 'profile.uf']);
 
   let users = Meteor.users.find(findAttrs).fetch();
@@ -48,6 +49,36 @@ const filteredAmbassadors = () => {
 Meteor.subscribe('ambassadors');
 
 Template.admAmbassadors.helpers({
+  settings() {
+    const instance = Template.instance();
+    return {
+      collection: instance.data,
+      // filters: ['filterTeamMember'],
+      rowsPerPage: 100,
+      showFilter: false,
+      showRowCount: true,
+      fields: [
+      //   { label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl2 },
+        // 'emails.0.address',
+        'profile.name',
+        'profile.cell_phone',
+        'profile.city',
+        'profile.uf',
+        'profile.institution',
+        'profile.category',
+        'profile.subcategory',
+        { label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2 },
+      ],
+      //   'status',
+      //   { label: 'Press Kit', key: 'press_kit_path', tmpl: Template.pressKitCellTmpl },
+      //   // 'slug',
+      //   'genre',
+      //   { label: 'Poster', key: 'poster_path', tmpl: Template.posterCellTmpl },
+      //   { label: 'Poster Home', key: 'poster_home_path', tmpl: Template.posterHomeCellTmpl },
+      // ],
+    };
+  },
+
   ambassadors() {
     return filteredAmbassadors();
   },
@@ -60,8 +91,8 @@ Template.admAmbassadors.helpers({
     return emails[0].address;
   },
 
-  get_place_data(data_type) {
-    const place_data = [];
+  get_place_data(dataType) {
+    const placeData = [];
     const ambassadors = Meteor.users.find({}, {
       fields: {
         'profile.city': 1,
@@ -70,10 +101,10 @@ Template.admAmbassadors.helpers({
     }).fetch();
     _.each(ambassadors, (ambassador) => {
       if (ambassador.profile) {
-        place_data.push(ambassador.profile[data_type]);
+        placeData.push(ambassador.profile[dataType]);
       }
     });
-    return _.uniq(place_data).sort();
+    return _.uniq(placeData).sort();
   },
 });
 
@@ -110,7 +141,7 @@ Template.admAmbassadors.events({
       filters.profile.uf = el.uf.value;
     }
 
-    Session.set('ambassadorsFilters', filters);
+    // Session.set('ambassadorsFilters', filters);
   },
 
   'click .csv-export'(event) {

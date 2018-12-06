@@ -9,7 +9,7 @@ import { assert } from 'chai';
 import { $ } from 'meteor/jquery';
 
 import { withRenderedTemplate } from './../test-helpers.js';
-// import Films from './../../api/films/films.js';
+// import Films from './../../models/films.js';
 
 if (Meteor.isClient) {
   import './home.js';

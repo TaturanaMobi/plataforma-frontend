@@ -4,7 +4,7 @@ import { _ } from 'meteor/underscore';
 import c3 from 'c3';
 import d3 from 'd3';
 
-import Films from './../../api/films/films.js';
+import Films from './../../models/films.js';
 
 import './show-film.html';
 
@@ -91,11 +91,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'pie',
-          onclick: function (d, i) { d.preventDefault(); },
+          // onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            onclick: function (d, i) { d.preventDefault(); },
+            // onclick: function (d, i) { d.preventDefault(); },
           },
         },
       });
@@ -113,7 +113,7 @@ Template.showFilm.onRendered(() => {
             [].concat(['Espectadores'], _.values(inventory.viewers_per_month)),
           ],
           type: 'spline',
-          onclick: function (d, i) { d.preventDefault(); },
+          // onclick: function (d, i) { d.preventDefault(); },
         },
         axis: {
           x: {
@@ -123,7 +123,7 @@ Template.showFilm.onRendered(() => {
         },
         legend: {
           item: {
-            onclick: function (d, i) { d.preventDefault(); },
+            // onclick: function (d, i) { d.preventDefault(); },
           },
         },
       });
@@ -139,11 +139,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'donut',
-          onclick: function (d, i) { d.preventDefault(); },
+          // onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            onclick: function (d, i) { d.preventDefault(); },
+            // onclick: function (d, i) { d.preventDefault(); },
           },
           position: 'right',
         },
@@ -160,11 +160,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'donut',
-          onclick: function (d, i) { d.preventDefault(); },
+          // onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            onclick: function (d, i) { d.preventDefault(); },
+            // onclick: function (d, i) { d.preventDefault(); },
           },
           position: 'right',
         },

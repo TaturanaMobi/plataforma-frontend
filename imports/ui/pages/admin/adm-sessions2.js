@@ -4,35 +4,36 @@ import { moment } from 'meteor/momentjs:moment';
 import { _ } from 'meteor/underscore';
 import { Template } from 'meteor/templating';
 
-import Films from '../../../api/films/films.js';
+import Films from '../../../models/films.js';
+// import Screenings from '../../../models/screenings.js';
+import { Cities, States } from '../../../models/states_and_cities';
 
 Template.admSessions2.helpers({
   settings() {
-    const d = Films.find({});
-    const screenings = [];
-    if (d !== null) {
-      d.forEach((f) => {
-        if (f !== null && f.screening !== null) {
-          // const sNotDuplicated = [];
-          _(f.screening).each((s) => {
-            if (!screenings.find(x => parseInt(x._id, 16) === parseInt(s._id, 16))) {
-              s.film_title = f.title;
-              s.film_slug = f.slug;
-              s.user = Meteor.users.findOne(s.user_id);
-              screenings.push(s);
-            } else {
-              console.log(s); // log duplicated entries
-            }
-          });
-        }
-      });
-    }
-    const s = screenings;
-    console.log(s);
+    // const d = Films.find({});
+    // console.log(d);
+    // const screenings = Screenings.find({});
+    // if (d !== null) {
+    //   d.forEach((f) => {
+    //     if (f !== null) {
+    //       // const sNotDuplicated = [];
+    //       _(screenings).each((s, i) => {
+    //         s.film_title = f.title;
+    //         s.film_slug = f.slug;
+    //         s.user = Meteor.users.findOne(s.user_id);
+    //         screenings[i] = s;
+    //       });
+    //     }
+    //   });
+    // }
+    // const s = screenings;
+    // console.log(s);
+    const instance = Template.instance();
     return {
-      collection: s,
+      collection: instance.data,
+      // filters: ['filterTeamMember'],
       rowsPerPage: 10,
-      showFilter: true,
+      showFilter: false,
       showRowCount: true,
       rowClass: (item) => {
         if (item.draft) {
@@ -51,16 +52,16 @@ Template.admSessions2.helpers({
       },
       fields: [
         { key: 'infos', label: 'Informações', tmpl: Template.infoCellTmpl, headerClass: 'col-md-1' },
-        { key: 'film_title', label: 'Filme', tmpl: Template.filmCellTmpl, headerClass: 'col-md-2' },
+        { key: 'film', label: 'Filme', tmpl: Template.filmCellTmpl, headerClass: 'col-md-2' },
         { key: 'date', label: 'Data de exibição', tmpl: Template.dateCellTmpl, headerClass: 'col-md-1' },
         { key: 'place_name', label: 'Local de exibição', tmpl: Template.screeningCellTmpl, headerClass: 'col-md-2' },
         // 'activity_theme',
         {
-          key: 'user',
+          key: 'ambassador',
           label: 'Embaixador',
           tmpl: Template.embaixadorCellTmpl,
           headerClass: 'col-md-2',
-          // fn: value => value.profile.name,
+          // fn: (value, object) => console.log(object),
         },
         // {
         //   key: 'email',
@@ -72,35 +73,36 @@ Template.admSessions2.helpers({
         'uf',
         // 's_country', 'street', 'number', 'complement', 'zone', 'cep',
         //  'author_1', 'author_2', 'author_3',
-        { label: 'Data criação', key: 'created_at', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl},
+        { label: 'Data criação', key: 'created_at', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl },
         { label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl, headerClass: 'col-md-2' },
       ],
     };
   },
 
-  ambassador_options(films) {
-    let ambassadorsIds = [];
+  ambassador_options() {
+  //   let ambassadorsIds = [];
 
-    _.each(films, (film) => {
-      _.each(film.screening, (screening) => {
-        if (screening.user_id) {
-          ambassadorsIds.push(screening.user_id);
-        }
-      });
-    });
+  //   _.each(films, (film) => {
+  //     _.each(film.screening, (screening) => {
+  //       if (screening.user_id) {
+  //         ambassadorsIds.push(screening.user_id);
+  //       }
+  //     });
+  //   });
 
-    ambassadorsIds = _.uniq(ambassadorsIds);
-    const ambassadors = Meteor.users.find({
-      _id: {
-        $in: ambassadorsIds,
-      },
-    }, {
-      _id: 1,
-      'profile.name': 1,
-      sort: { 'profile.name': 1 },
-    }).fetch();
+  //   ambassadorsIds = _.uniq(ambassadorsIds);
+  //   const ambassadors = Meteor.users.find({
+  //     _id: {
+  //       $in: ambassadorsIds,
+  //     },
+  //   }, {
+  //     _id: 1,
+  //     'profile.name': 1,
+  //     sort: { 'profile.name': 1 },
+  //   }).fetch();
 
-    return _.uniq(ambassadors);
+  //   return _.uniq(ambassadors);
+    return [];
   },
 
   states_options() {
@@ -119,45 +121,45 @@ Template.admSessions2.helpers({
   },
 });
 
-Template.admSessions.events({
+Template.admSessions2.events({
   'change .list-sessions'(event) {
     const list = $(event.currentTarget).val();
-    Session.set('list', list);
+    // Session.set('list', list);
   },
   'change #city-selector'(event) {
     const city = $(event.currentTarget).val();
-    Session.set('city', city);
+    // Session.set('city', city);
   },
   'change #st-selector'(event) {
     const state = $(event.currentTarget).val();
-    Session.set('state', state);
+    // Session.set('state', state);
   },
   'change #film-selector'(event) {
     const title = $(event.currentTarget).val();
-    Session.set('title', title);
+    // Session.set('title', title);
   },
   'change #ambassador-selector'(event) {
     const ambassador = $(event.currentTarget).val();
-    Session.set('ambassador', ambassador);
+    // Session.set('ambassador', ambassador);
   },
   'change #team-selector'(event) {
-    Session.set('team', event.currentTarget.checked);
+    // Session.set('team', event.currentTarget.checked);
   },
   'change #public-event'(event) {
-    Session.set('public', event.currentTarget.checked);
+    // Session.set('public', event.currentTarget.checked);
   },
   'change #comment'(event) {
-    Session.set('comment', event.currentTarget.checked);
+    // Session.set('comment', event.currentTarget.checked);
   },
   'change #pendingReport'(event) {
-    Session.set('report', event.currentTarget.checked);
+    // Session.set('report', event.currentTarget.checked);
   },
   'change #creation-date'(event) {
-    Session.set('creation_date', event.currentTarget.checked);
+    // Session.set('creation_date', event.currentTarget.checked);
   },
   'click .btn-datepicker'(event) {
     const month = $(event.currentTarget).data('month');
-    Session.set('month', month);
+    // Session.set('month', month);
   },
   'click .btn-set-draft'() {
     const id = this._id;

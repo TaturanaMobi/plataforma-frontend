@@ -134,24 +134,35 @@
   }
 }
 
-#logo {
-  position: absolute;
-  top: 25px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-
+.logo {
+  // position: absolute;
+  // top: -25px;
+  // left: 0;
+  // right: 0;
+  // margin-left: auto;
+  // margin-right: auto;
+  margin: -70px auto 0;
   height: 115px;
   width: 335px;
+  outline: 0;
 
   background: url("/images/taturana_logo.png") center top no-repeat transparent;
-  // background-size: 90%;
+  background-size: 80%;
 
-  @media (max-width: 830px) {
-    top: 95px;
-    width: 320px;
-    height: 10em;
-    // margin-left: -160px;
+  // @media (max-width: 830px) {
+  //   top: 95px;
+  //   width: 320px;
+  //   height: 10em;
+  //   // margin-left: -160px;
+  // }
+}
+
+@media (max-width: 500px) {
+  #header {
+    height: 140px;
+  }
+  .logo {
+    background-size: 50%;
+    margin-top: 0;
   }
 }

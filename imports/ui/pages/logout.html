@@ -4,12 +4,18 @@
     <div class="userDroplet-container dropletInvisible">
     <div class="arrow-up"></div>
     <ul id="dropletMenu" class="list-unstyled">
+      <li><a href="/ambassador">Minhas Sessões</a></li>
+      <li><a href="/ambassador-edit">Meu Perfil</a></li>
       {{#if isAdmin }}
-        <li><a href="/adm">Home Administrador</a></li>
+        <li></li>
+        <li><a href="/adm/carousel">Carousel</a></li>
+        <li><a href="/adm/films">Filmes</a></li>
+        <li><a href="/adm/sessions2">Sessões</a></li>
+        <li><a href="/adm/ambassadors">Embaixadores</a></li>
+        <li><a href="/adm/notifications">Notificações</a></li>
+        <li><a href="/adm/templates-notifications">Templates de Notificação</a></li>
       {{else}}
-        <li><a href="/ambassador">Embaixador</a></li>
       {{/if}}
-      <li><a href="/ambassador-edit">Minhas Informações</a></li>
       <li><a class="logout-ambassador" href="#">Sair</a></li>
     </ul>
     </div>

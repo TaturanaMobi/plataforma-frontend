@@ -92,3 +92,15 @@ services:
       traefik.frontend.rule: Host:images.taturana
       traefik.enable: 'true'
       traefik.port: '9000'
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 4005:8081
+    networks:
+      taturana:
+    labels:
+      traefik.frontend.rule: Host:mongo-express.taturana
+      traefik.port: '8081'
+      traefik.enable: 'true'

@@ -3,9 +3,18 @@ import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 
+import './images';
 import { FilmScreeningInventory } from './film-screening-inventory';
+import Schemas from './schemas';
+import Screenings from './screenings';
 
 const Films = new Mongo.Collection('films');
+
+Films.helpers({
+  screenings() {
+    return Screenings.find({ filmId: this._id });
+  },
+});
 
 // Inventory functions
 function incrementOrCreate(obj, key, increment) {
@@ -57,7 +66,7 @@ Films.disseminate = () => Films.find({
   }, {
     status: 'Difusão/Portfolio',
   }],
-}).fetch();
+});
 
 Films.all = () => Films.find({}, {
   sort: {
@@ -250,8 +259,12 @@ Films.allow({
     // only allow posting if you are logged in
     return !!userId;
   },
+  update(userId) {
+    // only allow posting if you are logged in
+    return !!userId;
+  },
 });
 
-Films.attachSchema(Films.schema);
+Films.attachSchema(Schemas.Film);
 
 export default Films;

@@ -14,11 +14,6 @@ Meteor.startup(() => {
   $('html').attr('xml:lang', 'pt-br');
   $('html').attr('lang', 'pt-br');
 
-  Uploader.finished = (index, fileInfo, body) => {
-    const fType = body.data.formData.file_type;
-    Session.set(fType, fileInfo.path);
-  };
-
   FlashMessages.configure({
     autoHide: true,
     hideDelay: 4000,

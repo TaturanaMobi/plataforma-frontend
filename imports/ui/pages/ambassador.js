@@ -3,54 +3,46 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 // import { Router } from 'meteor/iron:router';
 import { _ } from 'meteor/underscore';
-import { moment } from 'meteor/momentjs:moment';
+// import { moment } from 'meteor/momentjs:moment';
 
-import Films from './../../api/films/films.js';
+import Films from './../../models/films';
+import Screenings from './../../models/screenings';
 import './ambassador.html';
 import './../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
-  ambassador_screenings() {
-    const screenings = Films.screenings_by_user_id();
-    _.each(screenings, (screening, i) => {
-      if (screening.date) {
-        const d = moment(screening.date);
-        screenings[i].formatted_date = d.format('D/M/Y [às] HH:mm');
-      }
-    });
-    return screenings;
+  screenings() {
+    return Screenings.find(
+      { user_id: Meteor.userId() },
+      { sort: { date: -1 } },
+    );
   },
   disseminate() {
     return Films.disseminate();
   },
-  session_status_icon(screening) {
+  session_status_icon() {
     // Rascunho
-    if (screening.draft) {
+    if (this.status === 'Rascunho') {
       return 'edit';
     }
 
-    // Agendada
-    const today = new Date();
-
-    if (today.getTime() < screening.date.getTime()) {
+    if (this.status === 'Agendada') {
       return 'calendar';
     }
 
     // Completo
-    if (_.has(screening, 'report_description')) {
+    if (this.status === 'Concluída') {
       return 'complete';
     }
 
     // Falta relatório
     return 'report-pending';
   },
-  in_future(screening) {
-    const today = new Date();
-
-    return (today.getTime() < screening.date.getTime() || screening.draft == 'admin-draft');
+  in_future() {
+    return (this.status === 'Rascunho' || this.status === 'Agendada');
   },
-  is_report_pending(screening) {
-    return !_.has(screening, 'report_description');
+  is_report_pending() {
+    return this.status === 'Pendente';
   },
 });
 Template.ambassador.events({

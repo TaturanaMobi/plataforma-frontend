@@ -5,48 +5,57 @@ import { FlashMessages } from 'meteor/mrt:flash-messages';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
-import 'meteor/summernote:summernote';
 import { Router } from 'meteor/iron:router';
-import Films from './../../../api/films/films.js';
-
-Template.admFilms.onRendered(() => {
-  $('#synopsis').summernote();
-
-  const thisData = Template.currentData();
-  if (thisData !== null &&
-    thisData !== undefined &&
-    thisData.synopsis !== null) {
-    $('#synopsis').summernote('code', thisData.synopsis);
-  }
-});
+import Films from './../../../models/films.js';
 
 Template.admFilms.helpers({
-  films() {
-    return Films.all();
+  settings() {
+    const instance = Template.instance();
+    return {
+      collection: instance.data,
+      // filters: ['filterTeamMember'],
+      rowsPerPage: 100,
+      showFilter: false,
+      showRowCount: true,
+      fields: [
+        { label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl2 },
+        'title',
+        'status',
+        { label: 'Press Kit', key: 'press_kit_path', tmpl: Template.pressKitCellTmpl },
+        { label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2 },
+        // 'slug',
+        'genre',
+        { label: 'Poster', key: 'poster_path', tmpl: Template.posterCellTmpl },
+        { label: 'Poster Home', key: 'poster_home_path', tmpl: Template.posterHomeCellTmpl },
+      ],
+    };
   },
-  posterData() {
-    return { file_type: 'poster_path' };
-  },
-  pressKitData() {
-    return { file_type: 'press_kit_path' };
-  },
-  posterHomeData() {
-    return { file_type: 'poster_home_path' };
-  },
-  posterPath() {
-    if (!Session.get('poster_path') && this.poster_path) {
-      Session.set('poster_path', this.poster_path);
-    }
+  // films() {
+  //   return Films.all();
+  // },
+  // posterData() {
+  //   return { file_type: 'poster_path' };
+  // },
+  // pressKitData() {
+  //   return { file_type: 'press_kit_path' };
+  // },
+  // posterHomeData() {
+  //   return { file_type: 'poster_home_path' };
+  // },
+  // posterPath() {
+  //   if (!Session.get('poster_path') && this.poster_path) {
+  //     Session.set('poster_path', this.poster_path);
+  //   }
 
-    return Session.get('poster_path');
-  },
-  homePath() {
-    if (!Session.get('poster_home_path') && this.poster_home_path) {
-      Session.set('poster_home_path', this.poster_home_path);
-    }
+  //   return Session.get('poster_path');
+  // },
+  // homePath() {
+  //   if (!Session.get('poster_home_path') && this.poster_home_path) {
+  //     Session.set('poster_home_path', this.poster_home_path);
+  //   }
 
-    return Session.get('poster_home_path');
-  },
+  //   return Session.get('poster_home_path');
+  // },
 });
 
 Template.admFilms.events({
@@ -92,8 +101,8 @@ Template.admFilms.events({
 
     event.target.reset();
     FlashMessages.sendSuccess('Filme cadastrado com sucesso!');
-    Session.set('poster_path', null);
-    Session.set('poster_home_path', null);
+    // Session.set('poster_path', null);
+    // Session.set('poster_home_path', null);
     Router.go('adm/films');
   },
   'click .destroy'() {
@@ -108,12 +117,12 @@ Template.admFilms.events({
     event.preventDefault();
 
     this.poster_path = null;
-    Session.set('poster_path', null);
+    // Session.set('poster_path', null);
   },
   'click .btn-change-home'(event) {
     event.preventDefault();
 
     this.poster_home_path = null;
-    Session.set('poster_home_path', null);
+    // Session.set('poster_home_path', null);
   },
 });

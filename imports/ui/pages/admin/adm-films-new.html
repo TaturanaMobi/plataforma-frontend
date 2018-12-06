@@ -1,0 +1,13 @@
+<template name="admFilmsNew">
+    {{#autoForm
+        schema=Schemas.Film
+        doc=form
+        collection=Films
+        id="new-film-form"
+        type="insert"
+    }}
+        <div class="container">
+        {{> filmFormFields}}
+        </div>
+    {{/autoForm}}
+</template>
