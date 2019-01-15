@@ -29,7 +29,7 @@
   background-color: #bf3c3c;
 }
 .carousel-box{
-  height:25em;
+  height:27em;
 
   @media(max-width: 600px) {
     height: auto;
@@ -60,6 +60,7 @@
 
 .slick-slide .carousel-box img {
   max-height: 100%;
+  margin: 20px auto;
 }
 
 .slick-next, .slick-prev{

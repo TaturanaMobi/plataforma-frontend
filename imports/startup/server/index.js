@@ -250,33 +250,33 @@ Meteor.methods({
       },
     });
   },
-  updateUser(profile, email) {
-    const user = Meteor.user();
+  // updateUser(profile, email) {
+  //   const user = Meteor.user();
 
-    // Mantem o role do usuário
-    profile.roles = user.profile.roles || ['ambassador'];
+  //   // Mantem o role do usuário
+  //   profile.roles = user.profile.roles || ['ambassador'];
 
-    Meteor.users.update(
-      {
-        _id: Meteor.userId(),
-      },
-      {
-        $set: {
-          profile,
-        },
-      }
-    );
-    Meteor.users.update(
-      {
-        _id: Meteor.userId(),
-      },
-      {
-        $set: {
-          'emails.0.address': email,
-        },
-      }
-    );
-  },
+  //   Meteor.users.update(
+  //     {
+  //       _id: Meteor.userId(),
+  //     },
+  //     {
+  //       $set: {
+  //         profile,
+  //       },
+  //     }
+  //   );
+  //   Meteor.users.update(
+  //     {
+  //       _id: Meteor.userId(),
+  //     },
+  //     {
+  //       $set: {
+  //         'emails.0.address': email,
+  //       },
+  //     }
+  //   );
+  // },
 });
 
 Meteor.startup(() => {
