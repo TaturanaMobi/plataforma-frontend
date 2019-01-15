@@ -1,9 +1,0 @@
-[email]
-uri=smtp://user:pass@smtp.gmail.com:465
-debug_emails=test@test.com
-emails_for_real=false
-
-[db]
-host=localhost
-port=3001
-name=meteor
