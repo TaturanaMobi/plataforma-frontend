@@ -241,10 +241,6 @@ Schema.UserProfile = new SimpleSchema({
     optional: true,
     label: 'Telefone fixo',
   },
-  country: {
-    type: String,
-    label: 'País',
-  },
   city: {
     type: String,
     label: 'Cidade',
@@ -274,7 +270,7 @@ Schema.UserProfile = new SimpleSchema({
   },
   institution: {
     type: String,
-    label: 'Você faz parte de alguma instituição, coletivo ou grupo?',
+    label: 'Você faz parte de alguma instituição, organização coletivo etc.? Caso sim, especifque o nome abaixo',
   },
   category: {
     type: String,
