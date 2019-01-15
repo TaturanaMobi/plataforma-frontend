@@ -125,6 +125,9 @@ const Schemas = {};
 
 Schemas.User = userSchema.User;
 
+const minDateNewScreening = new Date();
+minDateNewScreening.setDate(minDateNewScreening.getDate() + 3);
+
 Schemas.Screening = new SimpleSchema({
   oldId: {
     type: String,
@@ -214,6 +217,10 @@ Schemas.Screening = new SimpleSchema({
     autoform: {
       afFieldInput: {
         type: 'bootstrap-datetimepicker',
+        dateTimePickerOptions: {
+          minDate: minDateNewScreening,
+        },
+        readonly: true,
       },
     },
   },
@@ -637,7 +644,7 @@ Schemas.Slideshow = new SimpleSchema({
 Schemas.Film = new SimpleSchema({
   poster_path: {
     type: String,
-    label: 'Cartaz',
+    label: 'Cartaz (1280x720)',
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
@@ -655,7 +662,7 @@ Schemas.Film = new SimpleSchema({
   },
   poster_home_path: {
     type: String,
-    label: 'Imagem para home (360x370)',
+    label: 'Imagem para home (720x720)',
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
@@ -852,6 +859,20 @@ Schemas.Film = new SimpleSchema({
   },
   'slideshow.$': {
     type: Schemas.Slideshow,
+  },
+}, { tracker: Tracker });
+
+Schemas.NotificationTemplate = new SimpleSchema({
+  poster_path: {
+    type: String,
+    label: 'Cartaz',
+  },
+}, { tracker: Tracker });
+
+Schemas.Notification = new SimpleSchema({
+  poster_path: {
+    type: String,
+    label: 'Cartaz',
   },
 }, { tracker: Tracker });
 

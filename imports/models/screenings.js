@@ -36,4 +36,12 @@ Screenings.helpers({
   },
 });
 
+Screenings.after.insert(function afterInsert(userId, doc) {
+  console.log('Criando notificação de inicio:', doc);
+});
+
+Screenings.after.update(function afterUpdate(userId, doc, fieldNames, modifier, options) {
+  console.log('Verificando qual notificação criar:', doc);
+}, { fetchPrevious: false });
+
 export default Screenings;

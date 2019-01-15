@@ -53,6 +53,8 @@ docker-compose exec mongo mongorestore -h taturana.mongo.com:23812 -d taturana -
 * https://github.com/dburles/mongo-collection-instances
 * https://github.com/dburles/meteor-collection-helpers
 * https://github.com/percolatestudio/meteor-migrations
+* https://github.com/matb33/meteor-collection-hooks
+* https://bunkat.github.io/later/
 
 * https://github.com/aldeed/meteor-autoform
 * https://github.com/VeliovGroup/meteor-autoform-file

@@ -13,7 +13,7 @@ jquery                  # Helpful client-side library
 tracker@1.2.0                 # Meteor's client-side reactive programming library
 
 es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers.
-ecmascript@0.12.3              # Enable ECMAScript2015+ syntax in app code
+ecmascript@0.12.4              # Enable ECMAScript2015+ syntax in app code
 iron:router
 anback:bootstrap-validator
 fourseven:scss
@@ -52,3 +52,4 @@ ostrio:files
 vazco:universe-autoform-select
 froala:editor
 dburles:mongo-collection-instances
+matb33:collection-hooks
