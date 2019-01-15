@@ -184,7 +184,7 @@ services:
     environment:
       - ROOT_URL=https://stag.taturanamobi.com.br
       - MONGO_URL=mongodb://mongo:27017/taturana
-      - MAIL_URL=fake-smtp:1045
+      - MAIL_URL=smtp://fake-smtp:1045
     labels:
       traefik.frontend.rule: Host:stag.taturanamobi.com.br
       traefik.port: '3000'
