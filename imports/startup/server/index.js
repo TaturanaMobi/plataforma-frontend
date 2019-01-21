@@ -11,6 +11,7 @@ import Films from '../../models/films';
 import Screenings from '../../models/screenings';
 import Images from '../../models/images';
 import { Cities, States } from '../../models/states_and_cities';
+import Worker from './worker';
 
 // const FutureTasks = new Meteor.Collection('future_tasks');
 
@@ -280,7 +281,7 @@ Meteor.methods({
 });
 
 Meteor.startup(() => {
-  // SyncedCron.start();
+  Worker.start();
 
   Meteor.publish('films.all', () => Films.find({}, {
     fields: {
