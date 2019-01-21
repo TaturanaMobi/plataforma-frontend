@@ -9,7 +9,7 @@ const Worker = {
   },
   run() {
     console.log('Iniciando worker...');
-    // processScreenings.autoStart();
+    processScreenings.autoStart();
   },
   stop() {
     Meteor.clearInterval();
