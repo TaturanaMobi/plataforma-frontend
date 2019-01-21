@@ -59,7 +59,7 @@ const STATES =
 const FILM_AGE_RATING =
 ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
-const SCREENING_STATUS =
+export const SCREENING_STATUS =
 ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
 
 const SCREENING_ACTIVITY =
@@ -862,17 +862,80 @@ Schemas.Film = new SimpleSchema({
   },
 }, { tracker: Tracker });
 
+// Schemas.NotificationRule = new SimpleSchema({
+//   name: {
+//     type: String,
+//     label: 'Nome',
+//   },
+//   notificationTemplateId: {
+//     type: String,
+//     label: 'Template',
+//   },
+//   timeTextWhenFireNotification: {
+//     type: String,
+//     label: 'Quando deve ser disparada (em relação a data de exibição da sessão)?',
+//   },
+//   timeTextIntervalLimitFilter: {
+//     type: String,
+//     label: 'Qual antecedência mínima necessária (em relação a data de criação da sessão)?',
+//   },
+//   newStatus: {
+//     type: String,
+//     label: 'Aplicar novo status',
+//   },
+//   createdAt: {
+//     type: String,
+//     label: 'Criado em',
+//   },
+//   updatedAt: {
+//     type: String,
+//     label: 'Atualizado em',
+//   },
+// }, { tracker: Tracker });
+
 Schemas.NotificationTemplate = new SimpleSchema({
-  poster_path: {
+  name: {
     type: String,
-    label: 'Cartaz',
+    label: 'Nome',
+  },
+  subject: {
+    type: String,
+    label: 'Assunto da mensagem do e-mail',
+  },
+  body: {
+    type: String,
+    label: 'Corpo da mensagem do e-mail',
+  },
+  filmId: {
+    type: String,
+    label: 'Usar para filme específico',
+  },
+  createdAt: {
+    type: String,
+    label: 'Criado em',
+  },
+  updatedAt: {
+    type: String,
+    label: 'Atualizado em',
   },
 }, { tracker: Tracker });
 
 Schemas.Notification = new SimpleSchema({
-  poster_path: {
+  vars_data: {
     type: String,
-    label: 'Cartaz',
+    label: 'Dados variáveis',
+  },
+  notificationTemplateId: {
+    type: String,
+    label: 'Regra',
+  },
+  createdAt: {
+    type: String,
+    label: 'Criado em',
+  },
+  updatedAt: {
+    type: String,
+    label: 'Atualizado em',
   },
 }, { tracker: Tracker });
 
