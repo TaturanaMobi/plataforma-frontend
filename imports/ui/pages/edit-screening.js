@@ -5,8 +5,8 @@ import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import { saveScreening } from './../../startup/client/helpers.js';
-import './../components/screeningFormFields.html';
+import { saveScreening } from '../../startup/client/helpers.js';
+import '../components/screeningFormFields.html';
 import './edit-screening.html';
 
 Template.editScreening.onRendered(() => {

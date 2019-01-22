@@ -6,7 +6,7 @@ import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Router } from 'meteor/iron:router';
-import Films from './../../../models/films.js';
+import Films from '../../../models/films.js';
 
 Template.admFilms.helpers({
   settings() {

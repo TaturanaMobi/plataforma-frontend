@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 // import { FlashMessages } from 'meteor/mrt:flash-messages';
 
-// import Films from './../../models/films.js';
+// import Films from '../../models/films.js';
 
 import './ambassador-edit.html';
 

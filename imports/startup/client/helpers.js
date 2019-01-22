@@ -2,10 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { moment } from 'meteor/momentjs:moment';
 
-import Schemas from './../../models/schemas';
-import Films from './../../models/films';
-import Users from './../../models/users';
-import Screenings from './../../models/screenings';
+import Schemas from '../../models/schemas';
+import Films from '../../models/films';
+import Users from '../../models/users';
+import Screenings from '../../models/screenings';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 

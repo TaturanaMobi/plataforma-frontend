@@ -5,25 +5,25 @@ import { Router } from 'meteor/iron:router';
 
 import '../../ui/components/adm-sidebar.html';
 
-import './../../ui/pages/admin/adm-ambassador.html';
-import './../../ui/pages/admin/adm-ambassadors.html';
-import './../../ui/pages/admin/adm-ambassadors.js';
-import './../../ui/pages/admin/adm-films.html';
-import './../../ui/pages/admin/adm-films.js';
-import './../../ui/pages/admin/adm-films-edit.js';
-import './../../ui/pages/admin/adm-report.html';
-import './../../ui/pages/admin/adm-report.js';
-import './../../ui/pages/admin/adm-reports.html';
-import './../../ui/pages/admin/adm-reports.js';
-import './../../ui/pages/admin/adm-sessions2.html';
-import './../../ui/pages/admin/adm-sessions2.js';
-import './../../ui/pages/admin/adm-screening-edit.js';
-import './../../ui/pages/admin/adm-films-new.js';
-import './../../ui/pages/admin/adm.html';
+import '../../ui/pages/admin/adm-ambassador.html';
+import '../../ui/pages/admin/adm-ambassadors.html';
+import '../../ui/pages/admin/adm-ambassadors.js';
+import '../../ui/pages/admin/adm-films.html';
+import '../../ui/pages/admin/adm-films.js';
+import '../../ui/pages/admin/adm-films-edit.js';
+import '../../ui/pages/admin/adm-report.html';
+import '../../ui/pages/admin/adm-report.js';
+import '../../ui/pages/admin/adm-reports.html';
+import '../../ui/pages/admin/adm-reports.js';
+import '../../ui/pages/admin/adm-sessions2.html';
+import '../../ui/pages/admin/adm-sessions2.js';
+import '../../ui/pages/admin/adm-screening-edit.js';
+import '../../ui/pages/admin/adm-films-new.js';
+import '../../ui/pages/admin/adm.html';
 
 import Screenings from '../../models/screenings.js';
-import Films from './../../models/films.js';
-import Users from './../../models/users';
+import Films from '../../models/films.js';
+import Users from '../../models/users';
 
 import { publicRoutes } from './routes-ambassador.js';
 

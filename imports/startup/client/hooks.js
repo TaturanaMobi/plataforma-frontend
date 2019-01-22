@@ -3,7 +3,7 @@ import { AutoForm } from 'meteor/aldeed:autoform';
 import { FlashMessages } from 'meteor/mrt:flash-messages';
 import { Accounts } from 'meteor/accounts-base';
 import { Router } from 'meteor/iron:router';
-// import Users from './../../models/users';
+// import Users from '../../models/users';
 
 // AutoForm.setDefaultTemplate('plain');
 

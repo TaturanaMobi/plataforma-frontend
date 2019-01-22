@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 // import { Session } from 'meteor/session';
-import Films from './../../models/films.js';
-import Screenings from './../../models/screenings.js';
+import Films from '../../models/films.js';
+import Screenings from '../../models/screenings.js';
 
 import '../../ui/pages/report.js';
 

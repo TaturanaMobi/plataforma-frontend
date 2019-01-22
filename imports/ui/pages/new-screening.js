@@ -4,10 +4,10 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
-import './../components/autoform-nouislider.js';
-import './../components/screeningFormFields.html';
+import '../components/autoform-nouislider.js';
+import '../components/screeningFormFields.html';
 import './new-screening.html';
-import { saveScreening } from './../../startup/client/helpers.js';
+import { saveScreening } from '../../startup/client/helpers.js';
 
 Template.newScreening.onRendered(() => {
   // const nowDate = new Date();

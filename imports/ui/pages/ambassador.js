@@ -5,10 +5,10 @@ import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 // import { moment } from 'meteor/momentjs:moment';
 
-import Films from './../../models/films';
-import Screenings from './../../models/screenings';
+import Films from '../../models/films';
+import Screenings from '../../models/screenings';
 import './ambassador.html';
-import './../components/ambassadorFormFields.js';
+import '../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
   screenings() {

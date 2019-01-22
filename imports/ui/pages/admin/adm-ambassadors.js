@@ -6,7 +6,7 @@ import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
 import { Papa } from 'meteor/harrison:papa-parse';
 
-import Films from './../../../models/films.js';
+import Films from '../../../models/films.js';
 
 const hasValue = prop => prop !== undefined && prop.value.length > 0;
 
