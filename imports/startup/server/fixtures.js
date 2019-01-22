@@ -1,34 +1,53 @@
-// Fill the DB with example data on startup
-
 import { Meteor } from 'meteor/meteor';
-import Films from '../../models/films.js';
+import Films from '../../models/films';
+// import Screenings from '../../models/screenings';
 
+// if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
-  // if the Links collection is empty
   if (Films.find().count() === 0) {
-    const data = [
-      {
-        title: 'Do the Tutorial',
-        url: 'https://www.meteor.com/try',
-        createdAt: new Date(),
-      },
-      {
-        title: 'Follow the Guide',
-        url: 'http://guide.meteor.com',
-        createdAt: new Date(),
-      },
-      {
-        title: 'Read the Docs',
-        url: 'https://docs.meteor.com',
-        createdAt: new Date(),
-      },
-      {
-        title: 'Discussions',
-        url: 'https://forums.meteor.com',
-        createdAt: new Date(),
-      },
-    ];
+    // const data = [
+    //   {
+    //     poster_path,
+    //     poster_home_path,
+    //     link_for_download,
+    //     status,
+    //     synopsis,
+    //     genre,
+    //     year,
+    //     duration,
+    //     country,
+    //     age_rating,
+    //     slug,
+    //     press_kit_path,
+    //     title: 'Meteor Principles',
+    //     screenings: [
+    //       'Data on the Wire',
+    //       'One Language',
+    //       'Database Everywhere',
+    //       'Latency Compensation',
+    //       'Full Stack Reactivity',
+    //       'Embrace the Ecosystem',
+    //       'Simplicity Equals Productivity',
+    //     ],
+    //   },
+    // ];
 
-    data.forEach(link => Films.insert(link));
+    // let timestamp = (new Date()).getTime();
+
+    // data.forEach((film) => {
+    //   const filmId = Films.insert({
+    //     name: film.name,
+    //   });
+
+    //   film.screenings.forEach((text) => {
+    //     Screenings.insert({
+    //       filmId,
+    //       text,
+    //       createdAt: new Date(timestamp),
+    //     });
+
+    //     timestamp += 1; // ensure unique timestamp.
+    //   });
+    // });
   }
 });

@@ -1,28 +1,20 @@
 // This file will be auto-imported in the app-test context, ensuring the method is always available
 
 import { Meteor } from 'meteor/meteor';
-import { Factory } from 'meteor/dburles:factory';
+// import { Factory } from 'meteor/dburles:factory';
+// import faker from 'faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import { Random } from 'meteor/random';
 import { _ } from 'meteor/underscore';
+import { Random } from 'meteor/random';
 
 import { denodeify } from './utils/denodeify';
-
-const createList = (userId) => {
-  const list = Factory.create('list', { userId });
-  _.times(3, () => Factory.create('todo', { listId: list._id }));
-  return list;
-};
+import * as testHelpers from '../startup/both/test-helpers';
 
 Meteor.methods({
   generateFixtures() {
     resetDatabase();
 
-    // create 3 public lists
-    _.times(3, () => createList());
-
-    // create 3 private lists
-    _.times(3, () => createList(Random.id()));
+    _.times(3, () => testHelpers.createBasicFakeData(Random._id));
   },
 });
 

@@ -1,8 +1,8 @@
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 
-import { Schema as userSchema } from './../users';
-import wNumb from './../utils/wNumb';
+import { Schema as userSchema } from '../users';
+import wNumb from '../utils/wNumb';
 import getSelectOptions from './getSelectOptions';
 
 export const FILM_CATEGORIES = [
@@ -50,7 +50,7 @@ export const FILM_SUBCATEGORIES = [
   'Outro',
 ];
 
-const FILM_STATUS =
+export const FILM_STATUS =
 ['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
 
 const STATES =
@@ -62,7 +62,7 @@ const FILM_AGE_RATING =
 export const SCREENING_STATUS =
 ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
 
-const SCREENING_ACTIVITY =
+export const SCREENING_ACTIVITY =
 ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre'];
 
 SimpleSchema.extendOptions(['autoform']);

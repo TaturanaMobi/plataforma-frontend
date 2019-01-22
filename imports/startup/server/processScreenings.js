@@ -1,6 +1,6 @@
 import { check } from 'meteor/check';
 import { moment } from 'meteor/momentjs:moment';
-import Screenings from '../../models/screenings';
+import Screenings from '../../models/screenings.js';
 // import { SCREENING_STATUS } from '../../models/schemas';
 
 const processScreenings = {
@@ -81,10 +81,10 @@ const processScreenings = {
     }
   },
   processAgendada(screening) {
-    if (processScreenings.isLowerThan3days()) {
-    } else if (processScreenings.isBetween9and4days()) {
-    } else if (processScreenings.isGreaterThan10days()) {
-      if (processScreenings.isAt10thDayBefore()) {}
+    if (processScreenings.isLowerThan3days(screening.date)) {
+    } else if (processScreenings.isBetween9and4days(screening.date)) {
+    } else if (processScreenings.isGreaterThan10days(screening.date)) {
+      if (processScreenings.isAt10thDayBefore(screening.date)) {}
     }
     processScreenings.updateStatus('Confirmada');
     // Agendada - Sessão agendada com 10 dias ou mais de antecedência, enviar e-mail confirm_scheduling_10 e trocar status para confirmada

@@ -2,9 +2,20 @@
 // import { Meteor } from 'meteor/meteor';
 import { assert } from 'chai';
 import { moment } from 'meteor/momentjs:moment';
+import { _ } from 'meteor/underscore';
+import { resetDatabase } from 'meteor/xolvio:cleaner';
+import { Random } from 'meteor/random';
+
 import processScreenings from './processScreenings';
+import * as testHelpers from '../both/test-helpers';
 
 describe('process screenings', () => {
+  beforeEach(() => {
+    resetDatabase();
+    const userId = Random.fraction();
+    _.times(3, () => testHelpers.createBasicFakeData(userId));
+  });
+
   it('screening date is 10 or more days away', async () => {
     const elevenDaysBefore = moment().subtract(11, 'days');
     const tenDaysBefore = moment().subtract(10, 'days');
@@ -178,4 +189,44 @@ describe('process screenings', () => {
     assert.ok(processScreenings.was3monthsAgo(threeMonthsBefore.toDate()));
     assert.isNotOk(processScreenings.was3monthsAgo(twoMonthsBefore.toDate()));
   });
+
+  // it('create notification', async () => {
+  //   // const n = new Notification
+
+
+  //   // assert.ok(processScreenings.createNotification({}, 111));
+  // });
+
+  // it('create notification with template by film', async () => {
+
+  // });
+
+  // it('load screening related data: film, user', async () => {
+
+  // });
+
+  // it('update screening with status', async () => {
+
+  // });
+
+  // it('process screening with status agendada', async () => {
+
+  // });
+
+  // it('process screening with status confirmada', async () => {
+
+  // });
+
+
+  // it('process screening with status pendente', async () => {
+
+  // });
+
+  // it('process screening with status concluída', async () => {
+
+  // });
+
+  // it('process screening with status cancelada', async () => {
+
+  // });
 });
