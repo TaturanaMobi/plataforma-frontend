@@ -76,7 +76,7 @@ Factory.define('notificationTemplate', notificationTemplates, {
   body: () => faker.lorem.words(),
 });
 
-export const createBasicFakeData = (userId) => {
+export const createBasicFakeData = () => {
   _.times(1, () => Factory.create('user'));
   _.times(3, () => Factory.create('film'));
   _.times(9, () => Factory.create('screening'));

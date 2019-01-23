@@ -24,8 +24,8 @@ Template.login.events({
     const password = event.target.password.value;
     Meteor.loginWithPassword(
       email,
-      password
-      , (err) => {
+      password,
+      (err) => {
         if (err) {
           event.target.password.value = '';
           messageError(err);
@@ -37,6 +37,7 @@ Template.login.events({
             Router.go('ambassador');
           }
         }
-      });
+      },
+    );
   },
 });

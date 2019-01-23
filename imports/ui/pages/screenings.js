@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+// import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
@@ -86,31 +86,30 @@ Template.screenings.onRendered(() => {
   $('#loadMoreContainer').click(function () {
 
   });
-
 });
 
-Template.screenings.events({
-  'change #city-selector': function (e) {
-    const city = $(e.currentTarget).val();
-    Session.set('city', city);
-  },
-  'change #st-selector': function (e) {
-    const state = $(e.currentTarget).val();
-    Session.set('state', state);
-  },
-  'change #title-selector': function (e) {
-    const title = $(e.currentTarget).val();
-    Session.set('title', title);
-  },
-  'click .btn-datepicker': function (e) {
-    const month = $(e.currentTarget).data('month');
-    Session.set('month', month);
-  },
-  'click #film-selector': function (e) {
-    const film = $(e.currentTarget).val();
-    Session.set('film', film);
-  },
-});
+// Template.screenings.events({
+//   'change #city-selector': function (e) {
+//     const city = $(e.currentTarget).val();
+//     Session.set('city', city);
+//   },
+//   'change #st-selector': function (e) {
+//     const state = $(e.currentTarget).val();
+//     Session.set('state', state);
+//   },
+//   'change #title-selector': function (e) {
+//     const title = $(e.currentTarget).val();
+//     Session.set('title', title);
+//   },
+//   'click .btn-datepicker': function (e) {
+//     const month = $(e.currentTarget).data('month');
+//     Session.set('month', month);
+//   },
+//   'click #film-selector': function (e) {
+//     const film = $(e.currentTarget).val();
+//     Session.set('film', film);
+//   },
+// });
 
 /* Pega filmes que tem sessão no futuro
   *
@@ -118,14 +117,14 @@ Template.screenings.events({
   */
 function get_future_films(filtered) {
   // retorna filmes com sessões futuras
-  let films,
-    screenings,
-    future_screenings = [],
-    future_films = [];
+  let films;
+  let screenings;
+  let future_screenings = [];
+  let future_films = [];
 
-  films = (Session.get('film') && filtered) ?
-    Films.find({ title: Session.get('film') }) :
-    Films.active();
+  films = (Session.get('film') && filtered)
+    ? Films.find({ title: Session.get('film') })
+    : Films.active();
 
   films = films.fetch();
 

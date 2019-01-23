@@ -4,6 +4,17 @@ import { Accounts } from 'meteor/accounts-base';
 
 import './forget.html';
 
+function message(m) {
+  $('.form-errors').html(m);
+  $('html, body').animate({ scrollTop: 0 }, 'fast');
+}
+
+function errorMessage(err) {
+  if (err.reason === 'User not found') {
+    message('Usuário inexistente');
+  }
+}
+
 Template.forget.onRendered(() => {
   $('.forget-ambassador').validator();
 });
@@ -22,13 +33,3 @@ Template.forget.events({
     });
   },
 });
-
-function errorMessage(err) {
-  if (err.reason === 'User not found') {
-    message('Usuário inexistente');
-  }
-}
-function message(message) {
-  $('.form-errors').html(message);
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
-}

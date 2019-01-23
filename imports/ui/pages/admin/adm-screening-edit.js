@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import { saveScreening } from '../../../startup/client/helpers.js';
+// import { saveScreening } from '../../../startup/client/helpers.js';
 import '../../components/screeningFormFields.html';
 import './adm-screening-edit.html';
 
@@ -29,14 +29,14 @@ Template.editScreening.events({
     // Envia screening
     event.preventDefault();
     const form = document.getElementById('edit-screening-form');
-    saveScreening(form, this.film._id, false, 'publish');
+    // saveScreening(form, this.film._id, false, 'publish');
   },
   'click #btn-save'(event) {
     // Salva como rascunho
     event.preventDefault();
     const form = document.getElementById('edit-screening-form');
     const draft = $('#btn-save').attr('data-status');
-    saveScreening(form, this.film._id, draft, 'update');
+    // saveScreening(form, this.film._id, draft, 'update');
   },
   'click .remove_address'() {
     Meteor.call('removeAddress', Meteor.user()._id, this);

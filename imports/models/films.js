@@ -74,12 +74,10 @@ Films.all = () => Films.find({}, {
   },
 });
 
-Films.active = () => Films.find({
-  status: { $not: /Oculto/ } }, {
-  sort: {
-    sequence_number: 1,
-  },
-});
+Films.active = () => Films.find(
+  { status: { $not: /Oculto/ } },
+  { sort: { sequence_number: 1 } },
+);
 
 Films.count = () => Films.active().count();
 
@@ -196,10 +194,10 @@ Films.inventory = (film) => {
         // sessões com relatorio que ja foram exibidas
         if (screening.report_description) {
           inventory.viewers_from_reports = parseInt(
-            inventory.viewers_from_reports, 10
+            inventory.viewers_from_reports, 10,
           ) + realQuorum;
           inventory.sessions_with_reports = parseInt(
-            inventory.sessions_with_reports, 10
+            inventory.sessions_with_reports, 10,
           ) + 1;
         }
       } else {
@@ -215,7 +213,7 @@ Films.inventory = (film) => {
         inventory.viewers += realQuorum;
         incrementOrCreate(
           inventory.viewers_per_month,
-          `${getMonthName(screening.date.getMonth())} - ${screening.date.getFullYear()}`, realQuorum
+          `${getMonthName(screening.date.getMonth())} - ${screening.date.getFullYear()}`, realQuorum,
         );
       }
 

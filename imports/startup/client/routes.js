@@ -72,4 +72,3 @@ Router.route('/reset-password/:token', {
   name: 'resetPassword',
   template: 'resetPassword',
 });
-

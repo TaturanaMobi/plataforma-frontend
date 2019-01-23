@@ -40,8 +40,8 @@ Template.registerHelper('shortsynopsis', function shortSynopsis() {
 
 Template.registerHelper('avatarPath', () => {
   const avatar = Meteor.user().profile.avatar_path;
-  return (avatar) ? `/upload/${avatar}` :
-    '/images/avatar-default.png';
+  return (avatar) ? `/upload/${avatar}`
+    : '/images/avatar-default.png';
 });
 
 Template.registerHelper('snakecase', str => str.split(' ').join('_').toLowerCase());

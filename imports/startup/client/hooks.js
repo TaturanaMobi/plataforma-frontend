@@ -28,7 +28,7 @@ AutoForm.hooks({
 
   'new-user-form': {
     // // Called when any submit operation succeeds
-    onSubmit(insertDoc, updateDoc, currentDoc) {
+    onSubmit(insertDoc) {
       //   if (customHandler(insertDoc)) {
       //   } else {
       //     this.done(new Error("Submission failed"));

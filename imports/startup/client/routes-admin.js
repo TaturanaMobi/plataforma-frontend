@@ -144,8 +144,8 @@ function isAdmin() {
   }
   Meteor.users.find({ _id: userId }).map((user) => {
     if (
-      user.profile.roles === undefined ||
-      user.profile.roles[0] !== 'admin'
+      user.profile.roles === undefined
+      || user.profile.roles[0] !== 'admin'
     ) {
       Router.go('denied');
     }

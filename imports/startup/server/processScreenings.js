@@ -111,19 +111,23 @@ const processScreenings = {
     }
     processScreenings.updateStatus(s, 'Confirmada');
   },
-  processConfirmada(screening) {
-    // Confirmada - Sessão agendada com 10 dias ou mais de antecedência, enviar e-mail 7 dias antes da sessão send_the_movie_10 e trocar status para pendente
-    // Confirmada - Sessão agendada entre 9 e 4 dias de antecedência, enviar e-mail 2 dias antes da sessão send_the_movie_9 e trocar status para pendente
-    // Confirmada - Sessão agendada com 10 dias ou mais de antecedência, enviar e-mail 1 dias antes da sessão send_the_movie_3 e trocar status para pendente
+  processConfirmada() {
+    // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
+    // enviar e-mail 7 dias antes da sessão send_the_movie_10 e trocar status para pendente
+    // Confirmada - Sessão agendada entre 9 e 4 dias de antecedência,
+    // enviar e-mail 2 dias antes da sessão send_the_movie_9 e trocar status para pendente
+    // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
+    // enviar e-mail 1 dias antes da sessão send_the_movie_3 e trocar status para pendente
   },
-  processPendente(screening) {
+  processPendente() {
     // Pendente - Enviar e-mail 40h depois da sessão ask_for_report
     // Pendente - Enviar e-mail 1 semana depois da sessão ask_for_report_2
   },
-  processConcluida(screening) {
-    // Concluída - Após preencher relatório, trocar o status e enviar e-mail 3 meses depois da sessão tell_ambassador_the_results
+  processConcluida() {
+    // Concluída - Após preencher relatório, trocar o status e
+    // enviar e-mail 3 meses depois da sessão tell_ambassador_the_results
   },
-  processRascunho(screening) {
+  processRascunho() {
     // Rascunho - Troca o status no admin via form
   },
   autoStart() {

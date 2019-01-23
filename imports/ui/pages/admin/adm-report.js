@@ -7,13 +7,13 @@ import Films from '../../../models/films.js';
 
 Template.admReport.helpers({
   film() {
-    const screening_id = this._id;
+    const screeningId = this._id;
 
-    return Films.by_screening_id(screening_id);
+    return Films.by_screening_id(screeningId);
   },
   in_slideshow(src) {
-    let f = Films.by_screening_id(this._id);
-    let images = f.slideshow;
+    const f = Films.by_screening_id(this._id);
+    const images = f.slideshow;
     let result = false;
 
     if (!images) return false;
@@ -47,7 +47,7 @@ Template.admReport.events({
     Meteor.call(
       'removeFromSlideshow',
       filmId,
-      $(event.currentTarget).data('image-src')
+      $(event.currentTarget).data('image-src'),
     );
   },
 });

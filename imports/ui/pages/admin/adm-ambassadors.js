@@ -67,7 +67,9 @@ Template.admAmbassadors.helpers({
         'profile.institution',
         'profile.category',
         'profile.subcategory',
-        { label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2 },
+        {
+          label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2,
+        },
       ],
       //   'status',
       //   { label: 'Press Kit', key: 'press_kit_path', tmpl: Template.pressKitCellTmpl },

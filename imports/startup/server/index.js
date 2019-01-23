@@ -1,5 +1,6 @@
 // Import server startup through a single index entry point
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
@@ -41,14 +42,15 @@ import Worker from './worker';
 Meteor.methods({
   getSelectCities(options) {
     // this.unblock();
-    const searchText = options.searchText;
-    const values = options.values;
+    check(options, { searchText: String, values: String });
+    const { searchText, values } = options;
 
     if (searchText) {
       return Cities.find({ name: { $regex: searchText } }, { limit: 5 })
         .fetch()
         .map(v => ({ label: v.name, value: v.name }));
-    } else if (values.length) {
+    }
+    if (values.length) {
       return Cities.find({ value: { $in: values } })
         .fetch()
         .map(v => ({ label: v.name, value: v.name }));
@@ -59,10 +61,10 @@ Meteor.methods({
   },
 
   sendEmail(pidgeon, template) {
-    // check(pidgeon, {to, replyTo});
-    // check(template);
+    check(pidgeon, { to: String, replyTo: String });
+    check(template, String);
     this.unblock();
-    // Assets.getText(template)
+
     SSR.compileTemplate(template, Assets.getText(template));
     pidgeon.html = SSR.render(template, pidgeon);
 
@@ -164,7 +166,7 @@ Meteor.methods({
   },
 
   updateScreening(fScreening) {
-    const status = fScreening.status;
+    // const { status } = fScreening;
     const film = Films.by_screening_id(fScreening._id);
     const screenings = film.screening;
 
@@ -186,11 +188,11 @@ Meteor.methods({
         $set: {
           screening: screenings,
         },
-      }
+      },
     );
-    if (status === 'admin-draft' || status) {
-      removeNotifications(fScreening._id);
-    }
+    // if (status === 'admin-draft' || status) {
+    //   removeNotifications(fScreening._id);
+    // }
     States.unsetHasScreenings(fScreening.s_country, fScreening.uf);
     Cities.unsetHasScreenings(fScreening.s_country, fScreening.uf, fScreening.city);
 
@@ -215,16 +217,16 @@ Meteor.methods({
         $set: {
           screening: screenings,
         },
-      }
+      },
     );
 
-    if (status == 'admin-draft' || status == true) {
-      removeNotifications(id);
-    }
+    // if (status === 'admin-draft' || status == true) {
+    //   removeNotifications(id);
+    // }
   },
-  removeScreening(screening_id) {
-    const film = Films.by_screening_id(screening_id);
-    const fScreening = Films.return_screening(screening_id);
+  removeScreening(screeningId) {
+    const film = Films.by_screening_id(screeningId);
+    const fScreening = Films.return_screening(screeningId);
     Films.update(
       {
         _id: film._id,
@@ -233,19 +235,19 @@ Meteor.methods({
         $pull: {
           screening: fScreening,
         },
-      }
+      },
     );
-    removeNotifications(screening_id);
+    // removeNotifications(screening_id);
   },
-  addAddress(user_id, new_address) {
-    Meteor.users.update(user_id, {
+  addAddress(userId, newAddress) {
+    Meteor.users.update(userId, {
       $push: {
-        addresses: new_address,
+        addresses: newAddress,
       },
     });
   },
-  removeAddress(user_id, address) {
-    Meteor.users.update(user_id, {
+  removeAddress(userId, address) {
+    Meteor.users.update(userId, {
       $pull: {
         addresses: address,
       },
@@ -346,9 +348,7 @@ Meteor.startup(() => {
   Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
   Accounts.emailTemplates.from = 'Suporte <suporte@taturana.com.br>';
   Accounts.emailTemplates.resetPassword.subject = () => '[Taturana] Esqueci minha senha';
-
-  Accounts.emailTemplates.resetPassword.text = (user, url) =>
-    `Olá,\n\nPara resetar sua senha, acesse o link abaixo:\n${url}`;
+  Accounts.emailTemplates.resetPassword.text = (user, url) => `Olá,\n\nPara resetar sua senha, acesse o link abaixo:\n${url}`;
 
   Accounts.urls.resetPassword = token => Meteor.absoluteUrl(`reset-password/${token}`);
 

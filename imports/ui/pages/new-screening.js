@@ -1,17 +1,19 @@
+
 /* global document, window */
 
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
+// import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import '../components/autoform-nouislider.js';
 import '../components/screeningFormFields.html';
 import './new-screening.html';
-import { saveScreening } from '../../startup/client/helpers.js';
+// import { saveScreening } from '../../startup/client/helpers.js';
 
 Template.newScreening.onRendered(() => {
   // const nowDate = new Date();
-  // const today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 3, 0, 0, 0, 0);
+  // const today = new Date(nowDate.getFullYear(),
+  // nowDate.getMonth(), nowDate.getDate() + 3, 0, 0, 0, 0);
 
   // $('.readonly').keydown(function(e) {
   //   e.preventDefault();
@@ -40,7 +42,7 @@ Template.newScreening.events({
   //   const form = document.getElementById('new-screening-form');
   //   saveScreening(form, this._id, true, 'create');
   // },
-  'click .remove_address'(event) {
+  'click .remove_address'() {
     Meteor.call('removeAddress', Meteor.user()._id, this);
   },
   // 'click .replace_address': function() {
@@ -61,11 +63,13 @@ Template.newScreening.helpers({
     };
   },
   user_addresses() {
-    if (!Meteor.user()) return;
+    if (!Meteor.user()) {
+      return {};
+    }
 
     return Meteor.user().addresses;
   },
-  address(replace_address) {
+  address() {
     return [];
     // Session.get('address');
   },
