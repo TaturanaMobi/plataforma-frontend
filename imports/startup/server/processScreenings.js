@@ -1,70 +1,79 @@
 import { check } from 'meteor/check';
 import { moment } from 'meteor/momentjs:moment';
 import Screenings from '../../models/screenings.js';
-// import { SCREENING_STATUS } from '../../models/schemas';
+import Notifications from '../../models/notifications';
+import NotificationTemplates from '../../models/notification_templates';
 
 const processScreenings = {
-  isGreaterThan10days(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+  isGreaterThan10days(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const tenDaysBefore = moment(refDate).subtract(10, 'days');
 
-    return moment(screeningDate).isSameOrBefore(tenDaysBefore);
+    return moment(sDate).isSameOrBefore(tenDaysBefore);
   },
-  isBetween9and4days(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+
+  isBetween9and4days(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const nineDaysBefore = moment(refDate).subtract(9, 'days').toDate();
     const fourDaysBefore = moment(refDate).subtract(4, 'days').toDate();
 
-    return moment(screeningDate).isBetween(nineDaysBefore, fourDaysBefore, null, '[]');
+    return moment(sDate).isBetween(nineDaysBefore, fourDaysBefore, null, '[]');
   },
-  isLowerThan3days(screeningDate, refDate = new Date()) {
+
+  isLowerThan3days(sDate, refDate = new Date()) {
     const threeDaysBefore = moment(refDate).subtract(3, 'days').toDate();
 
-    check(screeningDate, Date);
-    return moment(screeningDate).isSameOrAfter(threeDaysBefore, 'seconds');
+    check(sDate, Date);
+    return moment(sDate).isSameOrAfter(threeDaysBefore, 'seconds');
   },
-  isAt10thDayBefore(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+
+  isAt10thDayBefore(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const at10thDayBefore = moment(refDate).subtract(10, 'days').toDate();
 
-    return moment(screeningDate).isSame(at10thDayBefore, 'day');
+    return moment(sDate).isSame(at10thDayBefore, 'day');
   },
-  is7daysBefore(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+
+  is7daysBefore(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const sevenDaysBefore = moment(refDate).subtract(7, 'days').toDate();
 
-    return moment(screeningDate).isSame(sevenDaysBefore, 'day');
+    return moment(sDate).isSame(sevenDaysBefore, 'day');
   },
-  is2daysBefore(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+
+  is2daysBefore(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const twoDaysBefore = moment(refDate).subtract(2, 'days').toDate();
 
-    return moment(screeningDate).isSame(twoDaysBefore, 'day');
+    return moment(sDate).isSame(twoDaysBefore, 'day');
   },
-  is1dayBefore(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+
+  is1dayBefore(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const oneDayBefore = moment(refDate).subtract(1, 'days').toDate();
 
-    return moment(screeningDate).isSame(oneDayBefore, 'day');
+    return moment(sDate).isSame(oneDayBefore, 'day');
   },
-  was40hoursAgo(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+
+  was40hoursAgo(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const fortyHoursAfter = moment(refDate).subtract(40, 'hours').toDate();
 
-    return moment(fortyHoursAfter).isSameOrAfter(screeningDate);
+    return moment(fortyHoursAfter).isSameOrAfter(sDate);
   },
-  was1weekAgo(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+  was1weekAgo(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const fortyHoursAfter = moment(refDate).subtract(1, 'weeks').toDate();
 
-    return moment(fortyHoursAfter).isSameOrAfter(screeningDate);
+    return moment(fortyHoursAfter).isSameOrAfter(sDate);
   },
-  was3monthsAgo(screeningDate, refDate = new Date()) {
-    check(screeningDate, Date);
+  was3monthsAgo(sDate, refDate = new Date()) {
+    check(sDate, Date);
     const fortyHoursAfter = moment(refDate).subtract(3, 'months').toDate();
 
-    return moment(fortyHoursAfter).isSameOrAfter(screeningDate);
+    return moment(fortyHoursAfter).isSameOrAfter(sDate);
   },
+
   process(s) {
     if (s.status === 'Agendada') {
       processScreenings.processAgendada(s);
@@ -80,18 +89,27 @@ const processScreenings = {
       console.log('NÃO ENCONTRADO FUNCAO PARA PROCESSAR STATUS', s.status, s._id);
     }
   },
-  processAgendada(screening) {
-    if (processScreenings.isLowerThan3days(screening.date)) {
-    } else if (processScreenings.isBetween9and4days(screening.date)) {
-    } else if (processScreenings.isGreaterThan10days(screening.date)) {
-      if (processScreenings.isAt10thDayBefore(screening.date)) {}
-    }
-    processScreenings.updateStatus('Confirmada');
-    // Agendada - Sessão agendada com 10 dias ou mais de antecedência, enviar e-mail confirm_scheduling_10 e trocar status para confirmada
-    // Agendada - Sessão agendada entre 9 e 4 dias de antecedência, enviar e-mail confirm_scheduling_9 e trocar status para confirmada
-    // Agendada - Sessão agendada entre 3 dias de antecedência ou menos, enviar e-mail confirm_scheduling_3 e trocar status para confirmada
 
-    // Agendada - Sessão agendada com 10 dias ou mais de antecedência, enviar e-mail no dia 10 screening_date
+  processAgendada(s) {
+    // Agendada - Sessão agendada entre 3 dias de antecedência
+    // ou menos, enviar e-mail confirm_scheduling_3 e trocar status para confirmada
+    if (processScreenings.isLowerThan3days(s.date)) {
+      processScreenings.createNotification(s, 'confirm_scheduling_3');
+    // Agendada - Sessão agendada entre 9 e 4 dias de antecedência,
+    //  enviar e-mail confirm_scheduling_9 e trocar status para confirmada
+    } else if (processScreenings.isBetween9and4days(s.date)) {
+      processScreenings.createNotification(s, 'confirm_scheduling_9');
+    // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
+    // enviar e-mail confirm_scheduling_10 e trocar status para confirmada
+    } else if (processScreenings.isGreaterThan10days(s.date)) {
+      // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
+      // enviar e-mail no dia 10 screening_date
+      if (processScreenings.isAt10thDayBefore(s.date)) {
+        processScreenings.createNotification(s, 'confirm_scheduling_10');
+      }
+      processScreenings.createNotification(s, 'screening_date');
+    }
+    processScreenings.updateStatus(s, 'Confirmada');
   },
   processConfirmada(screening) {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência, enviar e-mail 7 dias antes da sessão send_the_movie_10 e trocar status para pendente
@@ -111,11 +129,47 @@ const processScreenings = {
   autoStart() {
     Screenings.find({}).map(doc => processScreenings.process(doc));
   },
-  loadData() {},
-  loadTemplate() {}, // 4. carregar template e verificar se existe específico para o filme
-  updateStatus() {},
+  loadData(s) {
+    return {
+      screening: s,
+      film: s.film(),
+      ambassador: s.ambassador(),
+    };
+  },
+  loadTemplate(templateName) {
+    const t = NotificationTemplates.find({ name: templateName }).fetch();
+    const hasFilmTemplate = t.filter(v => v.filmId !== undefined);
+    const defaultFilmTemplate = t.filter(v => v.filmId === undefined);
+
+    if (hasFilmTemplate.length > 0) {
+      return hasFilmTemplate[0];
+    }
+
+    if (defaultFilmTemplate.length > 0) {
+      return defaultFilmTemplate[0];
+    }
+
+    return false;
+  }, // 4. carregar template e verificar se existe específico para o filme
+  updateStatus(s, newStatus) {
+    return Screenings.update(s._id, { $set: { status: newStatus } });
+  },
   // 3. verificar se notificação já foi criada
-  createNotification(vars_data, templateId) {}, // 5. criar notificação para enviar e-mail
+  createNotification(s, templateName) {
+    const varsData = processScreenings.loadData(s);
+    const nt = processScreenings.loadTemplate(templateName, varsData);
+    const alreadyCreated = Notifications.find({
+      userId: varsData.ambassador._id,
+      screeningId: varsData.screening._id,
+      notificationTemplateId: nt._id,
+    });
+
+    return alreadyCreated.count() > 0 ? false : Notifications.insert({
+      userId: varsData.ambassador._id,
+      screeningId: varsData.screening._id,
+      notificationTemplateId: nt._id,
+    });
+  }, // 5. criar notificação para enviar e-mail
 };
 
 // Regras para sessões por status:

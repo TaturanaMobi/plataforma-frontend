@@ -6,6 +6,8 @@ import { _ } from 'meteor/underscore';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Random } from 'meteor/random';
 
+import Screenings from '../../models/screenings';
+import Notifications from '../../models/notifications';
 import processScreenings from './processScreenings';
 import * as testHelpers from '../both/test-helpers';
 
@@ -202,6 +204,10 @@ describe('process screenings', () => {
   // });
 
   // it('load screening related data: film, user', async () => {
+  // const s = Screenings.findOne({});
+
+  // Screenings.find({}).map(doc => console.log(doc));
+  // assert.ok(processScreenings.loadData(fourMonthsBefore.toDate()));
 
   // });
 
@@ -209,9 +215,10 @@ describe('process screenings', () => {
 
   // });
 
-  // it('process screening with status agendada', async () => {
-
-  // });
+  it('process screening with status agendada', async () => {
+    Screenings.find({ status: 'Agendada' }).map(doc => processScreenings.processAgendada(doc));
+    assert.ok(Notifications.find({}).count() === 27);
+  });
 
   // it('process screening with status confirmada', async () => {
 

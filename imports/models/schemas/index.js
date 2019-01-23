@@ -50,20 +50,15 @@ export const FILM_SUBCATEGORIES = [
   'Outro',
 ];
 
-export const FILM_STATUS =
-['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
+export const FILM_STATUS = ['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
 
-const STATES =
-['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
+const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
 
-const FILM_AGE_RATING =
-['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
+const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
-export const SCREENING_STATUS =
-['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
+export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
 
-export const SCREENING_ACTIVITY =
-['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre'];
+export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre'];
 
 SimpleSchema.extendOptions(['autoform']);
 SimpleSchema.setDefaultMessages({
@@ -909,33 +904,47 @@ Schemas.NotificationTemplate = new SimpleSchema({
   filmId: {
     type: String,
     label: 'Usar para filme específico',
+    optional: true,
   },
   createdAt: {
     type: String,
     label: 'Criado em',
+    optional: true,
   },
   updatedAt: {
     type: String,
     label: 'Atualizado em',
+    optional: true,
   },
 }, { tracker: Tracker });
 
 Schemas.Notification = new SimpleSchema({
-  vars_data: {
-    type: String,
-    label: 'Dados variáveis',
-  },
   notificationTemplateId: {
     type: String,
     label: 'Regra',
   },
+  userId: {
+    type: String,
+    label: 'Enviado para',
+  },
+  screeningId: {
+    type: String,
+    label: 'Sessão Relacionada',
+  },
+  deliveredAt: {
+    type: String,
+    label: 'Entregue em',
+    optional: true,
+  },
   createdAt: {
     type: String,
     label: 'Criado em',
+    optional: true,
   },
   updatedAt: {
     type: String,
     label: 'Atualizado em',
+    optional: true,
   },
 }, { tracker: Tracker });
 
