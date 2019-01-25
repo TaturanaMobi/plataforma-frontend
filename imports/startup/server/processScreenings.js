@@ -61,12 +61,14 @@ const processScreenings = {
 
     return moment(fortyHoursAfter).isSameOrAfter(sDate);
   },
+
   was1weekAgo(sDate, refDate = new Date()) {
     check(sDate, Date);
     const fortyHoursAfter = moment(refDate).subtract(1, 'weeks').toDate();
 
     return moment(fortyHoursAfter).isSameOrAfter(sDate);
   },
+
   was3monthsAgo(sDate, refDate = new Date()) {
     check(sDate, Date);
     const fortyHoursAfter = moment(refDate).subtract(3, 'months').toDate();
@@ -111,6 +113,7 @@ const processScreenings = {
     }
     processScreenings.updateStatus(s, 'Confirmada');
   },
+
   processConfirmada() {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
     // enviar e-mail 7 dias antes da sessão send_the_movie_10 e trocar status para pendente
@@ -119,20 +122,25 @@ const processScreenings = {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
     // enviar e-mail 1 dias antes da sessão send_the_movie_3 e trocar status para pendente
   },
+
   processPendente() {
     // Pendente - Enviar e-mail 40h depois da sessão ask_for_report
     // Pendente - Enviar e-mail 1 semana depois da sessão ask_for_report_2
   },
+
   processConcluida() {
     // Concluída - Após preencher relatório, trocar o status e
     // enviar e-mail 3 meses depois da sessão tell_ambassador_the_results
   },
+
   processRascunho() {
     // Rascunho - Troca o status no admin via form
   },
+
   autoStart() {
     Screenings.find({}).map(doc => processScreenings.process(doc));
   },
+
   loadData(s) {
     return {
       screening: s,
@@ -140,6 +148,7 @@ const processScreenings = {
       ambassador: s.ambassador(),
     };
   },
+
   loadTemplate(templateName) {
     const t = NotificationTemplates.find({ name: templateName }).fetch();
     const hasFilmTemplate = t.filter(v => v.filmId !== undefined);
@@ -154,10 +163,13 @@ const processScreenings = {
     }
 
     return false;
-  }, // 4. carregar template e verificar se existe específico para o filme
+  },
+
+  // 4. carregar template e verificar se existe específico para o filme
   updateStatus(s, newStatus) {
     return Screenings.update(s._id, { $set: { status: newStatus } });
   },
+
   // 3. verificar se notificação já foi criada
   createNotification(s, templateName) {
     const varsData = processScreenings.loadData(s);

@@ -13,31 +13,37 @@ import Screenings from '../../models/screenings';
 import Images from '../../models/images';
 import { Cities, States } from '../../models/states_and_cities';
 import Worker from './worker';
+import NotificationTemplates from '../../models/notification_templates.js';
 
-// const FutureTasks = new Meteor.Collection('future_tasks');
+Meteor.startup(() => {
+  Worker.start();
 
-// Envia as notifações
-// function sendNotify(notify, template) {
-//   Meteor.call('sendEmail', notify, template);
-// }
+  Meteor.publish('films.all', () => Films.find({}, {
+    fields: {
+      screenings: 0,
+    },
+  }));
 
-// function missingReport(content, template) {
-//   const report = Films.return_screening(content.screening_id);
-//   if (report.real_quorum) {
-//     return Meteor.call('sendEmail', content, template);
-//   }
-//   return false;
-// }
+  Meteor.publish('screenings.all', () => Screenings.find({}));
 
-// function removeNotifications(scrId) {
-//   const scrTasks = FutureTasks.find({
-//     screening_id: scrId,
-//   }).fetch();
+  Meteor.publish('screenings.my', () => Screenings.find({ user_id: Meteor.userId() }));
 
-//   _.each(scrTasks, (task) => {
-//     FutureTasks.remove(task._id);
-//   });
-// }
+  Meteor.publish('users.me', () => Meteor.users.find({ _id: Meteor.userId() }));
+
+  Meteor.publish('users.all', () => Meteor.users.find({}, { sort: { createdAt: -1 } }));
+
+  Meteor.publish('notification_templates.all', () => NotificationTemplates.find({}));
+
+  Meteor.publish('files.images.all', () => Images.find().cursor);
+
+  // Forgot Password Email
+  Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
+  Accounts.emailTemplates.from = 'Suporte <suporte@taturana.com.br>';
+  Accounts.emailTemplates.resetPassword.subject = () => '[Taturana] Esqueci minha senha';
+  Accounts.emailTemplates.resetPassword.text = (user, url) => `Olá,\n\nPara resetar sua senha, acesse o link abaixo:\n${url}`;
+
+  Accounts.urls.resetPassword = token => Meteor.absoluteUrl(`reset-password/${token}`);
+});
 
 Meteor.methods({
   getSelectCities(options) {
@@ -280,98 +286,4 @@ Meteor.methods({
   //     }
   //   );
   // },
-});
-
-Meteor.startup(() => {
-  Worker.start();
-
-  Meteor.publish('films.all', () => Films.find({}, {
-    fields: {
-      screenings: 0,
-    },
-  }));
-
-  Meteor.publish('screenings.all', () => Screenings.find({}));
-
-  Meteor.publish('screenings.my', () => Screenings.find({ user_id: Meteor.userId() }));
-
-  // fields: {
-  //   filmId: 1,
-  //   user_id: 1,
-  //   place_name: 1,
-  //   city: 1,
-  //   uf: 1,
-  //   date: 1,
-  //   public_event: 1,
-  //   team_member: 1,
-  //   quorum_expectation: 1,
-  //   comments: 1,
-  //   accept_terms: 1,
-  //   created_at: 1,
-  //   status: 1,
-  //   real_quorum: 1,
-  //   report_description: 1,
-  //   author_1: 1,
-  //   report_image_1: 1,
-  //   author_2: 1,
-  //   report_image_2: 1,
-  //   author_3: 1,
-  //   report_image_3: 1,
-  // },
-
-  Meteor.publish('users.me', () => Meteor.users.find({ _id: Meteor.userId() }));
-
-  Meteor.publish('users.all', () => Meteor.users.find({}, { sort: { createdAt: -1 } }));
-
-  // UploadServer.init({
-  //   tmpDir: `${process.env.PWD}/uploads/tmp`,
-  //   uploadDir: `${process.env.PWD}/uploads/`,
-  //   checkCreateDirectories: true,
-  //   getDirectory(fileInfo, formData) {
-  //     return formData.contentType;
-  //   },
-  //   getFileName(fileInfo, formData) {
-  //     const name = fileInfo.name.replace(/\s/g, '');
-  //     return formData.file_type + name;
-  //   },
-  //   finished() {},
-  //   cacheTime: 100,
-  //   mimeTypes: {
-  //     xml: 'application/xml',
-  //     vcf: 'text/x-vcard',
-  //   },
-  // });
-
-  Meteor.publish('files.images.all', () => Images.find().cursor);
-
-  // Forgot Password Email
-  Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
-  Accounts.emailTemplates.from = 'Suporte <suporte@taturana.com.br>';
-  Accounts.emailTemplates.resetPassword.subject = () => '[Taturana] Esqueci minha senha';
-  Accounts.emailTemplates.resetPassword.text = (user, url) => `Olá,\n\nPara resetar sua senha, acesse o link abaixo:\n${url}`;
-
-  Accounts.urls.resetPassword = token => Meteor.absoluteUrl(`reset-password/${token}`);
-
-  // Creating Slugs in Bulk for Existing Films
-  // let count = 0;
-  // const docs = Films.find({
-  //   slug: {
-  //     $exists: false,
-  //   },
-  // }, {
-  //   limit: 50,
-  // });
-
-  // docs.forEach((doc) => {
-  //   Films.update({
-  //     _id: doc._id,
-  //   }, {
-  //     $set: {
-  //       fake: '',
-  //     },
-  //   });
-  //   count += 1;
-  //   return count;
-  // });
-  // console.log(`Update slugs for ${count} Films.`);
 });
