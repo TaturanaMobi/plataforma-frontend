@@ -8,8 +8,12 @@ const Worker = {
     }, 60000);
   },
   run() {
-    console.log('Iniciando worker...');
-    processScreenings.autoStart();
+    if (process.env.WORKER !== undefined && process.env.WORKER === 1) {
+      console.log('Iniciando worker...');
+      processScreenings.autoStart();
+    } else {
+      console.log('Worker desativado...');
+    }
   },
   stop() {
     Meteor.clearInterval();
