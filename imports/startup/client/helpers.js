@@ -5,6 +5,8 @@ import { moment } from 'meteor/momentjs:moment';
 import Schemas from '../../models/schemas';
 import Films from '../../models/films';
 import Users from '../../models/users';
+import NotificationTemplates from '../../models/notification_templates';
+import Notifications from '../../models/notifications';
 import Screenings from '../../models/screenings';
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
@@ -80,5 +82,7 @@ export function getDateObject(date, time) {
 Template.registerHelper('Schemas', Schemas);
 Template.registerHelper('Films', Films);
 Template.registerHelper('Screenings', Screenings);
+Template.registerHelper('NotificationTemplates', NotificationTemplates);
+Template.registerHelper('Notifications', Notifications);
 Template.registerHelper('Users', Users);
 Meteor.subscribe('files.images.all');

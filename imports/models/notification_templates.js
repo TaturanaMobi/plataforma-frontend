@@ -14,4 +14,15 @@ if (Meteor.isServer) {
   });
 }
 
+NotificationTemplates.allow({
+  insert(userId) {
+    // only allow posting if you are logged in
+    return !!userId;
+  },
+  update(userId) {
+    // only allow posting if you are logged in
+    return !!userId;
+  },
+});
+
 export default NotificationTemplates;

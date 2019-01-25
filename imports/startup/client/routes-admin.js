@@ -5,6 +5,8 @@ import { Router } from 'meteor/iron:router';
 
 import '../../ui/components/adm-sidebar.html';
 
+import '../../ui/pages/admin/adm-notification-templates';
+import '../../ui/pages/admin/adm-notification-templates-new';
 import '../../ui/pages/admin/adm-ambassador.html';
 import '../../ui/pages/admin/adm-ambassadors.html';
 import '../../ui/pages/admin/adm-ambassadors.js';
@@ -24,6 +26,7 @@ import '../../ui/pages/admin/adm.html';
 import Screenings from '../../models/screenings.js';
 import Films from '../../models/films.js';
 import Users from '../../models/users';
+import NotificationTemplates from '../../models/notification_templates';
 
 import { publicRoutes } from './routes-ambassador.js';
 
@@ -39,6 +42,16 @@ Router.route('/adm/ambassadors', {
   waitOn() { return Meteor.subscribe('users.all'); },
   data() { return Users.find({}); },
   action() { this.render('admAmbassadors'); },
+});
+
+Router.route('/adm/notification-templates', {
+  waitOn() { return Meteor.subscribe('notification_templates.all'); },
+  data() { return NotificationTemplates.find({}); },
+  action() { this.render('admNotificationTemplates'); },
+});
+
+Router.route('/adm/notification-templates-new', {
+  action() { this.render('admNotificationTemplatesNew'); },
 });
 
 Router.route('/adm/films', {
