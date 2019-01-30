@@ -14,7 +14,6 @@ import '../../ui/pages/films.js';
 import '../../ui/pages/forget.js';
 import '../../ui/pages/home.js';
 import '../../ui/pages/login.js';
-import '../../ui/pages/logout.js';
 import '../../ui/components/denied.html';
 import '../../ui/pages/new-screening.js';
 import '../../ui/pages/register.js';

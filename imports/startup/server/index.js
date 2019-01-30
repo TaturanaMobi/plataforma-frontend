@@ -48,7 +48,7 @@ Meteor.startup(() => {
 Meteor.methods({
   getSelectCities(options) {
     // this.unblock();
-    check(options, { searchText: String, values: String });
+    // check(options, { searchText: String, values: String });
     const { searchText, values } = options;
 
     if (searchText) {

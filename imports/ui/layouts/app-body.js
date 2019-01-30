@@ -5,7 +5,7 @@ import { $ } from 'meteor/jquery';
 import { FlashMessages } from 'meteor/mrt:flash-messages';
 // import { _ } from 'meteor/underscore';
 
-import '../components/nav.html';
+import '../components/nav.js';
 import '../components/footer.html';
 import '../components/loading.html';
 import './app-body.html';

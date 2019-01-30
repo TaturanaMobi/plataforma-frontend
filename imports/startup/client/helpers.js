@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { moment } from 'meteor/momentjs:moment';
+import { Router } from 'meteor/iron:router';
 
 import Schemas from '../../models/schemas';
 import Films from '../../models/films';
@@ -8,6 +9,10 @@ import Users from '../../models/users';
 import NotificationTemplates from '../../models/notification_templates';
 import Notifications from '../../models/notifications';
 import Screenings from '../../models/screenings';
+
+Template.registerHelper('currentRouteIs', function (route) {
+  return Router.current().route.getName() === route;
+});
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 
