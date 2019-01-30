@@ -1,45 +1,49 @@
 <template name="editScreening">
   <div id="edit-screening" class="container">
-    <div class="col-md-12">
-      <h1 class="section-title-sm">AGENDAR FILME</h1>
-      <h1 class="section-title-lg">{{film.title}}</h1>
-    </div>
-    <div class="col-md-12">
-      <div class="col-md-3">
-        <img class="thumb-poster" src="https://images.stag.taturanamobi.com.br/smartcrop?width=180&height=360&file={{film.poster_path}}">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="section-title-sm">AGENDAR FILME</h2>
+        <h3 class="section-title-lg">{{film.title}}</h3>
       </div>
-      <div class="col-md-9">
-        <p><strong>{{film.synopsis}}</strong></p>
-        <table class="white-table">
-          <tr>
-            <td>{{film.genre}}</td>
-            <td>{{film.year}}</td>
-            {{#if film.length}}
-              <td>{{film.length}}</td>
-            {{/if}}
-            <td>{{film.country}}</td>
-          </tr>
-        </table>
-        <table class="white-table">
-          <tr>
-            {{#if film.director}}
-              <td>{{film.director}}</td>
-            {{/if}}
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="thumb-poster" src="https://images.stag.taturanamobi.com.br/fit?width=180&height=360&file={{film.poster_path}}">
+          </div>
+          <div class="col-md-9">
+            <p><strong>{{film.synopsis}}</strong></p>
+            <table class="white-table">
+              <tr>
+                <td>{{film.genre}}</td>
+                <td>{{film.year}}</td>
+                {{#if film.length}}
+                <td>{{film.length}}</td>
+                {{/if}}
+                <td>{{film.country}}</td>
+              </tr>
+            </table>
+            <table class="white-table">
+              <tr>
+                {{#if film.director}}
+                <td>{{film.director}}</td>
+                {{/if}}
 
-            {{#if film.production_company}}
-              <td>{{film.production_company}}</td>
-            {{/if}}
-          </tr>
-        </table>
+                {{#if film.production_company}}
+                <td>{{film.production_company}}</td>
+                {{/if}}
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
-    {{#autoForm
+      {{#autoForm
       schema=Schemas.Screening
       doc=this collection=Screenings
       id="update-screening-form"
       type="update"
-    }}
+      }}
       {{> screeningFormFields form=this }}
-    {{/autoForm}}
+      {{/autoForm}}
+    </div>
   </div>
 </template>

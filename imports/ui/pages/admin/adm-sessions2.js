@@ -49,6 +49,9 @@ Template.admSessions2.helpers({
       },
       fields: [
         {
+          label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl, headerClass: 'col-md-2',
+        },
+        {
           key: 'infos', label: 'Informações', tmpl: Template.infoCellTmpl, headerClass: 'col-md-1',
         },
         {
@@ -80,9 +83,6 @@ Template.admSessions2.helpers({
         //  'author_1', 'author_2', 'author_3',
         {
           label: 'Data criação', key: 'created_at', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl,
-        },
-        {
-          label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl, headerClass: 'col-md-2',
         },
       ],
     };

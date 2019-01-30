@@ -1,7 +1,7 @@
 <template name="filmCard">
   <div class="col-md-6 col-md-6 film-box">
     <div class="col-md-6">
-      <img src="https://images.stag.taturanamobi.com.br/smartcrop?width=720&height=1280&file={{poster_path}}" alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
+      <img src="https://images.stag.taturanamobi.com.br/fit?width=720&height=1280&file={{poster_path}}" alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
     </div>
     <div class="col-md-6">
       <h3>{{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}</h3>
@@ -41,7 +41,7 @@
     <div class="col-md-12">
 
       <p>{{{shortsynopsis}}}</p>
-      <a class="btn btn-lg center-block" href="/film/{{slug}}" title="Ver detalhes do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">VER DETALHES DO FILME</a>
+      <a class="btn btn-lg btn-primary center-block" href="/film/{{slug}}" title="Ver detalhes do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">VER DETALHES DO FILME</a>
     </div>
   </div>
 </template>

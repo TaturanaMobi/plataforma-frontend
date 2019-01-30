@@ -1,7 +1,7 @@
 <template name="filmFormFields">
   <div class="row">
     <div class="col-lg-12">
-      <h1>Filme: {{title}}</h1>
+      <h2>Filme: {{title}}</h2>
     </div>
     <div class="col-lg-4">
       <h3>BÁSICA</h3>
@@ -81,7 +81,7 @@
       <div class="form-group col-md-12">
         {{#if poster_home_path}}
         <img
-          src="https://images.stag.taturanamobi.com.br/smartcrop?width=360&height=370&file={{poster_home_path}}"
+          src="https://images.stag.taturanamobi.com.br/fit?width=360&height=370&file={{poster_home_path}}"
           class="adm-thumb destroy-img"
         />
         {{/if}}
@@ -107,12 +107,12 @@
     </div>
     <div class="col-md-12">
       <div class="form-group col-md-2">
-        <button class="btn btn-lg btn-block" type="submit">
+        <button class="btn btn-lg btn-primary" type="submit">
           Enviar
         </button>
       </div>
       <div class="form-group col-md-1">
-        <button class="btn btn-lg btn-block" type="button">
+        <button class="btn btn-lg btn-default" type="button">
           Voltar
         </button>
       </div>

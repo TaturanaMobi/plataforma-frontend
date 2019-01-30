@@ -1,4 +1,19 @@
 <template name="logout">
+    <ul class="nav navbar-nav navbar-right">
+        <!-- <li><a href="#">Link</a></li> -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown
+            <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+<!--
   <ul id="dropdown-submenu">
     <li class="submenu">
     <div class="userDroplet-container dropletInvisible">
@@ -8,11 +23,10 @@
       <li><a href="/ambassador-edit">Meu Perfil</a></li>
       {{#if isAdmin }}
         <li></li>
-        <!-- <li><a href="/adm/carousel">Ordenar Filmes</a></li> -->
+        <li><a href="/adm/carousel">Ordenar Filmes</a></li>
         <li><a href="/adm/films">Gerenciar Filmes</a></li>
         <li><a href="/adm/sessions2">Gerenciar Sessões</a></li>
         <li><a href="/adm/ambassadors">Gerenciar Embaixadores</a></li>
-        <!-- <li><a href="/adm/notifications">Gerenciar Notificações</a></li> -->
         <li><a href="/adm/notification-templates">Gerenciar Fluxo de E-mail</a></li>
       {{else}}
       {{/if}}
@@ -27,5 +41,5 @@
       event.preventDefault();
       $('.userDroplet-container').toggleClass('dropletInvisible');
   });
-</script>
+</script> -->
 </template>
