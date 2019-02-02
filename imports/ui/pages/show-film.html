@@ -5,16 +5,16 @@
       <div class="row">
       <div class="col-lg-12">
         <a href="/films">
-          <h2 class="section-title-sm">FILMES | {{status}}</h2>
+          <h4 class="section-title-sm">FILMES | {{status}}</h4>
         </a>
       </div>
       <div class="col-lg-5">
-        <h3 class="section-title-lg red">{{title}}<img class="age-rating" src="/images/classificacao_{{snakecase age_rating}}.svg"/></h3>
+        <h2 class="section-title-lg red">{{title}}<img class="age-rating" src="/images/classificacao_{{snakecase age_rating}}.svg"/></h2>
       </div>
       <div class="col-lg-7 film-detail-buttons">
       {{#if is_difusao }}
-        <a href="/new-screening/{{slug}}" class="pull-right btn btn-primary">QUERO ORGANIZAR UMA SESSÃO</a>
-        <a href="/screenings" class="pull-right btn btn-default">VER AGENDA DE EXIBIÇÃO</a>
+      <a href="/screenings" class="pull-right btn btn-default">VER AGENDA DE EXIBIÇÃO</a>
+      <a href="/new-screening/{{slug}}" class="pull-right btn btn-primary">QUERO ORGANIZAR UMA SESSÃO</a>
       {{/if}}
       </div>
       <div class="col-lg-12 data-row reset-div">
@@ -55,7 +55,7 @@
                 <table class="white-table">
                   <tr>
                     {{#if trailer_url}}
-                      <td><a href="{{trailer_url}}" rel="prettyPhoto" class="red">ASSISTA AO TRAILER</a></td>
+                      <td><a href="{{trailer_url}}" rel="prettyPhoto" class="btn btn-xs btn-primary">ASSISTA AO TRAILER</a></td>
                     {{/if}}
 
                     {{#if site}}
