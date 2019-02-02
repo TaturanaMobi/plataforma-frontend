@@ -1,12 +1,13 @@
-<template name="admNotificationTemplatesNew">
+<template name="admNotificationTemplatesEdit">
   <div class="container">
-    <h1>Novo Template do Fluxo de E-mail</h1>
+    <h1>Editar Template do Fluxo de E-mail</h1>
     <div class="col-lg-6">
         {{#autoForm
           schema=Schemas.NotificationTemplate
           collection=NotificationTemplates
-          id="new-notification-templates-form"
-          type="insert"
+          id="update-notification-templates-form"
+          doc=this
+          type="update"
         }}
 
       {{> notificationTemplateFormFields}}

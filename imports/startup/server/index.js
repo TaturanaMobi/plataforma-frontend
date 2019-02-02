@@ -32,7 +32,7 @@ Meteor.startup(() => {
 
   Meteor.publish('users.all', () => Meteor.users.find({}, { sort: { createdAt: -1 } }));
 
-  Meteor.publish('notification_templates.all', () => NotificationTemplates.find({}));
+  Meteor.publish('notificationTemplates.all', () => NotificationTemplates.find({}));
 
   Meteor.publish('files.images.all', () => Images.find().cursor);
 

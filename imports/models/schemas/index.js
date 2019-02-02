@@ -2,8 +2,22 @@ import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 
 import { Schema as userSchema } from '../users';
+import Films from '../films';
 import wNumb from '../utils/wNumb';
 import getSelectOptions from './getSelectOptions';
+
+export const NOTIFICATION_TRIGGERS = [
+  'screening_date',
+  'confirm_scheduling_3',
+  'confirm_scheduling_9',
+  'confirm_scheduling_10',
+  'send_the_movie_3',
+  'send_the_movie_9',
+  'send_the_movie_10',
+  'ask_for_report',
+  'ask_for_report_2',
+  'tell_ambassador_the_results',
+]
 
 export const FILM_CATEGORIES = [
   'Cineclube',
@@ -893,6 +907,16 @@ Schemas.NotificationTemplate = new SimpleSchema({
     type: String,
     label: 'Nome',
   },
+  trigger: {
+    type: String,
+    label: 'Nome do Gatilho',
+    autoform: {
+      options: getSelectOptions(NOTIFICATION_TRIGGERS),
+      afFieldInput: {
+        type: 'select',
+      },
+    },
+  },
   subject: {
     type: String,
     label: 'Assunto da mensagem do e-mail',
@@ -900,11 +924,32 @@ Schemas.NotificationTemplate = new SimpleSchema({
   body: {
     type: String,
     label: 'Corpo da mensagem do e-mail',
+    autoform: {
+      afFieldInput: {
+        type: 'textarea',
+        class: 'editor',
+        rows: 6,
+      },
+    },
   },
   filmId: {
     type: String,
     label: 'Usar para filme específico',
     optional: true,
+    autoform: {
+      options: function () {
+        const opts = Films.find({}).fetch().map(function(entity) {
+            return {
+                label: entity.title,
+                value: entity._id
+            };
+        });
+        return opts;
+      },
+      afFieldInput: {
+        type: 'select',
+      },
+    },
   },
   createdAt: {
     type: String,

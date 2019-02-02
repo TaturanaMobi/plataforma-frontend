@@ -7,6 +7,7 @@ import '../../ui/components/adm-sidebar.html';
 
 import '../../ui/pages/admin/adm-notification-templates';
 import '../../ui/pages/admin/adm-notification-templates-new';
+import '../../ui/pages/admin/adm-notification-templates-edit';
 import '../../ui/pages/admin/adm-ambassador.html';
 import '../../ui/pages/admin/adm-ambassadors.html';
 import '../../ui/pages/admin/adm-ambassadors.js';
@@ -21,7 +22,6 @@ import '../../ui/pages/admin/adm-sessions2.html';
 import '../../ui/pages/admin/adm-sessions2.js';
 import '../../ui/pages/admin/adm-screening-edit.js';
 import '../../ui/pages/admin/adm-films-new.js';
-import '../../ui/pages/admin/adm.html';
 
 import Screenings from '../../models/screenings.js';
 import Films from '../../models/films.js';
@@ -29,8 +29,6 @@ import Users from '../../models/users';
 import NotificationTemplates from '../../models/notification_templates';
 
 import { publicRoutes } from './routes-ambassador.js';
-
-Router.route('/adm');
 
 Router.route('/adm/sessions2', {
   waitOn() { return Meteor.subscribe('screenings.all'); },
@@ -45,14 +43,29 @@ Router.route('/adm/ambassadors', {
 });
 
 Router.route('/adm/notification-templates', {
-  waitOn() { return Meteor.subscribe('notification_templates.all'); },
+  waitOn() { return Meteor.subscribe('notificationTemplates.all'); },
   data() { return NotificationTemplates.find({}); },
   action() { this.render('admNotificationTemplates'); },
 });
 
 Router.route('/adm/notification-templates-new', {
+  waitOn() { return Meteor.subscribe('films.all'); },
+  // data() { return NotificationTemplates.find({}); },
+
   action() { this.render('admNotificationTemplatesNew'); },
 });
+
+Router.route('/adm/notification-templates-edit/:_id', {
+  waitOn() { return Meteor.subscribe('notificationTemplates.all') && Meteor.subscribe('films.all');
+      // Meteor.subscribe('notificationTemplates.all');
+    // }
+  },
+  data() {
+    return NotificationTemplates.findOne({ _id: this.params._id });
+  },
+  action() { this.render('admNotificationTemplatesEdit'); },
+});
+
 
 Router.route('/adm/films', {
   waitOn() { return Meteor.subscribe('films.all'); },
@@ -91,7 +104,7 @@ Router.route('/adm/ambassador/:_id', {
   template: 'admAmbassador',
   waitOn() {
     // return one handle, a function, or an array
-    return Meteor.subscribe('films');
+    return Meteor.subscribe('users.all');
   },
 
   data() {
@@ -100,24 +113,24 @@ Router.route('/adm/ambassador/:_id', {
 });
 
 
-Router.route('/adm/session/:_id', {
-  template: 'admSession',
-  waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('films');
-  },
+// Router.route('/adm/session/:_id', {
+//   template: 'admSessionReport',
+//   waitOn() {
+//     // return one handle, a function, or an array
+//     return Meteor.subscribe('screenings.all');
+//   },
 
-  data() {
-    const sessionId = this.params._id;
-    return Films.return_screening(sessionId);
-  },
-});
+//   data() {
+//     const sessionId = this.params._id;
+//     return Screenings.findOne({ _id: sessionId });
+//   },
+// });
 
 Router.route('/adm/film/:_id/reports', {
   template: 'admReports',
   waitOn() {
     // return one handle, a function, or an array
-    return Meteor.subscribe('films');
+    return Meteor.subscribe('films.all');
   },
 
   data() {
@@ -130,11 +143,12 @@ Router.route('/adm/report/:_id', {
   template: 'admReport',
   waitOn() {
     // return one handle, a function, or an array
-    return Meteor.subscribe('films');
+    return Meteor.subscribe('screenings.all');
   },
 
   data() {
-    return Films.return_film_and_screening(this.params._id);
+    const sessionId = this.params._id;
+    return Screenings.findOne({ _id: sessionId });
   },
 });
 

@@ -58,7 +58,7 @@ Template.admAmbassadors.helpers({
       showFilter: false,
       showRowCount: true,
       fields: [
-      //   { label: 'Ações', key: 'actions', tmpl: Template.actionsCellTmpl2 },
+        { label: 'Ações', key: 'actions', tmpl: Template.actionsAmbassadorCellTmpl2 },
         // 'emails.0.address',
         'profile.name',
         'profile.cell_phone',
