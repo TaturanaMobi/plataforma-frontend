@@ -32,7 +32,7 @@ Template.login.events({
         } else {
           event.target.reset();
           if (Meteor.user().profile.roles[0] === 'admin') {
-            Router.go('adm');
+            Router.go('/');
           } else {
             Router.go('ambassador');
           }
