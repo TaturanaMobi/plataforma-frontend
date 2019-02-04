@@ -7,7 +7,7 @@ import wNumb from '../utils/wNumb';
 import getSelectOptions from './getSelectOptions';
 
 export const NOTIFICATION_TRIGGERS = [
-  'screening_date',
+  'confirm_screening_date',
   'confirm_scheduling_3',
   'confirm_scheduling_9',
   'confirm_scheduling_10',
@@ -966,7 +966,7 @@ Schemas.NotificationTemplate = new SimpleSchema({
 Schemas.Notification = new SimpleSchema({
   notificationTemplateId: {
     type: String,
-    label: 'Regra',
+    label: 'Template',
   },
   userId: {
     type: String,
