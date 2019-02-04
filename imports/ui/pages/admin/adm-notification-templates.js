@@ -17,7 +17,7 @@ Template.admNotificationTemplates.helpers({
         'trigger',
         'name',
         'subject',
-        'body',
+        // 'body',
         'filmId',
         {
           label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2,

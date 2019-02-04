@@ -79,6 +79,7 @@ Template.admSessions2.helpers({
         { key: 'quorum', label: 'Público', tmpl: Template.quorumCellTmpl },
         { key: 'city', label: 'Cidade', headerClass: 'col-md-1' },
         'uf',
+        'status',
         // 's_country', 'street', 'number', 'complement', 'zone', 'cep',
         //  'author_1', 'author_2', 'author_3',
         {
