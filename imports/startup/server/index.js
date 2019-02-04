@@ -67,7 +67,15 @@ Meteor.methods({
   },
 
   sendEmail(pidgeon, template) {
-    check(pidgeon, { to: String, replyTo: String });
+    check(pidgeon, {
+      to: String,
+      from: String,
+      replyTo: String,
+      subject: String,
+      name: String,
+      email: String,
+      message: String,
+    });
     check(template, String);
     this.unblock();
 
