@@ -146,11 +146,12 @@ const processScreenings = {
       screening: s,
       film: s.film(),
       ambassador: s.ambassador(),
+      absoluteurl: Meteor.absoluteUrl(),
     };
   },
 
   loadTemplate(templateName) {
-    const t = NotificationTemplates.find({ name: templateName }).fetch();
+    const t = NotificationTemplates.find({ trigger: templateName }).fetch();
     const hasFilmTemplate = t.filter(v => v.filmId !== undefined);
     const defaultFilmTemplate = t.filter(v => v.filmId === undefined);
 
@@ -167,7 +168,7 @@ const processScreenings = {
 
   // 4. carregar template e verificar se existe específico para o filme
   updateStatus(s, newStatus) {
-    return Screenings.update(s._id, { $set: { status: newStatus } });
+    return Screenings.update({ _id: s._id  }, { $set: { status: newStatus } });
   },
 
   // 3. verificar se notificação já foi criada
@@ -181,6 +182,7 @@ const processScreenings = {
     });
 
     return alreadyCreated.count() > 0 ? false : Notifications.insert({
+      notificationTemplateId: nt._id,
       userId: varsData.ambassador._id,
       screeningId: varsData.screening._id,
       notificationTemplateId: nt._id,

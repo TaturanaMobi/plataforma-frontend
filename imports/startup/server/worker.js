@@ -8,7 +8,7 @@ const Worker = {
     }, 60000);
   },
   run() {
-    if (process.env.WORKER !== undefined && process.env.WORKER === 1) {
+    if (process.env.WORKER !== undefined && process.env.WORKER === '1') {
       console.log('Iniciando worker...');
       processScreenings.autoStart();
     } else {

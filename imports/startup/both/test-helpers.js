@@ -10,9 +10,9 @@ import { _ } from 'meteor/underscore';
 import Users from '../../models/users';
 import Films from '../../models/films';
 import Screenings from '../../models/screenings';
-import notificationTemplates from '../../models/notification_templates';
+import NotificationTemplate from '../../models/notification_templates';
 
-import { FILM_STATUS, SCREENING_STATUS, SCREENING_ACTIVITY } from '../../models/schemas';
+import { NOTIFICATION_TRIGGERS, FILM_STATUS, SCREENING_STATUS, SCREENING_ACTIVITY } from '../../models/schemas';
 
 Factory.define('user', Users, {
   profile: {
@@ -53,7 +53,6 @@ Factory.define('film', Films, {
   createdAt: () => new Date(),
 });
 
-
 Factory.define('screening', Screenings, {
   filmId: () => Factory.get('film'),
   user_id: () => Factory.get('user'),
@@ -71,17 +70,20 @@ Factory.define('screening', Screenings, {
   status: SCREENING_STATUS[0],
 });
 
-Factory.define('notificationTemplate', notificationTemplates, {
+Factory.define('notificationTemplate', NotificationTemplate, {
+  name: '',
+  trigger: '',
+  filmId: '',
   subject: () => faker.lorem.sentence(),
   body: () => faker.lorem.words(),
 });
 
 export const createBasicFakeData = () => {
   _.times(1, () => Factory.create('user'));
-  _.times(3, () => Factory.create('film'));
-  _.times(9, () => Factory.create('screening'));
-  _.forEach(['screening_date', 'confirm_scheduling_10', 'confirm_scheduling_9', 'confirm_scheduling_3'], n => Factory.create('notificationTemplate', { name: n }));
-  _.forEach(['screening_date', 'confirm_scheduling_10', 'confirm_scheduling_9', 'confirm_scheduling_3'], n => Factory.create('notificationTemplate', { name: n, filmId: Factory.get('film') }));
+  // _.times(3, () => Factory.create('film'));
+  // _.times(9, () => Factory.create('screening'));
+  _.forEach(NOTIFICATION_TRIGGERS, n => Factory.create('notificationTemplate', { trigger: n, name: n }));
+  // _.forEach(NOTIFICATION_TRIGGERS, n => Factory.create('notificationTemplate', { trigger: n, name: n, filmId: Factory.get('film') }));
 };
 
 // export default { createBasicFakeData };
