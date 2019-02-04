@@ -9,8 +9,8 @@ networks:
       - subnet: 11.0.0.10/8
 
 volumes:
-  redis_data:
-    driver: local
+  # redis_data:
+  #   driver: local
   s3_data:
     driver: local
   mongo_data:
@@ -18,6 +18,10 @@ volumes:
   local_postgres_data:
     driver: local
   portainer-data:
+    driver: local
+  mariadb:
+    driver: local
+  wordpress:
     driver: local
 
 services:
@@ -28,12 +32,12 @@ services:
     networks:
       taturana:
 
-  redis:
-    extends:
-      file: docker-compose.yml
-      service: redis
-    networks:
-      taturana:
+  # redis:
+  #   extends:
+  #     file: docker-compose.yml
+  #     service: redis
+  #   networks:
+  #     taturana:
 
   fake-smtp:
     extends:
@@ -90,36 +94,36 @@ services:
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
 
-  minio:
-    image: minio/minio
-    environment:
-      MINIO_ACCESS_KEY: admin
-      MINIO_SECRET_KEY: password
-    volumes:
-    - s3_data:/data
-    ports:
-    - 4000:9000/tcp
-    networks:
-      taturana:
-    command:
-    - server
-    - /data
-    labels:
-      traefik.frontend.rule: Host:minio.stag.taturanamobi.com.br
-      traefik.port: '9000'
-      traefik.enable: 'true'
+  # minio:
+  #   image: minio/minio
+  #   environment:
+  #     MINIO_ACCESS_KEY: admin
+  #     MINIO_SECRET_KEY: password
+  #   volumes:
+  #   - s3_data:/data
+  #   ports:
+  #   - 4000:9000/tcp
+  #   networks:
+  #     taturana:
+  #   command:
+  #   - server
+  #   - /data
+  #   labels:
+  #     traefik.frontend.rule: Host:minio.stag.taturanamobi.com.br
+  #     traefik.port: '9000'
+  #     traefik.enable: 'true'
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-    - 4004:8080
-    networks:
-      taturana:
-    labels:
-      traefik.frontend.rule: Host:adminer.stag.taturanamobi.com.br
-      traefik.port: '8080'
-      traefik.enable: 'true'
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #   - 4004:8080
+  #   networks:
+  #     taturana:
+  #   labels:
+  #     traefik.frontend.rule: Host:adminer.stag.taturanamobi.com.br
+  #     traefik.port: '8080'
+  #     traefik.enable: 'true'
 
   metabase:
     image: metabase/metabase
@@ -138,7 +142,7 @@ services:
     networks:
       taturana:
     labels:
-      traefik.frontend.rule: Host:reports.stag.taturanamobi.com.br
+      traefik.frontend.rule: Host:relatorios.stag.taturanamobi.com.br
       traefik.enable: 'true'
       traefik.port: '3000'
 
@@ -184,64 +188,43 @@ services:
     environment:
       - ROOT_URL=https://stag.taturanamobi.com.br
       - MONGO_URL=mongodb://mongo:27017/taturana
-      - MAIL_URL=smtp://fake-smtp:1045
+      - MAIL_URL=smtp://fake-smtp:1025
+      - WORKER=1
     labels:
       traefik.frontend.rule: Host:stag.taturanamobi.com.br
       traefik.port: '3000'
       traefik.enable: 'true'
 
-  worker-v1:
-    image: taturanamobi/worker-v1
-    build: email_scripts
+  # container-crontab:
+  #   privileged: true
+  #   image: rancher/container-crontab:v0.3.0
+  #   environment:
+  #     DOCKER_API_VERSION: '1.24'
+  #   volumes:
+  #   - /var/run/docker.sock:/var/run/docker.sock
+
+  mariadb:
+    image: 'bitnami/mariadb:latest'
     environment:
-      TATURANA_CONF_FILE: /taturana.conf
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
     volumes:
-      - ./email_scripts/taturana.conf:/taturana.conf
-    command: python ./confirm_scheduling.py
-    networks:
-      taturana:
+      - mariadb:/bitnami
+  wordpress:
+    image: bitnami/wordpress:latest
+    depends_on:
+      - mariadb
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - wordpress:/bitnami
     labels:
-      cron.schedule: "0 * * * ? *"
-
-  worker-v1-confirm_scheduling_less_than_10_days:
-    extends:
-      service: worker-v1
-    command: python ./confirm_scheduling_less_than_10_days.py
-
-  worker-v1-confirm_screening_date:
-    extends:
-      service: worker-v1
-    command: python ./confirm_screening_date.py
-
-  worker-v1-send_the_movie_10_days:
-    extends:
-      service: worker-v1
-    command: python ./send_the_movie_10_days.py
-
-  worker-v1-send_the_movie_9_days:
-    extends:
-      service: worker-v1
-    command: python ./send_the_movie_9_days.py
-
-  worker-v1-send_the_movie_3_days:
-    extends:
-      service: worker-v1
-    command: python ./send_the_movie_3_days.py
-
-  worker-v1-ask_for_report:
-    extends:
-      service: worker-v1
-    command: python ./ask_for_report.py
-
-  worker-v1-ask_for_report_take_2:
-    extends:
-      service: worker-v1
-    command: python ./ask_for_report_take_2.py
-
-  container-crontab:
-    privileged: true
-    image: rancher/container-crontab:v0.3.0
-    environment:
-      DOCKER_API_VERSION: '1.24'
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+      traefik.frontend.rule: Host:portfolio.stag.taturanamobi.com.br
+      traefik.enable: 'true'
+      traefik.port: '3000'
