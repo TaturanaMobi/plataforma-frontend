@@ -70,7 +70,7 @@ const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT'
 
 const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
-export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
+export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Inválida'];
 
 export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre'];
 
@@ -347,15 +347,15 @@ Schemas.Screening = new SimpleSchema({
       afFieldInput: {
         type: 'noUiSlider',
         noUiSliderOptions: {
-          tooltips: true,
-          // start: 5,
+          // tooltips: true,
+          // start: 0,
           format: wNumb({
             decimals: 0,
           }),
-          range: {
-            min: 5,
-            max: 500,
-          },
+          // range: {
+          //   min: 0,
+          //   max: 500,
+          // },
           // step: 1,
         },
       },
@@ -515,7 +515,7 @@ Schemas.Report = new SimpleSchema({
             decimals: 0,
           }),
           range: {
-            min: 5,
+            min: 0,
             max: 500,
           },
           // step: 1,

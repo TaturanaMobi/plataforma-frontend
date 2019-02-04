@@ -22,12 +22,12 @@ Template.ambassador.helpers({
   },
   session_status_icon() {
     // Rascunho
-    if (this.status === 'Rascunho') {
+    if ((this.status === 'Rascunho') || (this.status === 'Inválida')) {
       return 'edit';
     }
 
-    if (this.status === 'Agendada') {
-      return 'calendar';
+    if (this.status === 'Pendente') {
+      return 'report-pending';
     }
 
     // Completo
@@ -36,7 +36,7 @@ Template.ambassador.helpers({
     }
 
     // Falta relatório
-    return 'report-pending';
+    return 'calendar';
   },
   in_future() {
     return (this.status === 'Rascunho' || this.status === 'Agendada');

@@ -142,8 +142,7 @@ Router.route('/adm/film/:_id/reports', {
 Router.route('/adm/report/:_id', {
   template: 'admReport',
   waitOn() {
-    // return one handle, a function, or an array
-    return Meteor.subscribe('screenings.all');
+    return [this.subscribe('screenings.all'), this.subscribe('films.all')];
   },
 
   data() {

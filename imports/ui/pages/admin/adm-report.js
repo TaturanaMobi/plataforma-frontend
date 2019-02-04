@@ -7,12 +7,12 @@ import Films from '../../../models/films.js';
 
 Template.admReport.helpers({
   film() {
-    const screeningId = this._id;
+    // const screeningId = this._id;
 
-    return Films.by_screening_id(screeningId);
+    return this.film();
   },
   in_slideshow(src) {
-    const f = Films.by_screening_id(this._id);
+    const f = this.film();
     const images = f.slideshow;
     let result = false;
 
