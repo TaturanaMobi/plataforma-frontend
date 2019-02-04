@@ -297,3 +297,15 @@ select::-ms-expand{
 .bootstrap-datetimepicker-widget td.day:hover, .bootstrap-datetimepicker-widget td.hour:hover, .bootstrap-datetimepicker-widget td.minute:hover, .bootstrap-datetimepicker-widget td.second:hover {
   background-color: #222;
 }
+
+#faq {
+  h2, h3 {
+    text-transform: initial;
+  }
+  h2 {
+    margin: .5em 0;
+  }
+  h3 {
+    margin: 2em 0 .5em;
+  }
+}

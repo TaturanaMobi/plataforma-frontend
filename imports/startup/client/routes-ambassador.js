@@ -70,6 +70,7 @@ export const publicRoutes = [
   'forget',
   'register',
   'contact',
+  'faq',
   'films',
   'screenings',
   'showFilm',

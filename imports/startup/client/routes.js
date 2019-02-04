@@ -9,6 +9,7 @@ import '../../ui/pages/about.js';
 import '../../ui/pages/ambassador-edit.js';
 import '../../ui/pages/ambassador.js';
 import '../../ui/pages/contact.js';
+import '../../ui/pages/faq.js';
 import '../../ui/pages/edit-screening.js';
 import '../../ui/pages/films.js';
 import '../../ui/pages/forget.js';
@@ -46,6 +47,7 @@ Router.route('/register', {
 });
 
 Router.route('/contact', { name: 'contact' });
+Router.route('/faq', { name: 'faq' });
 
 Router.route('/films', {
   name: 'films',
