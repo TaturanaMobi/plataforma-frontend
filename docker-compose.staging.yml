@@ -216,8 +216,8 @@ services:
     depends_on:
       - mariadb
     ports:
-      - '80:80'
-      - '443:443'
+      - '8080:80'
+      - '4443:443'
     environment:
       - WORDPRESS_DATABASE_USER=bn_wordpress
       - WORDPRESS_DATABASE_NAME=bitnami_wordpress
@@ -227,4 +227,4 @@ services:
     labels:
       traefik.frontend.rule: Host:portfolio.stag.taturanamobi.com.br
       traefik.enable: 'true'
-      traefik.port: '3000'
+      traefik.port: '80'
