@@ -19,7 +19,7 @@ import '../../ui/components/denied.html';
 import '../../ui/pages/new-screening.js';
 import '../../ui/pages/register.js';
 import '../../ui/pages/reset-password.js';
-import '../../ui/pages/screenings.js';
+import '../../ui/pages/old-screenings.js';
 import '../../ui/pages/show-film.js';
 
 Router.configure({
@@ -55,11 +55,11 @@ Router.route('/films', {
   data() { return Films.active(); },
   action() { this.render('films'); },
 });
-Router.route('/screenings', {
-  name: 'screenings',
+Router.route('/old-screenings', {
+  name: 'old-screenings',
   waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.active(); },
-  action() { this.render('screenings'); },
+  action() { this.render('old-screenings'); },
 });
 
 Router.route('/film/:slug', {

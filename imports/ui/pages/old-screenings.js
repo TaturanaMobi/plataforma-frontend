@@ -6,9 +6,9 @@ import { _ } from 'meteor/underscore';
 
 import Films from '../../models/films.js';
 
-import './screenings.html';
+import './old-screenings.html';
 
-Template.screenings.helpers({
+Template.oldScreenings.helpers({
   films() {
     return get_future_films(false);
   },
@@ -75,7 +75,7 @@ Template.screenings.helpers({
   },
 });
 
-Template.screenings.onRendered(() => {
+Template.oldScreenings.onRendered(() => {
   // Deixa o mês ativado.
   $('.btn-datepicker').click(function () {
     $('.btn-datepicker').removeClass('active');

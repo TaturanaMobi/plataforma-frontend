@@ -82,7 +82,6 @@ services:
     build:
       context: ../plataforma-v2/docker
       dockerfile: ./production/postgres/Dockerfile
-    image: dev_db
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
