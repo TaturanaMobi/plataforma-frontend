@@ -55,7 +55,14 @@
 
             <li class="{{#if currentRouteIs 'films'}}active{{/if}}"><a href="/films">FILMES</a></li>
             <li class="{{#if currentRouteIs 'screenings'}}active{{/if}}"><a href="/screenings">AGENDA</a></li>
-            <li><a target="_blank" href="/Taturana-Mobi-Portfolio.pdf">PORTFÓLIO</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PORTFOLIO
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/Taturana-Mobi-Portfolio-PT.pdf">QUEM SOMOS E O QUE FAZEMOS</a></li>
+                <li><a href="/Taturana-Mobi-Portfolio-EN.pdf">ABOUT</a></li>
+              </ul>
+            </li>
             <li class="{{#if currentRouteIs 'faq'}}active{{/if}}"><a href="/faq">FAQ</a></li>
             <li class="{{#if currentRouteIs 'contact'}}active{{/if}}"><a href="/contact">CONTATO</a></li>
             <!-- <li class="dropdown">
