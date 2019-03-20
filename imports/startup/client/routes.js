@@ -19,6 +19,7 @@ import '../../ui/components/denied.html';
 import '../../ui/pages/new-screening.js';
 import '../../ui/pages/register.js';
 import '../../ui/pages/reset-password.js';
+import '../../ui/pages/screenings.js';
 import '../../ui/pages/old-screenings.js';
 import '../../ui/pages/show-film.js';
 
@@ -54,6 +55,15 @@ Router.route('/films', {
   waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.active(); },
   action() { this.render('films'); },
+});
+
+Router.route('/screenings', {
+  name: 'screenings',
+  waitOn() {
+    return Meteor.subscribe('films.all') && Meteor.subscribe('screenings.upcoming');
+  },
+  data() { return Films.active(); },
+  action() { this.render('screenings'); },
 });
 Router.route('/old-screenings', {
   name: 'old-screenings',

@@ -24,7 +24,7 @@ const processScreenings = {
     const threeDaysBefore = moment(refDate).add(3, 'days').toDate();
 
     check(sDate, Date);
-    return moment(sDate).isSameOrBefore(threeDaysBefore, 'seconds');
+    return moment(sDate).isSameOrAfter(threeDaysBefore, 'seconds');
   },
 
   isAt10thDayBefore(sDate, refDate = new Date()) {
@@ -107,9 +107,9 @@ const processScreenings = {
       // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
       // enviar e-mail no dia 10 screening_date
       if (processScreenings.isAt10thDayBefore(s.date)) {
-        processScreenings.createNotification(s, 'confirm_scheduling_10');
+        processScreenings.createNotification(s, 'confirm_screening_date');
       }
-      processScreenings.createNotification(s, 'screening_date');
+      processScreenings.createNotification(s, 'confirm_scheduling_10');
     }
     processScreenings.updateStatus(s, 'Confirmada');
   },
@@ -153,11 +153,11 @@ const processScreenings = {
   loadTemplate(templateName) {
     const t = NotificationTemplates.find({ trigger: templateName }).fetch();
     const hasFilmTemplate = t.filter(v => v.filmId !== undefined);
-    const defaultFilmTemplate = t.filter(v => v.filmId === undefined);
+    const defaultFilmTemplate = t;
 
-    if (hasFilmTemplate.length > 0) {
-      return hasFilmTemplate[0];
-    }
+    // if (hasFilmTemplate.length > 0) {
+    //   return hasFilmTemplate[0];
+    // }
 
     if (defaultFilmTemplate.length > 0) {
       return defaultFilmTemplate[0];
@@ -185,7 +185,6 @@ const processScreenings = {
       notificationTemplateId: nt._id,
       userId: varsData.ambassador._id,
       screeningId: varsData.screening._id,
-      notificationTemplateId: nt._id,
     });
   }, // 5. criar notificação para enviar e-mail
 };

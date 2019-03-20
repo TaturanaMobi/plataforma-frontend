@@ -28,6 +28,8 @@ Meteor.startup(() => {
 
   Meteor.publish('screenings.my', () => Screenings.find({ user_id: Meteor.userId() }));
 
+  Meteor.publish('screenings.upcoming', () => Screenings.find({ status: 'Confirmada', public_event: true, date: { $gte: new Date() } }));
+
   Meteor.publish('users.me', () => Meteor.users.find({ _id: Meteor.userId() }));
 
   Meteor.publish('users.all', () => Meteor.users.find({}, { sort: { createdAt: -1 } }));
