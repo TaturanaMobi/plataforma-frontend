@@ -22,7 +22,10 @@ Template.ambassador.helpers({
   },
   session_status_icon() {
     // Rascunho
-    if ((this.status === 'Rascunho') || (this.status === 'Inválida')) {
+    if ((this.status === 'Rascunho')
+    || (this.status === 'Inválida')
+    || (this.status === 'Agendada')
+    || (this.status === 'Confirmada')) {
       return 'edit';
     }
 
@@ -39,7 +42,11 @@ Template.ambassador.helpers({
     return 'calendar';
   },
   in_future() {
-    return (this.status === 'Rascunho' || this.status === 'Agendada');
+    console.log(this.status);
+    return ((this.status === 'Rascunho')
+    || (this.status === 'Inválida')
+    || (this.status === 'Agendada')
+    || (this.status === 'Confirmada'));
   },
   is_report_pending() {
     return this.status === 'Pendente';

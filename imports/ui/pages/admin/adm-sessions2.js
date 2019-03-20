@@ -55,7 +55,12 @@ Template.admSessions2.helpers({
           key: 'infos', label: 'Informações', tmpl: Template.infoCellTmpl, headerClass: 'col-md-1',
         },
         {
-          key: 'film', label: 'Filme', tmpl: Template.filmCellTmpl, headerClass: 'col-md-2',
+          key: 'film',
+          label: 'Filme',
+          // tmpl: Template.filmCellTmpl,
+          headerClass: 'col-md-2',
+          fn: value => value.title,
+          // Films.findOne(object.filmId),
         },
         {
           key: 'date', label: 'Data de exibição', tmpl: Template.dateCellTmpl, headerClass: 'col-md-1',
@@ -67,9 +72,11 @@ Template.admSessions2.helpers({
         {
           key: 'ambassador',
           label: 'Embaixador',
-          tmpl: Template.embaixadorCellTmpl,
+          // tmpl: Template.embaixadorCellTmpl,
           headerClass: 'col-md-2',
-          // fn: (value, object) => console.log(object),
+          fn: value => value.profile.name,
+          // value.profile.name,
+          // console.log(value, object),
         },
         // {
         //   key: 'email',

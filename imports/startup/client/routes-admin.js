@@ -31,7 +31,11 @@ import NotificationTemplates from '../../models/notification_templates';
 import { publicRoutes } from './routes-ambassador.js';
 
 Router.route('/adm/sessions2', {
-  waitOn() { return Meteor.subscribe('screenings.all'); },
+  waitOn() {
+    return Meteor.subscribe('screenings.all')
+    && Meteor.subscribe('films.all')
+    && Meteor.subscribe('users.all');
+  },
   data() { return Screenings.find({}); },
   action() { this.render('admSessions2'); },
 });
