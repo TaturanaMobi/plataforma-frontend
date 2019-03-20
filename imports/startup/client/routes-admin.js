@@ -56,8 +56,9 @@ Router.route('/adm/notification-templates-new', {
 });
 
 Router.route('/adm/notification-templates-edit/:_id', {
-  waitOn() { return Meteor.subscribe('notificationTemplates.all') && Meteor.subscribe('films.all');
-      // Meteor.subscribe('notificationTemplates.all');
+  waitOn() {
+    return Meteor.subscribe('notificationTemplates.all') && Meteor.subscribe('films.all');
+    // Meteor.subscribe('notificationTemplates.all');
     // }
   },
   data() {

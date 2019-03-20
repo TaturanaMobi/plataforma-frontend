@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
+import { moment } from 'meteor/momentjs:moment';
 import Schemas from './schemas';
 import NotificationTemplates from './notification_templates';
 import Screenings from './screenings';
@@ -17,14 +18,13 @@ if (Meteor.isServer) {
     doc.updatedAt = Date.now();
   });
   Notifications.after.insert((userId, doc) => {
-
     const template = NotificationTemplates.findOne({ _id: doc.notificationTemplateId });
-    const user = Meteor.users.findOne({ _id: doc.userId })
-    const screening = Screenings.findOne({ _id: doc.screeningId })
+    const user = Meteor.users.findOne({ _id: doc.userId });
+    const screening = Screenings.findOne({ _id: doc.screeningId });
     const to = user.emails[0].address;
-    screening.date_formated = moment(screening.date).format('DD/MM/YYYY')
+    screening.date_formated = moment(screening.date).format('DD/MM/YYYY');
     const varsData = {
-      screening: screening,
+      screening,
       film: screening.film(),
       ambassador: screening.ambassador(),
       absoluteurl: Meteor.absoluteUrl(),
@@ -34,9 +34,9 @@ if (Meteor.isServer) {
     const compiledSubject = SSR.render('subject', varsData);
 
     const pidgeon = {
-      to: to,
+      to,
       from: 'Plataforma Taturana Mobi<contato@taturanamobi.com.br>',
-      subject: compiledSubject
+      subject: compiledSubject,
     };
 
     SSR.compileTemplate(template.name, template.body);
