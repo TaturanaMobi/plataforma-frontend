@@ -1,5 +1,7 @@
 // import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { Router } from 'meteor/iron:router';
+
 import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { ReactiveDict } from 'meteor/reactive-dict';
@@ -9,47 +11,24 @@ import Films from '../../models/films.js';
 import './screenings.html';
 import Screenings from '../../models/screenings.js';
 
-const getFutureFilms = () => {
-  const futureFilms = [];
-
-  const films = Films.active().fetch();
-  _.each(films, function (film) {
-    const screenings = Template.instance().state.get('screenings');
-    const ownScreenings = [];
-    _.each(screenings, function(screening) {
-      if (screening.filmId === film._id) {
-        ownScreenings.push(screening);
-      }
-    });
-
-    if (ownScreenings.length > 0) {
-      futureFilms.push(film);
-    }
-  });
-
-  return futureFilms;
-};
-
 Template.screenings.helpers({
   films() {
     return Template.instance().state.get('films');
   },
 
   month_options() {
-    // const monthsL = [];
     const months = [];
     const screenings = Template.instance().state.get('screenings');
 
     _.each(screenings, function (screening) {
       if (screening.date) {
-        // months.push(formatedDate);
         months.push(
           `${new Date(screening.date.getFullYear(), screening.date.getMonth(), 1).getTime()}-${new Date(screening.date.getFullYear(), screening.date.getMonth() + 1, 0).getTime()}`,
         );
       }
     });
 
-    return _.uniq(months).map((v) => {
+    return _.uniq(months).sort().map((v) => {
       const d = new Date();
       d.setTime(v.split('-')[0]);
       return {
@@ -69,7 +48,7 @@ Template.screenings.helpers({
       }
     });
 
-    return _.uniq(states);
+    return _.uniq(states).sort();
   },
 
   cities_options() {
@@ -82,7 +61,7 @@ Template.screenings.helpers({
       }
     });
 
-    return _.uniq(cities);
+    return _.uniq(cities).sort();
   },
 
   screeningTotalCount() {
@@ -91,7 +70,7 @@ Template.screenings.helpers({
 
   filtered_films() {
     const instance = Template.instance();
-    const films = getFutureFilms(true);
+    const films = instance.getFutureFilms();
     const filteredFilms = [];
 
     _.each(films, function (film) {
@@ -116,6 +95,35 @@ Template.screenings.helpers({
 Template.screenings.onCreated(function () {
   this.state = new ReactiveDict();
 
+  const r = Router.current();
+
+  this.state.setDefault('film-selector', r.params.query.filmSelector);
+  this.state.setDefault('state-selector', r.params.query.stateSelector);
+  this.state.setDefault('city-selector', r.params.query.citySelector);
+  this.state.setDefault('month-selector', r.params.query.monthSelector);
+
+  this.getFutureFilms = () => {
+    const futureFilms = [];
+    const films = Films.active().fetch();
+
+    _.each(films, function (film) {
+      const screenings = Template.instance().state.get('screenings');
+      const ownScreenings = [];
+
+      _.each(screenings, function(screening) {
+        if (screening.filmId === film._id) {
+          ownScreenings.push(screening);
+        }
+      });
+
+      if (ownScreenings.length > 0) {
+        futureFilms.push(film);
+      }
+    });
+
+    return futureFilms;
+  };
+
   this.buildQuery = (filmId, state, city, month) => {
     const o = {};
     if ((filmId !== undefined) && (filmId !== '')) {
@@ -138,23 +146,19 @@ Template.screenings.onCreated(function () {
         $lt: d2,
       };
     }
+    console.log(o);
     return o;
   };
 
   this.updateResults = (filmId, state, city, month) => {
     const q = this.buildQuery(filmId, state, city, month);
     this.state.set('screenings', Screenings.find(q).fetch());
-    this.state.set('films', getFutureFilms());
+    this.state.set('films', this.getFutureFilms());
   };
 
   this.setFilter = (n, v) => {
     this.state.set(n, v);
   };
-
-  // this.screeningTotalCount = () => {
-  //   const instance = Template.instance();
-  //   return instance.state.get('screenings').length;
-  // };
 
   this.autorun(() => {
     const filmId = this.state.get('film-selector');
@@ -169,7 +173,7 @@ Template.screenings.onCreated(function () {
 const updateFilters = (e, instance) => {
   const v = $(e.currentTarget).val();
   const n = e.currentTarget.id;
-  // const instance = Template.instance();
+
   instance.setFilter(n, v);
 };
 
