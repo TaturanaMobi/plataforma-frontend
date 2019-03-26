@@ -2,18 +2,19 @@
   <div id="agenda">
     <div class="container">
       <div class="row">
+        <form action="" method="get">
         <div class="col-lg-12">
-          <h2 class="section-title-lg">AGENDA DE EXIBIÇÕES</h2>
+          <h2 class="section-title-lg">AGENDA DE EXIBIÇÕES - {{screeningTotalCount}}</h2>
           <p class="section-description">As exibições são sempre gratuitas e seguidas de roda de conversa ou outra
             atividade. É só chegar!</p>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-2">
           <label for="month-selector">Mês</label>
           <select class="form-control" name="monthSelector" id="month-selector">
             <option value="">Selecione</option>
             {{#each month_options}}
-            <option>{{this}}</option>
+            <option value="{{value}}">{{label}}</option>
             {{/each}}
           </select>
         </div>
@@ -23,14 +24,14 @@
           <select class="form-control" name="filmSelector" id="film-selector">
             <option value="">Selecione</option>
             {{#each films}}
-            <option>{{title}}</option>
+            <option value="{{_id}}">{{title}}</option>
             {{/each}}
           </select>
         </div>
 
-        <div class="col-lg-3">
-          <label for="st-selector">Estado</label>
-          <select class="form-control" name="state-selector" id="st-selector">
+        <div class="col-lg-2">
+          <label for="state-selector">Estado</label>
+          <select class="form-control" name="stateSelector" id="state-selector">
             <option value="">Selecione</option>
             {{#each states_options films}}
             <option>{{this}}</option>
@@ -40,12 +41,17 @@
 
         <div class="col-lg-3">
           <label for="city-selector">Cidade</label>
-          <select class="form-control" name="city-selector" id="city-selector">
+          <select class="form-control" name="citySelector" id="city-selector">
             <option value="">Selecione</option>
             {{#each cities_options films}}
             <option>{{this}}</option>
             {{/each}}
           </select>
+        </div>
+        <div class="col-lg-2">
+          <label class="col-lg-12" for="btn-buscar">&nbsp;</label>
+          <input type="submit" id="btn-buscar" value="SALVAR" class="btn btn-primary btn-default">
+          <input type="reset" id="btn-resetar" value="LIMPAR" class="btn btn-link btn-default btn-xs">
         </div>
         <!-- <div class="divider"></div>
         <div class="col-lg-8">
@@ -67,6 +73,7 @@
             </div>
           </div>
         </div> -->
+        </form>
       </div>
       <div class="row">
       {{#each filtered_films}}

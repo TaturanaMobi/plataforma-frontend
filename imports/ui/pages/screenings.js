@@ -1,7 +1,6 @@
 // import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
-// import { $ } from 'meteor/jquery';
+import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
@@ -10,63 +9,59 @@ import Films from '../../models/films.js';
 import './screenings.html';
 import Screenings from '../../models/screenings.js';
 
-/* Pega filmes que tem sessão no futuro
- *
- * @return Array de filmes
- */
-function getFutureFilms() {
-  // retorna filmes com sessões futuras
-  // let films;
-  let screenings;
-  // let future_screenings = [];
+const getFutureFilms = () => {
   const futureFilms = [];
 
   const films = Films.active().fetch();
-
-  // films = films.fetch();
-
   _.each(films, function (film) {
-    screenings = Screenings.find({ filmId: film._id }).fetch() || [];
+    const screenings = Template.instance().state.get('screenings');
+    const ownScreenings = [];
+    _.each(screenings, function(screening) {
+      if (screening.filmId === film._id) {
+        ownScreenings.push(screening);
+      }
+    });
 
-    // _.each(screenings, function (screening) {
-    //   if (in_future(screening.date)) {
-    //     future_screenings.push(screening);
-    //   }
-    // });
-
-    if (screenings.length > 0) {
-    //   film.future_screenings = future_screenings;
+    if (ownScreenings.length > 0) {
       futureFilms.push(film);
-    //   future_screenings = [];
     }
   });
 
   return futureFilms;
-}
+};
 
 Template.screenings.helpers({
   films() {
-    return getFutureFilms();
+    return Template.instance().state.get('films');
   },
 
   month_options() {
+    // const monthsL = [];
     const months = [];
-    const screenings = Screenings.find({}).fetch();
+    const screenings = Template.instance().state.get('screenings');
 
     _.each(screenings, function (screening) {
       if (screening.date) {
-        const formatedDate =
-          `${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(screening.date)} ${new Date(screening.date).getFullYear()}`;
-        months.push(formatedDate);
+        // months.push(formatedDate);
+        months.push(
+          `${new Date(screening.date.getFullYear(), screening.date.getMonth(), 1).getTime()}-${new Date(screening.date.getFullYear(), screening.date.getMonth() + 1, 0).getTime()}`,
+        );
       }
     });
 
-    return _.uniq(months);
+    return _.uniq(months).map((v) => {
+      const d = new Date();
+      d.setTime(v.split('-')[0]);
+      return {
+        label: `${new Intl.DateTimeFormat('pt-BR', { month: 'long' }).format(d)} ${d.getFullYear()}`,
+        value: v,
+      };
+    });
   },
 
   states_options() {
     const states = [];
-    const screenings = Screenings.find({}).fetch();
+    const screenings = Template.instance().state.get('screenings');
 
     _.each(screenings, function (screening) {
       if (screening.uf) {
@@ -79,7 +74,7 @@ Template.screenings.helpers({
 
   cities_options() {
     const cities = [];
-    const screenings = Screenings.find({}).fetch();
+    const screenings = Template.instance().state.get('screenings');
 
     _.each(screenings, function (screening) {
       if (screening.city) {
@@ -90,76 +85,106 @@ Template.screenings.helpers({
     return _.uniq(cities);
   },
 
+  screeningTotalCount() {
+    return Template.instance().state.get('screenings').length;
+  },
+
   filtered_films() {
     const instance = Template.instance();
-
-    // filmes com sessões futuras e obedecendo filtros
-    let films = getFutureFilms(true),
-      // screenings,
-      future_screenings = [],
-      filtered_films = [];
+    const films = getFutureFilms(true);
+    const filteredFilms = [];
 
     _.each(films, function (film) {
-      // screenings = film.future_screenings || [];
-      // console.log();
-      _.each(Screenings.find({ filmId: film._id}).fetch(), function (screening) {
-        // applica filtros
-        let filtered_city = Session.get('city'),
-          filtered_state = Session.get('state'),
-          filtered_month = Session.get('month'),
-          filtered_title = Session.get('title');
-
-        if ((!filtered_city || screening['city'] == filtered_city) &&
-            (!filtered_state || screening['uf'] == filtered_state) &&
-            (!filtered_month || screening['date'].getMonth()+1 == filtered_month) &&
-            (!filtered_title || screening['title'] == filtered_title) &&
-            !screening['draft']) {
-          future_screenings.push(screening);
+      const screenings = instance.state.get('screenings');
+      const ownScreenings = [];
+      _.each(screenings, function(screening) {
+        if (screening.filmId === film._id) {
+          ownScreenings.push(screening);
         }
       });
 
-      if (future_screenings.length > 0) {
-        film.future_screenings = _.sortBy(future_screenings, 'date');
-        filtered_films.push(film);
-        future_screenings = [];
+      if (ownScreenings.length > 0) {
+        film.future_screenings = _.sortBy(ownScreenings, 'date');
+        filteredFilms.push(film);
       }
     });
 
-    return filtered_films;
+    return filteredFilms;
   },
 });
 
-Template.screenings.onCreated(() => {
+Template.screenings.onCreated(function () {
   this.state = new ReactiveDict();
 
+  this.buildQuery = (filmId, state, city, month) => {
+    const o = {};
+    if ((filmId !== undefined) && (filmId !== '')) {
+      o.filmId = filmId;
+    }
+    if ((city !== undefined) && (city !== '')) {
+      o.city = city;
+    }
+    if ((state !== undefined) && (state !== '')) {
+      o.uf = state;
+    }
+    if ((month !== undefined) && (month !== '')) {
+      const d = month.split('-');
+      const d1 = new Date();
+      d1.setTime(d[0]);
+      const d2 = new Date();
+      d2.setTime(d[1]);
+      o.date = {
+        $gte: d1,
+        $lt: d2,
+      };
+    }
+    return o;
+  };
+
+  this.updateResults = (filmId, state, city, month) => {
+    const q = this.buildQuery(filmId, state, city, month);
+    this.state.set('screenings', Screenings.find(q).fetch());
+    this.state.set('films', getFutureFilms());
+  };
+
+  this.setFilter = (n, v) => {
+    this.state.set(n, v);
+  };
+
+  // this.screeningTotalCount = () => {
+  //   const instance = Template.instance();
+  //   return instance.state.get('screenings').length;
+  // };
+
+  this.autorun(() => {
+    const filmId = this.state.get('film-selector');
+    const state = this.state.get('state-selector');
+    const city = this.state.get('city-selector');
+    const month = this.state.get('month-selector');
+
+    this.updateResults(filmId, state, city, month);
+  });
 });
 
-// Template.screenings.events({
-//   'change #city-selector': function (e) {
-//     const city = $(e.currentTarget).val();
-//     Session.set('city', city);
-//   },
-//   'change #st-selector': function (e) {
-//     const state = $(e.currentTarget).val();
-//     Session.set('state', state);
-//   },
-//   'change #title-selector': function (e) {
-//     const title = $(e.currentTarget).val();
-//     Session.set('title', title);
-//   },
-//   'click .btn-datepicker': function (e) {
-//     const month = $(e.currentTarget).data('month');
-//     Session.set('month', month);
-//   },
-//   'click #film-selector': function (e) {
-//     const film = $(e.currentTarget).val();
-//     Session.set('film', film);
-//   },
-// });
+const updateFilters = (e, instance) => {
+  const v = $(e.currentTarget).val();
+  const n = e.currentTarget.id;
+  // const instance = Template.instance();
+  instance.setFilter(n, v);
+};
 
+const resetFilters = (e, instance) => {
+  // e.preventDefault();
+  instance.setFilter('film-selector', '');
+  instance.setFilter('state-selector', '');
+  instance.setFilter('city-selector', '');
+  instance.setFilter('month-selector', '');
+};
 
-// function in_future(date) {
-//   const today = new Date();
-
-//   return (date.getTime() > today.getTime());
-// }
+Template.screenings.events({
+  'change #city-selector': updateFilters,
+  'change #state-selector': updateFilters,
+  'click #month-selector': updateFilters,
+  'click #film-selector': updateFilters,
+  'click #btn-resetar': resetFilters,
+});
