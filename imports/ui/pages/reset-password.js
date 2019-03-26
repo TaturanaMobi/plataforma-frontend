@@ -30,7 +30,7 @@ Template.resetPassword.events({
         error.html('Sua senha foi alterada e será redirecionado para página de sessões.');
         setTimeout(function () {
           Router.go('/ambassador');
-        }, 3000)
+        }, 3000);
       }
     });
   },

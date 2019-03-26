@@ -24,7 +24,7 @@ const processScreenings = {
     const threeDaysBefore = moment(refDate).add(3, 'days').toDate();
 
     check(sDate, Date);
-    return moment(sDate).isSameOrAfter(threeDaysBefore, 'seconds');
+    return moment(sDate).isSameOrBefore(threeDaysBefore, 'seconds');
   },
 
   isAt10thDayBefore(sDate, refDate = new Date()) {

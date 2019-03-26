@@ -12,7 +12,12 @@ import Films from '../../models/films';
 import Screenings from '../../models/screenings';
 import NotificationTemplate from '../../models/notification_templates';
 
-import { NOTIFICATION_TRIGGERS, FILM_STATUS, SCREENING_STATUS, SCREENING_ACTIVITY } from '../../models/schemas';
+import {
+  NOTIFICATION_TRIGGERS,
+  FILM_STATUS,
+  SCREENING_STATUS,
+  SCREENING_ACTIVITY,
+} from '../../models/schemas';
 
 Factory.define('user', Users, {
   profile: {
@@ -83,7 +88,8 @@ export const createBasicFakeData = () => {
   // _.times(3, () => Factory.create('film'));
   // _.times(9, () => Factory.create('screening'));
   _.forEach(NOTIFICATION_TRIGGERS, n => Factory.create('notificationTemplate', { trigger: n, name: n }));
-  // _.forEach(NOTIFICATION_TRIGGERS, n => Factory.create('notificationTemplate', { trigger: n, name: n, filmId: Factory.get('film') }));
+  // _.forEach(NOTIFICATION_TRIGGERS, n => Factory.create('notificationTemplate',
+  // { trigger: n, name: n, filmId: Factory.get('film') }));
 };
 
 // export default { createBasicFakeData };

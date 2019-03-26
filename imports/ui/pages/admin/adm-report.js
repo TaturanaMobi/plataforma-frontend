@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 
-import Films from '../../../models/films.js';
+// import Films from '../../../models/films.js';
 
 Template.admReport.helpers({
   film() {

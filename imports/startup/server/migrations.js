@@ -36,7 +36,7 @@ function getScreeningStatus(s) {
     status = 'Concluída';
   }
 
-  if ( (s.draft !== undefined) && (s.draft === 'admin-draft') ) {
+  if ((s.draft !== undefined) && (s.draft === 'admin-draft')) {
     status = 'Inválida';
   } else if (s.draft !== undefined) {
     status = 'Rascunho';
@@ -108,7 +108,6 @@ Migrations.add({
 Migrations.add({
   version: 2,
   up() {
-
     const filenames = [
       'ask_for_report_take2',
       'ask_for_report',
@@ -133,7 +132,7 @@ Migrations.add({
       'Download do filme {{film.title}}.',
       'Download do filme {{film.title}}.',
       'Veja sua contribuição para a rede de impacto do {{film.title}}.',
-    ]
+    ];
 
     filenames.forEach((templateName, i) => {
       Assets.getText(`.templates/${templateName}.html`, function (error, data) {

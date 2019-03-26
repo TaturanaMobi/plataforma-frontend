@@ -17,7 +17,7 @@ export const NOTIFICATION_TRIGGERS = [
   'ask_for_report',
   'ask_for_report_2',
   'tell_ambassador_the_results',
-]
+];
 
 export const FILM_CATEGORIES = [
   'Cineclube',
@@ -937,12 +937,12 @@ Schemas.NotificationTemplate = new SimpleSchema({
     label: 'Usar para filme específico',
     optional: true,
     autoform: {
-      options: function () {
+      options: function autoFormOptions() {
         const opts = Films.find({}).fetch().map(function(entity) {
-            return {
-                label: entity.title,
-                value: entity._id
-            };
+          return {
+            label: entity.title,
+            value: entity._id,
+          };
         });
         return opts;
       },

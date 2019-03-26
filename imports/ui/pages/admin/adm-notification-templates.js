@@ -13,7 +13,7 @@ Template.admNotificationTemplates.helpers({
       showFilter: false,
       showRowCount: true,
       fields: [
-          { label: 'Ações', key: 'actions', tmpl: Template.actionsNotificationTemplateCellTmpl },
+        { label: 'Ações', key: 'actions', tmpl: Template.actionsNotificationTemplateCellTmpl },
         'trigger',
         'name',
         'subject',
