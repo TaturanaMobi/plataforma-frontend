@@ -11,6 +11,8 @@ networks:
 volumes:
   # redis_data:
   #   driver: local
+  elk_data:
+    driver: local
   s3_data:
     driver: local
   mongo_data:
@@ -194,6 +196,23 @@ services:
       traefik.port: '3000'
       traefik.enable: 'true'
 
+
+  elk:
+    image: sebp/elk
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+    volumes:
+      - elk_data:/var/lib/elasticsearch
+    networks:
+      taturana:
+    labels:
+      traefik.frontend.rule: Host:kibana.stag.taturanamobi.com.br
+      traefik.port: '5601'
+      traefik.enable: 'true'
+
+
   # container-crontab:
   #   privileged: true
   #   image: rancher/container-crontab:v0.3.0
@@ -210,6 +229,8 @@ services:
       - MARIADB_DATABASE=bitnami_wordpress
     volumes:
       - mariadb:/bitnami
+    networks:
+      taturana:
   wordpress:
     image: bitnami/wordpress:latest
     depends_on:
@@ -223,6 +244,8 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - wordpress:/bitnami
+    networks:
+      taturana:
     labels:
       traefik.frontend.rule: Host:portfolio.stag.taturanamobi.com.br
       traefik.enable: 'true'
