@@ -871,36 +871,35 @@ Schemas.Film = new SimpleSchema({
   },
 }, { tracker: Tracker });
 
-// Schemas.NotificationRule = new SimpleSchema({
-//   name: {
-//     type: String,
-//     label: 'Nome',
-//   },
-//   notificationTemplateId: {
-//     type: String,
-//     label: 'Template',
-//   },
-//   timeTextWhenFireNotification: {
-//     type: String,
-//     label: 'Quando deve ser disparada (em relação a data de exibição da sessão)?',
-//   },
-//   timeTextIntervalLimitFilter: {
-//     type: String,
-//     label: 'Qual antecedência mínima necessária (em relação a data de criação da sessão)?',
-//   },
-//   newStatus: {
-//     type: String,
-//     label: 'Aplicar novo status',
-//   },
-//   createdAt: {
-//     type: String,
-//     label: 'Criado em',
-//   },
-//   updatedAt: {
-//     type: String,
-//     label: 'Atualizado em',
-//   },
-// }, { tracker: Tracker });
+Schemas.FormFilterSessions = new SimpleSchema({
+  screeningDate: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'select2',
+      options: function(){return[{label:"2013",value:2013},{label:"2014",value:2014},{label:"2015",value:2015}]}
+    },
+    label: 'Mês Referência',
+  },
+  filmId: {
+    type: String,
+    label: 'Filme',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      values: () => Films.find({}).fetch().map(v => { return { id: v._id, text: v.title }; }),
+    },
+  },
+  userId: {
+    type: String,
+    label: 'Embaixador',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      options: []
+    },
+  },
+}, { tracker: Tracker });
 
 Schemas.NotificationTemplate = new SimpleSchema({
   name: {

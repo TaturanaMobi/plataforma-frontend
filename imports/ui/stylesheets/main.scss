@@ -107,6 +107,11 @@ p, label{
   margin-bottom: 1em;
   text-shadow: 1px 1px 2px #000;
 }
+
+.select2 {
+  color: #000;
+}
+
 strong {
   p {
     font-weight: 500;
@@ -138,18 +143,18 @@ a, input, button, textarea {
 .fr-box.fr-basic .fr-element {
   color: #fff;
 }
-select:not([multiple]) {
-  -webkit-appearance: none;
-  -webkit-border-radius: 0px;
-  background-position: right 50%;
-  background-repeat: no-repeat;
-  background-image: url("/images/select-arrow.png");
-  background-size: 30px;
-}
+// select:not([multiple]) {
+//   -webkit-appearance: none;
+//   -webkit-border-radius: 0px;
+//   background-position: right 50%;
+//   background-repeat: no-repeat;
+//   background-image: url("/images/select-arrow.png");
+//   background-size: 30px;
+// }
 
-select::-ms-expand{
-  display:none;
-}
+// select::-ms-expand{
+//   display:none;
+// }
 
 // a.btn, button{
 //   background-color: #df4944;
