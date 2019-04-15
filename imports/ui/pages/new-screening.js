@@ -60,6 +60,7 @@ Template.newScreening.helpers({
       user_id: Meteor.userId(),
       filmId: this._id,
       status: 'Agendada',
+      created_at: new Date(),
     };
   },
   user_addresses() {
