@@ -19,7 +19,7 @@ volumes:
     driver: local
   local_postgres_data:
     driver: local
-  portainer-data:
+  portainer_data:
     driver: local
   mariadb:
     driver: local
@@ -162,7 +162,7 @@ services:
   portainer:
     image: portainer/portainer
     volumes:
-      - portainer-data:/data
+      - portainer_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     privileged: true
     ports:
@@ -196,22 +196,35 @@ services:
       traefik.port: '3000'
       traefik.enable: 'true'
 
-
-  elk:
-    image: sebp/elk
-    ports:
-      - "5601:5601"
-      - "9200:9200"
-      - "5044:5044"
-    volumes:
-      - elk_data:/var/lib/elasticsearch
+  cleanup:
+    image: meltwater/docker-cleanup:1.8.0
     networks:
       taturana:
-    labels:
-      traefik.frontend.rule: Host:kibana.stag.taturanamobi.com.br
-      traefik.port: '5601'
-      traefik.enable: 'true'
+    environment:
+      CLEAN_PERIOD: '3600'
+      DEBUG: '0'
+      DELAY_TIME: '900'
+      KEEP_CONTAINERS: '*:*'
+      KEEP_CONTAINERS_NAMED: '*_data'
+      KEEP_IMAGES: rancher/
+      LOOP: 'true'
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
 
+  # elk:
+  #   image: sebp/elk
+  #   ports:
+  #     - "5601:5601"
+  #     - "9200:9200"
+  #     - "5044:5044"
+  #   volumes:
+  #     - elk_data:/var/lib/elasticsearch
+  #   networks:
+  #     taturana:
+  #   labels:
+  #     traefik.frontend.rule: Host:kibana.stag.taturanamobi.com.br
+  #     traefik.port: '5601'
+  #     traefik.enable: 'true'
 
   # container-crontab:
   #   privileged: true
