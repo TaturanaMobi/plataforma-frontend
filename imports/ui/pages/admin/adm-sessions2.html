@@ -2,56 +2,26 @@
   <div class="bg-wrapper">
     <div id="adm-sessions" class="container adm">
       <div class="row">
+        {{#autoForm schema=Schemas.FormFilterSessions id="filter-screening-form" type="normal"}}
         <div class="col-md-12">
           <h2>Sessões</h2>
           <br />
           <div class="row">
             <div class="col-md-12">
               <div class="form-group col-md-2">
-                <label for="ambassador-selector">Mês de referência</label>
-                <select class="form-control" name="ambassador-selector" id="ambassador-selector">
-                  <option value="">Selecione</option>
-                  {{#each ambassador_options films}}
-                  <option value="{{_id}}">{{profile.name}}</option>
-                  {{/each}}
-                </select>
-              </div>
-
-              <div class="form-group col-md-2">
-                <label for="filmSelector">Filme</label>
-                <select class="form-control" name="filmSelector" id="film-selector">
-                  <option value="">Selecione</option>
-                  {{#each films}}
-                  <option>{{title}}</option>
-                  {{/each}}
-                </select>
+                {{> afQuickField name="screeningDate" options=month_options}}
               </div>
               <div class="form-group col-md-2">
-                <label for="ambassador-selector">Embaixador</label>
-                <select class="form-control" name="ambassador-selector" id="ambassador-selector">
-                  <option value="">Selecione</option>
-                  {{#each ambassador_options films}}
-                  <option value="{{_id}}">{{profile.name}}</option>
-                  {{/each}}
-                </select>
+                {{> afQuickField name="filmId"}}
               </div>
               <div class="form-group col-md-2">
-                <label for="city-selector">Cidade</label>
-                <select class="form-control" name="city-selector" id="city-selector">
-                  <option value="">Selecione</option>
-                  {{#each cities_options}}
-                  <option value="{{name}}">{{name}} ({{state}})</option>
-                  {{/each}}
-                </select>
+                {{> afQuickField name="userId"}}
               </div>
               <div class="form-group col-md-2">
-                <label for="state-selector">Estado</label>
-                <select class="form-control" name="state-selector" id="st-selector">
-                  <option value="">Selecione</option>
-                  {{#each states_options}}
-                  <option>{{abbr}}</option>
-                  {{/each}}
-                </select>
+                {{> afQuickField name="state" options=states_options}}
+              </div>
+              <div class="form-group col-md-2">
+                {{> afQuickField name="city" options=cities_options}}
               </div>
             </div>
             <div class="filters">
@@ -59,26 +29,28 @@
                 <div class="col-md-12 division"></div>
                 <div class="row">
                   <div class="col-md-3">
-                    <input type="checkbox" name="teamParticipation" id="team-selector" />
-                    <label for="teamParticipation">Participação da equipe</label>
+                    {{> afQuickField name="team_member"}}
                   </div>
                   <div class="col-md-3">
-                    <input type="checkbox" name="publicEvent" id="public-event" />
-                    <label for="publicEvent">Aberta ao público</label>
+                    {{> afQuickField name="public_event"}}
                   </div>
                   <div class="col-md-3">
-                    <input type="checkbox" name="comment" id="comment" />
-                    <label for="comment">Comentarios? </label>
+                    {{> afQuickField name="has_comments"}}
                   </div>
                   <div class="col-md-3">
-                    <input type="checkbox" name="pendingReport" id="pendingReport" />
-                    <label for="pendingReport">Tem relatórios pendentes? </label>
+                    {{> afQuickField name="missing_reports"}}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-lg-12">
+          <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="filter">BUSCAR</button>
+          <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="export">EXPORTAR CSV</button>
+          <!-- <button type="submit" class="btn btn-link btn-default btn-xs" name="btn-submit" value="reset">LIMPAR</button> -->
+        </div>
+        {{/autoForm}}
         <div class="col-lg-12">
           {{> reactiveTable class="table table-bordered table-hover" settings=settings}}
         </div>
@@ -137,10 +109,14 @@
 
 <template name="actionsCellTmpl">
     <a class="btn btn-default btn-xs" href="/adm/edit-screening/{{_id}}">Editar</a>
+
+    {{#if report_description}}
     <a class="btn btn-default btn-xs" href="/adm/report/{{_id}}">Ver relatório</a>
+    {{/if}}
+
     {{#if draft}}
     <button class="btn btn-default btn-xs btn-unset-draft" data-session-id="{{_id}}">Desmarcar rascunho</button>
-    {{else}}
-    <button class="btn btn-default btn-xs btn-set-draft" data-session-id="{{_id}}">Marcar rascunho</button>
     {{/if}}
+
+    <button class="btn btn-default btn-xs btn-set-draft" data-session-id="{{_id}}">Marcar rascunho</button>
 </template>

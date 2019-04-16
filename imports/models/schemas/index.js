@@ -5,6 +5,7 @@ import { Schema as userSchema } from '../users';
 import Films from '../films';
 import wNumb from '../utils/wNumb';
 import getSelectOptions from './getSelectOptions';
+import { Cities, States } from '../states_and_cities';
 
 export const NOTIFICATION_TRIGGERS = [
   'confirm_screening_date',
@@ -66,7 +67,7 @@ export const FILM_SUBCATEGORIES = [
 
 export const FILM_STATUS = ['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
 
-const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
+const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO'];
 
 const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
@@ -877,7 +878,10 @@ Schemas.FormFilterSessions = new SimpleSchema({
     optional: true,
     autoform: {
       type: 'select2',
-      options: function(){return[{label:"2013",value:2013},{label:"2014",value:2014},{label:"2015",value:2015}]}
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
     },
     label: 'Mês Referência',
   },
@@ -887,7 +891,19 @@ Schemas.FormFilterSessions = new SimpleSchema({
     optional: true,
     autoform: {
       type: 'select2',
-      values: () => Films.find({}).fetch().map(v => { return { id: v._id, text: v.title }; }),
+      options: function autoFormOptions() {
+        const opts = Films.find({}).fetch().map(function(entity) {
+          return {
+            label: entity.title,
+            value: entity._id,
+          };
+        });
+        return opts;
+      },
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
     },
   },
   userId: {
@@ -896,8 +912,74 @@ Schemas.FormFilterSessions = new SimpleSchema({
     optional: true,
     autoform: {
       type: 'select2',
-      options: []
+      options: function autoFormOptions2() {
+        const opts = Meteor.users.find({}).fetch().map(function(entity) {
+          return {
+            label: entity.profile.name,
+            value: entity._id,
+          };
+        });
+        return opts;
+      },
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
     },
+  },
+  city: {
+    type: String,
+    label: 'Cidade',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      // options: function autoFormOptions2() {
+      //   const opts = Cities.find({}).fetch().map(function(entity) {
+      //     return {
+      //       label: entity.nome,
+      //       value: entity._id,
+      //     };
+      //   });
+      //   return opts;
+      // },
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  state: {
+    type: String,
+    label: 'Estado',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      // options: getSelectOptions(STATES),
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  team_member: {
+    label: 'Participipação da equipe',
+    type: Boolean,
+    optional: true,
+  },
+  public_event: {
+    label: 'Aberta ao público',
+    type: Boolean,
+    optional: true,
+  },
+  has_comments: {
+    label: 'Possui comentários?',
+    type: Boolean,
+    optional: true,
+  },
+  missing_reports: {
+    label: 'Tem relatórios pendentes?',
+    type: Boolean,
+    optional: true,
   },
 }, { tracker: Tracker });
 

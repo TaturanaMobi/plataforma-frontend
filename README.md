@@ -72,3 +72,12 @@ prod ~ $ exit
 local ~/plataforma-taturana $ scp -r prod:~/taturana-<data>.json .
 local ~/plataforma-taturana $ mongorestore -h localhost:3001 -d meteor taturana-<data>.json/taturanamobi --drop
 ```
+
+
+## Importar Cidades
+
+```
+cd backups/
+git clone git@github.com:kelvins/Municipios-Brasileiros.git
+mongoimport -d taturana -c cities /backups/Municipios-Brasileiros/json/municipios.json --jsonArray --drop
+```

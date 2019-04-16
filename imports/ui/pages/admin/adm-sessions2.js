@@ -3,36 +3,81 @@
 // import { moment } from 'meteor/momentjs:moment';
 // import { _ } from 'meteor/underscore';
 import { Template } from 'meteor/templating';
+import { Router } from 'meteor/iron:router';
+import { ReactiveDict } from 'meteor/reactive-dict';
+import getSelectOptions from '../../../models/schemas/getSelectOptions';
 
 // import Films from '../../../models/films.js';
-// import Screenings from '../../../models/screenings.js';
+import Screenings from '../../../models/screenings.js';
 import { Cities, States } from '../../../models/states_and_cities';
+
+Template.admSessions2.onCreated(function () {
+  const r = Router.current();
+  // console.log(Template.instance().data);
+  this.state = new ReactiveDict();
+  this.state.setDefault('film-selector', r.params.query.filmSelector);
+  this.state.setDefault('state-selector', r.params.query.stateSelector);
+  this.state.setDefault('city-selector', r.params.query.citySelector);
+  this.state.setDefault('month-selector', r.params.query.monthSelector);
+  // this.state.setDefault('screenings', Template.instance().data);
+
+  this.buildQuery = (filmId, state, city, month) => {
+    const o = {};
+    if ((filmId !== undefined) && (filmId !== '')) {
+      o.filmId = filmId;
+    }
+    if ((city !== undefined) && (city !== '')) {
+      o.city = city;
+    }
+    if ((state !== undefined) && (state !== '')) {
+      o.uf = state;
+    }
+    if ((month !== undefined) && (month !== '')) {
+      const d = month.split('-');
+      const d1 = new Date();
+      d1.setTime(d[0]);
+      const d2 = new Date();
+      d2.setTime(d[1]);
+      o.date = {
+        $gte: d1,
+        $lt: d2,
+      };
+    }
+    // console.log(o);
+    return o;
+  };
+
+  this.updateResults = (filmId, state, city, month) => {
+    const q = this.buildQuery(filmId, state, city, month);
+    // const s = Screenings.find({});
+    const s = Template.instance().data.fetch();
+    // console.log(s);
+    this.data = [];
+    this.state.set('screenings', s);
+    // this.state.set('films', this.getFutureFilms());
+  };
+
+  this.setFilter = (n, v) => {
+    this.state.set(n, v);
+  };
+
+  this.autorun(() => {
+    const filmId = this.state.get('film-selector');
+    const state = this.state.get('state-selector');
+    const city = this.state.get('city-selector');
+    const month = this.state.get('month-selector');
+
+    this.updateResults(filmId, state, city, month);
+  });
+});
 
 Template.admSessions2.helpers({
   settings() {
-    // const d = Films.find({});
-    // console.log(d);
-    // const screenings = Screenings.find({});
-    // if (d !== null) {
-    //   d.forEach((f) => {
-    //     if (f !== null) {
-    //       // const sNotDuplicated = [];
-    //       _(screenings).each((s, i) => {
-    //         s.film_title = f.title;
-    //         s.film_slug = f.slug;
-    //         s.user = Meteor.users.findOne(s.user_id);
-    //         screenings[i] = s;
-    //       });
-    //     }
-    //   });
-    // }
-    // const s = screenings;
-    // console.log(s);
-    const instance = Template.instance();
     return {
-      collection: instance.data,
-      // filters: ['filterTeamMember'],
-      rowsPerPage: 10,
+      collection: Template.instance().data,
+      // collection: Template.instance().state.get('screenings'),
+      // filters: ['myFilter'],
+      rowsPerPage: 100,
       showFilter: false,
       showRowCount: true,
       rowClass: (item) => {
@@ -57,10 +102,8 @@ Template.admSessions2.helpers({
         {
           key: 'film',
           label: 'Filme',
-          // tmpl: Template.filmCellTmpl,
           headerClass: 'col-md-2',
           fn: value => value.title,
-          // Films.findOne(object.filmId),
         },
         {
           key: 'date', label: 'Data de exibição', tmpl: Template.dateCellTmpl, headerClass: 'col-md-1',
@@ -68,21 +111,21 @@ Template.admSessions2.helpers({
         {
           key: 'place_name', label: 'Local de exibição', tmpl: Template.screeningCellTmpl, headerClass: 'col-md-2',
         },
-        // 'activity_theme',
         {
           key: 'ambassador',
           label: 'Embaixador',
-          // tmpl: Template.embaixadorCellTmpl,
           headerClass: 'col-md-2',
           fn: value => value.profile.name,
-          // value.profile.name,
-          // console.log(value, object),
         },
-        // {
-        //   key: 'email',
-        //   hidden: true,
-        //   fn: (value, object) => object.user.emails[0].address,
-        // },
+        {
+          key: 'ambassador',
+          label: 'Ambassador e-mail',
+          // hidden: true,
+          fn: (value, object) => {
+            // console.log(value);
+            return value.emails[0].address;
+          },
+        },
         { key: 'quorum', label: 'Público', tmpl: Template.quorumCellTmpl },
         { key: 'city', label: 'Cidade', headerClass: 'col-md-1' },
         'uf',
@@ -95,89 +138,56 @@ Template.admSessions2.helpers({
       ],
     };
   },
+  month_options() {
+    const months = [];
+    const screenings = Template.instance().state.get('screenings');
 
-  ambassador_options() {
-    //   let ambassadorsIds = [];
+    _.each(screenings, function (screening) {
+      if (screening.date) {
+        months.push(
+          `${new Date(screening.date.getFullYear(), screening.date.getMonth(), 1).getTime()}-${new Date(screening.date.getFullYear(), screening.date.getMonth() + 1, 0).getTime()}`,
+        );
+      }
+    });
 
-    //   _.each(films, (film) => {
-    //     _.each(film.screening, (screening) => {
-    //       if (screening.user_id) {
-    //         ambassadorsIds.push(screening.user_id);
-    //       }
-    //     });
-    //   });
-
-    //   ambassadorsIds = _.uniq(ambassadorsIds);
-    //   const ambassadors = Meteor.users.find({
-    //     _id: {
-    //       $in: ambassadorsIds,
-    //     },
-    //   }, {
-    //     _id: 1,
-    //     'profile.name': 1,
-    //     sort: { 'profile.name': 1 },
-    //   }).fetch();
-
-    //   return _.uniq(ambassadors);
-    return [];
+    return _.uniq(months).sort().map((v) => {
+      const d = new Date();
+      d.setTime(v.split('-')[0]);
+      return {
+        label: `${new Intl.DateTimeFormat('pt-BR', { month: 'long' }).format(d)} ${d.getFullYear()}`,
+        value: v,
+      };
+    });
   },
 
   states_options() {
-    return States.find({ has_screenings: true }).fetch();
+    const states = [];
+    const screenings = Template.instance().state.get('screenings');
+
+    _.each(screenings, function (screening) {
+      if (screening.uf) {
+        states.push(screening.uf);
+      }
+    });
+
+    return getSelectOptions(_.uniq(states).sort());
   },
 
   cities_options() {
-    return Cities.find({ has_screenings: true }).fetch();
+    const cities = [];
+    const screenings = Template.instance().state.get('screenings');
 
-    // const filter = { has_screenings: true };
-    // const state = Session.get('state');
-    // if (state) {
-    //   filter.state = state;
-    // }
-    // return Cities.find(filter, { sort: { name: 1, state: 1 } }).fetch();
+    _.each(screenings, function (screening) {
+      if (screening.city) {
+        cities.push(screening.city);
+      }
+    });
+
+    return getSelectOptions(_.uniq(cities).sort());
   },
 });
 
 // Template.admSessions2.events({
-//   'change .list-sessions'(event) {
-//     const list = $(event.currentTarget).val();
-//     // Session.set('list', list);
-//   },
-//   'change #city-selector'(event) {
-//     const city = $(event.currentTarget).val();
-//     // Session.set('city', city);
-//   },
-//   'change #st-selector'(event) {
-//     const state = $(event.currentTarget).val();
-//     // Session.set('state', state);
-//   },
-//   'change #film-selector'(event) {
-//     const title = $(event.currentTarget).val();
-//     // Session.set('title', title);
-//   },
-//   'change #ambassador-selector'(event) {
-//     const ambassador = $(event.currentTarget).val();
-//     // Session.set('ambassador', ambassador);
-//   },
-//   'change #team-selector'(event) {
-//     // Session.set('team', event.currentTarget.checked);
-//   },
-//   'change #public-event'(event) {
-//     // Session.set('public', event.currentTarget.checked);
-//   },
-//   'change #comment'(event) {
-//     // Session.set('comment', event.currentTarget.checked);
-//   },
-//   'change #pendingReport'(event) {
-//     // Session.set('report', event.currentTarget.checked);
-//   },
-//   'change #creation-date'(event) {
-//     // Session.set('creation_date', event.currentTarget.checked);
-//   },
-//   'click .btn-datepicker'(event) {
-//     const month = $(event.currentTarget).data('month');
-//     // Session.set('month', month);
-//   },
 //   'click .btn-set-draft'() {
 //     const id = this._id;
 //     const user_id = this.user_id;
@@ -203,62 +213,5 @@ Template.admSessions2.helpers({
 //     Meteor.call('setScreeningDraftStatus', id, false);
 //   },
 //   'click .csv-export'() {
-//     const screenings = this.screenings;
-//     const csv = Papa.unparse(screenings.map((scr) => {
-//       const d = moment(scr.date);
-//       const created = moment(scr.created_at);
-//       const contact = getUserProfile(scr.user_id);
-
-//       return {
-//         'id do embaixador': scr.user_id,
-//         'nome de contato': contact ? contact.name : '',
-//         'email de contato': getEmail(scr.user_id),
-//         rascunho: (scr.draft) ? 'sim' : 'não',
-//         'evento público': (scr.public_event) ? 'sim' : 'não',
-//         'presença de equipe': (scr.team_member) ? 'sim' : 'não',
-//         'data do evento': d.format('D/M/Y'),
-//         'dia da semana': d.format('dddd'),
-//         'horário do evento': d.format('HH:mm'),
-//         'nome do local': scr.place_name,
-//         cep: scr.cep,
-//         cidade: scr.city,
-//         estado: scr.uf,
-//         bairro: scr.zone,
-//         país: scr.s_country,
-//         rua: scr.street,
-//         número: scr.number,
-//         complemento: scr.complement,
-//         atividade: scr.activity,
-//         'tema da atividade': scr.activity_theme,
-//         comentários: scr.comments,
-//         'expectativa de publico': scr.quorum_expectation,
-//         'publico real': scr.real_quorum,
-//         'descrição de report': scr.report_description,
-//         'data de criação': created.format('D/M/Y'),
-//         'horário de criação': created.format('HH:mm'),
-//         id: scr._id,
-//       };
-//     }));
-
-//     const filename = `${this.title.replace(' ', '_')}.csv`;
-//     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-//     if (navigator.msSaveBlob) { // IE 10+
-//       navigator.msSaveBlob(blob, filename);
-//     } else {
-//       const link = document.createElement('a');
-//       if (link.download !== undefined) { // feature detection
-//         // Browsers that support HTML5 download attribute
-//         const url = URL.createObjectURL(blob);
-//         link.setAttribute('href', url);
-//         link.setAttribute('download', filename);
-//         link.style.visibility = 'hidden';
-//         document.body.appendChild(link);
-//         link.click();
-//         document.body.removeChild(link);
-//       } else {
-//         // else, show the file as before this changes, but name is "download"
-//         window.open(encodeURI(`data:text/csv;charset=utf-8 ${csv}`));
-//       }
-//     }
 //   },
 // });

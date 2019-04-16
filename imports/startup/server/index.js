@@ -38,6 +38,8 @@ Meteor.startup(() => {
 
   Meteor.publish('files.images.all', () => Images.find().cursor);
 
+  Meteor.publish('cities', () => Cities.find({}, { fields: { nome: 1 } }));
+
   // Forgot Password Email
   Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
   Accounts.emailTemplates.from = 'Suporte <suporte@taturana.com.br>';
