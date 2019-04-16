@@ -52,7 +52,7 @@ services:
       traefik.frontend.rule: Host:fake-smtp.taturana
       traefik.port: '8025'
       traefik.enable: 'true'
-      traefik.acme: false
+      traefik.acme: 'false'
 
   traefik:
     image: traefik:1.7-alpine
@@ -70,7 +70,7 @@ services:
       traefik.frontend.rule: Host:traefik.taturana
       traefik.port: '8080'
       traefik.enable: 'true'
-      traefik.acme: false
+      traefik.acme: 'false'
 
   images:
     image: h2non/imaginary
@@ -94,7 +94,7 @@ services:
       traefik.frontend.rule: Host:images.taturana
       traefik.enable: 'true'
       traefik.port: '9000'
-      traefik.acme: false
+      traefik.acme: 'false'
 
   mongo-express:
     image: mongo-express
@@ -107,4 +107,4 @@ services:
       traefik.frontend.rule: Host:mongo-express.taturana
       traefik.port: '8081'
       traefik.enable: 'true'
-      traefik.acme: false
+      traefik.acme: 'false'
