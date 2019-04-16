@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { _ } from 'meteor/underscore';
 import { moment } from 'meteor/momentjs:moment';
-import { Papa } from 'meteor/harrison:papa-parse';
+import Papa from 'papaparse';
 
 import Films from '../../../models/films.js';
 
