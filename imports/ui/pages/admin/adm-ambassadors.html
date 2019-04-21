@@ -2,46 +2,8 @@
   <div class="container">
     <div class="row">
       {{#autoForm doc=filter_form schema=Schemas.FormFilterUsers id="filter-user-form" type="normal"}}
-      <div class="col-md-12">
-        <h2>Embaixadores</h2>
-        <br />
-        <div class="form-group col-md-2">
-          {{> afQuickField name="category" options=categories_options}}
-        </div>
-        <div class="form-group col-md-2">
-          {{> afQuickField name="subcategories"}}
-        </div>
-        <div class="form-group col-md-2">
-          {{> afQuickField name="filmId"}}
-        </div>
-        <div class="form-group col-md-2">
-          {{> afQuickField name="state" options=states_options}}
-        </div>
-        <div class="form-group col-md-2">
-          {{> afQuickField name="city" options=cities_options}}
-        </div>
-
-        <div class="form-group col-md-3">
-          {{> afQuickField name="teamMember"}}
-        </div>
-        <div class="form-group col-md-3">
-          {{> afQuickField name="noScreenings"}}
-        </div>
-        <div class="form-group col-md-3">
-          {{> afQuickField name="missingReports"}}
-        </div>
-      </div>
-      <div class="col-lg-12">
-        <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="filter">FILTRAR</button>
-        <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="export">EXPORTAR CSV</button>
-        <button type="submit" class="btn btn-link btn-default btn-xs" name="btn-submit" value="save">SALVAR FILTRO</button>
-        <button type="submit" class="btn btn-link btn-default btn-xs" name="btn-submit" value="reset">LIMPAR</button>
-      </div>
+      {{> admFilter title="Embaixadores" isUserFilter="true" data=data settings=settings}}
       {{/autoForm}}
-      <div class="col-lg-12">
-        <br>
-        {{> reactiveTable class="table table-bordered table-hover" settings=settings}}
-      </div>
     </div>
   </div>
 </template>

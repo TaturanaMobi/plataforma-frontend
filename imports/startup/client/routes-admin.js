@@ -4,6 +4,7 @@ import { Router } from 'meteor/iron:router';
 // import { $ } from 'meteor/jquery';
 
 import '../../ui/components/adm-sidebar.html';
+import '../../ui/components/admFilter.js';
 
 import '../../ui/pages/admin/adm-notification-templates';
 import '../../ui/pages/admin/adm-notification-templates-new';

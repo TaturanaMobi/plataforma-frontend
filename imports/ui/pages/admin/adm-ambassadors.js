@@ -51,7 +51,8 @@ Template.admAmbassadors.helpers({
   settings() {
     const instance = Template.instance();
     return {
-      collection: instance.data,
+      // collection: instance.data,
+      collection: Template.instance().state.get('filterData'),
       // filters: ['filterTeamMember'],
       rowsPerPage: 100,
       showFilter: false,
