@@ -148,7 +148,8 @@ Films.get_image_by_src = (id, src) => {
 
 Films.inventory = (film) => {
   const legacyData = FilmScreeningInventory[film.title];
-  const screenings = film.screening || [];
+  const screenings = Screenings.find({ filmId: film._id }).fetch() || [];
+
   const initialInventory = {
     viewers: 0,
     viewers_from_reports: 0,

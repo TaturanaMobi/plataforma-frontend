@@ -961,22 +961,35 @@ Schemas.FormFilterSessions = new SimpleSchema({
       },
     },
   },
-  team_member: {
+  status: {
+    type: String,
+    label: 'Status',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      // options: getSelectOptions(STATES),
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  teamMember: {
     label: 'Participipação da equipe',
     type: Boolean,
     optional: true,
   },
-  public_event: {
+  publicEvent: {
     label: 'Aberta ao público',
     type: Boolean,
     optional: true,
   },
-  has_comments: {
+  hasComments: {
     label: 'Possui comentários?',
     type: Boolean,
     optional: true,
   },
-  missing_reports: {
+  missingReports: {
     label: 'Tem relatórios pendentes?',
     type: Boolean,
     optional: true,

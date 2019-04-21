@@ -2,7 +2,7 @@
   <div class="bg-wrapper">
     <div id="adm-sessions" class="container adm">
       <div class="row">
-        {{#autoForm schema=Schemas.FormFilterSessions id="filter-screening-form" type="normal"}}
+        {{#autoForm doc=filter_form schema=Schemas.FormFilterSessions id="filter-screening-form" type="normal"}}
         <div class="col-md-12">
           <h2>Sessões</h2>
           <br />
@@ -23,22 +23,25 @@
               <div class="form-group col-md-2">
                 {{> afQuickField name="city" options=cities_options}}
               </div>
+              <div class="form-group col-md-2">
+                {{> afQuickField name="status" options=status_options}}
+              </div>
             </div>
             <div class="filters">
               <div class="col-md-12">
                 <div class="col-md-12 division"></div>
                 <div class="row">
                   <div class="col-md-3">
-                    {{> afQuickField name="team_member"}}
+                    {{> afQuickField name="teamMember"}}
                   </div>
                   <div class="col-md-3">
-                    {{> afQuickField name="public_event"}}
+                    {{> afQuickField name="publicEvent"}}
                   </div>
                   <div class="col-md-3">
-                    {{> afQuickField name="has_comments"}}
+                    {{> afQuickField name="hasComments"}}
                   </div>
                   <div class="col-md-3">
-                    {{> afQuickField name="missing_reports"}}
+                    {{> afQuickField name="missingReports"}}
                   </div>
                 </div>
               </div>
@@ -46,12 +49,14 @@
           </div>
         </div>
         <div class="col-lg-12">
-          <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="filter">BUSCAR</button>
+          <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="filter">FILTRAR</button>
           <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="export">EXPORTAR CSV</button>
-          <!-- <button type="submit" class="btn btn-link btn-default btn-xs" name="btn-submit" value="reset">LIMPAR</button> -->
+          <button type="submit" class="btn btn-link btn-default btn-xs" name="btn-submit" value="save">SALVAR FILTRO</button>
+          <button type="submit" class="btn btn-link btn-default btn-xs" name="btn-submit" value="reset">LIMPAR</button>
         </div>
         {{/autoForm}}
         <div class="col-lg-12">
+          <br>
           {{> reactiveTable class="table table-bordered table-hover" settings=settings}}
         </div>
       </div>
