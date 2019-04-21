@@ -10,6 +10,7 @@ import getSelectOptions from '../../../models/schemas/getSelectOptions';
 
 // import Films from '../../../models/films.js';
 import { SCREENING_STATUS } from '../../../models/schemas/index.js';
+import Films from '../../../models/films.js';
 import Screenings from '../../../models/screenings.js';
 import { Cities, States } from '../../../models/states_and_cities';
 
@@ -191,10 +192,11 @@ Template.admSessions2.helpers({
           key: 'infos', label: 'Informações', tmpl: Template.infoCellTmpl, headerClass: 'col-md-1',
         },
         {
-          key: 'film',
+          key: 'filmId',
           label: 'Filme',
           headerClass: 'col-md-2',
-          fn: value => value.title,
+          fn: value => Films.find({ _id: value }).fetch()[0].title,
+          // tmpl: Template.filmCellTmpl
         },
         {
           key: 'date', label: 'Data de exibição', tmpl: Template.dateCellTmpl, headerClass: 'col-md-1',
@@ -203,18 +205,22 @@ Template.admSessions2.helpers({
           key: 'place_name', label: 'Local de exibição', tmpl: Template.screeningCellTmpl, headerClass: 'col-md-2',
         },
         {
-          key: 'ambassador',
+          key: 'user_id',
           label: 'Embaixador',
           headerClass: 'col-md-2',
-          fn: value => value.profile.name,
+          fn: value => {
+            const u = Meteor.users.find({ _id: value }).fetch()[0];
+            return u.profile.name;
+          },
+          //tmpl: Template.embaixadorCellTmpl
         },
         {
           key: 'ambassador',
           label: 'Ambassador e-mail',
-          // hidden: true,
           fn: (value, object) => {
             // console.log(value);
-            return value.emails[0].address;
+            const u = Meteor.users.find({ _id: object.user_id }).fetch()[0];
+            return u.emails[0].address;
           },
         },
         { key: 'quorum', label: 'Público', tmpl: Template.quorumCellTmpl },
@@ -303,10 +309,11 @@ Template.admSessions2.events({
       const d = moment(scr.date);
       const created = moment(scr.created_at);
       const contact = Meteor.users.findOne(scr.user_id);
+      const f = Films.findOne(scr.filmId);
 
       return {
         'id do embaixador': scr.user_id,
-        'nome de contato': contact ? contact.name : '',
+        'nome de contato': contact ? contact.profile.name : '',
         'email de contato': contact.emails[0].address,
         rascunho: (scr.draft) ? 'sim' : 'não',
         'evento público': (scr.public_event) ? 'sim' : 'não',
@@ -332,6 +339,8 @@ Template.admSessions2.events({
         'data de criação': created.format('D/M/Y'),
         'horário de criação': created.format('HH:mm'),
         id: scr._id,
+        status: scr.status,
+        film: f.title
       };
     }));
 
