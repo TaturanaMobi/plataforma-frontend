@@ -288,28 +288,26 @@ Template.admSessions2.helpers({
 });
 
 Template.admSessions2.events({
-  // 'submit #filter-screening-form'(event, instance) {
   'click .btn.btn-primary.btn-default[value=filter]'(event, instance) {
     event.preventDefault();
-    // console.log(event,instance, AutoForm.getFormValues('filter-screening-form'));
+
     instance.updateResults(AutoForm.getFormValues('filter-screening-form').insertDoc);
   },
   'click .btn.btn-default[value=reset]'(event, instance) {
-    // console.log('reseting not working')
     event.preventDefault();
+
     AutoForm.resetForm('filter-screening-form');
-    // AutoForm.resetForm('filter-screening-form');
-    // this.resetForm();
     instance.updateResults({});
   },
   'click .btn.btn-primary.btn-default[value=export]'(event, instance) {
     event.preventDefault();
+
     const screenings = instance.state.get('screenings');
     const csv = Papa.unparse(screenings.map((scr) => {
-      const d = moment(scr.date);
-      const created = moment(scr.created_at);
-      const contact = Meteor.users.findOne(scr.user_id);
-      const f = Films.findOne(scr.filmId);
+    const d = moment(scr.date);
+    const created = moment(scr.created_at);
+    const contact = Meteor.users.findOne(scr.user_id);
+    const f = Films.findOne(scr.filmId);
 
       return {
         'id do embaixador': scr.user_id,
@@ -350,6 +348,7 @@ Template.admSessions2.events({
       navigator.msSaveBlob(blob, filename);
     } else {
       const link = document.createElement('a');
+
       if (link.download !== undefined) { // feature detection
         // Browsers that support HTML5 download attribute
         const url = URL.createObjectURL(blob);

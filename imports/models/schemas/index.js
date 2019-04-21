@@ -872,7 +872,7 @@ Schemas.Film = new SimpleSchema({
   },
 }, { tracker: Tracker });
 
-Schemas.FormFilterSessions = new SimpleSchema({
+Schemas.FormFilterUsers = Schemas.FormFilterSessions = new SimpleSchema({
   screeningDate: {
     type: String,
     optional: true,
@@ -991,6 +991,44 @@ Schemas.FormFilterSessions = new SimpleSchema({
   },
   missingReports: {
     label: 'Tem relatórios pendentes?',
+    type: Boolean,
+    optional: true,
+  },
+  category: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'select2',
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+    label: 'Área de Atuação',
+  },
+  subcategories: {
+    type: String,
+    label: 'Temática',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      options: function autoFormOptions2() {
+        const opts = Meteor.users.find({}).fetch().map(function(entity) {
+          return {
+            label: entity.profile.name,
+            value: entity._id,
+          };
+        });
+        return opts;
+      },
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  noScreenings: {
+    label: 'Nunca agendou uma sessão?',
     type: Boolean,
     optional: true,
   },

@@ -8,45 +8,44 @@ import Papa from 'papaparse';
 
 import Films from '../../../models/films.js';
 
-const hasValue = prop => prop !== undefined && prop.value.length > 0;
+// const hasValue = prop => prop !== undefined && prop.value.length > 0;
 
-const filteredAmbassadors = () => {
-  // const filters = Session.get('ambassadorsFilters') || {};
-  const filters = {};
-  const findAttrs = _.pick(filters, ['profile.category', 'profile.subcategory', 'profile.city', 'profile.uf']);
+// const filteredAmbassadors = () => {
+//   // const filters = Session.get('ambassadorsFilters') || {};
+//   const filters = {};
+//   const findAttrs = _.pick(filters, ['profile.category', 'profile.subcategory', 'profile.city', 'profile.uf']);
 
-  let users = Meteor.users.find(findAttrs).fetch();
+//   let users = Meteor.users.find(findAttrs).fetch();
 
-  if (filters.noScreenings) {
-    users = _.filter(users, user => Films.find({
-      'screening.user_id': user._id,
-    }).count() === 0);
-  }
+//   if (filters.noScreenings) {
+//     users = _.filter(users, user => Films.find({
+//       'screening.user_id': user._id,
+//     }).count() === 0);
+//   }
 
-  if (filters.pendingReport) {
-    // TODO
-    console.log('IMPLEMENT pendingReport');
-  }
+//   if (filters.pendingReport) {
+//     // TODO
+//     console.log('IMPLEMENT pendingReport');
+//   }
 
-  if (filters.teamMember) {
-    users = _.filter(users, user => Films.find({
-      'screening.user_id': user._id,
-      'screening.team_member': true,
-    }).count() > 0);
-  }
+//   if (filters.teamMember) {
+//     users = _.filter(users, user => Films.find({
+//       'screening.user_id': user._id,
+//       'screening.team_member': true,
+//     }).count() > 0);
+//   }
 
-  if (filters.filmDisplayed) {
-    users = _.filter(users, (user) => {
-      const titles = Films.find({
-        'screening.user_id': user._id,
-      }).fetch().map(film => film.title);
-      return titles.indexOf(filters.filmDisplayed) > -1;
-    });
-  }
-  return users;
-};
+//   if (filters.filmDisplayed) {
+//     users = _.filter(users, (user) => {
+//       const titles = Films.find({
+//         'screening.user_id': user._id,
+//       }).fetch().map(film => film.title);
+//       return titles.indexOf(filters.filmDisplayed) > -1;
+//     });
+//   }
+//   return users;
+// };
 
-Meteor.subscribe('ambassadors');
 
 Template.admAmbassadors.helpers({
   settings() {
@@ -81,9 +80,9 @@ Template.admAmbassadors.helpers({
     };
   },
 
-  ambassadors() {
-    return filteredAmbassadors();
-  },
+  // ambassadors() {
+  //   return filteredAmbassadors();
+  // },
 
   films() {
     return Films.all();
@@ -111,44 +110,56 @@ Template.admAmbassadors.helpers({
 });
 
 Template.admAmbassadors.events({
-  'submit #ambassadors-filters'(event) {
+  'click .btn.btn-primary.btn-default[value=filter]'(event, instance) {
     event.preventDefault();
-    const el = event.target;
 
-    const filters = {
-      noScreenings: el.noScreenings.checked,
-      pendingReport: el.pendingReport.checked,
-      teamMember: el.teamMember.checked,
-      profile: {
-        category: '',
-        subcategory: '',
-        city: '',
-        uf: '',
-      },
-    };
-
-    if (hasValue(el.category)) {
-      filters.profile.category = el.category.value;
-    }
-    if (hasValue(el.subcategory)) {
-      filters.profile.subcategory = el.subcategory.value;
-    }
-    if (hasValue(el.filmDisplayed)) {
-      filters.filmDisplayed = el.filmDisplayed.value;
-    }
-    if (hasValue(el.city)) {
-      filters.profile.city = el.city.value;
-    }
-    if (hasValue(el.uf)) {
-      filters.profile.uf = el.uf.value;
-    }
-
-    // Session.set('ambassadorsFilters', filters);
+    instance.updateResults(AutoForm.getFormValues('filter-user-form').insertDoc);
   },
-
-  'click .csv-export'(event) {
+  'click .btn.btn-default[value=reset]'(event, instance) {
     event.preventDefault();
-    const data = filteredAmbassadors().map((u) => {
+
+    AutoForm.resetForm('filter-user-form');
+    instance.updateResults({});
+  },
+  // 'submit #ambassadors-filters'(event) {
+  //   event.preventDefault();
+  //   const el = event.target;
+
+  //   const filters = {
+  //     noScreenings: el.noScreenings.checked,
+  //     pendingReport: el.pendingReport.checked,
+  //     teamMember: el.teamMember.checked,
+  //     profile: {
+  //       category: '',
+  //       subcategory: '',
+  //       city: '',
+  //       uf: '',
+  //     },
+  //   };
+
+  //   if (hasValue(el.category)) {
+  //     filters.profile.category = el.category.value;
+  //   }
+  //   if (hasValue(el.subcategory)) {
+  //     filters.profile.subcategory = el.subcategory.value;
+  //   }
+  //   if (hasValue(el.filmDisplayed)) {
+  //     filters.filmDisplayed = el.filmDisplayed.value;
+  //   }
+  //   if (hasValue(el.city)) {
+  //     filters.profile.city = el.city.value;
+  //   }
+  //   if (hasValue(el.uf)) {
+  //     filters.profile.uf = el.uf.value;
+  //   }
+
+  //   // Session.set('ambassadorsFilters', filters);
+  // },
+
+  'click .btn.btn-primary.btn-default[value=export]'(event, instance) {
+    event.preventDefault();
+    const users = instance.state.get('users');
+    const data = users.map((u) => {
       const d = moment(u.createdAt);
 
       return {
