@@ -2,72 +2,9 @@
   <div class="bg-wrapper">
     <div id="adm-sessions" class="container adm">
       <div class="row">
-        {{#autoForm doc=filter_form schema=Schemas.FormFilterSessions id="filter-screening-form" type="normal"}}
         {{> admFilter title="Sessões"}}
-        {{/autoForm}}
       </div>
     </div>
   </div>
 </template>
 
-<template name="filmCellTmpl">
-  <a target="_blank" href="/film/{{slug}}">{{title}}</a>
-</template>
-
-<template name="screeningCellTmpl">
-  <a href="/adm/session/{{_id}}">{{place_name}}</a>
-</template>
-
-<template name="embaixadorCellTmpl">
-  <a target="_blank" href="/adm/ambassador/{{_id}}">{{profile.name}}</a>
-</template>
-
-<template name="quorumCellTmpl">
-  {{quorum_expectation}} / {{real_quorum}}
-</template>
-
-<template name="dateCellTmpl">
-  <i title="{{date}}">{{format_date date}}</i>
-</template>
-
-<template name="createdAtCellTmpl">
-  <i title="{{created_at}}">{{format_date_from_now created_at}}</i>
-</template>
-
-<template name="infoCellTmpl">
-  <p>
-    {{#if accept_terms}}
-    <i title="Aceito termos" class="fas fa-user-check"></i>
-    {{/if}}
-
-    {{#if public_event}}
-    <i title="Evento público" class="fas fa-globe-americas"></i>
-    {{/if}}
-
-    {{#if comments}}
-    <i title="{{comments}}" class="fas fa-comments"></i>
-    {{/if}}
-
-    {{#if team_member}}
-    <i title="Participação da equipe" class="fas fa-question-circle"></i>
-    {{/if}}
-
-    {{#if report_description}}
-    <i title="{{report_description}}" class="fas fa-clipboard-list"></i>
-    {{/if}}
-  </p>
-</template>
-
-<template name="actionsCellTmpl">
-    <a class="btn btn-default btn-xs" href="/adm/edit-screening/{{_id}}">Editar</a>
-
-    {{#if report_description}}
-    <a class="btn btn-default btn-xs" href="/adm/report/{{_id}}">Ver relatório</a>
-    {{/if}}
-
-    {{#if draft}}
-    <button class="btn btn-default btn-xs btn-unset-draft" data-session-id="{{_id}}">Desmarcar rascunho</button>
-    {{/if}}
-
-    <button class="btn btn-default btn-xs btn-set-draft" data-session-id="{{_id}}">Marcar rascunho</button>
-</template>

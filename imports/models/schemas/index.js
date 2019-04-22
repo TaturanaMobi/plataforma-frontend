@@ -872,7 +872,7 @@ Schemas.Film = new SimpleSchema({
   },
 }, { tracker: Tracker });
 
-Schemas.FormFilterUsers = Schemas.FormFilterSessions = new SimpleSchema({
+Schemas.FormAdmFilter = new SimpleSchema({
   screeningDate: {
     type: String,
     optional: true,
@@ -1012,15 +1012,6 @@ Schemas.FormFilterUsers = Schemas.FormFilterSessions = new SimpleSchema({
     optional: true,
     autoform: {
       type: 'select2',
-      options: function autoFormOptions2() {
-        const opts = Meteor.users.find({}).fetch().map(function(entity) {
-          return {
-            label: entity.profile.name,
-            value: entity._id,
-          };
-        });
-        return opts;
-      },
       select2Options: {
         placeholder: 'Selecione',
         allowClear: true,

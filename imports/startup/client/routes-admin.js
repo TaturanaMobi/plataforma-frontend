@@ -42,7 +42,11 @@ Router.route('/adm/sessions2', {
 });
 
 Router.route('/adm/ambassadors', {
-  waitOn() { return Meteor.subscribe('users.all'); },
+  waitOn() {
+    return Meteor.subscribe('screenings.all')
+    && Meteor.subscribe('films.all')
+    && Meteor.subscribe('users.all');
+  },
   data() { return Users.find({}); },
   action() { this.render('admAmbassadors'); },
 });

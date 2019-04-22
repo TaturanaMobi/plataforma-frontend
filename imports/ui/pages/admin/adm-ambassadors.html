@@ -1,9 +1,7 @@
 <template name="admAmbassadors">
   <div class="container">
     <div class="row">
-      {{#autoForm doc=filter_form schema=Schemas.FormFilterUsers id="filter-user-form" type="normal"}}
-      {{> admFilter title="Embaixadores" isUserFilter="true" data=data settings=settings}}
-      {{/autoForm}}
+      {{> admFilter title="Embaixadores" isUserFilter="true"}}
     </div>
   </div>
 </template>
