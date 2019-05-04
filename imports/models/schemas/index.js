@@ -67,7 +67,7 @@ export const FILM_SUBCATEGORIES = [
 
 export const FILM_STATUS = ['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
 
-const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO'];
+const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
 
 const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
