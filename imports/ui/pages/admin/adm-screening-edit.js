@@ -94,3 +94,4 @@ Template.editScreening.helpers({
     return this.screening.draft;
   },
 });
+

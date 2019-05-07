@@ -1,8 +1,11 @@
 import { Template } from 'meteor/templating';
+import { AutoForm } from 'meteor/aldeed:autoform';
+import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import Papa from 'papaparse';
 import { _ } from 'meteor/underscore';
+import { moment } from 'meteor/momentjs:moment';
 
 import getSelectOptions from '../../models/schemas/getSelectOptions';
 import { SCREENING_STATUS, FILM_CATEGORIES, FILM_SUBCATEGORIES } from '../../models/schemas/index.js';
@@ -11,6 +14,92 @@ import Films from '../../models/films.js';
 import Screenings from '../../models/screenings.js';
 
 import './admFilter.html';
+
+const downloadCsvUser = (users) => {
+  const data = users.map((u) => {
+    const d = moment(u.createdAt);
+
+    return {
+      'data de criação': d.format('D/M/Y'),
+      'hora da criação': d.format('HH:mm'),
+      nome: u.profile.name,
+      email: u.emails[0].address,
+      'telefone fixo': u.profile.phone,
+      'telefone celular': u.profile.cell_phone,
+      instituição: u.profile.institution,
+      área: u.profile.category,
+      temática: u.profile.subcategory,
+      uf: u.profile.uf,
+      city: u.profile.city,
+      id: u._id,
+    };
+  });
+  const csv = Papa.unparse(data);
+  window.open(encodeURI(`data:text/csv;charset=utf-8,${csv}`));
+};
+
+const downloadCsvScreening = (screenings) => {
+  const csv = Papa.unparse(screenings.map((scr) => {
+    const d = moment(scr.date);
+    const created = moment(scr.created_at);
+    const contact = Meteor.users.findOne(scr.user_id);
+    const f = Films.findOne(scr.filmId);
+
+    return {
+      'id do embaixador': scr.user_id,
+      'nome de contato': contact ? contact.profile.name : '',
+      'email de contato': contact.emails[0].address,
+      rascunho: (scr.draft) ? 'sim' : 'não',
+      'evento público': (scr.public_event) ? 'sim' : 'não',
+      'presença de equipe': (scr.team_member) ? 'sim' : 'não',
+      'data do evento': d.format('D/M/Y'),
+      'dia da semana': d.format('dddd'),
+      'horário do evento': d.format('HH:mm'),
+      'nome do local': scr.place_name,
+      cep: scr.cep,
+      cidade: scr.city,
+      estado: scr.uf,
+      bairro: scr.zone,
+      país: scr.s_country,
+      rua: scr.street,
+      número: scr.number,
+      complemento: scr.complement,
+      atividade: scr.activity,
+      'tema da atividade': scr.activity_theme,
+      comentários: scr.comments,
+      'expectativa de publico': scr.quorum_expectation,
+      'publico real': scr.real_quorum,
+      'descrição de report': scr.report_description,
+      'data de criação': created.format('D/M/Y'),
+      'horário de criação': created.format('HH:mm'),
+      id: scr._id,
+      status: scr.status,
+      film: f.title,
+    };
+  }));
+
+  const filename = `${new Date()}-sessoes-com-filro.csv`;
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  if (navigator.msSaveBlob) { // IE 10+
+    navigator.msSaveBlob(blob, filename);
+  } else {
+    const link = document.createElement('a');
+
+    if (link.download !== undefined) { // feature detection
+      // Browsers that support HTML5 download attribute
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      // else, show the file as before this changes, but name is 'download'
+      window.open(encodeURI(`data:text/csv;charset=utf-8 ${csv}`));
+    }
+  }
+};
 
 Template.admFilter.onCreated(function () {
   const r = Router.current();
@@ -91,7 +180,7 @@ Template.admFilter.onCreated(function () {
       o.public_event = { $eq: true };
     }
     if (hasComments) {
-      o.comments = { $exists : true, $ne : 'Sem comentários.' };
+      o.comments = { $exists: true, $ne: 'Sem comentários.' };
     }
     if (missingReports) {
       o.status = 'Pendente';
@@ -115,7 +204,7 @@ Template.admFilter.onCreated(function () {
     const o = {};
 
 
-    this.state.set('categories-selector', categories)
+    this.state.set('categories-selector', categories);
     this.state.set('subcategories-selector', subcategories);
     this.state.set('film-selector', filmId);
     this.state.set('state-selector', state);
@@ -150,7 +239,8 @@ Template.admFilter.onCreated(function () {
   this.isUserFilter = () => Template.instance().data.isUserFilter;
 
   this.updateResults = (formValues) => {
-    let q, s;
+    let q;
+    let s;
     if (this.isUserFilter()) {
       q = this.buildQueryUser(formValues);
       s = Meteor.users.find(q).fetch();
@@ -200,12 +290,12 @@ Template.admFilter.helpers({
       showFilter: false,
       showRowCount: true,
       fields: [
-        { label: 'Ações',   key: 'actions', tmpl: Template.actionsAmbassadorCellTmpl2 },
-        { label: 'E-mail',  key: 'emails.0.address' },
-        { label: 'Nome',    key: 'profile.name' },
+        { label: 'Ações', key: 'actions', tmpl: Template.actionsAmbassadorCellTmpl2 },
+        { label: 'E-mail', key: 'emails.0.address' },
+        { label: 'Nome', key: 'profile.name' },
         { label: 'Celular', key: 'profile.cell_phone' },
-        { label: 'Cidade',  key: 'profile.city' },
-        { label: 'Estado',  key: 'profile.uf' },
+        { label: 'Cidade', key: 'profile.city' },
+        { label: 'Estado', key: 'profile.uf' },
         { label: 'Instituição', key: 'profile.institution' },
         { label: 'Área de atuação', key: 'profile.category' },
         { label: 'Temáticas', key: 'profile.subcategory' },
@@ -266,11 +356,11 @@ Template.admFilter.helpers({
           key: 'user_id',
           label: 'Embaixador',
           headerClass: 'col-md-2',
-          fn: value => {
+          fn: (value) => {
             const u = Meteor.users.find({ _id: value }).fetch()[0];
             return u.profile.name;
           },
-          //tmpl: Template.embaixadorCellTmpl
+          // tmpl: Template.embaixadorCellTmpl
         },
         {
           key: 'ambassador',
@@ -286,7 +376,7 @@ Template.admFilter.helpers({
         'uf',
         'status',
         // 's_country', 'street', 'number', 'complement', 'zone', 'cep',
-        //  'author_1', 'author_2', 'author_3',
+        // 'author_1', 'author_2', 'author_3',
         {
           label: 'Data criação', key: 'created_at', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl,
         },
@@ -386,95 +476,10 @@ Template.admFilter.events({
     const filterData = instance.state.get('filterData');
 
     if (instance.isUserFilter()) {
-        downloadCsvUser(filterData);
+      downloadCsvUser(filterData);
     } else {
-        downloadCsvSreening(filterData);
+      downloadCsvScreening(filterData);
     }
   },
 });
 
-const downloadCsvUser = (users) => {
-  const data = users.map((u) => {
-    const d = moment(u.createdAt);
-
-    return {
-      'data de criação': d.format('D/M/Y'),
-      'hora da criação': d.format('HH:mm'),
-      nome: u.profile.name,
-      email: u.emails[0].address,
-      'telefone fixo': u.profile.phone,
-      'telefone celular': u.profile.cell_phone,
-      instituição: u.profile.institution,
-      área: u.profile.category,
-      temática: u.profile.subcategory,
-      uf: u.profile.uf,
-      city: u.profile.city,
-      id: u._id,
-    };
-  });
-  const csv = Papa.unparse(data);
-  window.open(encodeURI(`data:text/csv;charset=utf-8,${csv}`));
-};
-
-const downloadCsvScreening = (screenings) => {
-  const csv = Papa.unparse(screenings.map((scr) => {
-  const d = moment(scr.date);
-  const created = moment(scr.created_at);
-  const contact = Meteor.users.findOne(scr.user_id);
-  const f = Films.findOne(scr.filmId);
-
-    return {
-      'id do embaixador': scr.user_id,
-      'nome de contato': contact ? contact.profile.name : '',
-      'email de contato': contact.emails[0].address,
-      rascunho: (scr.draft) ? 'sim' : 'não',
-      'evento público': (scr.public_event) ? 'sim' : 'não',
-      'presença de equipe': (scr.team_member) ? 'sim' : 'não',
-      'data do evento': d.format('D/M/Y'),
-      'dia da semana': d.format('dddd'),
-      'horário do evento': d.format('HH:mm'),
-      'nome do local': scr.place_name,
-      cep: scr.cep,
-      cidade: scr.city,
-      estado: scr.uf,
-      bairro: scr.zone,
-      país: scr.s_country,
-      rua: scr.street,
-      número: scr.number,
-      complemento: scr.complement,
-      atividade: scr.activity,
-      'tema da atividade': scr.activity_theme,
-      comentários: scr.comments,
-      'expectativa de publico': scr.quorum_expectation,
-      'publico real': scr.real_quorum,
-      'descrição de report': scr.report_description,
-      'data de criação': created.format('D/M/Y'),
-      'horário de criação': created.format('HH:mm'),
-      id: scr._id,
-      status: scr.status,
-      film: f.title
-    };
-  }));
-
-  const filename = `${new Date()}-sessoes-com-filro.csv`;
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  if (navigator.msSaveBlob) { // IE 10+
-    navigator.msSaveBlob(blob, filename);
-  } else {
-    const link = document.createElement('a');
-
-    if (link.download !== undefined) { // feature detection
-      // Browsers that support HTML5 download attribute
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', filename);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      // else, show the file as before this changes, but name is 'download'
-      window.open(encodeURI(`data:text/csv;charset=utf-8 ${csv}`));
-    }
-  }
-}

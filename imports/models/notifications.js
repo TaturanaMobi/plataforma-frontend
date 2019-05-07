@@ -43,7 +43,7 @@ if (Meteor.isServer) {
     pidgeon.html = SSR.render(template.name, varsData);
 
     Email.send(pidgeon);
-    console.log('Enviando e-mail:', doc);
+    // console.log('Enviando e-mail:', doc);
   });
 }
 
