@@ -57,8 +57,12 @@ function getZoneByState(state) {
 // });
 
 Films.portfolio = () => Films.find({
-  status: 'Portfolio',
-});
+  $or: [{
+    status: 'Portfolio',
+  }, {
+    status: 'Difusão/Portfolio',
+  }],
+}, { sort: { sequence_number: 1 } });
 
 Films.disseminate = () => Films.find({
   $or: [{
@@ -66,7 +70,7 @@ Films.disseminate = () => Films.find({
   }, {
     status: 'Difusão/Portfolio',
   }],
-});
+}, { sort: { sequence_number: 1 } });
 
 Films.all = () => Films.find({}, {
   sort: {

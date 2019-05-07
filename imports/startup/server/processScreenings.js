@@ -1,4 +1,5 @@
 import { check } from 'meteor/check';
+import { Meteor } from 'meteor/meteor';
 import { moment } from 'meteor/momentjs:moment';
 import Screenings from '../../models/screenings.js';
 import Notifications from '../../models/notifications';
@@ -168,7 +169,7 @@ const processScreenings = {
 
   // 4. carregar template e verificar se existe específico para o filme
   updateStatus(s, newStatus) {
-    return Screenings.update({ _id: s._id  }, { $set: { status: newStatus } });
+    return Screenings.update({ _id: s._id }, { $set: { status: newStatus } });
   },
 
   // 3. verificar se notificação já foi criada

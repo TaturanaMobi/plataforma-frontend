@@ -15,7 +15,7 @@ Template.homeCarousel.onRendered(() => {
 
 Template.homeCarousel.helpers({
   disseminate() {
-    return Films.find({ status: 'Difusão' });
+    return Films.disseminate();
   },
   inventory() {
     return Films.inventory(Template.currentData());

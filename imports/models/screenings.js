@@ -1,8 +1,10 @@
 import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
 import Schemas from './schemas';
 import './images';
 import Films from './films';
 import Users from './users';
+import statisticsDenormalizer from './denormalizers/statistics';
 
 const Screenings = new Mongo.Collection('screenings');
 Screenings.attachSchema(Schemas.Screening);
@@ -58,5 +60,11 @@ Screenings.helpers({
 //   author_3: 1,
 //   report_image_3: 1,
 // },
+
+if (Meteor.isServer) {
+  Screenings.after.insert((userId, doc) => {
+    statisticsDenormalizer.afterInsertScreening(doc);
+  });
+}
 
 export default Screenings;

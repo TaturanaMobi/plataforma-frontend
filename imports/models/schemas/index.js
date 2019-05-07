@@ -1,11 +1,12 @@
 import SimpleSchema from 'simpl-schema';
+import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
 
 import { Schema as userSchema } from '../users';
 import Films from '../films';
 import wNumb from '../utils/wNumb';
 import getSelectOptions from './getSelectOptions';
-import { Cities, States } from '../states_and_cities';
+// import { Cities, States } from '../states_and_cities';
 
 export const NOTIFICATION_TRIGGERS = [
   'confirm_screening_date',
@@ -863,6 +864,11 @@ Schemas.Film = new SimpleSchema({
     type: SimpleSchema.Integer,
     optional: true,
   },
+  statistics: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
   slideshow: {
     type: Array,
     optional: true,
@@ -892,7 +898,7 @@ Schemas.FormAdmFilter = new SimpleSchema({
     autoform: {
       type: 'select2',
       options: function autoFormOptions() {
-        const opts = Films.find({}, { sort: { title: 1 } } ).fetch().map(function(entity) {
+        const opts = Films.find({}, { sort: { title: 1 } }).fetch().map(function(entity) {
           return {
             label: entity.title,
             value: entity._id,
@@ -913,7 +919,7 @@ Schemas.FormAdmFilter = new SimpleSchema({
     autoform: {
       type: 'select2',
       options: function autoFormOptions2() {
-        const opts = Meteor.users.find({}, { sort: { 'profile.name': 1 }}).fetch().map(function(entity) {
+        const opts = Meteor.users.find({}, { sort: { 'profile.name': 1 } }).fetch().map(function(entity) {
           return {
             label: entity.profile.name,
             value: entity._id,

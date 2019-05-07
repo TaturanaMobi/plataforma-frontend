@@ -53,7 +53,7 @@ Template.showFilm.helpers({
     return 'hide';
   },
   inventory() {
-    return Films.inventory(this);
+    return this.statistics;
   },
   tibr() {
     if (!this.technical_information) return;
@@ -74,9 +74,10 @@ Template.showFilm.onRendered(() => {
   });
   $("a[rel^='prettyPhoto']").prettyPhoto();
 
-  const thisData = Template.currentData();
-  if (thisData && thisData.status.includes('Portfolio')) {
-    const inventory = Films.inventory(thisData);
+  const instance = Template.instance();
+    console.log(instance.data);
+  if (instance.data.status.includes('Portfolio')) {
+    const inventory = instance.data.inventory;
 
     if (!inventory) return;
 
