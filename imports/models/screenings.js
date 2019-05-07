@@ -62,7 +62,7 @@ Screenings.helpers({
 // },
 
 if (Meteor.isServer) {
-  Screenings.after.insert((userId, doc) => {
+  Screenings.after.update((userId, doc) => {
     statisticsDenormalizer.afterInsertScreening(doc);
   });
 }
