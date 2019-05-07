@@ -17,8 +17,6 @@ ecmascript@0.12.4              # Enable ECMAScript2015+ syntax in app code
 iron:router
 anback:bootstrap-validator
 fourseven:scss
-tomi:upload-server
-tomi:upload-jquery
 udondan:slick
 email@1.2.3
 random@1.1.0

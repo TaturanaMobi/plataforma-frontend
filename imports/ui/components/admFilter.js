@@ -135,10 +135,10 @@ Template.admFilter.onCreated(function () {
       o['profile.subcategory'] = subcategories;
     }
     if ((state !== undefined) && (state !== '')) {
-      o.profile.uf = state;
+      o['profile.uf'] = state;
     }
     if ((city !== undefined) && (city !== '')) {
-      o.profile.city = city;
+      o['profile.city'] = city;
     }
     // if (teamMember) {
     //   o.team_member = { $eq: true };
