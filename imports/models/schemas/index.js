@@ -838,8 +838,11 @@ Schemas.Film = new SimpleSchema({
   },
   slug: {
     type: String,
-    label: 'Identificador Único',
+    label: 'Título na URL',
     max: 100,
+    autoform: {
+      type: 'hidden',
+    }
   },
   press_kit_path: {
     type: String,
