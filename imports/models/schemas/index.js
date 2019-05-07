@@ -892,7 +892,7 @@ Schemas.FormAdmFilter = new SimpleSchema({
     autoform: {
       type: 'select2',
       options: function autoFormOptions() {
-        const opts = Films.find({}).fetch().map(function(entity) {
+        const opts = Films.find({}, { sort: { title: 1 } } ).fetch().map(function(entity) {
           return {
             label: entity.title,
             value: entity._id,
@@ -913,7 +913,7 @@ Schemas.FormAdmFilter = new SimpleSchema({
     autoform: {
       type: 'select2',
       options: function autoFormOptions2() {
-        const opts = Meteor.users.find({}).fetch().map(function(entity) {
+        const opts = Meteor.users.find({}, { sort: { 'profile.name': 1 }}).fetch().map(function(entity) {
           return {
             label: entity.profile.name,
             value: entity._id,
@@ -994,7 +994,7 @@ Schemas.FormAdmFilter = new SimpleSchema({
     type: Boolean,
     optional: true,
   },
-  category: {
+  categories: {
     type: String,
     optional: true,
     autoform: {

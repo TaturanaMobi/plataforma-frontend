@@ -1,32 +1,31 @@
-
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import Papa from 'papaparse';
+import { _ } from 'meteor/underscore';
+
 import getSelectOptions from '../../models/schemas/getSelectOptions';
+import { SCREENING_STATUS, FILM_CATEGORIES, FILM_SUBCATEGORIES } from '../../models/schemas/index.js';
 
 import Films from '../../models/films.js';
-//import { SCREENING_STATUS } from '../../../models/schemas/index.js';
-import { SCREENING_STATUS, FILM_CATEGORIES, FILM_SUBCATEGORIES } from '../../models/schemas/index.js';
 import Screenings from '../../models/screenings.js';
-//import { Cities, States } from '../../../models/states_and_cities';
 
 import './admFilter.html';
+
 Template.admFilter.onCreated(function () {
   const r = Router.current();
-  // console.log(Template.instance().data);
-  console.log(r.params);
   this.state = new ReactiveDict();
+
   this.state.setDefault('screening-date-selector', r.params.query.screeningDate);
   this.state.setDefault('film-selector', r.params.query.filmId);
-  this.state.setDefault('user-selector', r.params.query.userId );
-  this.state.setDefault('state-selector', r.params.query.state );
-  this.state.setDefault('city-selector', r.params.query.city );
-  this.state.setDefault('status-selector', r.params.query.status );
+  this.state.setDefault('user-selector', r.params.query.userId);
+  this.state.setDefault('state-selector', r.params.query.state);
+  this.state.setDefault('city-selector', r.params.query.city);
+  this.state.setDefault('status-selector', r.params.query.status);
 
-  this.state.setDefault('team-member-selector', r.params.query.teamMember );
-  this.state.setDefault('public-event-selector', r.params.query.publicEvent );
-  this.state.setDefault('has-comments-selector', r.params.query.hasComments );
+  this.state.setDefault('team-member-selector', r.params.query.teamMember);
+  this.state.setDefault('public-event-selector', r.params.query.publicEvent);
+  this.state.setDefault('has-comments-selector', r.params.query.hasComments);
   this.state.setDefault('missing-reports-selector', r.params.query.missingReports);
 
   this.state.setDefault('filterData', Template.instance().data || []);
@@ -49,14 +48,14 @@ Template.admFilter.onCreated(function () {
 
     this.state.set('screening-date-selector', screeningDate);
     this.state.set('film-selector', filmId);
-    this.state.set('user-selector', userId );
-    this.state.set('state-selector', state );
-    this.state.set('city-selector', city );
-    this.state.set('status-selector', status );
+    this.state.set('user-selector', userId);
+    this.state.set('state-selector', state);
+    this.state.set('city-selector', city);
+    this.state.set('status-selector', status);
 
-    this.state.set('team-member-selector', teamMember );
-    this.state.set('public-event-selector', publicEvent );
-    this.state.set('has-comments-selector', hasComments );
+    this.state.set('team-member-selector', teamMember);
+    this.state.set('public-event-selector', publicEvent);
+    this.state.set('has-comments-selector', hasComments);
     this.state.set('missing-reports-selector', missingReports);
 
     if ((screeningDate !== undefined) && (screeningDate !== '')) {
@@ -74,7 +73,7 @@ Template.admFilter.onCreated(function () {
       o.filmId = filmId;
     }
     if ((userId !== undefined) && (userId !== '')) {
-      o.userId = userId;
+      o.user_id = userId;
     }
     if ((state !== undefined) && (state !== '')) {
       o.uf = state;
@@ -92,7 +91,7 @@ Template.admFilter.onCreated(function () {
       o.public_event = { $eq: true };
     }
     if (hasComments) {
-      o.comments = {"$exists" : true, "$ne" : "Sem comentários."};
+      o.comments = { $exists : true, $ne : 'Sem comentários.' };
     }
     if (missingReports) {
       o.status = 'Pendente';
@@ -103,70 +102,47 @@ Template.admFilter.onCreated(function () {
 
   this.buildQueryUser = (formValues) => {
     const {
-      screeningDate,
+      categories,
+      subcategories,
       filmId,
-      userId,
       state,
-      status,
       city,
+      noScreenings,
       teamMember,
-      publicEvent,
-      hasComments,
       missingReports,
     } = formValues;
     console.log(formValues);
     const o = {};
 
-    this.state.set('screening-date-selector', screeningDate);
-    this.state.set('film-selector', filmId);
-    this.state.set('user-selector', userId );
-    this.state.set('state-selector', state );
-    this.state.set('city-selector', city );
-    this.state.set('status-selector', status );
 
-    this.state.set('team-member-selector', teamMember );
-    this.state.set('public-event-selector', publicEvent );
-    this.state.set('has-comments-selector', hasComments );
+    this.state.set('categories-selector', categories)
+    this.state.set('subcategories-selector', subcategories);
+    this.state.set('film-selector', filmId);
+    this.state.set('state-selector', state);
+    this.state.set('city-selector', city);
+
+    this.state.set('no-screenings-selector', noScreenings);
+    this.state.set('team-member-selector', teamMember);
     this.state.set('missing-reports-selector', missingReports);
 
-    if ((screeningDate !== undefined) && (screeningDate !== '')) {
-      const d = screeningDate.split('-');
-      const d1 = new Date();
-      d1.setTime(d[0]);
-      const d2 = new Date();
-      d2.setTime(d[1]);
-      o.date = {
-        $gte: d1,
-        $lt: d2,
-      };
+    // if ((filmId !== undefined) && (filmId !== '')) {
+    //   o.filmId = filmId;
+    // }
+    if ((categories !== undefined) && (categories !== '')) {
+      o['profile.category'] = categories;
     }
-    if ((filmId !== undefined) && (filmId !== '')) {
-      o.filmId = filmId;
-    }
-    if ((userId !== undefined) && (userId !== '')) {
-      o.userId = userId;
+    if ((subcategories !== undefined) && (subcategories !== '')) {
+      o['profile.subcategory'] = subcategories;
     }
     if ((state !== undefined) && (state !== '')) {
-      o.uf = state;
-    }
-    if ((status !== undefined) && (status !== '')) {
-      o.status = status;
+      o.profile.uf = state;
     }
     if ((city !== undefined) && (city !== '')) {
-      o.city = city;
+      o.profile.city = city;
     }
-    if (teamMember) {
-      o.team_member = { $eq: true };
-    }
-    if (publicEvent) {
-      o.public_event = { $eq: true };
-    }
-    if (hasComments) {
-      o.comments = {"$exists" : true, "$ne" : "Sem comentários."};
-    }
-    if (missingReports) {
-      o.status = 'Pendente';
-    }
+    // if (teamMember) {
+    //   o.team_member = { $eq: true };
+    // }
     console.log(o);
     return o;
   };
@@ -224,15 +200,15 @@ Template.admFilter.helpers({
       showFilter: false,
       showRowCount: true,
       fields: [
-        { label: 'Ações', key: 'actions', tmpl: Template.actionsAmbassadorCellTmpl2 },
-        // 'emails.0.address',
-        'profile.name',
-        'profile.cell_phone',
-        'profile.city',
-        'profile.uf',
-        'profile.institution',
-        'profile.category',
-        'profile.subcategory',
+        { label: 'Ações',   key: 'actions', tmpl: Template.actionsAmbassadorCellTmpl2 },
+        { label: 'E-mail',  key: 'emails.0.address' },
+        { label: 'Nome',    key: 'profile.name' },
+        { label: 'Celular', key: 'profile.cell_phone' },
+        { label: 'Cidade',  key: 'profile.city' },
+        { label: 'Estado',  key: 'profile.uf' },
+        { label: 'Instituição', key: 'profile.institution' },
+        { label: 'Área de atuação', key: 'profile.category' },
+        { label: 'Temáticas', key: 'profile.subcategory' },
         {
           label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2,
         },
@@ -329,7 +305,7 @@ Template.admFilter.helpers({
       }
     });
 
-    return _.uniq(months).sort().map((v) => {
+    return _.uniq(months).sort().reverse().map((v) => {
       const d = new Date();
       d.setTime(v.split('-')[0]);
       return {
@@ -407,8 +383,13 @@ Template.admFilter.events({
   'click .btn.btn-primary.btn-default[value=export]'(event, instance) {
     event.preventDefault();
 
-    const screenings = instance.state.get('filterData');
-    downloadCsv(screenings);
+    const filterData = instance.state.get('filterData');
+
+    if (instance.isUserFilter()) {
+        downloadCsvUser(filterData);
+    } else {
+        downloadCsvSreening(filterData);
+    }
   },
 });
 
@@ -492,7 +473,7 @@ const downloadCsvScreening = (screenings) => {
       link.click();
       document.body.removeChild(link);
     } else {
-      // else, show the file as before this changes, but name is "download"
+      // else, show the file as before this changes, but name is 'download'
       window.open(encodeURI(`data:text/csv;charset=utf-8 ${csv}`));
     }
   }
