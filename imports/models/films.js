@@ -62,7 +62,7 @@ Films.portfolio = () => Films.find({
   }, {
     status: 'Difusão/Portfolio',
   }],
-}, { sort: { sequence_number: 1 }, fields: { screenings: -1 } });
+}, { sort: { sequence_number: 1 }, fields: { screening: -1 } });
 
 Films.disseminate = () => Films.find({
   $or: [{
@@ -70,10 +70,10 @@ Films.disseminate = () => Films.find({
   }, {
     status: 'Difusão/Portfolio',
   }],
-}, { sort: { sequence_number: 1 }, fields: { screenings: -1 } });
+}, { sort: { sequence_number: 1 }, fields: { screening: -1 } });
 
 Films.all = () => Films.find({}, {
-  sort: { sequence_number: 1, }, fields: { screenings: -1 },
+  sort: { sequence_number: 1, }, fields: { screening: -1 },
 });
 
 Films.active = () => Films.find(
