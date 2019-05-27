@@ -1,62 +1,63 @@
 <template name="newScreening">
   <div id="new-screening" class="container">
     <div class="row">
-    <div class="col-md-12">
-      <h1 class="section-title-sm">AGENDAR FILME</h1>
-      <h1 class="section-title-lg">{{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}</h1>
-    </div>
-    <div class="col-md-3">
-      <img class="thumb-poster" src="https://images.stag.taturanamobi.com.br/smartcrop?width=720&height=1080&file={{poster_path}}" alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
-    </div>
-    <div class="col-md-9">
-      <p><strong>{{{synopsis}}}</strong></p>
-      <table class="white-table">
-        <tr>
-          <td>{{genre}}</td>
-          <td>{{year}}</td>
-          {{#if length}}
+      <div class="col-md-12">
+        <h4 class="section-title-sm">AGENDAR FILME</h4>
+        <h2 class="section-title-lg">{{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}</h2>
+      </div>
+      <div class="col-md-3">
+        <img class="thumb-poster" src="https://images.stag.taturanamobi.com.br/fit?width=720&height=1280&file={{poster_path}}"
+          alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
+      </div>
+      <div class="col-md-9">
+        <p><strong>{{{synopsis}}}</strong></p>
+        <table class="white-table">
+          <tr>
+            <td>{{genre}}</td>
+            <td>{{year}}</td>
+            {{#if length}}
             <td>{{length}}</td>
-          {{/if}}
-          <td>{{country}}</td>
-        </tr>
-      </table>
-      <table class="white-table">
-        <tr>
-          {{#if director}}
+            {{/if}}
+            <td>{{country}}</td>
+          </tr>
+        </table>
+        <table class="white-table">
+          <tr>
+            {{#if director}}
             <td>{{director}}</td>
-          {{/if}}
+            {{/if}}
 
-          {{#if production_company}}
+            {{#if production_company}}
             <td>{{production_company}}</td>
-          {{/if}}
-        </tr>
-      </table>
-      <table class="white-table">
-        <tr>
-          {{#if trailer_url}}
-          <td><a href="{{trailer_url}}" rel="prettyPhoto">ASSISTA AO TRAILER</a></td>
-          {{/if}}
+            {{/if}}
+          </tr>
+        </table>
+        <table class="white-table">
+          <tr>
+            {{#if trailer_url}}
+            <td><a href="{{trailer_url}}" rel="prettyPhoto">ASSISTA AO TRAILER</a></td>
+            {{/if}}
 
-          {{#if site}}
+            {{#if site}}
             <td><a href="{{site}}" class="red" target="_blank">VISITE O SITE OFICIAL</a></td>
-          {{/if}}
+            {{/if}}
 
-          {{#each linklist}}
+            {{#each linklist}}
             <td><a href="{{link}}"><img src="/images/{{name}}.svg" alt="{{name}}"></a></td>
-          {{/each}}
-        </tr>
-      </table>
+            {{/each}}
+          </tr>
+        </table>
+      </div>
     </div>
-  </div>
     <!-- <div class="col-md-12"> -->
     {{#autoForm
-      schema=Schemas.Screening
-      doc=form collection=Screenings
-      omitFields="reportCreatedAt,updatedAt,created_at,author_1,author_2,author_3,report_image_1,report_image_2,report_image_3,report_description"
-      id="new-screening-form"
-      type="insert"
+    schema=Schemas.Screening
+    doc=form collection=Screenings
+    omitFields="reportCreatedAt,updatedAt,created_at,author_1,author_2,author_3,report_image_1,report_image_2,report_image_3,report_description"
+    id="new-screening-form"
+    type="insert"
     }}
-      {{> screeningFormFields}}
+    {{> screeningFormFields}}
     {{/autoForm}}
     <!-- </div> -->
   </div>

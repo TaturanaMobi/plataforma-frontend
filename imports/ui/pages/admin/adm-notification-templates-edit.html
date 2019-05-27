@@ -1,0 +1,19 @@
+<template name="admNotificationTemplatesEdit">
+  <div class="container">
+    <h1>Editar Template do Fluxo de E-mail</h1>
+    <div class="col-lg-6">
+        {{#autoForm
+          schema=Schemas.NotificationTemplate
+          collection=NotificationTemplates
+          id="update-notification-templates-form"
+          doc=this
+          type="update"
+        }}
+
+      {{> notificationTemplateFormFields}}
+
+      {{/autoForm}}
+
+    </div>
+  </div>
+</template>

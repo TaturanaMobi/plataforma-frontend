@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
 import 'bootstrap-sass';
-import './../../components/filmFormFields.html';
+import '../../components/filmFormFields.html';
 import './adm-films-new.html';
 
 Template.admFilmsNew.onRendered(() => {

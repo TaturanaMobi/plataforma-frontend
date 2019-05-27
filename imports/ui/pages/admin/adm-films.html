@@ -1,11 +1,10 @@
 <template name="admFilms">
-  <div class="container">
     <div class="bg-wrapper">
-      <div id="adm-films" class="container adm">
+      <div id="adm-films" class="adm container">
         <div class="row">
           <div class="col-lg-12">
-              <h1>Filmes</h1>
-              <a href="/adm/films-new" class="btn">Inserir novo</a>
+              <h2>Filmes</h2>
+              <a href="/adm/films-new" class="btn btn-default">Inserir novo</a>
           </div>
           <div class="col-lg-12">
             <!--
@@ -29,7 +28,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <template name="posterCellTmpl">
@@ -59,9 +57,7 @@
 </template>
 
 <template name="actionsCellTmpl2">
-  <p>
-    <a class="btn btn-xs" href="/adm/films-edit/{{_id}}">Editar</a>
-  </p>
+  <a class="btn btn-default btn-xs" href="/adm/films-edit/{{_id}}">Editar</a>
 </template>
 
 <template name="createdAtCellTmpl2">

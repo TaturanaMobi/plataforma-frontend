@@ -2,13 +2,13 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 // import { Router } from 'meteor/iron:router';
-import { _ } from 'meteor/underscore';
+// import { _ } from 'meteor/underscore';
 // import { moment } from 'meteor/momentjs:moment';
 
-import Films from './../../models/films';
-import Screenings from './../../models/screenings';
+import Films from '../../models/films';
+import Screenings from '../../models/screenings';
 import './ambassador.html';
-import './../components/ambassadorFormFields.js';
+import '../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
   screenings() {
@@ -22,12 +22,15 @@ Template.ambassador.helpers({
   },
   session_status_icon() {
     // Rascunho
-    if (this.status === 'Rascunho') {
+    if ((this.status === 'Rascunho')
+    || (this.status === 'Inválida')
+    || (this.status === 'Agendada')
+    || (this.status === 'Confirmada')) {
       return 'edit';
     }
 
-    if (this.status === 'Agendada') {
-      return 'calendar';
+    if (this.status === 'Pendente') {
+      return 'report-pending';
     }
 
     // Completo
@@ -36,10 +39,14 @@ Template.ambassador.helpers({
     }
 
     // Falta relatório
-    return 'report-pending';
+    return 'calendar';
   },
   in_future() {
-    return (this.status === 'Rascunho' || this.status === 'Agendada');
+    console.log(this.status);
+    return ((this.status === 'Rascunho')
+    || (this.status === 'Inválida')
+    || (this.status === 'Agendada')
+    || (this.status === 'Confirmada'));
   },
   is_report_pending() {
     return this.status === 'Pendente';

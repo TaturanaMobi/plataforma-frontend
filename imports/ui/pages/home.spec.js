@@ -8,8 +8,8 @@ import { assert } from 'chai';
 // import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 
-import { withRenderedTemplate } from './../test-helpers.js';
-// import Films from './../../models/films.js';
+import { withRenderedTemplate } from '../test-helpers.js';
+// import Films from '../../models/films.js';
 
 if (Meteor.isClient) {
   import './home.js';

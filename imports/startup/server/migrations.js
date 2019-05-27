@@ -1,7 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Migrations } from 'meteor/percolate:migrations';
+import { moment } from 'meteor/momentjs:moment';
+// import { AutoForm } from 'meteor/aldeed:autoform';
+
 import Films from '../../models/films';
 import Screenings from '../../models/screenings';
+import NotificationTemplates from '../../models/notification_templates';
 
 function convertInteger(value) {
   if (value === undefined) {
@@ -17,7 +21,7 @@ function convertInteger(value) {
 function toTitleCase(str) {
   return str.replace(
     /\w\S*/g,
-    txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
   );
 }
 
@@ -25,7 +29,7 @@ function getScreeningStatus(s) {
   let status = 'Agendada';
   const now = new Date();
 
-  if (s.date < now) {
+  if (moment(s.date).isBefore(now)) {
     status = 'Pendente';
   }
 
@@ -33,7 +37,9 @@ function getScreeningStatus(s) {
     status = 'Concluída';
   }
 
-  if (s.draft !== undefined) {
+  if ((s.draft !== undefined) && (s.draft === 'admin-draft')) {
+    status = 'Inválida';
+  } else if (s.draft !== undefined) {
     status = 'Rascunho';
   }
 
@@ -66,7 +72,7 @@ Migrations.add({
           }
           screening.street = toTitleCase(screening.street);
           screening.uf = (screening.uf.length > 3 ? '' : screening.uf);
-          screening.created_at = (!screening.created_at ? '' : screening.created_at);
+          screening.created_at = (!screening.created_at ? screening.date : screening.created_at);
           screening.city = (!screening.city ? 'Não preenchido' : screening.city);
           screening.uf = (!screening.uf ? 'NA' : screening.uf);
           screening.s_country = (!screening.s_country ? 'Não preenchido' : screening.s_country);
@@ -100,8 +106,53 @@ Migrations.add({
   },
 });
 
+Migrations.add({
+  version: 2,
+  up() {
+    const filenames = [
+      'ask_for_report_take2',
+      'ask_for_report',
+      'confirm_scheduling_3',
+      'confirm_scheduling_9',
+      'confirm_scheduling_10',
+      'confirm_screening_date',
+      'send_the_movie_3',
+      'send_the_movie_9',
+      'send_the_movie_10',
+      'tell_ambassador_the_results',
+    ];
+
+    const subjects = [
+      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Você tem uma sessão agendada!',
+      'Você tem uma sessão agendada!',
+      'Você tem uma sessão agendada!',
+      'Tudo certo para a sua sessão?',
+      'Download do filme {{film.title}}.',
+      'Download do filme {{film.title}}.',
+      'Download do filme {{film.title}}.',
+      'Veja sua contribuição para a rede de impacto do {{film.title}}.',
+    ];
+
+    filenames.forEach((templateName, i) => {
+      Assets.getText(`.templates/${templateName}.html`, function (error, data) {
+        NotificationTemplates.insert({
+          name: `Genérico para ${templateName}`,
+          trigger: templateName,
+          subject: subjects[i],
+          body: data,
+        });
+      });
+    });
+  },
+  down() {
+    NotificationTemplates.remove();
+  },
+});
+
 Meteor.startup(() => {
   Migrations.migrateTo('latest');
   Migrations.unlock();
-  // Migrations.migrateTo('1,rerun');
+  // Migrations.migrateTo('2,rerun');
 });

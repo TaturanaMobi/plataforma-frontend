@@ -1,13 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
+// import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import { Uploader } from 'meteor/tomi:upload-jquery';
+// import { Uploader } from 'meteor/tomi:upload-jquery';
 import { FlashMessages } from 'meteor/mrt:flash-messages';
-import { _ } from 'meteor/underscore';
+// import { _ } from 'meteor/underscore';
 
-import './../components/nav.html';
-import './../components/footer.html';
-import './../components/loading.html';
+import '../components/nav.js';
+import '../components/footer.html';
+import '../components/loading.html';
 import './app-body.html';
 
 Meteor.startup(() => {

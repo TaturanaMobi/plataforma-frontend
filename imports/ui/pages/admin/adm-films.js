@@ -6,7 +6,7 @@ import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Router } from 'meteor/iron:router';
-import Films from './../../../models/films.js';
+import Films from '../../../models/films.js';
 
 Template.admFilms.helpers({
   settings() {
@@ -22,7 +22,9 @@ Template.admFilms.helpers({
         'title',
         'status',
         { label: 'Press Kit', key: 'press_kit_path', tmpl: Template.pressKitCellTmpl },
-        { label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2 },
+        {
+          label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2,
+        },
         // 'slug',
         'genre',
         { label: 'Poster', key: 'poster_path', tmpl: Template.posterCellTmpl },

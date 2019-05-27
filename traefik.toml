@@ -26,6 +26,7 @@ exposedByDefault = false
 [acme]
 email = "contato@taturana"
 storage = "/acme.json"
+caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
 entryPoint = "https"
 onHostRule = true
 [acme.httpChallenge]

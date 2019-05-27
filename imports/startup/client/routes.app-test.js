@@ -9,8 +9,8 @@ import { assert } from 'chai';
 // import { Promise } from 'meteor/promise';
 // import { $ } from 'meteor/jquery';
 
-// import denodeify from './../../utils/denodeify';
-// import { generateData } from './../../api/generate-data.app-tests.js';
+// import denodeify from '../../utils/denodeify';
+import { generateData } from '../../models/generate-data.app-tests';
 // import { Lists } from '../../api/lists/lists.js';
 // import { Todos } from '../../api/todos/todos.js';
 
@@ -34,8 +34,7 @@ if (Meteor.isClient) {
   describe('data available when routed', () => {
     // First, ensure the data that we expect is loaded on the server
     //   Then, route the app to the homepage
-    // beforeEach(() =>
-    //   generateData()
+    beforeEach(() => generateData());
     //     .then(() => Router.go('/'))
     //     .then(waitForSubscriptions));
 

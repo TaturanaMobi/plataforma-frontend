@@ -1,20 +1,20 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 
-import Films from './../../models/films';
-// import Screenings from './../../models/screenings';
+import Films from '../../models/films';
+// import Screenings from '../../models/screenings';
 
 import '../../ui/layouts/app-body.js';
 import '../../ui/pages/about.js';
 import '../../ui/pages/ambassador-edit.js';
 import '../../ui/pages/ambassador.js';
 import '../../ui/pages/contact.js';
+import '../../ui/pages/faq.js';
 import '../../ui/pages/edit-screening.js';
 import '../../ui/pages/films.js';
 import '../../ui/pages/forget.js';
 import '../../ui/pages/home.js';
 import '../../ui/pages/login.js';
-import '../../ui/pages/logout.js';
 import '../../ui/components/denied.html';
 import '../../ui/pages/new-screening.js';
 import '../../ui/pages/register.js';
@@ -47,6 +47,7 @@ Router.route('/register', {
 });
 
 Router.route('/contact', { name: 'contact' });
+Router.route('/faq', { name: 'faq' });
 
 Router.route('/films', {
   name: 'films',
@@ -54,9 +55,12 @@ Router.route('/films', {
   data() { return Films.active(); },
   action() { this.render('films'); },
 });
+
 Router.route('/screenings', {
   name: 'screenings',
-  waitOn() { return Meteor.subscribe('films.all'); },
+  waitOn() {
+    return Meteor.subscribe('films.all') && Meteor.subscribe('screenings.upcoming');
+  },
   data() { return Films.active(); },
   action() { this.render('screenings'); },
 });
@@ -72,4 +76,3 @@ Router.route('/reset-password/:token', {
   name: 'resetPassword',
   template: 'resetPassword',
 });
-

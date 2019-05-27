@@ -1,9 +1,25 @@
 import SimpleSchema from 'simpl-schema';
+import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
 
-import { Schema as userSchema } from './../users';
-import wNumb from './../utils/wNumb';
+import { Schema as userSchema } from '../users';
+import Films from '../films';
+import wNumb from '../utils/wNumb';
 import getSelectOptions from './getSelectOptions';
+// import { Cities, States } from '../states_and_cities';
+
+export const NOTIFICATION_TRIGGERS = [
+  'confirm_screening_date',
+  'confirm_scheduling_3',
+  'confirm_scheduling_9',
+  'confirm_scheduling_10',
+  'send_the_movie_3',
+  'send_the_movie_9',
+  'send_the_movie_10',
+  'ask_for_report',
+  'ask_for_report_2',
+  'tell_ambassador_the_results',
+];
 
 export const FILM_CATEGORIES = [
   'Cineclube',
@@ -50,20 +66,15 @@ export const FILM_SUBCATEGORIES = [
   'Outro',
 ];
 
-const FILM_STATUS =
-['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
+export const FILM_STATUS = ['Difusão', 'Oculto', 'Portfolio', 'Difusão/Portfolio'];
 
-const STATES =
-['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
+const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
 
-const FILM_AGE_RATING =
-['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
+const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
-const SCREENING_STATUS =
-['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Cancelada'];
+export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Inválida'];
 
-const SCREENING_ACTIVITY =
-['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre'];
+export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre'];
 
 SimpleSchema.extendOptions(['autoform']);
 SimpleSchema.setDefaultMessages({
@@ -124,6 +135,9 @@ SimpleSchema.setDefaultMessages({
 const Schemas = {};
 
 Schemas.User = userSchema.User;
+
+const minDateNewScreening = new Date();
+minDateNewScreening.setDate(minDateNewScreening.getDate() + 3);
 
 Schemas.Screening = new SimpleSchema({
   oldId: {
@@ -214,6 +228,10 @@ Schemas.Screening = new SimpleSchema({
     autoform: {
       afFieldInput: {
         type: 'bootstrap-datetimepicker',
+        dateTimePickerOptions: {
+          minDate: minDateNewScreening,
+        },
+        readonly: true,
       },
     },
   },
@@ -331,15 +349,15 @@ Schemas.Screening = new SimpleSchema({
       afFieldInput: {
         type: 'noUiSlider',
         noUiSliderOptions: {
-          tooltips: true,
-          // start: 5,
+          // tooltips: true,
+          // start: 0,
           format: wNumb({
             decimals: 0,
           }),
-          range: {
-            min: 5,
-            max: 500,
-          },
+          // range: {
+          //   min: 0,
+          //   max: 500,
+          // },
           // step: 1,
         },
       },
@@ -499,7 +517,7 @@ Schemas.Report = new SimpleSchema({
             decimals: 0,
           }),
           range: {
-            min: 5,
+            min: 0,
             max: 500,
           },
           // step: 1,
@@ -637,7 +655,7 @@ Schemas.Slideshow = new SimpleSchema({
 Schemas.Film = new SimpleSchema({
   poster_path: {
     type: String,
-    label: 'Cartaz',
+    label: 'Cartaz (1280x720)',
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
@@ -655,7 +673,7 @@ Schemas.Film = new SimpleSchema({
   },
   poster_home_path: {
     type: String,
-    label: 'Imagem para home (360x370)',
+    label: 'Imagem para home (720x720)',
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
@@ -820,8 +838,11 @@ Schemas.Film = new SimpleSchema({
   },
   slug: {
     type: String,
-    label: 'Identificador Único',
+    label: 'Título na URL',
     max: 100,
+    autoform: {
+      type: 'hidden',
+    }
   },
   press_kit_path: {
     type: String,
@@ -846,12 +867,261 @@ Schemas.Film = new SimpleSchema({
     type: SimpleSchema.Integer,
     optional: true,
   },
+  statistics: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
   slideshow: {
     type: Array,
     optional: true,
   },
   'slideshow.$': {
     type: Schemas.Slideshow,
+  },
+}, { tracker: Tracker });
+
+Schemas.FormAdmFilter = new SimpleSchema({
+  screeningDate: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'select2',
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+    label: 'Mês Referência',
+  },
+  filmId: {
+    type: String,
+    label: 'Filme',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      options: function autoFormOptions() {
+        const opts = Films.find({}, { sort: { title: 1 } }).fetch().map(function(entity) {
+          return {
+            label: entity.title,
+            value: entity._id,
+          };
+        });
+        return opts;
+      },
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  userId: {
+    type: String,
+    label: 'Embaixador',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      options: function autoFormOptions2() {
+        const opts = Meteor.users.find({}, { sort: { 'profile.name': 1 } }).fetch().map(function(entity) {
+          return {
+            label: entity.profile.name,
+            value: entity._id,
+          };
+        });
+        return opts;
+      },
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  city: {
+    type: String,
+    label: 'Cidade',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      // options: function autoFormOptions2() {
+      //   const opts = Cities.find({}).fetch().map(function(entity) {
+      //     return {
+      //       label: entity.nome,
+      //       value: entity._id,
+      //     };
+      //   });
+      //   return opts;
+      // },
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  state: {
+    type: String,
+    label: 'Estado',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      // options: getSelectOptions(STATES),
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  status: {
+    type: String,
+    label: 'Status',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      // options: getSelectOptions(STATES),
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  teamMember: {
+    label: 'Participipação da equipe',
+    type: Boolean,
+    optional: true,
+  },
+  publicEvent: {
+    label: 'Aberta ao público',
+    type: Boolean,
+    optional: true,
+  },
+  hasComments: {
+    label: 'Possui comentários?',
+    type: Boolean,
+    optional: true,
+  },
+  missingReports: {
+    label: 'Tem relatórios pendentes?',
+    type: Boolean,
+    optional: true,
+  },
+  categories: {
+    type: String,
+    optional: true,
+    autoform: {
+      type: 'select2',
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+    label: 'Área de Atuação',
+  },
+  subcategories: {
+    type: String,
+    label: 'Temática',
+    optional: true,
+    autoform: {
+      type: 'select2',
+      select2Options: {
+        placeholder: 'Selecione',
+        allowClear: true,
+      },
+    },
+  },
+  noScreenings: {
+    label: 'Nunca agendou uma sessão?',
+    type: Boolean,
+    optional: true,
+  },
+}, { tracker: Tracker });
+
+Schemas.NotificationTemplate = new SimpleSchema({
+  name: {
+    type: String,
+    label: 'Nome',
+  },
+  trigger: {
+    type: String,
+    label: 'Nome do Gatilho',
+    autoform: {
+      options: getSelectOptions(NOTIFICATION_TRIGGERS),
+      afFieldInput: {
+        type: 'select',
+      },
+    },
+  },
+  subject: {
+    type: String,
+    label: 'Assunto da mensagem do e-mail',
+  },
+  body: {
+    type: String,
+    label: 'Corpo da mensagem do e-mail',
+    autoform: {
+      afFieldInput: {
+        type: 'textarea',
+        class: 'editor',
+        rows: 6,
+      },
+    },
+  },
+  filmId: {
+    type: String,
+    label: 'Usar para filme específico',
+    optional: true,
+    autoform: {
+      options: function autoFormOptions() {
+        const opts = Films.find({}).fetch().map(function(entity) {
+          return {
+            label: entity.title,
+            value: entity._id,
+          };
+        });
+        return opts;
+      },
+      afFieldInput: {
+        type: 'select',
+      },
+    },
+  },
+  createdAt: {
+    type: String,
+    label: 'Criado em',
+    optional: true,
+  },
+  updatedAt: {
+    type: String,
+    label: 'Atualizado em',
+    optional: true,
+  },
+}, { tracker: Tracker });
+
+Schemas.Notification = new SimpleSchema({
+  notificationTemplateId: {
+    type: String,
+    label: 'Template',
+  },
+  userId: {
+    type: String,
+    label: 'Enviado para',
+  },
+  screeningId: {
+    type: String,
+    label: 'Sessão Relacionada',
+  },
+  deliveredAt: {
+    type: String,
+    label: 'Entregue em',
+    optional: true,
+  },
+  createdAt: {
+    type: String,
+    label: 'Criado em',
+    optional: true,
+  },
+  updatedAt: {
+    type: String,
+    label: 'Atualizado em',
+    optional: true,
   },
 }, { tracker: Tracker });
 

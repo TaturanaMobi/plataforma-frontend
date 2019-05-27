@@ -1,11 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { moment } from 'meteor/momentjs:moment';
+import { Router } from 'meteor/iron:router';
 
-import Schemas from './../../models/schemas';
-import Films from './../../models/films';
-import Users from './../../models/users';
-import Screenings from './../../models/screenings';
+import Schemas from '../../models/schemas';
+import Films from '../../models/films';
+import Users from '../../models/users';
+import NotificationTemplates from '../../models/notification_templates';
+import Notifications from '../../models/notifications';
+import Screenings from '../../models/screenings';
+
+Template.registerHelper('currentRouteIs', function (route) {
+  return Router.current().route.getName() === route;
+});
 
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 
@@ -40,8 +47,8 @@ Template.registerHelper('shortsynopsis', function shortSynopsis() {
 
 Template.registerHelper('avatarPath', () => {
   const avatar = Meteor.user().profile.avatar_path;
-  return (avatar) ? `/upload/${avatar}` :
-    '/images/avatar-default.png';
+  return (avatar) ? `/upload/${avatar}`
+    : '/images/avatar-default.png';
 });
 
 Template.registerHelper('snakecase', str => str.split(' ').join('_').toLowerCase());
@@ -80,5 +87,7 @@ export function getDateObject(date, time) {
 Template.registerHelper('Schemas', Schemas);
 Template.registerHelper('Films', Films);
 Template.registerHelper('Screenings', Screenings);
+Template.registerHelper('NotificationTemplates', NotificationTemplates);
+Template.registerHelper('Notifications', Notifications);
 Template.registerHelper('Users', Users);
 Meteor.subscribe('files.images.all');

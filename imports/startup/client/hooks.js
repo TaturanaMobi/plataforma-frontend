@@ -3,9 +3,6 @@ import { AutoForm } from 'meteor/aldeed:autoform';
 import { FlashMessages } from 'meteor/mrt:flash-messages';
 import { Accounts } from 'meteor/accounts-base';
 import { Router } from 'meteor/iron:router';
-// import Users from './../../models/users';
-
-// AutoForm.setDefaultTemplate('plain');
 
 AutoForm.hooks({
   'new-screening-form': {
@@ -28,7 +25,7 @@ AutoForm.hooks({
 
   'new-user-form': {
     // // Called when any submit operation succeeds
-    onSubmit(insertDoc, updateDoc, currentDoc) {
+    onSubmit(insertDoc) {
       //   if (customHandler(insertDoc)) {
       //   } else {
       //     this.done(new Error("Submission failed"));

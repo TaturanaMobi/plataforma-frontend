@@ -1,16 +1,16 @@
 #show-film {
-  & h3{
-    font-weight:400;
-    font-size:1.8em;
-    text-transform:uppercase;
-    margin-bottom:0.9em;
-  }
-  & button{
-    margin-top: 2em;
-    float: right;
-    margin-left: 1em;
-    font-size: 1em;
-    font-weight: 300;
+  // & h3{
+  //   // font-weight:400;
+  //   // font-size:1.8em;
+  //   text-transform:uppercase;
+  //   // margin-bottom:0.9em;
+  // }
+  & .btn {
+    // margin-top: 2em;
+    // float: right;
+    margin: .5em 0;
+    // font-size: 1em;
+    // font-weight: 300;
   }
   & h5{
     text-align: left;
@@ -47,9 +47,9 @@
 
   }
   .wrapper-fichaTecnica {
-    h3 {
-      margin: 0 0 1em;
-    }
+    // h3 {
+    //   margin: 0 0 1em;
+    // }
     .box-fichaTecnica{
       // margin-bottom: 1.5em;
       border: 1px solid #df4944;
@@ -80,7 +80,6 @@
   // height: 100px;
   padding: 20px;
   // font-size: 1.2em;
-  background: rgba(0,0,0, .8);
 }
 .paragraph-icon{
   margin-right:1em;
@@ -174,16 +173,16 @@
 .ct-series-s { stroke:  #2b00aa }
 .ct-series-r { stroke:  #002baa }
 
-.film-detail-buttons {
-  text-align: right;
-  // margin-bottom: 2rem;
+// .film-detail-buttons {
+//   text-align: right;
+//   // margin-bottom: 2rem;
 
-  @media (max-width: 650px) {
-    .btn {
-      font-size: .8em;
-    }
-  }
-}
+//   @media (max-width: 650px) {
+//     .btn {
+//       font-size: .8em;
+//     }
+//   }
+// }
 
 @media (max-width: 650px) {
   .poster-wrapper {
@@ -235,7 +234,7 @@
         display: inline-block;
         width: 3.7em;
         height: 3.7em;
-        border-radius: 25px;
+        border-radius: 30px;
         background: #FFF;
         font-weight: 500;
         color: #df4944;

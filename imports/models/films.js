@@ -57,8 +57,12 @@ function getZoneByState(state) {
 // });
 
 Films.portfolio = () => Films.find({
-  status: 'Portfolio',
-});
+  $or: [{
+    status: 'Portfolio',
+  }, {
+    status: 'Difusão/Portfolio',
+  }],
+}, { sort: { sequence_number: 1 }, fields: { screening: -1 } });
 
 Films.disseminate = () => Films.find({
   $or: [{
@@ -66,20 +70,16 @@ Films.disseminate = () => Films.find({
   }, {
     status: 'Difusão/Portfolio',
   }],
-});
+}, { sort: { sequence_number: 1 }, fields: { screening: -1 } });
 
 Films.all = () => Films.find({}, {
-  sort: {
-    sequence_number: 1,
-  },
+  sort: { sequence_number: 1, }, fields: { screening: -1 },
 });
 
-Films.active = () => Films.find({
-  status: { $not: /Oculto/ } }, {
-  sort: {
-    sequence_number: 1,
-  },
-});
+Films.active = () => Films.find(
+  { status: { $not: /Oculto/ } },
+  { sort: { sequence_number: 1 } },
+);
 
 Films.count = () => Films.active().count();
 
@@ -150,7 +150,8 @@ Films.get_image_by_src = (id, src) => {
 
 Films.inventory = (film) => {
   const legacyData = FilmScreeningInventory[film.title];
-  const screenings = film.screening || [];
+  const screenings = Screenings.find({ filmId: film._id }).fetch() || [];
+
   const initialInventory = {
     viewers: 0,
     viewers_from_reports: 0,
@@ -196,10 +197,10 @@ Films.inventory = (film) => {
         // sessões com relatorio que ja foram exibidas
         if (screening.report_description) {
           inventory.viewers_from_reports = parseInt(
-            inventory.viewers_from_reports, 10
+            inventory.viewers_from_reports, 10,
           ) + realQuorum;
           inventory.sessions_with_reports = parseInt(
-            inventory.sessions_with_reports, 10
+            inventory.sessions_with_reports, 10,
           ) + 1;
         }
       } else {
@@ -215,7 +216,7 @@ Films.inventory = (film) => {
         inventory.viewers += realQuorum;
         incrementOrCreate(
           inventory.viewers_per_month,
-          `${getMonthName(screening.date.getMonth())} - ${screening.date.getFullYear()}`, realQuorum
+          `${getMonthName(screening.date.getMonth())} - ${screening.date.getFullYear()}`, realQuorum,
         );
       }
 

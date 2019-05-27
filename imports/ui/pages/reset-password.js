@@ -27,7 +27,10 @@ Template.resetPassword.events({
       if (err) {
         error.html('Ocorreu um erro. Tente novamente em alguns momentos');
       } else {
-        error.html('Sua senha foi alterada.');
+        error.html('Sua senha foi alterada e será redirecionado para página de sessões.');
+        setTimeout(function () {
+          Router.go('/ambassador');
+        }, 3000);
       }
     });
   },

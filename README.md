@@ -53,6 +53,8 @@ docker-compose exec mongo mongorestore -h taturana.mongo.com:23812 -d taturana -
 * https://github.com/dburles/mongo-collection-instances
 * https://github.com/dburles/meteor-collection-helpers
 * https://github.com/percolatestudio/meteor-migrations
+* https://github.com/matb33/meteor-collection-hooks
+* https://bunkat.github.io/later/
 
 * https://github.com/aldeed/meteor-autoform
 * https://github.com/VeliovGroup/meteor-autoform-file
@@ -69,4 +71,13 @@ prod ~ $ ls -1 |grep tatuarna-
 prod ~ $ exit
 local ~/plataforma-taturana $ scp -r prod:~/taturana-<data>.json .
 local ~/plataforma-taturana $ mongorestore -h localhost:3001 -d meteor taturana-<data>.json/taturanamobi --drop
+```
+
+
+## Importar Cidades
+
+```
+cd backups/
+git clone git@github.com:kelvins/Municipios-Brasileiros.git
+mongoimport -d taturana -c cities /backups/Municipios-Brasileiros/json/municipios.json --jsonArray --drop
 ```

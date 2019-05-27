@@ -1,6 +1,6 @@
 #carousel{
   & .synopsis{
-    font-size: 0.9em;
+    // font-size: 0.9em;
     font-weight: 200;
     text-shadow: none;
     p {
@@ -8,18 +8,20 @@
     }
   }
   & .title{
-    margin-top: 0.8em;
+    margin-top: 0;
+    padding-top: .8em;
     margin-bottom: 0.8em;
     text-align:left;
     font-size: 1.5em;
     text-transform: uppercase;
     font-weight: 300;
   }
-  & .btn{
-    border: 1px solid #fff;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
+  // & .btn{
+  //   border: 1px solid #fff;
+  //   margin-left: 10px;
+  //   margin-right: 10px;
+  // }
+
 }
 
 .background-light-red{
@@ -29,12 +31,27 @@
   background-color: #bf3c3c;
 }
 .carousel-box{
-  height:25em;
+  height:24em;
+
+  .btn-primary,
+  .btn-default {
+    margin: 0 0 1em 0;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    text-shadow: none;
+  }
+  .btn-primary {
+    background: #fff;
+    color: #bf3c3c;
+  }
 
   @media(max-width: 600px) {
     height: auto;
   }
 }
+
+
 .icon-box{
   height: 60%;
   padding-top: 3em;
@@ -59,7 +76,9 @@
 }
 
 .slick-slide .carousel-box img {
-  max-height: 100%;
+  // max-height: 100%;
+  // margin: 20px auto 0;
+  padding: 20px 0;
 }
 
 .slick-next, .slick-prev{

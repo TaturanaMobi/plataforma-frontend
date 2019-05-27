@@ -24,19 +24,20 @@ Template.login.events({
     const password = event.target.password.value;
     Meteor.loginWithPassword(
       email,
-      password
-      , (err) => {
+      password,
+      (err) => {
         if (err) {
           event.target.password.value = '';
           messageError(err);
         } else {
           event.target.reset();
           if (Meteor.user().profile.roles[0] === 'admin') {
-            Router.go('adm');
+            Router.go('/');
           } else {
             Router.go('ambassador');
           }
         }
-      });
+      },
+    );
   },
 });

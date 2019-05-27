@@ -4,8 +4,7 @@ import { Tracker } from 'meteor/tracker';
 
 import getSelectOptions from './schemas/getSelectOptions';
 
-const STATES =
-['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
+const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RO', 'RS', 'RR', 'SC', 'SE', 'SP', 'TO', 'NA'];
 
 const FILM_CATEGORIES = [
   'Cineclube',
@@ -241,10 +240,6 @@ Schema.UserProfile = new SimpleSchema({
     optional: true,
     label: 'Telefone fixo',
   },
-  country: {
-    type: String,
-    label: 'País',
-  },
   city: {
     type: String,
     label: 'Cidade',
@@ -274,7 +269,7 @@ Schema.UserProfile = new SimpleSchema({
   },
   institution: {
     type: String,
-    label: 'Você faz parte de alguma instituição, coletivo ou grupo?',
+    label: 'Você faz parte de alguma instituição, organização coletivo etc.? Caso sim, especifque o nome abaixo',
   },
   category: {
     type: String,
