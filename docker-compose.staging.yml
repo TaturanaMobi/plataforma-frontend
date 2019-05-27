@@ -1,12 +1,4 @@
-version: '2'
-
-networks:
-  taturana:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      - subnet: 11.0.0.10/8
+version: '3'
 
 volumes:
   # redis_data:
@@ -28,11 +20,15 @@ volumes:
 
 services:
   mongo:
-    extends:
-      file: docker-compose.yml
-      service: mongo
-    networks:
-      taturana:
+    image: mongo
+    restart: always
+    ports:
+      - 27017/tcp
+    volumes:
+      - mongo_data:/data/db
+      - ./backups:/backups
+    environment:
+      MONGO_INITDB_DATABASE: taturana
 
   # redis:
   #   extends:
@@ -42,56 +38,61 @@ services:
   #     taturana:
 
   fake-smtp:
-    extends:
-      file: docker-compose.yml
-      service: fake-smtp
+    image: mailhog/mailhog
+    environment:
+      MH_HOSTNAME: fake-smtp.taturana
+    ports:
+    - 1025/tcp
+    - 8025/tcp
     environment:
       MH_HOSTNAME: fake-smtp.stag.taturanamobi.com.br
-    networks:
-      taturana:
     labels:
       traefik.frontend.rule: Host:fake-smtp.stag.taturanamobi.com.br
       traefik.port: '8025'
       traefik.enable: 'true'
 
   traefik:
-    extends:
-      file: docker-compose.yml
-      service: traefik
+    image: traefik:1.7-alpine
+    ports:
+      - 80:80/tcp
+      - 8080/tcp
+      - 443:443/tcp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.staging.toml:/etc/traefik/traefik.toml
       - ./acme.staging.json:/acme.json
-    networks:
-      taturana:
     labels:
       traefik.frontend.rule: Host:traefik.stag.taturanamobi.com.br
       traefik.port: '8080'
       traefik.enable: 'true'
 
   images:
-    extends:
-      file: docker-compose.yml
-      service: images
-    networks:
-      taturana:
+    image: h2non/imaginary
+    ports:
+    - 9000/tcp
+    volumes:
+      - ./uploads:/uploads
+    command:
+    - -cors
+    - -gzip
+    - -concurrency
+    - '10'
+    - -enable-url-source
+    - -mount
+    - /uploads
     labels:
       traefik.frontend.rule: Host:images.stag.taturanamobi.com.br
       traefik.enable: 'true'
       traefik.port: '9000'
 
   postgres:
-    build:
-      context: ../plataforma-v2/docker
-      dockerfile: ./production/postgres/Dockerfile
+    image: postgres
+    ports:
+    - 9000/tcp
     environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
       POSTGRES_DB: taturana
       POSTGRES_USER: debug
       POSTGRES_PASSWORD: debug
-    networks:
-      taturana:
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
 
@@ -139,25 +140,24 @@ services:
     depends_on:
     - postgres
     ports:
-    - 4006:3000/tcp
-    networks:
-      taturana:
+    - 3000/tcp
     labels:
       traefik.frontend.rule: Host:relatorios.stag.taturanamobi.com.br
       traefik.enable: 'true'
       traefik.port: '3000'
 
-  # mongo-express:
-  #   image: mongo-express
-  #   restart: always
-  #   ports:
-  #     - 4005:8081
-  #   networks:
-  #     taturana:
-  #   labels:
-  #     traefik.frontend.rule: Host:mongo-express.stag.taturanamobi.com.br
-  #     traefik.port: '8081'
-  #     traefik.enable: 'true'
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081/tcp
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: taturanastaging
+    labels:
+      traefik.frontend.rule: Host:mongo-express.stag.taturanamobi.com.br
+      traefik.port: '8081'
+      traefik.enable: 'true'
 
   portainer:
     image: portainer/portainer
@@ -166,9 +166,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     privileged: true
     ports:
-      - 9000
-    networks:
-      taturana:
+      - 9000/tcp
     labels:
       traefik.frontend.rule: Host:portainer.stag.taturanamobi.com.br
       traefik.port: '9000'
@@ -177,9 +175,7 @@ services:
   frontend:
     image: taturanamobi/plataforma-frontend
     ports:
-      - 3000:3000
-    networks:
-      taturana:
+      - 3000/tcp
     depends_on:
       - mongo
     links:
@@ -198,8 +194,6 @@ services:
 
   cleanup:
     image: meltwater/docker-cleanup:1.8.0
-    networks:
-      taturana:
     environment:
       CLEAN_PERIOD: '3600'
       DEBUG: '0'
@@ -242,23 +236,19 @@ services:
       - MARIADB_DATABASE=bitnami_wordpress
     volumes:
       - mariadb:/bitnami
-    networks:
-      taturana:
   wordpress:
     image: bitnami/wordpress:latest
     depends_on:
       - mariadb
     ports:
-      - '8080:80'
-      - '4443:443'
+      - 80/tcp
+      - 443/tcp
     environment:
       - WORDPRESS_DATABASE_USER=bn_wordpress
       - WORDPRESS_DATABASE_NAME=bitnami_wordpress
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - wordpress:/bitnami
-    networks:
-      taturana:
     labels:
       traefik.frontend.rule: Host:portfolio.stag.taturanamobi.com.br
       traefik.enable: 'true'
