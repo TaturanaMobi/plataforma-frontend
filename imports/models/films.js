@@ -62,7 +62,7 @@ Films.portfolio = () => Films.find({
   }, {
     status: 'Difusão/Portfolio',
   }],
-}, { sort: { sequence_number: 1 }, fields: { screenings: 0 } });
+}, { sort: { sequence_number: 1 }, fields: { screening: 0 } });
 
 Films.disseminate = () => Films.find({
   $or: [{
@@ -70,15 +70,18 @@ Films.disseminate = () => Films.find({
   }, {
     status: 'Difusão/Portfolio',
   }],
-}, { sort: { sequence_number: 1 }, fields: { screenings: 0 } });
+}, { sort: { sequence_number: 1 }, fields: { screening: 0 } });
 
 Films.all = () => Films.find({}, {
-  sort: { sequence_number: 1 }, fields: { screenings: 0 },
+  sort: { sequence_number: 1 }, fields: { screening: 0 },
 });
 
 Films.active = () => Films.find(
   { status: { $not: /Oculto/ } },
-  { sort: { sequence_number: 1 } },
+  {
+    sort: { sequence_number: 1 },
+    fields: { screening: 0 },
+  },
 );
 
 Films.count = () => Films.active().count();
