@@ -84,7 +84,11 @@
             {{#if currentUser}}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <img src="{{currentUser.profile.avatar_path}}" alt="{{currentUser.profile.name}}" class="img-circle">
+                {{#if currentUser.profile.avatar_path}} 
+                <img width="40" height="40" src="https://images.stag.taturanamobi.com.br/smartcrop?width=40&height=40&file={{currentUser.profile.avatar_path}}" alt="{{currentUser.profile.name}}" class="img-circle">
+                {{else}}
+                <img width="40" height="40" src="/images/avatar-default.png" alt="{{currentUser.profile.name}}" class="img-circle">
+                {{/if}}
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">

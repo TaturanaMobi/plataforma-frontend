@@ -43,7 +43,8 @@
 
     img {
       max-height: 100%;
-      padding: 15px 0;
+      padding: 5px 0 0;
+      // margin-top: -15px;
     }
   }
 
@@ -68,14 +69,17 @@
     .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
       color: #000;
     }
-    // .dropdown-toggle {
-    //   width: 20%;
-    //   &> img {
-    //     display: inline;
-    //     max-height: 100%;
-    //     max-width: 100%;
-    //   }
-    // }
+    &.navbar-right {
+      .dropdown-toggle {
+        padding: 20px 0;
+        // width: 20%;
+        // &> img {
+        //   display: inline;
+        //   max-height: 100%;
+        //   max-width: 100%;
+        // }
+      }
+    }
   }
 
   .btn-secondary {
@@ -86,7 +90,7 @@
 }
 .nav-colorful-detail {
   width: 100%;
-  height: 20px;
+  height: 30px;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff695c+0,da7fff+51,4caaff+100 */
   background: #df4944; /* Old browsers */
   background: rgb(255,105,92); /* Old browsers */
