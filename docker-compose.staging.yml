@@ -73,6 +73,8 @@ services:
     volumes:
       - ./uploads:/uploads
     command:
+    - -http-cache-ttl
+    - '10080'
     - -cors
     - -gzip
     - -concurrency
@@ -192,18 +194,18 @@ services:
       traefik.port: '3000'
       traefik.enable: 'true'
 
-  cleanup:
-    image: meltwater/docker-cleanup:1.8.0
-    environment:
-      CLEAN_PERIOD: '3600'
-      DEBUG: '0'
-      DELAY_TIME: '900'
-      KEEP_CONTAINERS: '*:*'
-      KEEP_CONTAINERS_NAMED: '*_data'
-      KEEP_IMAGES: rancher/
-      LOOP: 'true'
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+  # cleanup:
+  #   image: meltwater/docker-cleanup:1.8.0
+  #   environment:
+  #     CLEAN_PERIOD: '3600'
+  #     DEBUG: '0'
+  #     DELAY_TIME: '900'
+  #     KEEP_CONTAINERS: '*:*'
+  #     KEEP_CONTAINERS_NAMED: '*_data'
+  #     KEEP_IMAGES: rancher/
+  #     LOOP: 'true'
+  #   volumes:
+  #   - /var/run/docker.sock:/var/run/docker.sock
 
   # elk:
   #   image: sebp/elk
