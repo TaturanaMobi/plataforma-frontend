@@ -54,7 +54,7 @@
                 </ul> -->
 
             <li class="{{#if currentRouteIs 'films'}}active{{/if}}"><a href="/films">FILMES</a></li>
-            <li class="{{#if currentRouteIs 'screenings'}}active{{/if}}"><a href="/screenings">AGENDA</a></li>
+            <li class="{{#if currentRouteIs 'screenings'}}active{{/if}}"><a href="/screenings">{{calendar}}</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PORTFOLIO
                 <span class="caret"></span></a>
@@ -112,9 +112,17 @@
             {{else}}
             <!-- <button type="button" class="btn btn-default navbar-btn">CADASTRAR</button>
             <button type="button" class="btn btn-default navbar-btn">ENTRAR</button> -->
-
-            <a class="btn btn-secondary navbar-btn btn-sm" href="/login">LOGIN</a>
-            <a class="btn btn-default navbar-btn btn-sm" href="/register">CADASTRE-SE</a>
+            <ul class="navbar-right__buttons">
+              <li>
+                <a class="btn btn-secondary navbar-btn btn-sm" href="/login">LOGIN</a>
+              </li>
+              <li>
+                <a class="btn btn-default navbar-btn btn-sm" href="/register">CADASTRE-SE</a>
+              </li>
+              <li class="nav__translation-flag">
+                <img alt="Bandeira dos Estados Unidos que redireciona a tradução para o inglês" src="/images/flag-us.png" class="nav__translation-flag--img"/>
+              </li>
+            </ul>
             {{/if}}
           </ul>
         </div><!-- /.navbar-collapse -->

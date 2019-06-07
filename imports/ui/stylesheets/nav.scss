@@ -100,3 +100,16 @@
   background: linear-gradient(to right, rgba(255,105,92,1) 0%,rgba(218,127,255,1) 51%,rgba(76,170,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff695c', endColorstr='#4caaff',GradientType=1 ); /* IE6-8 */
 }
+.nav__translation-flag {
+  margin-left: 20px;
+  cursor: pointer;
+}
+.nav__translation-flag--img {
+  width: 20px;
+}
+.navbar-right__buttons {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
