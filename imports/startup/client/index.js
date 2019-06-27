@@ -14,6 +14,7 @@ import './hooks.js';
 import './helpers.js';
 
 Tracker.autorun(function () {
+  // get param lang and set locale
   // let current = Router.current();
   Tracker.afterFlush(function () {
     $(window).scrollTop(0);

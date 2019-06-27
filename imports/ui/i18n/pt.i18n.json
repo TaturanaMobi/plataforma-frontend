@@ -1,0 +1,14 @@
+{
+  "_locale": "pt-BR",
+  "_namespace": "Common",
+  "userName": "User name",
+  "films": "Filmes",
+  "calendar": "Agenda",
+  "portfolio": "Portfólio",
+  "aboutUs": "Quem somos e o que fazemos",
+  "about": "About",
+  "FAQ": "FAQ",
+  "contact": "Contato",
+  "login": "Login",
+  "signup": "Cadastre-se"
+}

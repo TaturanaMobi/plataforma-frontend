@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
-
+import { I18NConf } from 'meteor/martino:i18n-conf';
+import i18n from 'meteor/universe:i18n';
 import Films from '../../models/films';
 // import Screenings from '../../models/screenings';
 
@@ -22,6 +23,16 @@ import '../../ui/pages/reset-password.js';
 import '../../ui/pages/screenings.js';
 import '../../ui/pages/show-film.js';
 
+I18NConf.configure({
+
+  defaultLanguage: 'pt',
+
+  languages: ['pt', 'en', 'es'],
+
+  autoConfLanguage: false,
+
+});
+
 Router.configure({
   layoutTemplate: 'App_Body',
   loadingTemplate: 'loading',
@@ -29,9 +40,35 @@ Router.configure({
 
 Router.route('/', {
   name: 'home',
+  i18n: {
+    languages: {
+      'pt-BR': {
+        path: 'pt',
+      },
+      en: {
+        path: 'en',
+      },
+      es: {
+        path: 'es',
+      },
+    },
+  },
   waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.findOne({ slug: this.params.slug }); },
   action() { this.render('home'); },
+});
+
+I18NConf.onLanguageChange((oldLang, newLang) => {
+  console.log(newLang)
+  i18n.setLocale(newLang)
+    .then(() => {
+      console.log('tap-i18n language changed from ' + oldLang + ' to ' + newLang);
+    })
+    .catch((err) => {
+      // Handle the situation
+      console.log('Failure trying to change tap-i18n language: ' + err);
+      throw err;
+    });
 });
 
 Router.route('/about', { name: 'about' });

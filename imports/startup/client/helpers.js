@@ -14,6 +14,11 @@ Template.registerHelper('currentRouteIs', function (route) {
   return Router.current().route.getName() === route;
 });
 
+/* Template.registerHelper('__', function (route) {
+  get key to translate
+}); */
+
+
 Template.registerHelper('isEqual', (arg1, arg2) => arg1 === arg2);
 
 Template.registerHelper('isAdmin', () => Meteor.user().profile.roles.indexOf('admin') > -1);
