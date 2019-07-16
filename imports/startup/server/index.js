@@ -18,11 +18,7 @@ import NotificationTemplates from '../../models/notification_templates.js';
 Meteor.startup(() => {
   Worker.start();
 
-  Meteor.publish('films.all', () => Films.find({}, {
-    fields: {
-      screenings: 0,
-    },
-  }));
+  Meteor.publish('films.all', () => Films.all());
 
   Meteor.publish('screenings.all', () => Screenings.find({}));
 
@@ -32,7 +28,7 @@ Meteor.startup(() => {
 
   Meteor.publish('users.me', () => Meteor.users.find({ _id: Meteor.userId() }));
 
-  Meteor.publish('users.all', () => Meteor.users.find({}, { sort: { createdAt: -1 } }));
+  Meteor.publish('users.all', () => Meteor.users.find({}, { sort: { createdAt: 1 } }));
 
   Meteor.publish('notificationTemplates.all', () => NotificationTemplates.find({}));
 

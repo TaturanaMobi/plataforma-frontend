@@ -73,6 +73,8 @@ services:
     volumes:
       - ./uploads:/uploads
     command:
+    - -http-cache-ttl
+    - '10080'
     - -cors
     - -gzip
     - -concurrency
@@ -152,8 +154,8 @@ services:
     ports:
       - 8081/tcp
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: taturanastaging
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: taturanastaging
     labels:
       traefik.frontend.rule: Host:mongo-express.stag.taturanamobi.com.br
       traefik.port: '8081'
@@ -192,18 +194,18 @@ services:
       traefik.port: '3000'
       traefik.enable: 'true'
 
-  cleanup:
-    image: meltwater/docker-cleanup:1.8.0
-    environment:
-      CLEAN_PERIOD: '3600'
-      DEBUG: '0'
-      DELAY_TIME: '900'
-      KEEP_CONTAINERS: '*:*'
-      KEEP_CONTAINERS_NAMED: '*_data'
-      KEEP_IMAGES: rancher/
-      LOOP: 'true'
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+  # cleanup:
+  #   image: meltwater/docker-cleanup:1.8.0
+  #   environment:
+  #     CLEAN_PERIOD: '3600'
+  #     DEBUG: '0'
+  #     DELAY_TIME: '900'
+  #     KEEP_CONTAINERS: '*:*'
+  #     KEEP_CONTAINERS_NAMED: '*_data'
+  #     KEEP_IMAGES: rancher/
+  #     LOOP: 'true'
+  #   volumes:
+  #   - /var/run/docker.sock:/var/run/docker.sock
 
   # elk:
   #   image: sebp/elk

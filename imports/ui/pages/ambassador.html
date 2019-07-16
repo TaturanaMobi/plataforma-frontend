@@ -25,11 +25,16 @@
           <div class="col-md-4">
             <div class="session-edit-box">
               <div class="session-info">
-                <div class="session-current-status">
+                <!-- <div class="session-current-status">
                   <img src="/images/icon-{{session_status_icon}}.png" alt="" />
-                </div>
+                </div> -->
                 <h3 class="film-thumb-title red">{{film.title}}</h3>
-                <p>{{place_name}} <br />{{city}} - {{uf}}, {{format_date_from_now date}}</p>
+                <p>
+                  {{place_name}} <br />
+                  {{city}} - {{uf}}<br />
+                  Exibição/Criação: {{format_date date}} / {{format_date_from_now created_at}}<br />
+                  Status: {{status}}
+                </p>
               </div>
               <div class="session-edit-actions">
                 {{#if in_future this}}

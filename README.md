@@ -24,7 +24,12 @@ $ docker-compose up -d
 O container pode ser logado via `docker-compose exec app bash` a qualquer momento depois do `docker-compose up`.
 Você deve ser capaz de acessar o site em `http://localhost:3000`
 
-## Para importar os filme de exemplo
+## Testes automatizados
+[![Build Status](https://travis-ci.org/TaturanaMobi/plataforma-frontend.svg?branch=develop)](https://travis-ci.org/TaturanaMobi/plataforma-frontend)
+
+<img src="./public/Browserstack-logo@2x.png" alt="BrowserStack Logo" width="200">
+
+## Para importar filmes de exemplo
 
 ```bash
 docker-compose exec mongo mongoimport --db taturana --collection films --type json --file /backup/taturana-films.json
@@ -72,7 +77,6 @@ prod ~ $ exit
 local ~/plataforma-taturana $ scp -r prod:~/taturana-<data>.json .
 local ~/plataforma-taturana $ mongorestore -h localhost:3001 -d meteor taturana-<data>.json/taturanamobi --drop
 ```
-
 
 ## Importar Cidades
 

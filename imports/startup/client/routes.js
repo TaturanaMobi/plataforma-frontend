@@ -30,7 +30,7 @@ Router.configure({
 Router.route('/', {
   name: 'home',
   waitOn() { return Meteor.subscribe('films.all'); },
-  data() { return Films.findOne({ slug: this.params.slug }); },
+  // data() { return Films.find({}); },
   action() { this.render('home'); },
 });
 
@@ -52,7 +52,7 @@ Router.route('/faq', { name: 'faq' });
 Router.route('/films', {
   name: 'films',
   waitOn() { return Meteor.subscribe('films.all'); },
-  data() { return Films.active(); },
+  // data() { return Films.active(); },
   action() { this.render('films'); },
 });
 
@@ -61,7 +61,7 @@ Router.route('/screenings', {
   waitOn() {
     return Meteor.subscribe('films.all') && Meteor.subscribe('screenings.upcoming');
   },
-  data() { return Films.active(); },
+  // data() { return Films.active(); },
   action() { this.render('screenings'); },
 });
 

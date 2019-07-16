@@ -2,9 +2,9 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import c3 from 'c3';
-import d3 from 'd3';
+// import d3 from 'd3';
 
-import Films from '../../models/films.js';
+// import Films from '../../models/films.js';
 
 import './show-film.html';
 
@@ -75,9 +75,8 @@ Template.showFilm.onRendered(() => {
   $("a[rel^='prettyPhoto']").prettyPhoto();
 
   const instance = Template.instance();
-    console.log(instance.data);
   if (instance.data.status.includes('Portfolio')) {
-    const inventory = instance.data.inventory;
+    const inventory = instance.data.statistics;
 
     if (!inventory) return;
 
