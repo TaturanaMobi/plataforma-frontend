@@ -151,8 +151,21 @@ Migrations.add({
   },
 });
 
+Migrations.add({
+  version: 3,
+  up() {
+    Films.find({}).forEach((f) => {
+      const s = Screenings.findOne({ filmId: f._id });
+      if (typeof s !== 'undefined') {
+        Screenings.update(s._id, { $set: { updatedAt: new Date() } });
+      }
+    });
+  },
+  down() {},
+});
+
 Meteor.startup(() => {
   Migrations.migrateTo('latest');
   Migrations.unlock();
-  // Migrations.migrateTo('2,rerun');
+  // Migrations.migrateTo('3,rerun');
 });
