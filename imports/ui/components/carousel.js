@@ -17,7 +17,4 @@ Template.homeCarousel.helpers({
   disseminate() {
     return Films.disseminate();
   },
-  inventory() {
-    return Films.inventory(Template.currentData());
-  },
 });

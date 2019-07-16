@@ -75,9 +75,8 @@ Template.showFilm.onRendered(() => {
   $("a[rel^='prettyPhoto']").prettyPhoto();
 
   const instance = Template.instance();
-    console.log(instance.data);
   if (instance.data.status.includes('Portfolio')) {
-    const inventory = instance.data.inventory;
+    const inventory = instance.data.statistics;
 
     if (!inventory) return;
 
