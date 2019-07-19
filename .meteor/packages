@@ -7,48 +7,52 @@
 meteor-base@1.4.0             # Packages every Meteor app needs to have
 mobile-experience@1.0.5       # Packages for a great mobile UX
 mongo@1.6.2                   # The database Meteor supports right now
-blaze-html-templates    # Compile .html files into Meteor Blaze views
-session@1.2.0                 # Client-side reactive dictionary for your app
-jquery                  # Helpful client-side library
+blaze-html-templates@1.0.4 # Compile .html files into Meteor Blaze views
+reactive-var@1.0.11            # Reactive variable for tracker
 tracker@1.2.0                 # Meteor's client-side reactive programming library
 
-es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers.
+standard-minifier-css@1.5.3   # CSS minifier run for production mode
+standard-minifier-js@2.4.1    # JS minifier run for production mode
+es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 ecmascript@0.12.4              # Enable ECMAScript2015+ syntax in app code
-iron:router
-anback:bootstrap-validator
-fourseven:scss
+shell-server@0.4.0            # Server-side component of the `meteor shell` command
+
 udondan:slick
-email@1.2.3
-random@1.1.0
-mrt:flash-messages
-momentjs:moment
 juliomac:prettyphoto
 meteorhacks:ssr
-rzymek:moment-locale-pt-br
 accounts-password@1.5.1
+
 dburles:factory
 xolvio:cleaner
 meteortesting:mocha
-standard-minifier-css@1.5.3
-standard-minifier-js@2.4.1
-shell-server@0.4.0
-dynamic-import@0.5.1
+
+anback:bootstrap-validator
+#dynamic-import@0.5.1
+#vazco:universe-autoform-select
+aldeed:autoform-select2
+natestrauser:select2
+
+froala:editor
+
+momentjs:moment
+rzymek:moment-locale-pt-br
+mrt:moment-timezone
+
+fourseven:scss
+email@1.2.3
+random@1.1.0
+iron:router
+mrt:flash-messages
 aslagle:reactive-table
-reactive-var@1.0.11
 aldeed:collection2@3.0.0
-underscore@1.0.10
 aldeed:autoform
 aldeed:autoform-bs-datepicker
 aldeed:autoform-bs-datetimepicker
-mrt:moment-timezone
 percolate:migrations
 dburles:collection-helpers
 tsega:bootstrap3-datetimepicker@=3.1.3_3
 ostrio:autoform-files
 ostrio:files
-vazco:universe-autoform-select
-froala:editor
-dburles:mongo-collection-instances
 matb33:collection-hooks
-aldeed:autoform-select2
-natestrauser:select2
+dburles:mongo-collection-instances
+underscore
