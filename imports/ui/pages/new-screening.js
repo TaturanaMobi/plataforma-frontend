@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import '../components/autoform-nouislider.js';
-import '../components/screeningFormFields.html';
+import '../components/screeningFormFields';
 import './new-screening.html';
 // import { saveScreening } from '../../startup/client/helpers.js';
 

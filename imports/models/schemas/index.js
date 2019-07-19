@@ -193,11 +193,11 @@ Schemas.Screening = new SimpleSchema({
     type: String,
     label: 'Cidade',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         // multiple: false,
-        optionsMethod: 'getSelectCities',
-        uniPlaceholder: 'Selecione',
+        // optionsMethod: 'getSelectCities',
+        firstOption: 'Selecione',
       },
     },
     max: 1000,
@@ -207,7 +207,7 @@ Schemas.Screening = new SimpleSchema({
     label: 'Estado',
     allowedValues: STATES,
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(STATES),
@@ -245,7 +245,7 @@ Schemas.Screening = new SimpleSchema({
     label: 'Haverá alguma atividade antes ou depois da exibição?',
     allowedValues: SCREENING_ACTIVITY,
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(SCREENING_ACTIVITY),
@@ -334,7 +334,7 @@ Schemas.Screening = new SimpleSchema({
     type: String,
     label: 'Status',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(SCREENING_STATUS),
@@ -497,7 +497,7 @@ Schemas.Report = new SimpleSchema({
     type: String,
     label: 'Status',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(SCREENING_STATUS),
@@ -842,7 +842,7 @@ Schemas.Film = new SimpleSchema({
     max: 100,
     autoform: {
       type: 'hidden',
-    }
+    },
   },
   press_kit_path: {
     type: String,

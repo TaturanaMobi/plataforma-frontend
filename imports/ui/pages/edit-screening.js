@@ -1,12 +1,12 @@
 /* global document, window */
 
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
+// import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-import { saveScreening } from '../../startup/client/helpers.js';
-import '../components/screeningFormFields.html';
+// import { saveScreening } from '../../startup/client/helpers.js';
+import '../components/screeningFormFields';
 import './edit-screening.html';
 
 Template.editScreening.onRendered(() => {
@@ -58,28 +58,27 @@ Template.editScreening.helpers({
   // },
 
   user_addresses() {
-    if (!Meteor.user()) return;
-    return Meteor.user().addresses;
+    return Meteor.user() ? Meteor.user().addresses : '';
   },
-  address(replace_address) {
 
-    if (!Session.get('address')) {
-      const saved_address = {
-        cep: this.screening.cep,
-        city: this.screening.city,
-        complement: this.screening.complement,
-        number: this.screening.number,
-        place_name: this.screening.place_name,
-        uf: this.screening.uf,
-        street: this.screening.street,
-        zone: this.screening.zone,
-        s_country: this.screening.s_country,
-      };
+  address(replaceAddress) {
+    // if (!Session.get('address')) {
+    const savedAddress = {
+      cep: this.screening.cep,
+      city: this.screening.city,
+      complement: this.screening.complement,
+      number: this.screening.number,
+      place_name: this.screening.place_name,
+      uf: this.screening.uf,
+      street: this.screening.street,
+      zone: this.screening.zone,
+      s_country: this.screening.s_country,
+    };
+    return replaceAddress || savedAddress;
+    // Session.set('address', saved_address);
+    // }
 
-      // Session.set('address', saved_address);
-    }
-
-    return Session.get('address');
+    // return Session.get('address');
   },
   // is_selected(state) {
   //   const address = Session.get('address');

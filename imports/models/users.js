@@ -146,11 +146,11 @@ Schema.UserAddresses = new SimpleSchema({
     type: String,
     label: 'Cidade',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         // multiple: false,
         optionsMethod: 'getSelectCities',
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
     max: 1000,
@@ -160,11 +160,11 @@ Schema.UserAddresses = new SimpleSchema({
     label: 'Estado',
     allowedValues: STATES,
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(STATES),
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
     max: 5,
@@ -244,11 +244,11 @@ Schema.UserProfile = new SimpleSchema({
     type: String,
     label: 'Cidade',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
-        // multiple: false,
-        optionsMethod: 'getSelectCities',
-        uniPlaceholder: 'Selecione',
+        multiple: false,
+        options: [],
+        firstOption: 'Selecione',
       },
     },
     max: 1000,
@@ -258,11 +258,11 @@ Schema.UserProfile = new SimpleSchema({
     label: 'Estado',
     allowedValues: STATES,
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(STATES),
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
     max: 5,
@@ -276,11 +276,11 @@ Schema.UserProfile = new SimpleSchema({
     optional: true,
     label: 'Qual a sua área de atuação?',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(FILM_CATEGORIES),
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
   },
@@ -289,11 +289,11 @@ Schema.UserProfile = new SimpleSchema({
     optional: true,
     label: 'Com quais temáticas vocês trabalham?',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(FILM_SUBCATEGORIES),
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
   },
