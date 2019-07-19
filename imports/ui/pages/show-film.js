@@ -56,9 +56,7 @@ Template.showFilm.helpers({
     return this.statistics;
   },
   tibr() {
-    if (!this.technical_information) return;
-
-    return `<p>${this.technical_information.replace(/\n/g, '</p><p>')}</p>`;
+    return this.technical_information ? `<p>${this.technical_information.replace(/\n/g, '</p><p>')}</p>` : '';
   },
   has_categories(categories) {
     return !_.isEmpty(categories);

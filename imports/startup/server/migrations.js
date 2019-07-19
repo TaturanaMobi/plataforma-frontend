@@ -7,8 +7,8 @@ import Films from '../../models/films';
 import Screenings from '../../models/screenings';
 import NotificationTemplates from '../../models/notification_templates';
 import { Cities, States } from '../../models/states_and_cities';
-import Estados from'../../../backups/Municipios-Brasileiros/json/estados.json';
-import Municipios from'../../../backups/Municipios-Brasileiros/json/municipios.json';
+import Estados from '../../../backups/Municipios-Brasileiros/json/estados.json';
+import Municipios from '../../../backups/Municipios-Brasileiros/json/municipios.json';
 
 function convertInteger(value) {
   if (value === undefined) {
