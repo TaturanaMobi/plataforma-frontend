@@ -180,8 +180,22 @@ Migrations.add({
   down() { },
 });
 
+Migrations.add({
+  version: 5,
+  up() {
+    Films.find({}).forEach((film) => {
+      Films.update(film._id, {
+        $unset: {
+          screening: '',
+        },
+      });
+    });
+  },
+  down() { },
+});
+
 Meteor.startup(() => {
   Migrations.migrateTo('latest');
   Migrations.unlock();
-  // Migrations.migrateTo('4,rerun');
+  // Migrations.migrateTo('5,rerun');
 });

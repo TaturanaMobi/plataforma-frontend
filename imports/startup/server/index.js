@@ -20,6 +20,12 @@ Meteor.startup(() => {
 
   Meteor.publish('films.all', () => Films.all());
 
+  Meteor.publish('films.home', () => Films.find({}, {
+    sort: { sequence_number: 1 },
+    fields: { screening: 0 },
+    limit: 10,
+  }));
+
   Meteor.publish('screenings.all', () => Screenings.find({}));
 
   Meteor.publish('screenings.my', () => Screenings.find({ user_id: Meteor.userId() }));

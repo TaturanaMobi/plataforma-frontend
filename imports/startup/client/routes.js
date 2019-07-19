@@ -29,7 +29,7 @@ Router.configure({
 
 Router.route('/', {
   name: 'home',
-  waitOn() { return Meteor.subscribe('films.all'); },
+  waitOn() { return Meteor.subscribe('films.home'); },
   // data() { return Films.find({}); },
   action() { this.render('home'); },
 });
