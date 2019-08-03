@@ -1,7 +1,7 @@
 #home {
   background: url("/images/home-background.svg") center top no-repeat;
   background-size: 100% auto;
-  background-position: 0% 0%;
+  background-position: 0 1em;
   // height: 615px;
   // display: table;
   // position: relative;
@@ -12,7 +12,7 @@
     color: #fff;
     font-size: 2.5em;
     text-align: center;
-    margin: .5em 0 1em 0;
+    margin: 1em 0 1em 0;
   }
   h2 {
     font-weight: 500;
@@ -71,7 +71,7 @@
     font-weight: 300;
     font-size: 1.8em;
     text-align: center;
-    margin: 3em 0 1em 0;
+    margin: 3em 0;
     border: 1px solid #df4944;
     padding: .8em;
     clear: both;
@@ -81,6 +81,7 @@
 #home-carousel {
   .cta {
     text-align: center;
+    margin: 3em 0;
   }
 }
 // .center-btn{
