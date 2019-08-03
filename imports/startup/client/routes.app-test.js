@@ -10,7 +10,7 @@ import { assert } from 'chai';
 // import { $ } from 'meteor/jquery';
 
 // import denodeify from '../../utils/denodeify';
-import { generateData } from '../../models/generate-data.app-tests';
+import generateData from '../../models/generate-data.app-tests';
 // import { Lists } from '../../api/lists/lists.js';
 // import { Todos } from '../../api/todos/todos.js';
 

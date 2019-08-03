@@ -10,17 +10,17 @@ import 'select2/dist/css/select2.css';
 import 'select2-bootstrap-theme/dist/select2-bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
-WebFont.load({
-  google: {
-    families: ['Roboto:300,500,700'],
-  },
-});
-
 import './routes.js';
 import './routes-ambassador.js';
 import './routes-admin.js';
 import './hooks.js';
 import './helpers.js';
+
+WebFont.load({
+  google: {
+    families: ['Roboto:300,500,700'],
+  },
+});
 
 Tracker.autorun(function () {
   // let current = Router.current();

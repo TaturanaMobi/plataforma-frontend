@@ -61,35 +61,5 @@
   "bugs": {
     "url": "https://github.com/TaturanaMobi/plataforma-frontend/issues"
   },
-  "homepage": "https://github.com/TaturanaMobi/plataforma-frontend#readme",
-  "eslintConfig": {
-    "extends": "@meteorjs/eslint-config-meteor",
-    "rules": {
-      "import/no-extraneous-dependencies": "off",
-      "import/prefer-default-export": "off",
-      "no-underscore-dangle": "off",
-      "no-param-reassign": "off",
-      "prefer-arrow-callback": "off",
-      "object-shorthand": [
-        "error",
-        "always",
-        {
-          "avoidQuotes": false
-        }
-      ],
-      "meteor/eventmap-params": [
-        "error",
-        {
-          "eventParamName": "event",
-          "templateInstanceParamName": "instance"
-        }
-      ],
-      "meteor/template-names": [
-        "off"
-      ]
-    },
-    "settings": {
-      "import/resolver": "meteor"
-    }
-  }
+  "homepage": "https://github.com/TaturanaMobi/plataforma-frontend#readme"
 }

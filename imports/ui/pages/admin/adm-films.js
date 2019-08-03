@@ -67,9 +67,12 @@ Template.admFilms.events({
   //   const el = event.target;
   //   const synopsis = $('#synopsis').summernote('code');
 
-  //   const poster = (el.poster_path === undefined) ? Session.get('poster_path') : el.poster_path.value;
-  //   const press_kit = (el.press_kit_path === undefined) ? Session.get('press_kit_path') : el.press_kit_path.value;
-  //   const poster_home = (el.poster_home_path === undefined) ? Session.get('poster_home_path') : el.poster_home_path.value;
+  //   const poster = (el.poster_path === undefined)
+  // ? Session.get('poster_path') : el.poster_path.value;
+  //   const press_kit = (el.press_kit_path === undefined)
+  // ? Session.get('press_kit_path') : el.press_kit_path.value;
+  //   const poster_home = (el.poster_home_path === undefined)
+  // ? Session.get('poster_home_path') : el.poster_home_path.value;
 
   //   const film = {
   //     poster_path: poster,
