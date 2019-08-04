@@ -715,7 +715,7 @@ Schemas.Film = new SimpleSchema({
     type: String,
     label: 'Status',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(FILM_STATUS),
@@ -767,7 +767,7 @@ Schemas.Film = new SimpleSchema({
     type: String,
     label: 'Classificação Indicativa',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(FILM_AGE_RATING),

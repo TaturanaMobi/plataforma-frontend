@@ -5,6 +5,11 @@ import { Tracker } from 'meteor/tracker';
 import { $ } from 'meteor/jquery';
 import WebFont from 'webfontloader';
 
+import 'summernote/dist/summernote';
+import 'summernote/dist/summernote.css';
+
+import 'bootstrap-sass';
+
 import 'select2';
 import 'select2/dist/css/select2.css';
 import 'select2-bootstrap-theme/dist/select2-bootstrap.css';
