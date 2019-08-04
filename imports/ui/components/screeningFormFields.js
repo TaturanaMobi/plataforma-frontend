@@ -12,12 +12,9 @@ Template.screeningFormFields.helpers({
   //   return this.film().fetch();
   // },
   cities() {
-    const c = Cities.find({});
-    const d = [];
-    c.forEach(item => d.push({
+    return Cities.find({}).map(item => ({
       label: item.nome,
       value: item.nome,
     }));
-    return d;
   },
 });

@@ -18,13 +18,7 @@ import NotificationTemplates from '../../models/notification_templates.js';
 Meteor.startup(() => {
   Worker.start();
 
-  Meteor.publish('films.all', () => Films.all());
-
-  Meteor.publish('films.home', () => Films.find({}, {
-    sort: { sequence_number: 1 },
-    fields: { screening: 0 },
-    limit: 10,
-  }));
+  Meteor.publish('films.all', Films.all);
 
   Meteor.publish('screenings.all', () => Screenings.find({}));
 

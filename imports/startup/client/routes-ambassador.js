@@ -10,7 +10,7 @@ import '../../ui/pages/report.js';
 
 Router.route('/ambassador-edit', {
   name: 'ambassador-edit',
-  waitOn() { return Meteor.subscribe('users.me') && Meteor.subscribe('cities'); },
+  waitOn() { return Meteor.subscribe('users.me'); },
   data() { return Meteor.users.findOne({ _id: Meteor.userId() }); },
   action() { this.render('ambassador-edit'); },
 });
@@ -28,7 +28,7 @@ Router.route('/new-screening/:slug', {
   name: 'new-screening',
 
   waitOn() {
-    return this.subscribe('films.all') && this.subscribe('cities');
+    return this.subscribe('films.all');
   },
 
   data() {
@@ -44,7 +44,6 @@ Router.route('/edit-screening/:_id', {
     return [
       this.subscribe('screenings.my'),
       this.subscribe('films.all'),
-      this.subscribe('cities'),
     ];
   },
   data() {

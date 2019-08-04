@@ -10,6 +10,12 @@ import '../components/screeningFormFields';
 import './new-screening.html';
 // import { saveScreening } from '../../startup/client/helpers.js';
 
+Template.newScreening.onCreated(function () {
+  this.autorun(() => {
+    this.subscribe('cities');
+  });
+});
+
 Template.newScreening.onRendered(() => {
   // const nowDate = new Date();
   // const today = new Date(nowDate.getFullYear(),

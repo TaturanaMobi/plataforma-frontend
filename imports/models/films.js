@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+// import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 
@@ -38,9 +38,13 @@ Films.disseminate = () => Films.find({
   }],
 }, { sort: { sequence_number: 1 }, fields: { screening: 0 } });
 
-Films.all = () => Films.find({}, {
-  sort: { sequence_number: 1 }, fields: { screening: 0 },
-});
+Films.all = (limit, id = 0) => Films.find(
+  (id.length > 2 ? { _id: id } : {}), {
+    sort: { sequence_number: 1 },
+    fields: { screening: 0 },
+    limit: (limit > 0 ? limit : 100),
+  },
+);
 
 Films.active = () => Films.find(
   { status: { $not: /Oculto/ } },
@@ -52,57 +56,57 @@ Films.active = () => Films.find(
 
 Films.count = () => Films.active().count();
 
-Films.by_user_id = () => {
-  const films = Films.find({
-    status: { $not: /Oculto/ },
-    'screening.user_id': Meteor.userId(),
-  }).fetch();
-  return films;
-};
+// Films.by_user_id = () => {
+//   const films = Films.find({
+//     status: { $not: /Oculto/ },
+//     'screening.user_id': Meteor.userId(),
+//   }).fetch();
+//   return films;
+// };
 
-Films.screenings_by_user_id = () => {
-  const userId = Meteor.userId();
-  const films = Films.by_user_id(userId);
-  const userScreenings = [];
+// Films.screenings_by_user_id = () => {
+//   const userId = Meteor.userId();
+//   const films = Films.by_user_id(userId);
+//   const userScreenings = [];
 
-  for (let a = 0; a < films.length; a += 1) {
-    const fScr = films[a].screening;
-    for (let i = 0; i < fScr.length; i += 1) {
-      if (fScr[i].user_id === userId) {
-        fScr[i].title = films[a].title;
-        fScr[i].film_id = films[a]._id;
-        fScr[i].film_press_kit = films[a].press_kit_path;
-        userScreenings.push(fScr[i]);
-      }
-    }
-  }
-  return userScreenings;
-};
+//   for (let a = 0; a < films.length; a += 1) {
+//     const fScr = films[a].screening;
+//     for (let i = 0; i < fScr.length; i += 1) {
+//       if (fScr[i].user_id === userId) {
+//         fScr[i].title = films[a].title;
+//         fScr[i].film_id = films[a]._id;
+//         fScr[i].film_press_kit = films[a].press_kit_path;
+//         userScreenings.push(fScr[i]);
+//       }
+//     }
+//   }
+//   return userScreenings;
+// };
 
-Films.by_screening_id = screeningId => Films.findOne({
-  status: { $not: /Oculto/ },
-  'screening._id': screeningId,
-});
+// Films.by_screening_id = screeningId => Films.findOne({
+//   status: { $not: /Oculto/ },
+//   'screening._id': screeningId,
+// });
 
-Films.return_film_and_screening = (screeningId) => {
-  const film = Films.by_screening_id(screeningId);
-  const screening = Films.return_screening(screeningId);
-  return {
-    film,
-    screening,
-  };
-};
+// Films.return_film_and_screening = (screeningId) => {
+//   const film = Films.by_screening_id(screeningId);
+//   const screening = Films.return_screening(screeningId);
+//   return {
+//     film,
+//     screening,
+//   };
+// };
 
-Films.return_screening = (screeningId) => {
-  const film = Films.by_screening_id(screeningId);
-  let screening;
-  for (let i = 0; i < film.screening.length; i += 1) {
-    if (film.screening[i]._id === screeningId) {
-      screening = film.screening[i];
-    }
-  }
-  return screening;
-};
+// Films.return_screening = (screeningId) => {
+//   const film = Films.by_screening_id(screeningId);
+//   let screening;
+//   for (let i = 0; i < film.screening.length; i += 1) {
+//     if (film.screening[i]._id === screeningId) {
+//       screening = film.screening[i];
+//     }
+//   }
+//   return screening;
+// };
 
 Films.get_image_by_src = (id, src) => {
   const film = Films.findOne(id);

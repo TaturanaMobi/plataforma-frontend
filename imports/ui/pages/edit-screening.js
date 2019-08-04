@@ -9,6 +9,12 @@ import { $ } from 'meteor/jquery';
 import '../components/screeningFormFields';
 import './edit-screening.html';
 
+Template.editScreening.onCreated(function () {
+  this.autorun(() => {
+    this.subscribe('cities');
+  });
+});
+
 Template.editScreening.onRendered(() => {
   // const nowDate = new Date();
   // const today = new Date(
@@ -21,23 +27,27 @@ Template.editScreening.onRendered(() => {
   // $('.readonly').keydown(function readOnlyKeyDown(e) {
   //   e.preventDefault();
   // });
+
   $("a[rel^='prettyPhoto']").prettyPhoto();
 });
 
 Template.editScreening.events({
-  'submit form#edit-screening-form'(event) {
-    // Envia screening
-    event.preventDefault();
-    const form = document.getElementById('edit-screening-form');
-    saveScreening(form, this.film._id, false, 'publish');
-  },
-  'click #btn-save'(event) {
-    // Salva como rascunho
-    event.preventDefault();
-    const form = document.getElementById('edit-screening-form');
-    const draft = $('#btn-save').attr('data-status');
-    saveScreening(form, this.film._id, draft, 'update');
-  },
+  // 'submit form#edit-screening-form'(event) {
+  //   // Envia screening
+  //   event.preventDefault();
+  //   const form = document.getElementById('edit-screening-form');
+  //   saveScreening(form, this.film._id, false, 'publish');
+  // },
+  // 'click #btn-save'(event) {
+  //   // Salva como rascunho
+  //   event.preventDefault();
+  //   const form = document.getElementById('edit-screening-form');
+  //   const newEvent = new Event('submit'); // (*)
+  //   form.dispatchEvent(newEvent);
+
+  //   // const draft = $('#btn-save').attr('data-status');
+  //   // saveScreening(form, this.film._id, draft, 'update');
+  // },
   'click .remove_address'() {
     Meteor.call('removeAddress', Meteor.user()._id, this);
   },
@@ -90,6 +100,6 @@ Template.editScreening.helpers({
   //   }
   // },
   is_draft() {
-    return this.screening.draft;
+    return this.draft;
   },
 });
