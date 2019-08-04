@@ -41,6 +41,7 @@ function getScreeningStatus(s) {
   }
 
   if (s.draft !== undefined) {
+    s.draft = true;
     status = 'Rascunho';
   }
 
