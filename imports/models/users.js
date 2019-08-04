@@ -111,6 +111,12 @@ SimpleSchema.setDefaultMessages({
 export const Schema = {};
 
 Schema.UserAddresses = new SimpleSchema({
+  _id: {
+    type: String,
+    autoform: {
+      type: 'hidden',
+    },
+  },
   place_name: {
     type: String,
     label: 'Nome do Local',

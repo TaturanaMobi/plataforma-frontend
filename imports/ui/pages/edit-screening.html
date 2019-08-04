@@ -38,11 +38,11 @@
       </div>
       {{#autoForm
       schema=Schemas.Screening
-      doc=this collection=Screenings
+      doc=doc collection=Screenings
       id="update-screening-form"
       type="update"
       }}
-      {{> screeningFormFields user_addresses=user_addresses form=this }}
+      {{> screeningFormFields user_addresses=user_addresses form=doc }}
       {{/autoForm}}
     </div>
   </div>
