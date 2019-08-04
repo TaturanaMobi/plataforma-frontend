@@ -84,20 +84,20 @@
 
 .slick-next, .slick-prev{
   &:before {
-    font-family: 'icomoon';
+    font-family: "FontAwesome";
     font-size:45px;
   }
 }
 .slick-next{
   right: 18px;
   &:before {
-    content: "\e901";
+    content: "\f054";
   }
 }
 .slick-prev{
   left: -7px;
   &:before {
-    content: "\e900";
+    content: "\f053";
   }
 }
 @media (max-width: 600px) {

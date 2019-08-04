@@ -28,11 +28,8 @@ meteortesting:mocha
 
 anback:bootstrap-validator
 #dynamic-import@0.5.1
-#vazco:universe-autoform-select
 aldeed:autoform-select2
 natestrauser:select2
-
-froala:editor
 
 momentjs:moment
 rzymek:moment-locale-pt-br
