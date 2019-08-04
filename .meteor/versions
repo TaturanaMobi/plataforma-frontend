@@ -59,7 +59,6 @@ iron:middleware-stack@1.1.0
 iron:router@1.1.2
 iron:url@1.1.0
 jquery@1.11.11
-juliomac:prettyphoto@3.1.6
 lai:collection-extensions@0.2.1_1
 launch-screen@1.1.1
 livedata@1.0.18

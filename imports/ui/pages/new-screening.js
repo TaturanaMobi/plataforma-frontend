@@ -31,7 +31,7 @@ Template.newScreening.onRendered(() => {
   //   startDate: today,
   // });
   // $('.datetimepicker').timepicker();
-  $('a[rel^="prettyPhoto"]').prettyPhoto();
+  // $('a[rel^="prettyPhoto"]').prettyPhoto();
 });
 
 Template.newScreening.events({

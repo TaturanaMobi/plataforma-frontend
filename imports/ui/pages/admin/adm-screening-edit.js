@@ -21,7 +21,7 @@ Template.editScreening.onRendered(() => {
   // $('.readonly').keydown(function readOnlyKeyDown(e) {
   //   e.preventDefault();
   // });
-  $("a[rel^='prettyPhoto']").prettyPhoto();
+  // $("a[rel^='prettyPhoto']").prettyPhoto();
 });
 
 Template.editScreening.events({

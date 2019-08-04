@@ -21,9 +21,9 @@ Template.editScreening.onCreated(function () {
   });
 });
 
-Template.editScreening.onRendered(() => {
-  $("a[rel^='prettyPhoto']").prettyPhoto();
-});
+// Template.editScreening.onRendered(() => {
+//   $("a[rel^='prettyPhoto']").prettyPhoto();
+// });
 
 Template.editScreening.events({
   'click .remove_address'() {

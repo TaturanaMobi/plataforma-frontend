@@ -70,7 +70,7 @@ Template.showFilm.onRendered(() => {
     autoplay: true,
     autoplaySpeed: 6000,
   });
-  $("a[rel^='prettyPhoto']").prettyPhoto();
+  // $("a[rel^='prettyPhoto']").prettyPhoto();
 
   const instance = Template.instance();
   if (instance.data.status.includes('Portfolio')) {
