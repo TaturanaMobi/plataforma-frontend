@@ -40,9 +40,7 @@ function getScreeningStatus(s) {
     status = 'Concluída';
   }
 
-  if ((s.draft !== undefined) && (s.draft === 'admin-draft')) {
-    status = 'Inválida';
-  } else if (s.draft !== undefined) {
+  if (s.draft !== undefined) {
     status = 'Rascunho';
   }
 

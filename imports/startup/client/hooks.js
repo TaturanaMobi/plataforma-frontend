@@ -6,6 +6,14 @@ import { Router } from 'meteor/iron:router';
 
 AutoForm.hooks({
   'new-screening-form': {
+    before: {
+      insert: (doc) => {
+        if (doc.$set.draft) {
+          doc.$set.status = 'Rascunho';
+        }
+        return doc;
+      },
+    },
     // Called when any submit operation succeeds
     onSuccess: (formType, result) => {
       FlashMessages.sendSuccess('Sessão salva com sucesso!');
@@ -83,7 +91,15 @@ AutoForm.hooks({
     },
   },
 
-  'edit-screening-form': {
+  'update-screening-form': {
+    before: {
+      update: (doc) => {
+        if (doc.$set.draft) {
+          doc.$set.status = 'Rascunho';
+        }
+        return doc;
+      },
+    },
     // Called when any submit operation succeeds
     onSuccess: (formType, result) => {
       FlashMessages.sendSuccess('Sessão atualizada com sucesso!');

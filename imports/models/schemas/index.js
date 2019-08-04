@@ -342,6 +342,16 @@ Schemas.Screening = new SimpleSchema({
       },
     },
   },
+  draft: {
+    type: Boolean,
+    allowedValues: [true],
+    optional: true,
+    label: 'Salvar como rascunho',
+    autoform: {
+      type: 'boolean-checkbox',
+    },
+  },
+
   real_quorum: {
     type: SimpleSchema.Integer,
     optional: true,
