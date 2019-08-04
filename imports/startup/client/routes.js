@@ -46,7 +46,7 @@ Router.configure({
 
 Router.route('/', {
   name: 'home',
-  waitOn() { return this.subscribe('films.all', 10); },
+  waitOn() { return this.subscribe('films.all'); },
   // data() { return Films.find({}); },
   action() { this.render('home'); },
 });
