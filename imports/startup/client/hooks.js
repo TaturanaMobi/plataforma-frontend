@@ -11,6 +11,26 @@ AutoForm.hooks({
         if (doc.$set.draft) {
           doc.$set.status = 'Rascunho';
         }
+
+        if (doc.$set.saveAddress) {
+          const address = {
+            _id: new Meteor.Collection.ObjectID().valueOf(),
+            place_name: doc.$set.place_name,
+            cep: doc.$set.cep,
+            street: doc.$set.street,
+            number: doc.$set.number,
+            complement: doc.$set.complement,
+            zone: doc.$set.zone,
+            city: doc.$set.city,
+            uf: doc.$set.uf,
+            s_country: doc.$set.s_country,
+          };
+
+          delete doc.$set.saveAddress;
+
+          Meteor.call('addAddress', Meteor.userId(), address);
+        }
+
         return doc;
       },
     },
@@ -96,6 +116,25 @@ AutoForm.hooks({
       update: (doc) => {
         if (doc.$set.draft) {
           doc.$set.status = 'Rascunho';
+        }
+
+        if (doc.$set.saveAddress) {
+          const address = {
+            _id: new Meteor.Collection.ObjectID().valueOf(),
+            place_name: doc.$set.place_name,
+            cep: doc.$set.cep,
+            street: doc.$set.street,
+            number: doc.$set.number,
+            complement: doc.$set.complement,
+            zone: doc.$set.zone,
+            city: doc.$set.city,
+            uf: doc.$set.uf,
+            s_country: doc.$set.s_country,
+          };
+
+          delete doc.$set.saveAddress;
+
+          Meteor.call('addAddress', Meteor.userId(), address);
         }
         return doc;
       },

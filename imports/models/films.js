@@ -38,13 +38,13 @@ Films.disseminate = () => Films.find({
   }],
 }, { sort: { sequence_number: 1 }, fields: { screening: 0 } });
 
-Films.all = (limit, id = 0) => Films.find(
-  (id.length > 2 ? { _id: id } : {}), {
+Films.all = function all(limit, id = 0) {
+  return Films.find((id.length > 2 ? { _id: id } : {}), {
     sort: { sequence_number: 1 },
     fields: { screening: 0 },
     limit: (limit > 0 ? limit : 100),
-  },
-);
+  });
+};
 
 Films.active = () => Films.find(
   { status: { $not: /Oculto/ } },

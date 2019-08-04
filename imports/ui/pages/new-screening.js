@@ -13,6 +13,7 @@ import './new-screening.html';
 Template.newScreening.onCreated(function () {
   this.autorun(() => {
     this.subscribe('cities');
+    this.subscribe('users.me');
   });
 });
 
@@ -70,10 +71,6 @@ Template.newScreening.helpers({
     };
   },
   user_addresses() {
-    if (!Meteor.user()) {
-      return {};
-    }
-
     return Meteor.user().addresses;
   },
   address() {

@@ -12,6 +12,7 @@ import './edit-screening.html';
 Template.editScreening.onCreated(function () {
   this.autorun(() => {
     this.subscribe('cities');
+    this.subscribe('users.me');
   });
 });
 
@@ -68,7 +69,7 @@ Template.editScreening.helpers({
   // },
 
   user_addresses() {
-    return Meteor.user() ? Meteor.user().addresses : '';
+    return Meteor.user().addresses;
   },
 
   address(replaceAddress) {

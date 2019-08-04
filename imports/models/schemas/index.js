@@ -344,7 +344,6 @@ Schemas.Screening = new SimpleSchema({
   },
   draft: {
     type: Boolean,
-    allowedValues: [true],
     optional: true,
     label: 'Salvar como rascunho',
     autoform: {

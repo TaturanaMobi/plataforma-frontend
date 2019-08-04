@@ -31,9 +31,11 @@ import { publicRoutes } from './routes-ambassador.js';
 
 Router.route('/adm/sessions2', {
   waitOn() {
-    return Meteor.subscribe('screenings.all')
-    && Meteor.subscribe('films.all')
-    && Meteor.subscribe('users.all');
+    return Meteor.subscribe('screenings.all');
+  },
+  subscriptions() {
+    Meteor.subscribe('films.all');
+    Meteor.subscribe('users.all');
   },
   data() { return Screenings.find({}); },
   action() { this.render('admSessions2'); },
@@ -41,9 +43,11 @@ Router.route('/adm/sessions2', {
 
 Router.route('/adm/ambassadors', {
   waitOn() {
-    return Meteor.subscribe('screenings.all')
-    && Meteor.subscribe('films.all')
-    && Meteor.subscribe('users.all');
+    return Meteor.subscribe('users.all');
+  },
+  subscriptions() {
+    Meteor.subscribe('films.all');
+    Meteor.subscribe('screenings.all');
   },
   data() { return Users.find({}); },
   action() { this.render('admAmbassadors'); },
