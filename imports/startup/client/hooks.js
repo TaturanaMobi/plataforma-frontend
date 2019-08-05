@@ -8,25 +8,26 @@ AutoForm.hooks({
   'new-screening-form': {
     before: {
       insert: (doc) => {
-        if (doc.$set.draft) {
-          doc.$set.status = 'Rascunho';
+        doc.status = 'Agendada';
+        if (doc.draft) {
+          doc.status = 'Rascunho';
         }
 
-        if (doc.$set.saveAddress) {
+        if (doc.saveAddress) {
           const address = {
             _id: new Meteor.Collection.ObjectID().valueOf(),
-            place_name: doc.$set.place_name,
-            cep: doc.$set.cep,
-            street: doc.$set.street,
-            number: doc.$set.number,
-            complement: doc.$set.complement,
-            zone: doc.$set.zone,
-            city: doc.$set.city,
-            uf: doc.$set.uf,
-            s_country: doc.$set.s_country,
+            place_name: doc.place_name,
+            cep: doc.cep,
+            street: doc.street,
+            number: doc.number,
+            complement: doc.complement,
+            zone: doc.zone,
+            city: doc.city,
+            uf: doc.uf,
+            s_country: doc.s_country,
           };
 
-          delete doc.$set.saveAddress;
+          delete doc.saveAddress;
 
           Meteor.call('addAddress', Meteor.userId(), address);
         }
@@ -114,6 +115,7 @@ AutoForm.hooks({
   'update-screening-form': {
     before: {
       update: (doc) => {
+        doc.$set.status = 'Agendada';
         if (doc.$set.draft) {
           doc.$set.status = 'Rascunho';
         }
