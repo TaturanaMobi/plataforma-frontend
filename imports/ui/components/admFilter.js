@@ -482,4 +482,3 @@ Template.admFilter.events({
     }
   },
 });
-

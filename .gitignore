@@ -30,6 +30,8 @@ node_modules
 uploads/.idea
 uploads/images
 backups/*
+!backups/Municipios-Brasileiros/json/estados.json
+!backups/Municipios-Brasileiros/json/municipios.json
 !backups/taturana-films.json
 traefik.staging.yml
 acme.staging.json

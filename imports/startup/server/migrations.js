@@ -6,6 +6,9 @@ import { moment } from 'meteor/momentjs:moment';
 import Films from '../../models/films';
 import Screenings from '../../models/screenings';
 import NotificationTemplates from '../../models/notification_templates';
+import { Cities, States } from '../../models/states_and_cities';
+import Estados from '../../../backups/Municipios-Brasileiros/json/estados.json';
+import Municipios from '../../../backups/Municipios-Brasileiros/json/municipios.json';
 
 function convertInteger(value) {
   if (value === undefined) {
@@ -37,9 +40,8 @@ function getScreeningStatus(s) {
     status = 'Concluída';
   }
 
-  if ((s.draft !== undefined) && (s.draft === 'admin-draft')) {
-    status = 'Inválida';
-  } else if (s.draft !== undefined) {
+  if (s.draft !== undefined) {
+    s.draft = true;
     status = 'Rascunho';
   }
 
@@ -48,6 +50,51 @@ function getScreeningStatus(s) {
 
 Migrations.add({
   version: 1,
+  up() {
+    const filenames = [
+      'ask_for_report_take2',
+      'ask_for_report',
+      'confirm_scheduling_3',
+      'confirm_scheduling_9',
+      'confirm_scheduling_10',
+      'confirm_screening_date',
+      'send_the_movie_3',
+      'send_the_movie_9',
+      'send_the_movie_10',
+      'tell_ambassador_the_results',
+    ];
+
+    const subjects = [
+      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Você tem uma sessão agendada!',
+      'Você tem uma sessão agendada!',
+      'Você tem uma sessão agendada!',
+      'Tudo certo para a sua sessão?',
+      'Download do filme {{film.title}}.',
+      'Download do filme {{film.title}}.',
+      'Download do filme {{film.title}}.',
+      'Veja sua contribuição para a rede de impacto do {{film.title}}.',
+    ];
+
+    filenames.forEach((templateName, i) => {
+      Assets.getText(`.templates/${templateName}.html`, function (error, data) {
+        NotificationTemplates.insert({
+          name: `Genérico para ${templateName}`,
+          trigger: templateName,
+          subject: subjects[i],
+          body: data,
+        });
+      });
+    });
+  },
+  down() {
+    NotificationTemplates.remove();
+  },
+});
+
+Migrations.add({
+  version: 2,
   up() {
     Films.find({}).forEach((film) => {
       if (film.screening !== undefined && film.screening.length > 0) {
@@ -106,50 +153,6 @@ Migrations.add({
   },
 });
 
-Migrations.add({
-  version: 2,
-  up() {
-    const filenames = [
-      'ask_for_report_take2',
-      'ask_for_report',
-      'confirm_scheduling_3',
-      'confirm_scheduling_9',
-      'confirm_scheduling_10',
-      'confirm_screening_date',
-      'send_the_movie_3',
-      'send_the_movie_9',
-      'send_the_movie_10',
-      'tell_ambassador_the_results',
-    ];
-
-    const subjects = [
-      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
-      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
-      'Você tem uma sessão agendada!',
-      'Você tem uma sessão agendada!',
-      'Você tem uma sessão agendada!',
-      'Tudo certo para a sua sessão?',
-      'Download do filme {{film.title}}.',
-      'Download do filme {{film.title}}.',
-      'Download do filme {{film.title}}.',
-      'Veja sua contribuição para a rede de impacto do {{film.title}}.',
-    ];
-
-    filenames.forEach((templateName, i) => {
-      Assets.getText(`.templates/${templateName}.html`, function (error, data) {
-        NotificationTemplates.insert({
-          name: `Genérico para ${templateName}`,
-          trigger: templateName,
-          subject: subjects[i],
-          body: data,
-        });
-      });
-    });
-  },
-  down() {
-    NotificationTemplates.remove();
-  },
-});
 
 Migrations.add({
   version: 3,
@@ -164,8 +167,35 @@ Migrations.add({
   down() {},
 });
 
+Migrations.add({
+  version: 4,
+  up() {
+    const c = Cities.rawCollection();
+    c.rename('cities_old', { dropTarget: true });
+    const s = States.rawCollection();
+    s.rename('states_old', { dropTarget: true });
+    c.insert(Municipios);
+    s.insert(Estados);
+  },
+  down() { },
+});
+
+Migrations.add({
+  version: 5,
+  up() {
+    Films.find({}).forEach((film) => {
+      Films.update(film._id, {
+        $unset: {
+          screening: '',
+        },
+      });
+    });
+  },
+  down() { },
+});
+
 Meteor.startup(() => {
   Migrations.migrateTo('latest');
   Migrations.unlock();
-  // Migrations.migrateTo('3,rerun');
+  // Migrations.migrateTo('5,rerun');
 });

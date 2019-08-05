@@ -3,10 +3,10 @@ import { Mongo } from 'meteor/mongo';
 
 import Films from './films';
 
-export const States = new Mongo.Collection('states');
-export const Cities = new Mongo.Collection('cities');
+const States = new Mongo.Collection('states');
+const Cities = new Mongo.Collection('cities');
 
-function slug(s, opt) {
+const Slug = (s, opt) => {
   /**
    * Create a web friendly URL slug from a string.
    *
@@ -472,3 +472,5 @@ Cities.unsetHasScreenings = (country, state, city) => {
 //   Meteor.subscribe('cities');
 //   Meteor.subscribe('states');
 // }
+
+export { States, Cities, Slug };

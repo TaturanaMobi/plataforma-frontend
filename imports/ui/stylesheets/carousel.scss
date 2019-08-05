@@ -1,7 +1,8 @@
 #carousel{
+  // margin: 3em 0;
   & .synopsis{
     // font-size: 0.9em;
-    font-weight: 200;
+    font-weight: 300;
     text-shadow: none;
     p {
       text-shadow: none;
@@ -14,7 +15,7 @@
     text-align:left;
     font-size: 1.5em;
     text-transform: uppercase;
-    font-weight: 300;
+    font-weight: 700;
   }
   // & .btn{
   //   border: 1px solid #fff;
@@ -83,20 +84,20 @@
 
 .slick-next, .slick-prev{
   &:before {
-    font-family: 'icomoon';
+    font-family: "FontAwesome";
     font-size:45px;
   }
 }
 .slick-next{
   right: 18px;
   &:before {
-    content: "\e901";
+    content: "\f054";
   }
 }
 .slick-prev{
   left: -7px;
   &:before {
-    content: "\e900";
+    content: "\f053";
   }
 }
 @media (max-width: 600px) {

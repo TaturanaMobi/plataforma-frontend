@@ -111,6 +111,12 @@ SimpleSchema.setDefaultMessages({
 export const Schema = {};
 
 Schema.UserAddresses = new SimpleSchema({
+  _id: {
+    type: String,
+    autoform: {
+      type: 'hidden',
+    },
+  },
   place_name: {
     type: String,
     label: 'Nome do Local',
@@ -146,25 +152,25 @@ Schema.UserAddresses = new SimpleSchema({
     type: String,
     label: 'Cidade',
     autoform: {
-      type: 'universe-select',
+      type: 'select2',
       afFieldInput: {
         // multiple: false,
-        optionsMethod: 'getSelectCities',
-        uniPlaceholder: 'Selecione',
+        // optionsMethod: 'getSelectCities',
+        firstOption: 'Selecione',
       },
     },
-    max: 1000,
+    // max: 1000,
   },
   uf: {
     type: String,
     label: 'Estado',
     allowedValues: STATES,
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(STATES),
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
     max: 5,
@@ -244,11 +250,11 @@ Schema.UserProfile = new SimpleSchema({
     type: String,
     label: 'Cidade',
     autoform: {
-      type: 'universe-select',
+      type: 'select2',
       afFieldInput: {
-        // multiple: false,
-        optionsMethod: 'getSelectCities',
-        uniPlaceholder: 'Selecione',
+        multiple: false,
+        options: [],
+        firstOption: 'Selecione',
       },
     },
     max: 1000,
@@ -258,11 +264,11 @@ Schema.UserProfile = new SimpleSchema({
     label: 'Estado',
     allowedValues: STATES,
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(STATES),
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
     max: 5,
@@ -276,11 +282,11 @@ Schema.UserProfile = new SimpleSchema({
     optional: true,
     label: 'Qual a sua área de atuação?',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(FILM_CATEGORIES),
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
   },
@@ -289,11 +295,11 @@ Schema.UserProfile = new SimpleSchema({
     optional: true,
     label: 'Com quais temáticas vocês trabalham?',
     autoform: {
-      type: 'universe-select',
+      type: 'select',
       afFieldInput: {
         multiple: false,
         options: getSelectOptions(FILM_SUBCATEGORIES),
-        uniPlaceholder: 'Selecione',
+        firstOption: 'Selecione',
       },
     },
   },

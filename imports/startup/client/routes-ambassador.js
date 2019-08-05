@@ -41,7 +41,10 @@ Router.route('/new-screening/:slug', {
 Router.route('/edit-screening/:_id', {
   name: 'edit-screening',
   waitOn() {
-    return [this.subscribe('screenings.my'), this.subscribe('films.all')];
+    return [
+      this.subscribe('screenings.my'),
+      this.subscribe('films.all'),
+    ];
   },
   data() {
     return Screenings.findOne({ _id: this.params._id });

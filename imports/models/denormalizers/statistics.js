@@ -146,7 +146,6 @@ export default {
       viewers_zones: {},
       past_sessions: 0,
       future_sessions: 0,
-      film,
     };
 
     const statistics = calculateStatistics(_.extend({}, initialInventory, legacyData), screenings);

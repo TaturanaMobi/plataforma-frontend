@@ -18,23 +18,31 @@ import NotificationTemplates from '../../models/notification_templates.js';
 Meteor.startup(() => {
   Worker.start();
 
-  Meteor.publish('films.all', () => Films.all());
+  Meteor.publish('films.all', Films.all);
 
-  Meteor.publish('screenings.all', () => Screenings.find({}));
+  Meteor.publish('screenings.all', function() { return Screenings.find({}); });
 
-  Meteor.publish('screenings.my', () => Screenings.find({ user_id: Meteor.userId() }));
+  Meteor.publish('screenings.my', function() { return Screenings.find({ user_id: Meteor.userId() }); });
 
-  Meteor.publish('screenings.upcoming', () => Screenings.find({ status: 'Confirmada', public_event: true, date: { $gte: new Date() } }));
+  Meteor.publish('screenings.upcoming', function() { return Screenings.find({ status: 'Confirmada', public_event: true, date: { $gte: new Date() } }); });
 
-  Meteor.publish('users.me', () => Meteor.users.find({ _id: Meteor.userId() }));
+  Meteor.publish('users.me', function() { return Meteor.users.find({ _id: Meteor.userId() }); });
 
-  Meteor.publish('users.all', () => Meteor.users.find({}, { sort: { createdAt: 1 } }));
+  Meteor.publish('users.all', function() { return Meteor.users.find({}, { sort: { createdAt: 1 } }); });
 
-  Meteor.publish('notificationTemplates.all', () => NotificationTemplates.find({}));
+  Meteor.publish('notificationTemplates.all', function() { return NotificationTemplates.find({}); });
 
-  Meteor.publish('files.images.all', () => Images.find().cursor);
+  Meteor.publish('files.images.all', function() { return Images.find().cursor; });
 
-  Meteor.publish('cities', () => Cities.find({}, { fields: { nome: 1 } }));
+  Meteor.publish('cities', function(uf) {
+    if (typeof uf === 'undefined') {
+      return this.ready();
+    }
+
+    const stateUf = States.findOne({ uf });
+
+    return Cities.find({ codigo_uf: stateUf.codigo_uf }, { fields: { nome: 1 } });
+  });
 
   // Forgot Password Email
   Accounts.emailTemplates.siteName = 'Taturana Mobilização Social';
@@ -255,7 +263,7 @@ Meteor.methods({
   },
   addAddress(userId, newAddress) {
     Meteor.users.update(userId, {
-      $push: {
+      $addToSet: {
         addresses: newAddress,
       },
     });

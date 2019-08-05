@@ -6,9 +6,16 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import '../components/autoform-nouislider.js';
-import '../components/screeningFormFields.html';
+import '../components/screeningFormFields';
 import './new-screening.html';
 // import { saveScreening } from '../../startup/client/helpers.js';
+
+Template.newScreening.onCreated(function () {
+  this.autorun(() => {
+    this.subscribe('cities');
+    this.subscribe('users.me');
+  });
+});
 
 Template.newScreening.onRendered(() => {
   // const nowDate = new Date();
@@ -24,7 +31,7 @@ Template.newScreening.onRendered(() => {
   //   startDate: today,
   // });
   // $('.datetimepicker').timepicker();
-  $('a[rel^="prettyPhoto"]').prettyPhoto();
+  // $('a[rel^="prettyPhoto"]').prettyPhoto();
 });
 
 Template.newScreening.events({
@@ -59,15 +66,10 @@ Template.newScreening.helpers({
     return {
       user_id: Meteor.userId(),
       filmId: this._id,
-      status: 'Agendada',
       created_at: new Date(),
     };
   },
   user_addresses() {
-    if (!Meteor.user()) {
-      return {};
-    }
-
     return Meteor.user().addresses;
   },
   address() {

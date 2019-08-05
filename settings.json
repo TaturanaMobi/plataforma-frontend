@@ -1,3 +1,13 @@
 {
-  "public": {}
+  "env": {
+    "MAIL_URL": "smtp://localhost:1025",
+    "MONGO_URL":"mongodb://localhost:27017/taturana"
+  },
+  "public": {
+    "analyticsSettings": {
+      "Google Analytics": {
+        "trackingId": "UA-119536431-1"
+      }
+    }
+  }
 }

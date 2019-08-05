@@ -1,8 +1,9 @@
-import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
+import { Template } from 'meteor/templating';
+import { Tracker } from 'meteor/tracker';
+import { analytics } from 'meteor/okgrow:analytics';
 
 import Films from '../../models/films';
-// import Screenings from '../../models/screenings';
 
 import '../../ui/layouts/app-body.js';
 import '../../ui/pages/about.js';
@@ -22,6 +23,22 @@ import '../../ui/pages/reset-password.js';
 import '../../ui/pages/screenings.js';
 import '../../ui/pages/show-film.js';
 
+Template.App_Body.onRendered(function() {
+  Tracker.autorun(() => {
+    document.title = `Plataforma Taturana - ${Router.current().route.getName()}`;
+
+    // Feature detects Navigation Timing API support.
+    if (window.performance) {
+      // Gets the number of milliseconds since page load
+      // (and rounds the result since the value must be an integer).
+      const timeSincePageLoad = Math.round(performance.now());
+
+      // Sends the timing hit to Google Analytics.
+      analytics.track('JS Dependencies', { eventName: 'timing', couponValue: timeSincePageLoad });
+    }
+  });
+});
+
 Router.configure({
   layoutTemplate: 'App_Body',
   loadingTemplate: 'loading',
@@ -29,7 +46,7 @@ Router.configure({
 
 Router.route('/', {
   name: 'home',
-  waitOn() { return Meteor.subscribe('films.all'); },
+  waitOn() { return this.subscribe('films.all', 15); },
   // data() { return Films.find({}); },
   action() { this.render('home'); },
 });
@@ -51,7 +68,7 @@ Router.route('/faq', { name: 'faq' });
 
 Router.route('/films', {
   name: 'films',
-  waitOn() { return Meteor.subscribe('films.all'); },
+  waitOn() { return this.subscribe('films.all'); },
   // data() { return Films.active(); },
   action() { this.render('films'); },
 });
@@ -59,7 +76,7 @@ Router.route('/films', {
 Router.route('/screenings', {
   name: 'screenings',
   waitOn() {
-    return Meteor.subscribe('films.all') && Meteor.subscribe('screenings.upcoming');
+    return this.subscribe('films.all') && this.subscribe('screenings.upcoming');
   },
   // data() { return Films.active(); },
   action() { this.render('screenings'); },
@@ -67,7 +84,7 @@ Router.route('/screenings', {
 
 Router.route('/film/:slug', {
   name: 'showFilm',
-  waitOn() { return Meteor.subscribe('films.all'); },
+  waitOn() { return this.subscribe('films.all'); },
   data() { return Films.findOne({ slug: this.params.slug }); },
   action() { this.render('showFilm'); },
 });

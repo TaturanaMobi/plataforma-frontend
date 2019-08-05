@@ -4,7 +4,7 @@
     {{> afQuickField name='emails.0.address' disabled='true' }}
     {{#if profile.avatar_path}}
     <div class="col-lg-4">
-      <img src="https://images.stag.taturanamobi.com.br/fit?width=100&height=100&file={{profile.avatar_path}}" alt="Avatar" />
+      <img src="https://images.stag.taturanamobi.com.br/fit?width=100&height=100&type=jpeg&file={{profile.avatar_path}}" alt="Avatar" />
     </div>
     {{/if}}
     {{> afQuickField name='profile.avatar_path' }}
@@ -34,11 +34,11 @@
   <div class="form-group col-md-6">
       {{> afQuickField name='profile.phone' }}
   </div>
-  <div class="form-group col-md-4">
-      {{> afQuickField name='profile.city' }}
-  </div>
-  <div class="form-group col-md-4">
+  <div class="form-group col-md-6">
       {{> afQuickField name='profile.uf' }}
+  </div>
+  <div class="form-group col-md-6">
+      {{> afQuickField name='profile.city' options=cities }}
   </div>
   <div class="form-group col-md-12">
       {{> afQuickField name='profile.institution' }}
