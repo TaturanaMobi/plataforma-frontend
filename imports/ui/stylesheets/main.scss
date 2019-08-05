@@ -55,8 +55,9 @@ p, label{
   margin-bottom: 1em;
   text-shadow: 1px 1px 2px #000;
 }
-#summernote p {
+.note-editor p {
   color: #333;
+  text-shadow: none;
 }
 
 .select2-search__field,
@@ -106,13 +107,19 @@ a, input, button, textarea {
   line-height: 2em;
 }
 .film-thumb {
-  min-height: 330px;
+  min-height: 360px;
 }
 .film-thumb-title{
   font-size: 1.5em;
   text-transform: uppercase;
   font-weight:300;
+  margin: 1em 0;
 }
+.ambassador-address p {
+  min-height: 4.5em;
+  margin-bottom: 1em;
+}
+
 #ambassador-registration .image-description{
   margin-bottom: 5em;
 }
@@ -164,7 +171,7 @@ a, input, button, textarea {
   width:100%;
 }
 .square_button{
-  padding:1em;
+  padding: 1em;
   border: 1px solid #fff;
   font-weight: 300;
 }

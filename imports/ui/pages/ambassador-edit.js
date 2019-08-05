@@ -1,13 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { _ } from 'meteor/underscore';
 // import { FlashMessages } from 'meteor/mrt:flash-messages';
-// import Films from '../../models/films.js';
+import Screenings from '../../models/screenings';
+
 
 import './ambassador-edit.html';
 
 Template.ambassadorEdit.onCreated(function () {
   this.autorun(() => {
     this.subscribe('cities');
+    this.subscribe('screenings.my');
   });
 });
 
@@ -18,27 +21,27 @@ Template.ambassadorEdit.helpers({
   // avatarData() {
   //   return { file_type: 'avatar_path' };
   // },
-  // amount_film_screenings() {
-  // const scrs = Films.screenings_by_user_id(Meteor.userId());
-  // const today = new Date();
-  // let pastScr = 0;
-  // let people = 0;
+  amount_film_screenings() {
+    const scrs = Screenings.find({}).fetch();
+    const today = new Date();
+    let pastScr = 0;
+    let people = 0;
+    _.each(scrs, (scr) => {
+      if (scr.date.getTime() < today.getTime()) {
+        if (scr.real_quorum) {
+          people = parseInt(scr.real_quorum, 10) + people;
+        }
+        pastScr += 1;
+      }
+    });
 
-  // _.each(scrs, (scr) => {
-  //   if (scr.date.getTime() < today.getTime()) {
-  //     if (scr.real_quorum) {
-  //       people = parseInt(scr.real_quorum, 10) + people;
-  //     }
-  //     pastScr += 1;
-  //   }
-  // });
-
-// return { pastScr, people };
-// return {};
-// },
-// amount_films() {
-//   return Films.by_user_id(Meteor.userId()).length;
-// },
+    // console.log(pastScr, people);
+    return { pastScr, people };
+    // return {};
+  },
+  amount_films() {
+    return Screenings.find({ userId: Meteor.userId() }).length;
+  },
 });
 
 Template.ambassadorEdit.events({
