@@ -74,7 +74,7 @@ const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '1
 
 export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Inválida'];
 
-export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre'];
+export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre', 'Gratis'];
 
 SimpleSchema.extendOptions(['autoform']);
 SimpleSchema.setDefaultMessages({
@@ -381,7 +381,7 @@ bate-papo e a atividade após o filme. Se puder, cite os conteúdos
 abordados, relate as discussões mais interessantes e reproduza frases e
 depoimentos relevantes.`,
     optional: true,
-    max: 10000,
+    max: 15000,
     autoform: {
       afFieldInput: {
         type: 'textarea',

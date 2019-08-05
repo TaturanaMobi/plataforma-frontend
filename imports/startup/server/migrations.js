@@ -51,6 +51,51 @@ function getScreeningStatus(s) {
 Migrations.add({
   version: 1,
   up() {
+    const filenames = [
+      'ask_for_report_take2',
+      'ask_for_report',
+      'confirm_scheduling_3',
+      'confirm_scheduling_9',
+      'confirm_scheduling_10',
+      'confirm_screening_date',
+      'send_the_movie_3',
+      'send_the_movie_9',
+      'send_the_movie_10',
+      'tell_ambassador_the_results',
+    ];
+
+    const subjects = [
+      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Você tem uma sessão agendada!',
+      'Você tem uma sessão agendada!',
+      'Você tem uma sessão agendada!',
+      'Tudo certo para a sua sessão?',
+      'Download do filme {{film.title}}.',
+      'Download do filme {{film.title}}.',
+      'Download do filme {{film.title}}.',
+      'Veja sua contribuição para a rede de impacto do {{film.title}}.',
+    ];
+
+    filenames.forEach((templateName, i) => {
+      Assets.getText(`.templates/${templateName}.html`, function (error, data) {
+        NotificationTemplates.insert({
+          name: `Genérico para ${templateName}`,
+          trigger: templateName,
+          subject: subjects[i],
+          body: data,
+        });
+      });
+    });
+  },
+  down() {
+    NotificationTemplates.remove();
+  },
+});
+
+Migrations.add({
+  version: 2,
+  up() {
     Films.find({}).forEach((film) => {
       if (film.screening !== undefined && film.screening.length > 0) {
         film.screening.forEach((screening) => {
@@ -108,50 +153,6 @@ Migrations.add({
   },
 });
 
-Migrations.add({
-  version: 2,
-  up() {
-    const filenames = [
-      'ask_for_report_take2',
-      'ask_for_report',
-      'confirm_scheduling_3',
-      'confirm_scheduling_9',
-      'confirm_scheduling_10',
-      'confirm_screening_date',
-      'send_the_movie_3',
-      'send_the_movie_9',
-      'send_the_movie_10',
-      'tell_ambassador_the_results',
-    ];
-
-    const subjects = [
-      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
-      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
-      'Você tem uma sessão agendada!',
-      'Você tem uma sessão agendada!',
-      'Você tem uma sessão agendada!',
-      'Tudo certo para a sua sessão?',
-      'Download do filme {{film.title}}.',
-      'Download do filme {{film.title}}.',
-      'Download do filme {{film.title}}.',
-      'Veja sua contribuição para a rede de impacto do {{film.title}}.',
-    ];
-
-    filenames.forEach((templateName, i) => {
-      Assets.getText(`.templates/${templateName}.html`, function (error, data) {
-        NotificationTemplates.insert({
-          name: `Genérico para ${templateName}`,
-          trigger: templateName,
-          subject: subjects[i],
-          body: data,
-        });
-      });
-    });
-  },
-  down() {
-    NotificationTemplates.remove();
-  },
-});
 
 Migrations.add({
   version: 3,
