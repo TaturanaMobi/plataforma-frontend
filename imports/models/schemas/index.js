@@ -193,7 +193,7 @@ Schemas.Screening = new SimpleSchema({
     type: String,
     label: 'Cidade',
     autoform: {
-      type: 'select',
+      type: 'select2',
       afFieldInput: {
         // multiple: false,
         // optionsMethod: 'getSelectCities',

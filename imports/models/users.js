@@ -152,14 +152,14 @@ Schema.UserAddresses = new SimpleSchema({
     type: String,
     label: 'Cidade',
     autoform: {
-      type: 'select',
+      type: 'select2',
       afFieldInput: {
         // multiple: false,
-        optionsMethod: 'getSelectCities',
+        // optionsMethod: 'getSelectCities',
         firstOption: 'Selecione',
       },
     },
-    max: 1000,
+    // max: 1000,
   },
   uf: {
     type: String,
@@ -250,7 +250,7 @@ Schema.UserProfile = new SimpleSchema({
     type: String,
     label: 'Cidade',
     autoform: {
-      type: 'select',
+      type: 'select2',
       afFieldInput: {
         multiple: false,
         options: [],
