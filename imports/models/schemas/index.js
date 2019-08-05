@@ -847,6 +847,7 @@ Schemas.Film = new SimpleSchema({
   },
   slug: {
     type: String,
+    optional: true,
     label: 'Título na URL',
     max: 100,
     autoform: {

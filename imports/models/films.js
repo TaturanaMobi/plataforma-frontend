@@ -1,10 +1,11 @@
-// import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { _ } from 'meteor/underscore';
 
 import './images';
 import Schemas from './schemas';
 import Screenings from './screenings';
+import { Slug } from './states_and_cities';
 
 const Films = new Mongo.Collection('films');
 
@@ -133,5 +134,20 @@ Films.allow({
 });
 
 Films.attachSchema(Schemas.Film);
+
+if (Meteor.isServer) {
+  Films.before.insert(function (userId, doc) {
+    doc.slug = Slug(doc.title);
+
+    return doc;
+  });
+  Films.before.update(function (userId, doc, fieldNames, modifier, options) {
+    // console.log(userId, doc, fieldNames, modifier, options);
+    modifier.$set = modifier.$set || {};
+    modifier.$set.slug = Slug(modifier.$set.title);
+
+    return modifier;
+  });
+}
 
 export default Films;

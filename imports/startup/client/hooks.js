@@ -101,17 +101,6 @@ AutoForm.hooks({
     },
   },
 
-  'edit-film-form': {
-    // Called when any submit operation succeeds
-    onSuccess: (formType, result) => {
-      FlashMessages.sendSuccess('Filme salvo com sucesso!');
-      setTimeout(() => {
-        Router.go('/adm/films');
-      }, 2000);
-      return result;
-    },
-  },
-
   'update-screening-form': {
     before: {
       update: (doc) => {
@@ -177,6 +166,42 @@ AutoForm.hooks({
       FlashMessages.sendSuccess('Usuário criado com sucesso!');
       setTimeout(() => {
         Router.go('/ambassador');
+      }, 2000);
+      return result;
+    },
+
+    // Called when any submit operation fails
+    onError: (formType, error) => {
+      const e = error.toString();
+      FlashMessages.sendError(`Preencha todas as informações. ${e.substring(6)}`);
+      console.log(error, formType);
+    },
+  },
+
+  'new-film-form': {
+    // Called when any submit operation succeeds
+    onSuccess: (formType, result) => {
+      FlashMessages.sendSuccess('Filme criado com sucesso!');
+      setTimeout(() => {
+        Router.go('/adm/films');
+      }, 2000);
+      return result;
+    },
+
+    // Called when any submit operation fails
+    onError: (formType, error) => {
+      const e = error.toString();
+      FlashMessages.sendError(`Preencha todas as informações. ${e.substring(6)}`);
+      console.log(error, formType);
+    },
+  },
+
+  'edit-film-form': {
+    // Called when any submit operation succeeds
+    onSuccess: (formType, result) => {
+      FlashMessages.sendSuccess('Filme atualizado com sucesso!');
+      setTimeout(() => {
+        Router.go('/adm/films');
       }, 2000);
       return result;
     },
