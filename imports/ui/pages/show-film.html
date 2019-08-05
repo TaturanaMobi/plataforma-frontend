@@ -82,10 +82,10 @@
       </div>
 
       <div class="film-graphs col-lg-12">
-        {{#with inventory}}
+        {{#with statistics}}
         <div class="row data-row film-graphs">
           <div class="col-md-6 reset-div film-graphs__box">
-            <h3>{{#if is_difusao_portfolio film}}Números da mobilização{{else}}Dados da Difusão{{/if}}</h3>
+            <h3>{{#if is_difusao_portfolio}}Números da mobilização{{else}}Dados da Difusão{{/if}}</h3>
             <dl>
               <dd class="{{hideIfNotDifusaoPortfolio film}}"><div id="viewers-chart" class="ct-chart"></div></dd>
               <dd><img src="/images/eye.svg" alt="">{{viewers_from_reports}} espectadores em {{sessions_with_reports}} sessões com relatório de impacto</dd>
@@ -95,10 +95,10 @@
               {{/unless}}
             </dl>
           </div>
-          {{#if is_difusao_portfolio film }}
+          {{#if is_difusao_portfolio }}
           <div class="col-md-6 film-graphs">
             <h3>Em quais regiões</h3>
-            <div class="ct-chart {{hideIfNotDifusaoPortfolio film}}" id="zone-chart"></div>
+            <div class="ct-chart {{hideIfNotDifusaoPortfolio}}" id="zone-chart"></div>
             <p>{{cities_total}} municipios alcançados</p>
           </div>
           {{else}}
@@ -112,8 +112,8 @@
           </div>
           {{/if}}
         </div>
-        {{# if is_difusao_portfolio film}}
-          {{# if has_categories categories}}
+        {{# if is_difusao_portfolio}}
+          {{# if has_categories}}
           <div class="row data-row">
             <div class="col-md-12 film-graphs">
               <div class="row">

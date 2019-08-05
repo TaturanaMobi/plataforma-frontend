@@ -25,41 +25,32 @@ Template.showFilm.helpers({
 
     return printLinks;
   },
-  is_only_portfolio(film) {
-    if (!film) { film = this; }
-    return (film.status === 'Portfolio');
+  is_only_portfolio() {
+    return (Template.instance().parent().data.status === 'Portfolio');
   },
-  is_portfolio(film) {
-    if (!film) { film = this; }
-    return (film.status === 'Portfolio' || film.status === 'Difusão/Portfolio');
+  is_portfolio() {
+    return (Template.instance().parent().data.status === 'Portfolio' || this.status === 'Difusão/Portfolio');
   },
-  is_difusao(film) {
-    if (!film) { film = this; }
-    return (film.status === 'Difusão' || film.status === 'Difusão/Portfolio');
+  is_difusao() {
+    return (Template.instance().parent().data.status === 'Difusão' || this.status === 'Difusão/Portfolio');
   },
-  is_difusao_portfolio(film) {
-    if (!film) { film = this; }
-    return (film.status === 'Difusão/Portfolio');
+  is_difusao_portfolio() {
+    return (Template.instance().parent().data.status === 'Difusão/Portfolio');
   },
-  is_oculto(film) {
-    if (!film) { film = this; }
-    return film.status === 'Oculto';
+  is_oculto() {
+    return Template.instance().parent().data.status === 'Oculto';
   },
-  hideIfNotDifusaoPortfolio(film) {
-    if (!film) { film = this; }
-    if (film.status === 'Difusão/Portfolio') {
+  hideIfNotDifusaoPortfolio() {
+    if (Template.instance().parent().data.status === 'Difusão/Portfolio') {
       return '';
     }
     return 'hide';
   },
-  inventory() {
-    return this.statistics;
-  },
   tibr() {
     return this.technical_information ? `<p>${this.technical_information.replace(/\n/g, '</p><p>')}</p>` : '';
   },
-  has_categories(categories) {
-    return !_.isEmpty(categories);
+  has_categories() {
+    return !_.isEmpty(this.categories);
   },
 });
 
