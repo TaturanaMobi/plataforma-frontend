@@ -41,7 +41,6 @@ function getScreeningStatus(s) {
   }
 
   if (s.draft !== undefined) {
-    s.draft = true;
     status = 'Rascunho';
   }
 
@@ -114,6 +113,9 @@ Migrations.add({
             screening.author_3 = toTitleCase(screening.author_3);
           }
           screening.status = getScreeningStatus(screening);
+          if (screening.status === 'Rascunho') {
+            screening.draft = true;
+          }
           if (screening.status === 'Concluída') {
             screening.reportCreatedAt = new Date();
           }
@@ -126,6 +128,7 @@ Migrations.add({
           screening.street = (!screening.street ? 'Não preenchido' : screening.street);
           screening.user_id = (!screening.user_id ? 'GwoHNFGPGkSJcycw6' : screening.user_id);
           screening.place_name = (!screening.place_name ? `Sem nome ${Math.random()}` : screening.place_name);
+          screening.cep = convertInteger(screening.cep);
           screening.number = convertInteger(screening.number);
           screening.real_quorum = convertInteger(screening.real_quorum);
           screening.quorum_expectation = convertInteger(screening.quorum_expectation);
@@ -138,12 +141,14 @@ Migrations.add({
         });
       }
 
-      // delete film.screening;
       film.duration = convertInteger(film.length);
 
       Films.update(film._id, {
         $set: {
           duration: film.duration,
+        },
+        $unset: {
+          screening: '',
         },
       });
     });
@@ -176,20 +181,6 @@ Migrations.add({
     s.rename('states_old', { dropTarget: true });
     c.insert(Municipios);
     s.insert(Estados);
-  },
-  down() { },
-});
-
-Migrations.add({
-  version: 5,
-  up() {
-    Films.find({}).forEach((film) => {
-      Films.update(film._id, {
-        $unset: {
-          screening: '',
-        },
-      });
-    });
   },
   down() { },
 });
