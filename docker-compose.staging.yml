@@ -3,6 +3,8 @@ version: '3'
 volumes:
   # redis_data:
   #   driver: local
+  # fileshare_data:
+  #   driver: local
   elk_data:
     driver: local
   s3_data:
@@ -163,12 +165,14 @@ services:
 
   portainer:
     image: portainer/portainer
-    volumes:
-      - portainer_data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-    privileged: true
+    command: -H unix:///var/run/docker.sock
+    restart: always
     ports:
-      - 9000/tcp
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
     labels:
       traefik.frontend.rule: Host:portainer.stag.taturanamobi.com.br
       traefik.port: '9000'
@@ -189,6 +193,7 @@ services:
       - MONGO_URL=mongodb://mongo:27017/taturana
       - MAIL_URL=smtp://fake-smtp:1025
       - WORKER=1
+      - 'METEOR_SETTINGS={"public": {"analyticsSettings": {"Google Analytics": {"trackingId": "UA-119536431-1"}}}}'
     labels:
       traefik.frontend.rule: Host:stag.taturanamobi.com.br
       traefik.port: '3000'
@@ -229,6 +234,19 @@ services:
   #     DOCKER_API_VERSION: '1.24'
   #   volumes:
   #   - /var/run/docker.sock:/var/run/docker.sock
+
+  # fileshare:
+  #   image: psitrax/psitransfer
+  #   ports:
+  #     - "3333:3000"
+  #   volumes:
+  #     - fileshare_data:/data
+  #   networks:
+  #     taturana:
+  #   labels:
+  #     traefik.frontend.rule: Host:fileshare.stag.taturanamobi.com.br
+  #     traefik.port: '3000'
+  #     traefik.enable: 'true'
 
   mariadb:
     image: 'bitnami/mariadb:latest'

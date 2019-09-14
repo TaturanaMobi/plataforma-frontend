@@ -35,13 +35,11 @@ Meteor.startup(() => {
   Meteor.publish('files.images.all', function() { return Images.find().cursor; });
 
   Meteor.publish('cities', function(uf) {
-    if (typeof uf === 'undefined') {
-      return this.ready();
+    if (typeof uf !== 'undefined' && uf.length > 0) {
+      const stateUf = States.findOne({ uf });
+      return Cities.find({ codigo_uf: stateUf.codigo_uf }, { fields: { nome: 1 } });
     }
-
-    const stateUf = States.findOne({ uf });
-
-    return Cities.find({ codigo_uf: stateUf.codigo_uf }, { fields: { nome: 1 } });
+    return this.ready();
   });
 
   // Forgot Password Email
