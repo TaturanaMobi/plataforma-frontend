@@ -4,10 +4,11 @@
 import { Meteor } from 'meteor/meteor';
 // import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
+// import { $ } from 'meteor/jquery';
 import '../components/autoform-nouislider.js';
 import '../components/screeningFormFields';
 import './new-screening.html';
+// import Screenings from '../../models/screenings.js';
 // import { saveScreening } from '../../startup/client/helpers.js';
 
 Template.newScreening.onCreated(function () {
@@ -67,6 +68,7 @@ Template.newScreening.helpers({
       user_id: Meteor.userId(),
       filmId: this._id,
       created_at: new Date(),
+      status: 'Agendada',
     };
   },
   user_addresses() {

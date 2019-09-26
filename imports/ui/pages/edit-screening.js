@@ -3,7 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 // import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
+// import { $ } from 'meteor/jquery';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
 

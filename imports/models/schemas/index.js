@@ -381,7 +381,7 @@ bate-papo e a atividade após o filme. Se puder, cite os conteúdos
 abordados, relate as discussões mais interessantes e reproduza frases e
 depoimentos relevantes.`,
     optional: true,
-    max: 15000,
+    max: 60000,
     autoform: {
       afFieldInput: {
         type: 'textarea',
@@ -555,20 +555,24 @@ Schemas.Report = new SimpleSchema({
     type: String,
     label: 'Autor 1',
     max: 200,
+    optional: true,
   },
   author_2: {
     type: String,
     label: 'Autor 2',
     max: 200,
+    optional: true,
   },
   author_3: {
     type: String,
     label: 'Autor 3',
     max: 200,
+    optional: true,
   },
   report_image_1: {
     type: String,
     label: 'Imagem para relatório 1',
+    optional: true,
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
@@ -589,6 +593,7 @@ Schemas.Report = new SimpleSchema({
   report_image_2: {
     type: String,
     label: 'Imagem para relatório 2',
+    optional: true,
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
@@ -608,6 +613,7 @@ Schemas.Report = new SimpleSchema({
   report_image_3: {
     type: String,
     label: 'Imagem para relatório 3',
+    optional: true,
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
