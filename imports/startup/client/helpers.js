@@ -9,6 +9,7 @@ import Users from '../../models/users';
 import NotificationTemplates from '../../models/notification_templates';
 import Notifications from '../../models/notifications';
 import Screenings from '../../models/screenings';
+import Images from '../../models/images';
 
 Template.registerHelper('currentRouteIs', function (route) {
   return Router.current().route.getName() === route;
@@ -49,6 +50,11 @@ Template.registerHelper('avatarPath', () => {
   const avatar = Meteor.user().profile.avatar_path;
   return (avatar) ? `/upload/${avatar}`
     : '/images/avatar-default.png';
+});
+
+Template.registerHelper('fixImagePath', (imagePath) => {
+  const re = /^images\//;
+  return (imagePath.match(re) ? imagePath : `images/${Images.findOne(imagePath).path.split('images/')[1]}`);
 });
 
 Template.registerHelper('snakecase', str => str.split(' ').join('_').toLowerCase());

@@ -32,15 +32,15 @@
 
 <template name="posterCellTmpl">
     {{#if poster_path}}
-    <img src="https://images.stag.taturanamobi.com.br/thumbnail?height=100&type=jpeg&file={{poster_path}}" />
+    <img src="https://images.stag.taturanamobi.com.br/thumbnail?height=100&type=jpeg&file={{fixImagePath poster_path}}" />
   {{else}}
   Não definido
   {{/if}}
 </template>
 
 <template name="posterHomeCellTmpl">
-    {{#if poster_home_path}}
-    <img src="https://images.stag.taturanamobi.com.br/thumbnail?height=100&type=jpeg&file={{poster_home_path}}" />
+  {{#if poster_home_path}}
+    <img src="https://images.stag.taturanamobi.com.br/thumbnail?height=100&type=jpeg&file={{fixImagePath poster_home_path}}" />
   {{else}}
   Não definido
   {{/if}}
