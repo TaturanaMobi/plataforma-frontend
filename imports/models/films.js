@@ -144,7 +144,9 @@ if (Meteor.isServer) {
   Films.before.update(function (userId, doc, fieldNames, modifier, options) {
     // console.log(userId, doc, fieldNames, modifier, options);
     modifier.$set = modifier.$set || {};
-    modifier.$set.slug = Slug(modifier.$set.title);
+    if (typeof modifier.$set.title !== 'undefined') {
+      modifier.$set.slug = Slug(modifier.$set.title);
+    }
 
     return modifier;
   });
