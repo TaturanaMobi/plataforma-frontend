@@ -21,6 +21,8 @@ import '../../ui/pages/admin/adm-reports.js';
 import '../../ui/pages/admin/adm-sessions2.html';
 import '../../ui/pages/admin/adm-screening-edit.js';
 import '../../ui/pages/admin/adm-films-new.js';
+import '../../ui/pages/admin/adm-films-sort.html';
+import '../../ui/pages/admin/adm-films-sort.js';
 
 import Screenings from '../../models/screenings.js';
 import Films from '../../models/films.js';
@@ -83,6 +85,12 @@ Router.route('/adm/films', {
   waitOn() { return Meteor.subscribe('films.all'); },
   data() { return Films.find({}); },
   action() { this.render('admFilms'); },
+});
+
+Router.route('/adm/carousel', {
+  waitOn() { return Meteor.subscribe('films.all'); },
+  data() { return Films.find({}); },
+  action() { this.render('admFilmsSort'); },
 });
 
 Router.route('/adm/films-edit/:_id', {

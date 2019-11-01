@@ -99,6 +99,14 @@
   }
 }
 
-
-
-
+.sortable {
+  margin-left: -5px;
+  .sortable-image {
+    width: 120px;
+    height: 180px;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #AAAAAA;
+    float: left;
+  }
+}
