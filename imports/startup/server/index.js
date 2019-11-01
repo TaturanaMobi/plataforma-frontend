@@ -168,6 +168,15 @@ Meteor.methods({
     Films.remove(id);
   },
 
+  reorderFilms(ids) {
+    let i = 1;
+    ids.forEach((id) => {
+      const film = Films.findOne(id);
+      Films.update(id, { $set: { sequence_number: i }});
+      i += 1;
+    });
+  },
+
   addToSlideshow(id, image) {
     Films.update(id, {
       $push: {

@@ -185,6 +185,23 @@ Migrations.add({
   down() { },
 });
 
+Migrations.add({
+  version: 5,
+  up() {
+    let i = 1;
+    Films.find({}, { sort: { sequence_number: 1 } }).forEach((film) => {
+      console.log(film.sequence_number);
+      Films.update(film._id, {
+        $set: {
+          sequence_number: i,
+        },
+      });
+      i += 1;
+    });
+  },
+  down() { },
+});
+
 Meteor.startup(() => {
   Migrations.migrateTo('latest');
   Migrations.unlock();
