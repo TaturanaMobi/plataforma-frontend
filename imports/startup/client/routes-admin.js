@@ -23,6 +23,7 @@ import '../../ui/pages/admin/adm-screening-edit.js';
 import '../../ui/pages/admin/adm-films-new.js';
 import '../../ui/pages/admin/adm-films-sort.html';
 import '../../ui/pages/admin/adm-films-sort.js';
+import '../../ui/pages/admin/adm-films-report.js';
 
 import Screenings from '../../models/screenings.js';
 import Films from '../../models/films.js';
@@ -117,6 +118,26 @@ Router.route('/adm/films-new', {
 
   action() {
     this.render('admFilmsNew');
+  },
+});
+
+Router.route('/adm/films-report/:_id', {
+  template: 'admFilmsReport',
+
+  waitOn() {
+    return [
+      this.subscribe('screenings.byFilm', this.params._id),
+      this.subscribe('films.all'),
+      this.subscribe('users.all'),
+    ];
+  },
+
+  data() {
+    return Films.findOne({ _id: this.params._id });
+  },
+
+  action() {
+    this.render('admFilmsReport');
   },
 });
 
