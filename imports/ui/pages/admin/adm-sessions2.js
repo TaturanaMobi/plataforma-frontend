@@ -1,42 +1,16 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
-import { Meteor } from 'meteor/meteor';
-import { Router } from 'meteor/iron:router';
-import { ReactiveDict } from 'meteor/reactive-dict';
-import Papa from 'papaparse';
+import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
+import { Router } from 'meteor/iron:router';
+import Screenings from '../../../models/screenings.js';
+import { ReactiveDict } from 'meteor/reactive-dict';
+import Films from '../../../models/films.js';
+import getSelectOptions from '../../../models/schemas/getSelectOptions';
+import Papa from 'papaparse';
 import { moment } from 'meteor/momentjs:moment';
-
-import getSelectOptions from '../../models/schemas/getSelectOptions';
-import { SCREENING_STATUS, FILM_CATEGORIES, FILM_SUBCATEGORIES } from '../../models/schemas/index.js';
-
-import Films from '../../models/films.js';
-import Screenings from '../../models/screenings.js';
-
-import './admFilter.html';
-
-const downloadCsvUser = (users) => {
-  const data = users.map((u) => {
-    const d = moment(u.createdAt);
-
-    return {
-      'data de criação': d.format('D/M/Y'),
-      'hora da criação': d.format('HH:mm'),
-      nome: u.profile.name,
-      email: u.emails[0].address,
-      'telefone fixo': u.profile.phone,
-      'telefone celular': u.profile.cell_phone,
-      instituição: u.profile.institution,
-      área: u.profile.category,
-      temática: u.profile.subcategory,
-      uf: u.profile.uf,
-      city: u.profile.city,
-      id: u._id,
-    };
-  });
-  const csv = Papa.unparse(data);
-  window.open(encodeURI(`data:text/csv;charset=utf-8,${csv}`));
-};
+import { SCREENING_STATUS, STATES } from '../../../models/schemas/index.js';
 
 const downloadCsvScreening = (screenings) => {
   const csv = Papa.unparse(screenings.map((scr) => {
@@ -101,13 +75,13 @@ const downloadCsvScreening = (screenings) => {
   }
 };
 
-Template.admFilter.onCreated(function () {
+Template.admSessions2.onCreated(function () {
   const r = Router.current();
   this.state = new ReactiveDict();
 
   this.state.setDefault('screening-date-selector', r.params.query.screeningDate);
-  this.state.setDefault('film-selector', r.params.query.filmId);
   this.state.setDefault('user-selector', r.params.query.userId);
+  this.state.setDefault('film-selector', r.params.query.filmId);
   this.state.setDefault('state-selector', r.params.query.state);
   this.state.setDefault('city-selector', r.params.query.city);
   this.state.setDefault('status-selector', r.params.query.status);
@@ -117,7 +91,7 @@ Template.admFilter.onCreated(function () {
   this.state.setDefault('has-comments-selector', r.params.query.hasComments);
   this.state.setDefault('missing-reports-selector', r.params.query.missingReports);
 
-  this.state.setDefault('filterData', Template.instance().data || []);
+  this.state.setDefault('filterData', []);
 
   this.buildQuerySession = (formValues) => {
     const {
@@ -189,71 +163,19 @@ Template.admFilter.onCreated(function () {
     return o;
   };
 
-  this.buildQueryUser = (formValues) => {
-    const {
-      categories,
-      subcategories,
-      filmId,
-      state,
-      city,
-      noScreenings,
-      teamMember,
-      missingReports,
-    } = formValues;
-    console.log(formValues);
-    const o = {};
-
-
-    this.state.set('categories-selector', categories);
-    this.state.set('subcategories-selector', subcategories);
-    this.state.set('film-selector', filmId);
-    this.state.set('state-selector', state);
-    this.state.set('city-selector', city);
-
-    this.state.set('no-screenings-selector', noScreenings);
-    this.state.set('team-member-selector', teamMember);
-    this.state.set('missing-reports-selector', missingReports);
-
-    // if ((filmId !== undefined) && (filmId !== '')) {
-    //   o.filmId = filmId;
-    // }
-    if ((categories !== undefined) && (categories !== '')) {
-      o['profile.category'] = categories;
-    }
-    if ((subcategories !== undefined) && (subcategories !== '')) {
-      o['profile.subcategory'] = subcategories;
-    }
-    if ((state !== undefined) && (state !== '')) {
-      o['profile.uf'] = state;
-    }
-    if ((city !== undefined) && (city !== '')) {
-      o['profile.city'] = city;
-    }
-    // if (teamMember) {
-    //   o.team_member = { $eq: true };
-    // }
-    console.log(o);
-    return o;
-  };
-
-  this.isUserFilter = () => Template.instance().data.isUserFilter;
-
   this.updateResults = (formValues) => {
-    let q;
-    let s;
-    if (this.isUserFilter()) {
-      q = this.buildQueryUser(formValues);
-      s = Meteor.users.find(q).fetch();
-    } else {
-      q = this.buildQuerySession(formValues);
-      s = Screenings.find(q).fetch();
-    }
+    const q = this.buildQuerySession(formValues);
+    const s = Screenings.find(q).fetch();
 
-    console.log(q);
     this.state.set('filterData', s);
   };
 
+  let firstRun = true;
   this.autorun(() => {
+    if (!firstRun) {
+      return;
+    }
+    firstRun = false;
     const screeningDate = this.state.get('screening-date-selector');
     const filmId = this.state.get('film-selector');
     const userId = this.state.get('user-selector');
@@ -280,38 +202,10 @@ Template.admFilter.onCreated(function () {
   });
 });
 
-Template.admFilter.helpers({
-  settingsUser() {
-    return {
-      // collection: instance.data,
-      collection: Template.instance().state.get('filterData'),
-      // filters: ['filterTeamMember'],
-      rowsPerPage: 100,
-      showFilter: false,
-      showRowCount: true,
-      fields: [
-        { label: 'Ações', key: 'actions', tmpl: Template.actionsAmbassadorCellTmpl2 },
-        { label: 'E-mail', key: 'emails.0.address' },
-        { label: 'Nome', key: 'profile.name' },
-        { label: 'Celular', key: 'profile.cell_phone' },
-        { label: 'Cidade', key: 'profile.city' },
-        { label: 'Estado', key: 'profile.uf' },
-        { label: 'Instituição', key: 'profile.institution' },
-        { label: 'Área de atuação', key: 'profile.category' },
-        { label: 'Temáticas', key: 'profile.subcategory' },
-        {
-          label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2,
-        },
-      ],
-      //   'status',
-      //   { label: 'Press Kit', key: 'press_kit_path', tmpl: Template.pressKitCellTmpl },
-      //   // 'slug',
-      //   'genre',
-      //   { label: 'Poster', key: 'poster_path', tmpl: Template.posterCellTmpl },
-      //   { label: 'Poster Home', key: 'poster_home_path', tmpl: Template.posterHomeCellTmpl },
-      // ],
-    };
-  },
+let CITIES;
+let MONTHS;
+
+Template.admSessions2.helpers({
   settingsSession() {
     return {
       // collection: Template.instance().data,
@@ -384,6 +278,9 @@ Template.admFilter.helpers({
     };
   },
   month_options() {
+    if (MONTHS) {
+      return MONTHS;
+    }
     const months = [];
     const screenings = Template.instance().state.get('filterData');
 
@@ -395,7 +292,7 @@ Template.admFilter.helpers({
       }
     });
 
-    return _.uniq(months).sort().reverse().map((v) => {
+    MONTHS = _.uniq(months).sort().reverse().map((v) => {
       const d = new Date();
       d.setTime(v.split('-')[0]);
       return {
@@ -403,62 +300,35 @@ Template.admFilter.helpers({
         value: v,
       };
     });
+    return MONTHS;
   },
 
   states_options() {
-    const t = Template.instance();
-    const states = [];
-    const screenings = Template.instance().state.get('filterData');
-
-
-    if (t.isUserFilter()) {
-      _.each(screenings, function (screening) {
-        if (screening.profile.uf) {
-          states.push(screening.profile.uf);
-        }
-      });
-    } else {
-      _.each(screenings, function (screening) {
-        if (screening.uf) {
-          states.push(screening.uf);
-        }
-      });
-    }
-    return getSelectOptions(_.uniq(states).sort());
+    return getSelectOptions(STATES);
   },
 
   cities_options() {
+    if (CITIES) {
+      return CITIES;
+    }
     const t = Template.instance();
     const cities = [];
     const screenings = t.state.get('filterData');
-    if (t.isUserFilter()) {
-      _.each(screenings, function (screening) {
-        if (screening.profile.city) {
-          cities.push(screening.profile.city);
-        }
-      });
-    } else {
-      _.each(screenings, function (screening) {
-        if (screening.city) {
-          cities.push(screening.city);
-        }
-      });
-    }
+    _.each(screenings, function (screening) {
+      if (screening.city) {
+        cities.push(screening.city);
+      }
+    });
 
-    return getSelectOptions(_.uniq(cities).sort());
+    CITIES = getSelectOptions(_.uniq(cities).sort());
+    return CITIES;
   },
   status_options() {
     return getSelectOptions(SCREENING_STATUS);
   },
-  categories_options() {
-    return getSelectOptions(FILM_CATEGORIES);
-  },
-  subcategories_options() {
-    return getSelectOptions(FILM_SUBCATEGORIES);
-  },
 });
 
-Template.admFilter.events({
+Template.admSessions2.events({
   'click .btn.btn-primary.btn-default[value=filter]'(event, instance) {
     event.preventDefault();
 
@@ -475,10 +345,6 @@ Template.admFilter.events({
 
     const filterData = instance.state.get('filterData');
 
-    if (instance.isUserFilter()) {
-      downloadCsvUser(filterData);
-    } else {
-      downloadCsvScreening(filterData);
-    }
+    downloadCsvScreening(filterData);
   },
 });

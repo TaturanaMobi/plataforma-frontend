@@ -1,7 +1,58 @@
 <template name="admAmbassadors">
-  <div class="container">
-    <div class="row">
-      {{> admFilter title="Embaixadores" isUserFilter="true"}}
+  <div class="bg-wrapper">
+    <div class="container">
+      <div class="row">
+	{{#autoForm doc=doc schema=Schemas.FormAdmFilter id="adm-filter-form" type="normal"}}
+	<div class="col-md-12">
+	  <h2>{{title}}</h2>
+	  <br />
+
+	  <div class="form-group col-md-2">
+	    {{> afQuickField name="categories" options=categories_options}}
+	  </div>
+
+	  <div class="form-group col-md-2">
+	    {{> afQuickField name="subcategories" options=subcategories_options}}
+	  </div>
+
+	  <div class="form-group col-md-2">
+	    {{> afQuickField name="filmId"}}
+	  </div>
+
+	  <div class="form-group col-md-2">
+	    {{> afQuickField name="state" options=states_options}}
+	  </div>
+
+	  <div class="form-group col-md-2">
+	    {{> afQuickField name="city" options=cities_options}}
+	  </div>
+
+	  <div class="form-group col-md-3">
+	    {{> afQuickField name="noScreenings"}}
+	  </div>
+
+	  <div class="form-group col-md-3">
+	    {{> afQuickField name="teamMember"}}
+	  </div>
+	  <div class="form-group col-md-3">
+	    {{> afQuickField name="missingReports"}}
+	  </div>
+	</div>
+	<div class="col-md-12">
+	  <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="filter">FILTRAR</button>
+	  <button type="submit" class="btn btn-primary btn-default" name="btn-submit" value="export">EXPORTAR CSV</button>
+	  <button type="submit" class="btn btn-link btn-default btn-xs" name="btn-submit" value="save">SALVAR FILTRO</button>
+	  <button type="submit" class="btn btn-link btn-default btn-xs" name="btn-submit" value="reset">LIMPAR</button>
+	</div>
+	{{/autoForm}}
+
+	<div class="col-md-12">
+	  <div class="results-count">
+	    {{settingsUser.collection.length}} resultados
+	  </div>
+	  {{> reactiveTable class="table table-bordered table-hover" settings=settingsUser}}
+	</div>
+      </div>
     </div>
   </div>
 </template>
