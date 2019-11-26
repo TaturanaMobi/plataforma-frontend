@@ -1,0 +1,52 @@
+<template name="admFilmsReport">
+  <div id="film-report">
+    <div class="container films-report">
+      <div class="row">
+	<div class="col-lg-12">
+          <h3 class="section-title-lg red">{{title}}<img class="age-rating" src="/images/classificacao_{{snakecase age_rating}}.svg"/></h3>
+	</div>
+      </div>
+      {{#each screenings}}
+      <div class="row screening" id="screening-{{_id}}">
+	<div class="info-row">
+	  <div class="label">Data</div>
+	  <div class="info">{{format_date date}}</div>
+	</div>
+	<div class="info-row">
+	  <div class="label">Local</div>
+	  <div class="info">
+	    {{place_name}}<br/>
+	    <small>
+	      {{street}} {{number}} {{complement}} {{zone}}<br/>
+	      {{city}} - {{uf}}, {{s_country}}
+	    </small>
+	  </div>
+	</div>
+	<div class="info-row">
+	  <div class="label">Embaixador </div>
+	  <div class="info">
+	    {{ambassador.profile.name}}<br/>
+	    {{ambassador.profile.cell_phone}} / {{ambassador.profile.phone}}<br/>
+	    {{#each ambassador.emails}}
+	    <a href="mailto:{{address}}">{{address}}</a>
+	    {{/each}}
+	  </div>
+	</div>
+	<div class="info-row">
+	  <div class="label">Público</div>
+	  <div class="info">
+	    <small>esperado:</small> {{quorum_expectation}}<br/>
+	    <small>presente:</small> {{real_quorum}}
+	  </div>
+	</div>
+	<p>{{report_description}}</p>
+
+	{{#if report_image_1}}<img src="https://images.stag.taturanamobi.com.br/fit?width=300&height=300&type=jpeg&file={{report_image_1}}" class="first" />{{/if}}
+	{{#if report_image_2}}<img src="https://images.stag.taturanamobi.com.br/fit?width=300&height=300&type=jpeg&file={{report_image_2}}" />{{/if}}
+	{{#if report_image_3}}<img src="https://images.stag.taturanamobi.com.br/fit?width=300&height=300&type=jpeg&file={{report_image_3}}" />{{/if}}
+
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</template>

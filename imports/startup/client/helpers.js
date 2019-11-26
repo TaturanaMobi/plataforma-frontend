@@ -22,7 +22,7 @@ Template.registerHelper('isAdmin', () => Meteor.user().profile.roles.indexOf('ad
 Template.registerHelper('format_date', (date) => {
   const d = moment(date);
 
-  return d.format('D/M/Y');
+  return d.format('DD/MM/Y');
 });
 
 Template.registerHelper('format_date_from_now', (date) => {

@@ -159,3 +159,40 @@ $grey: #aaa;
 .table-hover > tbody > tr:hover {
   background-color: #222;
 }
+
+.films-report {
+  .screening {
+    padding: 10px 0;
+    border-bottom: 1px solid white;
+    margin-bottom: 35px;
+
+    .info-row {
+      width: 100%;
+      clear: both;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .label {
+      position: absolute;
+      width: 100px;
+      text-align: right;
+      padding-top: 5px;
+    }
+    .info {
+      margin-left: 100px;
+    }
+    p {
+      white-space: pre-wrap;
+      max-height: 500px;
+      overflow: auto;
+    }
+    img {
+      float: left;
+      width: 32%;
+      margin-left: 2%;
+      &.first {
+	margin-left: 0;
+      }
+    }
+  }
+}

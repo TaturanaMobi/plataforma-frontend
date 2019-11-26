@@ -26,6 +26,8 @@ Meteor.startup(() => {
 
   Meteor.publish('screenings.upcoming', function() { return Screenings.find({ status: 'Confirmada', public_event: true, date: { $gte: new Date() } }); });
 
+  Meteor.publish('screenings.byFilm', function (filmId) { return Screenings.find({ filmId, status: 'Concluída' }); });
+
   Meteor.publish('users.me', function() { return Meteor.users.find({ _id: Meteor.userId() }); });
 
   Meteor.publish('users.all', function() { return Meteor.users.find({}, { sort: { createdAt: 1 } }); });
