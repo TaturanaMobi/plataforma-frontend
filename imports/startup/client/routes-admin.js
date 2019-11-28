@@ -4,13 +4,14 @@ import { Router } from 'meteor/iron:router';
 // import { $ } from 'meteor/jquery';
 
 import '../../ui/components/adm-sidebar.html';
-import '../../ui/components/admFilter.js';
+import '../../ui/components/admFilter.html';
 
 import '../../ui/pages/admin/adm-notification-templates';
 import '../../ui/pages/admin/adm-notification-templates-new';
 import '../../ui/pages/admin/adm-notification-templates-edit';
 import '../../ui/pages/admin/adm-ambassador.html';
 import '../../ui/pages/admin/adm-ambassadors.html';
+import '../../ui/pages/admin/adm-ambassadors.js';
 import '../../ui/pages/admin/adm-films.html';
 import '../../ui/pages/admin/adm-films.js';
 import '../../ui/pages/admin/adm-films-edit.js';
@@ -19,6 +20,7 @@ import '../../ui/pages/admin/adm-report.js';
 import '../../ui/pages/admin/adm-reports.html';
 import '../../ui/pages/admin/adm-reports.js';
 import '../../ui/pages/admin/adm-sessions2.html';
+import '../../ui/pages/admin/adm-sessions2.js';
 import '../../ui/pages/admin/adm-screening-edit.js';
 import '../../ui/pages/admin/adm-films-new.js';
 import '../../ui/pages/admin/adm-films-sort.html';
