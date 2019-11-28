@@ -37,3 +37,6 @@ traefik.staging.yml
 acme.staging.json
 uploads/*
 coverage
+*~
+\#*
+.\#*

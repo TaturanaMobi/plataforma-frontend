@@ -8,8 +8,10 @@
 
 Antes de começar, certifique-se que atende os seguintes requerimentos:
 
-* Docker CE >= 17
-* Docker Compose >= 1.21
+* Docker CE >= 17 - ```curl https://releases.rancher.com/install-docker/18.09.sh | sh```
+* Docker Compose >= 1.21 - ````curl -L https://github.com/docker/compose/releases/download/1.25.0-rc4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose```
+* NodeJS 8 e NPM  - ```curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n && bash n lts```
+* Meteor - ```curl https://install.meteor.com/ | sh```
 
 ## Instalando
 
@@ -18,7 +20,10 @@ Então, rode os comandos:
 ```bash
 $ git clone https://github.com/TaturanaMobi/plataforma-frontend.git
 cd plataforma-frontend
-$ docker-compose up -d
+$ make dev
+# in another window or tab
+$ meteor npm i
+$ IMAGE_URL=https://images.taturana MONGO_URL=mongodb://localhost:27017/taturana MAIL_URL=smtp://fake-smtp:1025 WORKER=1 meteor --settings ./settings.json
 ```
 
 O container pode ser logado via `docker-compose exec app bash` a qualquer momento depois do `docker-compose up`.
@@ -59,7 +64,6 @@ docker-compose exec mongo mongorestore -h taturana.mongo.com:23812 -d taturana -
 * https://github.com/dburles/meteor-collection-helpers
 * https://github.com/percolatestudio/meteor-migrations
 * https://github.com/matb33/meteor-collection-hooks
-* https://bunkat.github.io/later/
 
 * https://github.com/aldeed/meteor-autoform
 * https://github.com/VeliovGroup/meteor-autoform-file
@@ -68,7 +72,7 @@ docker-compose exec mongo mongorestore -h taturana.mongo.com:23812 -d taturana -
 * https://github.com/aslagle/reactive-table
 * https://github.com/Urigo/awesome-meteor
 
-## Para extrair o banco de prod localmente
+## Como extrair o banoco de dados de produção e fazer o restore?
 
 ```bash
 prod ~ $ mongodump --db taturanamobi --out taturana-$(date +%Y%m%d).json
@@ -78,10 +82,17 @@ local ~/plataforma-taturana $ scp -r prod:~/taturana-<data>.json .
 local ~/plataforma-taturana $ mongorestore -h localhost:3001 -d meteor taturana-<data>.json/taturanamobi --drop
 ```
 
-## Importar Cidades
+## Como importar os municípios brasileiros?
 
 ```
 cd backups/
 git clone git@github.com:kelvins/Municipios-Brasileiros.git
 mongoimport -d taturana -c cities /backups/Municipios-Brasileiros/json/municipios.json --jsonArray --drop
 ```
+
+## Como carregar dados do servidor no cliente?
+
+Mesmo utilizando as mesmas collections, tanto no servidor quanto no cliente, é necessário definir quais registros da collection estarão disponíveis no cliente.
+Nessa resposta do [Stack Overflow](https://stackoverflow.com/a/21853298/397927) tem mais detalhes de como essa lógica funciona.
+
+É feito em 3 lugares no projeto: ```imports/startup/server/main.js```, ```imports/startup/client/routes.js``` e ```imports/ui/pages/screenings.js```.

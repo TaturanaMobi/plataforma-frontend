@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Import server startup through a single index entry point
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
@@ -25,6 +26,8 @@ Meteor.startup(() => {
   Meteor.publish('screenings.my', function() { return Screenings.find({ user_id: Meteor.userId() }); });
 
   Meteor.publish('screenings.upcoming', function() { return Screenings.find({ status: 'Confirmada', public_event: true, date: { $gte: new Date() } }); });
+
+  Meteor.publish('screenings.byFilm', function (filmId) { return Screenings.find({ filmId, status: 'Concluída' }); });
 
   Meteor.publish('users.me', function() { return Meteor.users.find({ _id: Meteor.userId() }); });
 
