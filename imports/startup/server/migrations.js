@@ -9,6 +9,7 @@ import NotificationTemplates from '../../models/notification_templates';
 import { Cities, States } from '../../models/states_and_cities';
 import Estados from '../../../backups/Municipios-Brasileiros/json/estados.json';
 import Municipios from '../../../backups/Municipios-Brasileiros/json/municipios.json';
+import statistics from '../../models/denormalizers/statistics.js';
 
 function convertInteger(value) {
   if (value === undefined) {
@@ -202,8 +203,18 @@ Migrations.add({
   down() { },
 });
 
+Migrations.add({
+  version: 6,
+  up() {
+    Films.find({}).forEach((film) => {
+      statistics.updateFilm(film._id);
+    });
+  },
+  down() { },
+});
+
 Meteor.startup(() => {
   Migrations.migrateTo('latest');
   Migrations.unlock();
-  // Migrations.migrateTo('5,rerun');
+  // Migrations.migrateTo('6,rerun');
 });

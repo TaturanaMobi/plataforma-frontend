@@ -6,6 +6,7 @@ import { _ } from 'meteor/underscore';
 import { FilmScreeningInventory } from '../film-screening-inventory';
 import Films from '../films';
 import Screenings from '../screenings';
+import ZONES from '../zones';
 
 // Inventory functions
 function incrementOrCreate(obj, key, increment) {
@@ -21,23 +22,6 @@ function getMonthName(month) {
   ];
 
   return monthNames[month];
-}
-
-function getZoneByState(state) {
-  const zones = {
-    Sudeste: ['SP', 'ES', 'MG', 'RG'],
-    Sul: ['PR', 'SC', 'RS'],
-    'Centro-Oeste': ['DF', 'GO', 'MS', 'MT'],
-    Nordeste: ['BA', 'AL', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE'],
-    Norte: ['AM', 'PA', 'RO', 'RR', 'AC', 'AP', 'TO'],
-  };
-
-  _.each(zones, (states, zone) => {
-    if (states.indexOf(state) > 0) {
-      return zone;
-    }
-    return null;
-  });
 }
 
 const calculateStatistics = (legacyData, screenings) => {
@@ -89,8 +73,8 @@ const calculateStatistics = (legacyData, screenings) => {
       // Estados e viewers por area
       if ('uf' in screening) {
         states.push(screening.uf);
-        if (getZoneByState(screening.uf)) {
-          incrementOrCreate(statistics.viewers_zones, getZoneByState(screening.uf));
+        if (ZONES[screening.uf]) {
+          incrementOrCreate(statistics.viewers_zones, ZONES[screening.uf]);
         }
       }
 
@@ -122,7 +106,7 @@ const calculateStatistics = (legacyData, screenings) => {
 };
 
 export default {
-  _updateFilm(filmId) {
+  updateFilm(filmId) {
     // Recalculate the correct incomplete count direct from MongoDB
     const screenings = Screenings.find({
       filmId,
@@ -153,7 +137,7 @@ export default {
     Films.update(filmId, { $set: { statistics } });
   },
   afterInsertScreening(s) {
-    this._updateFilm(s.filmId);
+    this.updateFilm(s.filmId);
   },
   // afterUpdateScreening(selector, modifier) {
   // We only support very limited operations on todos
