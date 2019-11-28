@@ -216,7 +216,7 @@ describe('process screenings', () => {
   // });
 
   xit('process screening with status agendada', async () => {
-    Screenings.find({ status: 'Agendada' }).map(doc => processScreenings.processAgendada(doc));
+    Screenings.find({ status: 'Agendada' }).map((doc) => processScreenings.processAgendada(doc));
     assert.ok(Notifications.find({}).count() === 27);
   });
 

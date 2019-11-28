@@ -87,7 +87,7 @@ export const createBasicFakeData = () => {
   _.times(1, () => Factory.create('user'));
   // _.times(3, () => Factory.create('film'));
   // _.times(9, () => Factory.create('screening'));
-  _.forEach(NOTIFICATION_TRIGGERS, n => Factory.create('notificationTemplate', { trigger: n, name: n }));
+  _.forEach(NOTIFICATION_TRIGGERS, (n) => Factory.create('notificationTemplate', { trigger: n, name: n }));
   // _.forEach(NOTIFICATION_TRIGGERS, n => Factory.create('notificationTemplate',
   // { trigger: n, name: n, filmId: Factory.get('film') }));
 };

@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import c3 from 'c3';
+import Plyr from 'plyr';
 // import d3 from 'd3';
 
 // import Films from '../../models/films.js';
@@ -61,7 +62,9 @@ Template.showFilm.onRendered(() => {
     autoplay: true,
     autoplaySpeed: 6000,
   });
-  // $("a[rel^='prettyPhoto']").prettyPhoto();
+
+  const player = new Plyr('#player');
+  player.volume = 1;
 
   const instance = Template.instance();
   if (instance.data.status.includes('Portfolio')) {

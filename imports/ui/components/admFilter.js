@@ -343,7 +343,7 @@ Template.admFilter.helpers({
           key: 'filmId',
           label: 'Filme',
           headerClass: 'col-md-2',
-          fn: value => Films.find({ _id: value }).fetch()[0].title,
+          fn: (value) => Films.find({ _id: value }).fetch()[0].title,
           // tmpl: Template.filmCellTmpl
         },
         {

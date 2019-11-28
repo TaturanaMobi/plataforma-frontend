@@ -24,7 +24,7 @@ function convertInteger(value) {
 function toTitleCase(str) {
   return str.replace(
     /\w\S*/g,
-    txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
   );
 }
 
@@ -77,7 +77,7 @@ Migrations.add({
     ];
 
     filenames.forEach((templateName, i) => {
-      Assets.getText(`.templates/${templateName}.html`, function (error, data) {
+      Assets.getText(`.templates/${templateName}.html`, function (error, data) { // eslint-disable-line
         NotificationTemplates.insert({
           name: `Genérico para ${templateName}`,
           trigger: templateName,
