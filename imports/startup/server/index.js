@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Import server startup through a single index entry point
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';

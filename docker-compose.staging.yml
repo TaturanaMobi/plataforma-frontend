@@ -180,6 +180,7 @@ services:
 
   frontend:
     image: taturanamobi/plataforma-frontend
+    build: .
     ports:
       - 3000/tcp
     depends_on:
