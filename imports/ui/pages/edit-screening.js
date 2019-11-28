@@ -21,10 +21,6 @@ Template.editScreening.onCreated(function () {
   });
 });
 
-// Template.editScreening.onRendered(() => {
-//   $("a[rel^='prettyPhoto']").prettyPhoto();
-// });
-
 Template.editScreening.events({
   'click .remove_address'() {
     Meteor.call('removeAddress', Meteor.user()._id, this);

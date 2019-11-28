@@ -5,6 +5,8 @@ import { Meteor } from 'meteor/meteor';
 // import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 // import { $ } from 'meteor/jquery';
+import Plyr from 'plyr';
+
 import '../components/autoform-nouislider.js';
 import '../components/screeningFormFields';
 import './new-screening.html';
@@ -32,7 +34,8 @@ Template.newScreening.onRendered(() => {
   //   startDate: today,
   // });
   // $('.datetimepicker').timepicker();
-  // $('a[rel^="prettyPhoto"]').prettyPhoto();
+  const player = new Plyr('#player');
+  player.volume = 1;
 });
 
 Template.newScreening.events({
