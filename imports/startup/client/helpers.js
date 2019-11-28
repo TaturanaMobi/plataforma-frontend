@@ -13,7 +13,7 @@ import Screenings from '../../models/screenings';
 import Images from '../../models/images';
 
 function youtubeParser(url) {
-  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;  // eslint-disable-line
   const match = url.match(regExp);
   return (match && match[7].length === 11) ? match[7] : false;
 }
@@ -87,7 +87,7 @@ Template.registerHelper('fixImagePath', (imagePath) => {
   return (imagePath.match(re) ? imagePath : `images/${Images.findOne(imagePath).path.split('images/')[1]}`);
 });
 
-Template.registerHelper('snakecase', str => str.split(' ').join('_').toLowerCase());
+Template.registerHelper('snakecase', (str) => str.split(' ').join('_').toLowerCase());
 
 export function saveAddress(form, userId) {
   const address = {

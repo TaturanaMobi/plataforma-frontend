@@ -139,7 +139,7 @@ const processScreenings = {
   },
 
   autoStart() {
-    Screenings.find({}).map(doc => processScreenings.process(doc));
+    Screenings.find({}).map((doc) => processScreenings.process(doc));
   },
 
   loadData(s) {
@@ -153,7 +153,7 @@ const processScreenings = {
 
   loadTemplate(templateName) {
     const t = NotificationTemplates.find({ trigger: templateName }).fetch();
-    const hasFilmTemplate = t.filter(v => v.filmId !== undefined);
+    // const hasFilmTemplate = t.filter((v) => v.filmId !== undefined);
     const defaultFilmTemplate = t;
 
     // if (hasFilmTemplate.length > 0) {

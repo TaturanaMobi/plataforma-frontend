@@ -6,7 +6,7 @@ import './screeningFormFields.html';
 
 Template.screeningFormFields.helpers({
   cities() {
-    return Cities.find({}).map(item => ({
+    return Cities.find({}).map((item) => ({
       label: item.nome,
       value: item.nome,
     }));

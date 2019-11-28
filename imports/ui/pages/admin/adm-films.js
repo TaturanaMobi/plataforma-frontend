@@ -1,12 +1,5 @@
-/* global document, window */
-
 import { Meteor } from 'meteor/meteor';
-// import { FlashMessages } from 'meteor/mrt:flash-messages';
-// import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
-// import { $ } from 'meteor/jquery';
-// import { Router } from 'meteor/iron:router';
-// import Films from '../../../models/films.js';
 
 Template.admFilms.helpers({
   settings() {

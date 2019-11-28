@@ -1,5 +1,3 @@
-/* global document, window */
-
 import { Meteor } from 'meteor/meteor';
 // import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
@@ -25,10 +23,10 @@ Template.editScreening.events({
   'click .remove_address'() {
     Meteor.call('removeAddress', Meteor.user()._id, this);
   },
-  'click .replace_address'(evt) {
+  'click .replace_address'(event) {
     const docData = Template.instance().doc.get('data');
     Meteor.user().addresses.forEach((v) => {
-      if (v._id === evt.currentTarget.id) {
+      if (v._id === event.currentTarget.id) {
         Template.instance().doc.set('data', { ...docData, ...v });
       }
     });
