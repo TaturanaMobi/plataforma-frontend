@@ -8,10 +8,11 @@ $headings-color: #df4944;
 $btn-primary-bg: #df4944;
 $navbar-height: 80px;
 $dropdown-bg: #000;
+$plyr-color-main: hsl(2, 71%, 57%);
 
 @import '{}/node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import './c3.scss';
-
+@import '{}/node_modules/plyr/src/sass/plyr.scss';
 
 body {
   content: " ";
