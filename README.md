@@ -23,7 +23,7 @@ cd plataforma-frontend
 $ make dev
 # in another window or tab
 $ meteor npm i
-$ IMAGE_URL=https://images.taturana MONGO_URL=mongodb://localhost:27017/taturana MAIL_URL=smtp://fake-smtp:1025 WORKER=1 meteor --settings ./settings.json
+$ IMAGE_URL=https://images.taturana MONGO_URL=mongodb://localhost:27017/taturana MAIL_URL=smtp://fake-smtp:1025 WORKER=1 METEOR_DISABLE_OPTIMISTIC_CACHING=1 meteor --settings ./settings.json
 ```
 
 O container pode ser logado via `docker-compose exec app bash` a qualquer momento depois do `docker-compose up`.

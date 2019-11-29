@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Migrations } from 'meteor/percolate:migrations';
 import { moment } from 'meteor/momentjs:moment';
 // import { AutoForm } from 'meteor/aldeed:autoform';
-
+import { STATES } from '../../models/schemas';
 import Films from '../../models/films';
 import Screenings from '../../models/screenings';
 import NotificationTemplates from '../../models/notification_templates';
@@ -100,7 +100,7 @@ Migrations.add({
       if (film.screening !== undefined && film.screening.length > 0) {
         film.screening.forEach((screening) => {
           screening.filmId = film._id;
-          screening.activity = toTitleCase(screening.activity);
+          screening.activity = toTitleCase(screening.activity) === 'Libre' ? 'Livre' : toTitleCase(screening.activity);
           screening.activity_theme = toTitleCase(screening.activity_theme);
           screening.zone = toTitleCase(screening.zone);
           screening.s_country = toTitleCase(screening.s_country);
@@ -124,7 +124,7 @@ Migrations.add({
           screening.uf = (screening.uf.length > 3 ? '' : screening.uf);
           screening.created_at = (!screening.created_at ? screening.date : screening.created_at);
           screening.city = (!screening.city ? 'Não preenchido' : screening.city);
-          screening.uf = (!screening.uf ? 'NA' : screening.uf);
+          screening.uf = (!screening.uf || !STATES.includes(screening.uf) ? 'NA' : screening.uf);
           screening.s_country = (!screening.s_country ? 'Não preenchido' : screening.s_country);
           screening.street = (!screening.street ? 'Não preenchido' : screening.street);
           screening.user_id = (!screening.user_id ? 'GwoHNFGPGkSJcycw6' : screening.user_id);
