@@ -194,7 +194,7 @@ services:
       - MONGO_URL=mongodb://mongo:27017/taturana
       - MAIL_URL=smtp://fake-smtp:1025
       - WORKER=1
-      - 'METEOR_SETTINGS={"public": {"analyticsSettings": {"Google Analytics": {"trackingId": "UA-119536431-1"}}}}'
+      - 'METEOR_SETTINGS={"public": {"imageServerUrl": "https://images.stag.taturanamobi.com.br", "analyticsSettings": {"Google Analytics": {"trackingId": "UA-119536431-1"}}}}'
     labels:
       traefik.frontend.rule: Host:stag.taturanamobi.com.br
       traefik.port: '3000'

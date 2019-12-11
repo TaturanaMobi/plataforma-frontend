@@ -4,6 +4,7 @@
     "MONGO_URL":"mongodb://localhost:27017/taturana"
   },
   "public": {
+    "imageServerUrl": "https://images.taturana",
     "analyticsSettings": {
       "Google Analytics": {
         "trackingId": "UA-119536431-1"
