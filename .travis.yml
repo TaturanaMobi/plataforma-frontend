@@ -6,7 +6,7 @@ services:
 addons:
   chrome: stable
 node_js:
-- 8.16.2
+- 8.17
 cache:
   directories:
   - node_modules
@@ -26,7 +26,7 @@ after_success:
 - echo -e "Host staging.taturanamobi.com.br\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh -i .travis/taturana_key mariposas@staging.taturanamobi.com.br "cd Code/plataforma-frontend/ && git fetch && git checkout $TRAVIS_COMMIT"
 - ssh -i .travis/taturana_key mariposas@staging.taturanamobi.com.br docker-compose -f Code/plataforma-frontend/docker-compose.staging.yml pull
-- ssh -i .travis/taturana_key mariposas@staging.taturanamobi.com.br docker-compose -f Code/plataforma-frontend/docker-compose.staging.yml down
+# - ssh -i .travis/taturana_key mariposas@staging.taturanamobi.com.br docker-compose -f Code/plataforma-frontend/docker-compose.staging.yml down # avoid loose data
 - ssh -i .travis/taturana_key mariposas@staging.taturanamobi.com.br docker-compose -f Code/plataforma-frontend/docker-compose.staging.yml up -d
 - ssh -i .travis/taturana_key mariposas@staging.taturanamobi.com.br docker-compose -f Code/plataforma-frontend/docker-compose.staging.yml up --build --force-recreate -d frontend
 # deploy:
