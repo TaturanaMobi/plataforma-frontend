@@ -1,6 +1,6 @@
 <template name="listFilm">
   <div class="col-md-4">
-    <img src="https://images.stag.taturanamobi.com.br/fit?width=720&height=1280&file=images/{{poster_path}}" class="full" alt="Cartaz do filme {{#if title_pt}}{{title_pt}}{{else}}{{title}}{{/if}}">
+    <img src="{{imageServerUrl}}/fit?width=720&height=1280&file={{fixImagePath poster_path}}" class="full" alt="Cartaz do filme {{#if title_pt}}{{title_pt}}{{else}}{{title}}{{/if}}">
     <h2 class="home-headers">{{#if title_pt}}{{title_pt}}{{else}}{{title}}{{/if}}</h2>
     <p>{{shortsynopsis}}</p>
   </div>

@@ -82,6 +82,8 @@ Template.registerHelper('avatarPath', () => {
     : '/images/avatar-default.png';
 });
 
+Template.registerHelper('imageServerUrl', () => Meteor.settings.public.imageServerUrl || 'https://images.stag.taturanamobi.com.br/');
+
 Template.registerHelper('fixImagePath', (imagePath) => {
   const re = /^images\//;
   return (imagePath.match(re) ? imagePath : `images/${Images.findOne(imagePath).path.split('images/')[1]}`);

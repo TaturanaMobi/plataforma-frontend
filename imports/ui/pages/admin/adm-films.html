@@ -32,7 +32,7 @@
 
 <template name="posterCellTmpl">
     {{#if poster_path}}
-    <img src="https://images.stag.taturanamobi.com.br/thumbnail?height=100&type=jpeg&file={{fixImagePath poster_path}}" />
+    <img src="{{imageServerUrl}}/thumbnail?height=100&type=jpeg&file={{fixImagePath poster_path}}" />
   {{else}}
   Não definido
   {{/if}}
@@ -40,7 +40,7 @@
 
 <template name="posterHomeCellTmpl">
   {{#if poster_home_path}}
-    <img src="https://images.stag.taturanamobi.com.br/thumbnail?height=100&type=jpeg&file={{fixImagePath poster_home_path}}" />
+    <img src="{{imageServerUrl}}/thumbnail?height=100&type=jpeg&file={{fixImagePath poster_home_path}}" />
   {{else}}
   Não definido
   {{/if}}
@@ -48,7 +48,7 @@
 
 <template name="pressKitCellTmpl">
   {{#if press_kit_path}}
-  <a target="_blank" href="https://stag.taturanamobi.com.br/upload/{{press_kit_path}}">
+  <a target="_blank" href="{{fixImagePath press_kit_path}}">
     <i title="Link externo para Press Kit" class="fas fa-external-link-alt"></i>
   </a>
   {{else}}

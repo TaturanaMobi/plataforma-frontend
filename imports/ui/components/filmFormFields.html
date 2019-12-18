@@ -8,7 +8,7 @@
       <div class="form-group col-md-12">
         {{#if poster_path}}
         <img
-          src="https://images.stag.taturanamobi.com.br/thumbnail?height=320&type=jpeg&file={{poster_path}}"
+          src="{{imageServerUrl}}/thumbnail?height=320&type=jpeg&file={{fixImagePath poster_path}}"
           class="adm-thumb destroy-img"
         />
         {{/if}}
@@ -71,7 +71,7 @@
       <h3>DIVULGAÇÃO</h3>
       <div class="form-group col-md-12">
         {{#if press_kit_path}}
-        <a href="https://stag.taturanamobi.com.br/upload/{{press_kit_path}}" class=""
+        <a href="{{fixImagePath press_kit_path}}" class=""
           >Ver material cadastrado</a
         >
         {{/if}}
@@ -81,7 +81,7 @@
       <div class="form-group col-md-12">
         {{#if poster_home_path}}
         <img
-          src="https://images.stag.taturanamobi.com.br/fit?width=360&height=370&type=jpeg&file={{poster_home_path}}"
+          src="{{imageServerUrl}}/fit?width=360&height=370&type=jpeg&file={{fixImagePath poster_home_path}}"
           class="adm-thumb destroy-img"
         />
         {{/if}}
