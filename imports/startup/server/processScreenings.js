@@ -144,14 +144,22 @@ const processScreenings = {
     }
   },
 
-  processPendente() {
+  processPendente(s) {
     // Pendente - Enviar e-mail 40h depois da sessão ask_for_report
+    if (processScreenings.was1weekAgo(s.date)) {
+      processScreenings.createNotification(s, 'ask_for_report_take2');
     // Pendente - Enviar e-mail 1 semana depois da sessão ask_for_report_2
+    } else if (processScreenings.was40hoursAgo(s.date)) {
+      processScreenings.createNotification(s, 'ask_for_report');
+    }
   },
 
-  processConcluida() {
+  processConcluida(s) {
     // Concluída - Após preencher relatório, trocar o status e
     // enviar e-mail 3 meses depois da sessão tell_ambassador_the_results
+    if (processScreenings.was3monthsAgo(s.date)) {
+      processScreenings.createNotification(s, 'tell_ambassador_the_results');
+    }
   },
 
   processRascunho() {
