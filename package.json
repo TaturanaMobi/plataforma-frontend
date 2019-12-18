@@ -13,7 +13,7 @@
     "lint": "eslint . || true"
   },
   "dependencies": {
-    "@babel/runtime": "7.7.2",
+    "@babel/runtime": "^7.7.6",
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@sentry/browser": "^5.9.1",
     "@sentry/node": "^5.9.0",
@@ -45,7 +45,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-meteor": "^6.0.0",
     "eslint-plugin-react": "^7.16.0",
-    "meteor-node-stubs": "^0.4.1",
+    "meteor-node-stubs": "^1.0.0",
     "nightmare": "^3.0.2",
     "shell-source": "^1.1.0",
     "shelljs": "^0.8.3"
