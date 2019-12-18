@@ -148,7 +148,7 @@ const processScreenings = {
     // Pendente - Enviar e-mail 40h depois da sessão ask_for_report
     if (processScreenings.was1weekAgo(s.date)) {
       processScreenings.createNotification(s, 'ask_for_report_take2');
-    // Pendente - Enviar e-mail 1 semana depois da sessão ask_for_report_2
+    // Pendente - Enviar e-mail 1 semana depois da sessão ask_for_report_take2
     } else if (processScreenings.was40hoursAgo(s.date)) {
       processScreenings.createNotification(s, 'ask_for_report');
     }
