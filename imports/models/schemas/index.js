@@ -17,7 +17,7 @@ export const NOTIFICATION_TRIGGERS = [
   'send_the_movie_9',
   'send_the_movie_10',
   'ask_for_report',
-  'ask_for_report_2',
+  'ask_for_report_take2',
   'tell_ambassador_the_results',
 ];
 

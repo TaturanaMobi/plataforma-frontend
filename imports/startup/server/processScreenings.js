@@ -96,42 +96,70 @@ const processScreenings = {
   processAgendada(s) {
     // Agendada - Sessão agendada entre 3 dias de antecedência
     // ou menos, enviar e-mail confirm_scheduling_3 e trocar status para confirmada
-    if (processScreenings.isLowerThan3days(s.date)) {
+    if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
       processScreenings.createNotification(s, 'confirm_scheduling_3');
-    // Agendada - Sessão agendada entre 9 e 4 dias de antecedência,
-    //  enviar e-mail confirm_scheduling_9 e trocar status para confirmada
-    } else if (processScreenings.isBetween9and4days(s.date)) {
+      // Agendada - Sessão agendada entre 9 e 4 dias de antecedência,
+      //  enviar e-mail confirm_scheduling_9 e trocar status para confirmada
+      processScreenings.updateStatus(s, 'Confirmada');
+    } else if (processScreenings.isBetween9and4days(s.date, s.created_at)) {
       processScreenings.createNotification(s, 'confirm_scheduling_9');
-    // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
-    // enviar e-mail confirm_scheduling_10 e trocar status para confirmada
-    } else if (processScreenings.isGreaterThan10days(s.date)) {
+      // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
+      // enviar e-mail confirm_scheduling_10 e trocar status para confirmada
+      processScreenings.updateStatus(s, 'Confirmada');
+    } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
       // enviar e-mail no dia 10 screening_date
       if (processScreenings.isAt10thDayBefore(s.date)) {
+        processScreenings.updateStatus(s, 'Confirmada');
         processScreenings.createNotification(s, 'confirm_screening_date');
       }
       processScreenings.createNotification(s, 'confirm_scheduling_10');
     }
-    processScreenings.updateStatus(s, 'Confirmada');
   },
 
-  processConfirmada() {
+  processConfirmada(s) {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
-    // enviar e-mail 7 dias antes da sessão send_the_movie_10 e trocar status para pendente
+    // enviar e-mail 1 dias antes da sessão send_the_movie_3
+    if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
+      if (processScreenings.is1dayBefore(s.date)) {
+        processScreenings.createNotification(s, 'send_the_movie_3');
+      }
     // Confirmada - Sessão agendada entre 9 e 4 dias de antecedência,
-    // enviar e-mail 2 dias antes da sessão send_the_movie_9 e trocar status para pendente
+    // enviar e-mail 2 dias antes da sessão send_the_movie_9
+    } else if (processScreenings.isBetween9and4days(s.date, s.created_at)) {
+      if (processScreenings.is2daysBefore(s.date)) {
+        processScreenings.createNotification(s, 'send_the_movie_9');
+      }
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
-    // enviar e-mail 1 dias antes da sessão send_the_movie_3 e trocar status para pendente
+    // enviar e-mail 7 dias antes da sessão send_the_movie_10
+    } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
+      if (processScreenings.is7daysBefore(s.date)) {
+        processScreenings.createNotification(s, 'send_the_movie_10');
+      }
+    }
+    // Confirmada - Data da Sessão agendada ultrapassou o momento presente
+    // trocar status para pendente
+    if (s.date < new Date()) {
+      processScreenings.updateStatus(s, 'Pendente');
+    }
   },
 
-  processPendente() {
+  processPendente(s) {
     // Pendente - Enviar e-mail 40h depois da sessão ask_for_report
-    // Pendente - Enviar e-mail 1 semana depois da sessão ask_for_report_2
+    if (processScreenings.was1weekAgo(s.date)) {
+      processScreenings.createNotification(s, 'ask_for_report_take2');
+    // Pendente - Enviar e-mail 1 semana depois da sessão ask_for_report_take2
+    } else if (processScreenings.was40hoursAgo(s.date)) {
+      processScreenings.createNotification(s, 'ask_for_report');
+    }
   },
 
-  processConcluida() {
+  processConcluida(s) {
     // Concluída - Após preencher relatório, trocar o status e
     // enviar e-mail 3 meses depois da sessão tell_ambassador_the_results
+    if (processScreenings.was3monthsAgo(s.date)) {
+      processScreenings.createNotification(s, 'tell_ambassador_the_results');
+    }
   },
 
   processRascunho() {
