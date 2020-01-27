@@ -108,11 +108,7 @@ const processScreenings = {
       processScreenings.updateStatus(s, 'Confirmada');
     } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
-      // enviar e-mail no dia 10 screening_date
-      if (processScreenings.isAt10thDayBefore(s.date)) {
-        processScreenings.updateStatus(s, 'Confirmada');
-        processScreenings.createNotification(s, 'confirm_screening_date');
-      }
+      processScreenings.updateStatus(s, 'Confirmada');
       processScreenings.createNotification(s, 'confirm_scheduling_10');
     }
   },
@@ -133,6 +129,10 @@ const processScreenings = {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
     // enviar e-mail 7 dias antes da sessão send_the_movie_10
     } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
+      // enviar e-mail no dia 10 screening_date
+      if (processScreenings.isAt10thDayBefore(s.date)) {
+        processScreenings.createNotification(s, 'confirm_screening_date');
+      }
       if (processScreenings.is7daysBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_10');
       }
