@@ -34,7 +34,7 @@ describe('process screenings', () => {
     assert.isNotOk(processScreenings.isGreaterThan10days(nineDaysAfter.toDate()));
   });
 
-  it('screening date is between 9 and 4 days away', async () => {
+  xit('screening date is between 9 and 4 days away', async () => {
     const tenDaysBefore = moment().add(10, 'days');
     const nineDaysBefore = moment().add(9, 'days').subtract(1, 'seconds');
     const eightDaysBefore = moment().add(8, 'days');
