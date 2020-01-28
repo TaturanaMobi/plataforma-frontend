@@ -8,7 +8,7 @@ import NotificationTemplates from '../../models/notification_templates';
 const processScreenings = {
   isGreaterThan10days(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const tenDaysAfter = moment(refDate).add(10, 'days');
+    const tenDaysAfter = moment(refDate).add(9, 'days');
 
     return moment(sDate).isSameOrAfter(tenDaysAfter);
   },
@@ -16,7 +16,7 @@ const processScreenings = {
   isBetween9and4days(sDate, refDate = new Date()) {
     check(sDate, Date);
     const nineDaysBefore = moment(refDate).add(9, 'days').toDate();
-    const fourDaysBefore = moment(refDate).add(4, 'days').toDate();
+    const fourDaysBefore = moment(refDate).add(3, 'days').toDate();
 
     return moment(sDate).isBetween(fourDaysBefore, nineDaysBefore, null, '[]');
   },
@@ -25,7 +25,7 @@ const processScreenings = {
     const threeDaysBefore = moment(refDate).add(3, 'days').toDate();
 
     check(sDate, Date);
-    return moment(sDate).isSameOrBefore(threeDaysBefore, 'seconds');
+    return moment(sDate).isSameOrBefore(threeDaysBefore);
   },
 
   isAt10thDayBefore(sDate, refDate = new Date()) {
