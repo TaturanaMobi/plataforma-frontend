@@ -8,7 +8,7 @@ import NotificationTemplates from '../../models/notification_templates';
 const processScreenings = {
   isGreaterThan10days(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const tenDaysAfter = moment(refDate).add(10, 'days');
+    const tenDaysAfter = moment(refDate).add(9, 'days');
 
     return moment(sDate).isSameOrAfter(tenDaysAfter);
   },
@@ -16,7 +16,7 @@ const processScreenings = {
   isBetween9and4days(sDate, refDate = new Date()) {
     check(sDate, Date);
     const nineDaysBefore = moment(refDate).add(9, 'days').toDate();
-    const fourDaysBefore = moment(refDate).add(4, 'days').toDate();
+    const fourDaysBefore = moment(refDate).add(3, 'days').toDate();
 
     return moment(sDate).isBetween(fourDaysBefore, nineDaysBefore, null, '[]');
   },
@@ -25,7 +25,7 @@ const processScreenings = {
     const threeDaysBefore = moment(refDate).add(3, 'days').toDate();
 
     check(sDate, Date);
-    return moment(sDate).isSameOrBefore(threeDaysBefore, 'seconds');
+    return moment(sDate).isSameOrBefore(threeDaysBefore);
   },
 
   isAt10thDayBefore(sDate, refDate = new Date()) {
@@ -108,11 +108,7 @@ const processScreenings = {
       processScreenings.updateStatus(s, 'Confirmada');
     } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
-      // enviar e-mail no dia 10 screening_date
-      if (processScreenings.isAt10thDayBefore(s.date)) {
-        processScreenings.updateStatus(s, 'Confirmada');
-        processScreenings.createNotification(s, 'confirm_screening_date');
-      }
+      processScreenings.updateStatus(s, 'Confirmada');
       processScreenings.createNotification(s, 'confirm_scheduling_10');
     }
   },
@@ -133,6 +129,10 @@ const processScreenings = {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
     // enviar e-mail 7 dias antes da sessão send_the_movie_10
     } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
+      // enviar e-mail no dia 10 screening_date
+      if (processScreenings.isAt10thDayBefore(s.date)) {
+        processScreenings.createNotification(s, 'confirm_screening_date');
+      }
       if (processScreenings.is7daysBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_10');
       }
