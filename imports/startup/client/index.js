@@ -6,14 +6,14 @@ import { $ } from 'meteor/jquery';
 import WebFont from 'webfontloader';
 
 import 'summernote/dist/summernote';
-import 'summernote/dist/summernote.css';
+import 'summernote/src/icons/dist/_summernote.scss';
+import 'summernote/src/less/summernote.scss';
 
 import 'bootstrap-sass';
 
 import 'select2';
 import 'select2/dist/css/select2.css';
 import 'select2-bootstrap-theme/dist/select2-bootstrap.css';
-import '@fortawesome/fontawesome-free/css/all.css';
 
 import './routes.js';
 import './routes-ambassador.js';
