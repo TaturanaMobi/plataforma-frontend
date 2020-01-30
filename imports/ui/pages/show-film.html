@@ -1,118 +1,129 @@
 <template name="showFilm">
-{{# unless is_oculto}}
+  {{# unless is_oculto}}
   <div id="show-film">
     <div class="container">
       <div class="row">
-      <div class="col-lg-12">
-        <a href="/films">
-          <h4 class="section-title-sm">FILMES | {{status}}</h4>
-        </a>
-      </div>
-      <div class="col-lg-5">
-        <h2 class="section-title-lg red">{{title}}<img class="age-rating" src="/images/classificacao_{{snakecase age_rating}}.svg"/></h2>
-      </div>
-      <div class="col-lg-7 film-detail-buttons">
-      {{#if is_difusao }}
-      <a href="/screenings" class="pull-right btn btn-default">VER AGENDA DE EXIBIÇÃO</a>
-      <a href="/new-screening/{{slug}}" class="pull-right btn btn-primary">QUERO ORGANIZAR UMA SESSÃO</a>
-      {{/if}}
-      </div>
-      <div class="col-lg-12 data-row reset-div">
-      {{! TODO: queria tbm usar uma definition list aqui, mas sem usar várias
-          DLs não consigo o mesmo efeito da tabela, e ficaria horrivel no screen reader:
-          "Lista com 1 elemento: Genêro: Documentário ... Lista com 1 elemento..." }}
-        <table class="white-table">
-          <tr>
-            <td>{{genre}}</td>
-            <td>{{year}}</td>
-            {{# if length}}
+        <div class="col-lg-12">
+          <a href="/films">
+            <h4 class="section-title-sm">FILMES | {{status}}</h4>
+          </a>
+        </div>
+        <div class="col-lg-5">
+          <h2 class="section-title-lg red">{{title}}<img class="age-rating"
+              src="/images/classificacao_{{snakecase age_rating}}.svg" /></h2>
+        </div>
+        <div class="col-lg-7 film-detail-buttons">
+          {{#if is_difusao }}
+          <a href="/screenings" class="pull-right btn btn-default">VER AGENDA DE EXIBIÇÃO</a>
+          <a href="/new-screening/{{slug}}" class="pull-right btn btn-primary">QUERO ORGANIZAR UMA SESSÃO</a>
+          {{/if}}
+        </div>
+        <div class="col-lg-12 data-row reset-div">
+          <table class="white-table">
+            <tr>
+              <td>{{genre}}</td>
+              <td>{{year}}</td>
+              {{# if length}}
               <td>{{length}}</td>
-            {{/if}}
-            <td>{{country}}</td>
-            {{# if director}}
+              {{/if}}
+              <td>{{country}}</td>
+              {{# if director}}
               <td>{{director}}</td>
-            {{/if}}
-            {{# if production_company}}
+              {{/if}}
+              {{# if production_company}}
               <td>{{production_company}}</td>
+              {{/if}}
+            </tr>
+          </table>
+        </div>
+        <div class="col-lg-12 data-row reset-div">
+          <div class="row">
+            <div class="col-lg-4 poster-wrapper">
+              <img class="thumb-poster"
+                src="{{imageServerUrl}}/fit?width=720&height=1280&type=jpeg&file={{fixImagePath poster_path}}"
+                alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
+            </div>
+
+            <div class="col-lg-4">
+              <div class="box-synopsis">
+                <div class="wrapper-overflow">
+                  <p>{{{synopsis}}}</p>
+                </div>
+              </div>
+            </div>
+
+            {{#if tibr}}
+            <div class="col-lg-4 wrapper-fichaTecnica">
+              <div class="box-fichaTecnica">
+                <h3>FICHA TÉCNICA</h3>
+                <div class="wrapper-overflow">
+                  {{{ tibr }}}
+                </div>
+              </div>
+            </div>
             {{/if}}
-          </tr>
-        </table>
-      </div>
-      <div class="col-lg-12 data-row reset-div">
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="row">
-              <div class="col-lg-6 poster-wrapper">
-                <img class="thumb-poster" src="{{imageServerUrl}}/fit?width=720&height=1280&type=jpeg&file={{fixImagePath poster_path}}" alt="Cartaz do filme {{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}">
-              </div>
 
-              <div class="col-lg-6">
-                <p>{{{synopsis}}}</p>
-              </div>
+            <div class="col-lg-12 data-row">
+              <table class="white-table box-trailer">
+                <tr>
+                  {{#if trailer_url}}
+                  <td>{{trailerParser trailer_url}}</td>
+                  {{/if}}
+
+                  {{#if site}}
+                  <td><a href="{{site}}" class="red" target="_blank">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a></td>
+                  {{/if}}
+
+                  {{#each linklist}}
+                  <td><a href="{{link}}" target="_blank">
+                    <i class="fab fa-{{name}}"></i>
+                  </a></td>
+                  {{/each}}
+                </tr>
+              </table>
             </div>
-            <div class="row">
-              <div class="col-lg-12 data-row">
-                <table class="white-table">
-                  <tr>
-                    {{#if trailer_url}}
-                      <td>{{trailerParser trailer_url}}</td>
-                    {{/if}}
 
-                    {{#if site}}
-                      <td><a href="{{site}}" class="red" target="_blank">VISITE O SITE OFICIAL</a></td>
-                    {{/if}}
-
-                    {{#each linklist}}
-                      <td><a href="{{link}}"><img src="/images/{{name}}.svg" alt="{{name}}"></a></td>
-                    {{/each}}
-                  </tr>
-                </table>
-              </div>
-            </div>
           </div>
-          {{#if tibr}}
-          <div class="col-lg-4 wrapper-fichaTecnica">
-            <h3>FICHA TÉCNICA</h3>
-            <div class="box-fichaTecnica">
-            {{{ tibr }}}
-            </div>
-          </div>
-          {{/if}}
         </div>
-      </div>
 
-      <div class="film-graphs col-lg-12">
-        {{#with statistics}}
-        <div class="row data-row film-graphs">
-          <div class="col-md-6 reset-div film-graphs__box">
-            <h3>{{#if is_difusao_portfolio}}Números da mobilização{{else}}Dados da Difusão{{/if}}</h3>
-            <dl>
-              <dd class="{{hideIfNotDifusaoPortfolio film}}"><div id="viewers-chart" class="ct-chart"></div></dd>
-              <dd><img src="/images/eye.svg" alt="">{{viewers_from_reports}} espectadores em {{sessions_with_reports}} sessões com relatório de impacto</dd>
-              <dd><img src="/images/icon-calendar.png" alt="">{{past_sessions}} sessões realizadas</dd>
-              {{#unless is_only_portfolio film}}
-              <dd><img src="/images/icon-calendar.png" alt="">{{future_sessions}} sessões programadas (confira a agenda!)</dd>
-              {{/unless}}
-            </dl>
+        <div class="film-graphs col-lg-12">
+          {{#with statistics}}
+          <div class="row data-row film-graphs">
+            <div class="col-md-6 reset-div film-graphs__box">
+              <h3>{{#if is_difusao_portfolio}}Números da mobilização{{else}}Dados da Difusão{{/if}}</h3>
+              <dl>
+                <dd class="{{hideIfNotDifusaoPortfolio film}}">
+                  <div id="viewers-chart" class="ct-chart"></div>
+                </dd>
+                <dd><img src="/images/eye.svg" alt="">{{viewers_from_reports}} espectadores em {{sessions_with_reports}}
+                  sessões com relatório de impacto</dd>
+                <dd><img src="/images/icon-calendar.png" alt="">{{past_sessions}} sessões realizadas</dd>
+                {{#unless is_only_portfolio film}}
+                <dd><img src="/images/icon-calendar.png" alt="">{{future_sessions}} sessões programadas (confira a
+                  agenda!)</dd>
+                {{/unless}}
+              </dl>
+            </div>
+            {{#if is_difusao_portfolio }}
+            <div class="col-md-6 film-graphs">
+              <h3>Em quais regiões</h3>
+              <div class="ct-chart {{hideIfNotDifusaoPortfolio}}" id="zone-chart"></div>
+              <p>{{cities_total}} municipios alcançados</p>
+            </div>
+            {{else}}
+            <div class="col-md-6 reset-div film-graphs__box">
+              <h3>Em quantos estados</h3>
+              <ul>
+                {{#each states}}
+                <li>{{this}}</li>
+                {{/each}}
+              </ul>
+            </div>
+            {{/if}}
           </div>
-          {{#if is_difusao_portfolio }}
-          <div class="col-md-6 film-graphs">
-            <h3>Em quais regiões</h3>
-            <div class="ct-chart {{hideIfNotDifusaoPortfolio}}" id="zone-chart"></div>
-            <p>{{cities_total}} municipios alcançados</p>
-          </div>
-          {{else}}
-          <div class="col-md-6 reset-div film-graphs__box">
-            <h3>Em quantos estados</h3>
-            <ul>
-              {{#each states}}
-              <li>{{this}}</li>
-              {{/each}}
-            </ul>
-          </div>
-          {{/if}}
-        </div>
-        {{# if is_difusao_portfolio}}
+          {{# if is_difusao_portfolio}}
           {{# if has_categories}}
           <div class="row data-row">
             <div class="col-md-12 film-graphs">
@@ -122,32 +133,33 @@
                   <div id="institution-type-chart" class="ct-chart"></div>
                 </div>
                 <div class="col-md-6">
-                    <h3>Áreas de atuação</h3>
+                  <h3>Áreas de atuação</h3>
                   <div id="institution-area-chart" class="ct-chart"></div>
                 </div>
               </div>
             </div>
           </div>
           {{/if}}
-        {{/if}}
-      {{/with}}
-      </div>
-      {{#if slideshow}}
-      <div class="col-lg-12 photo-gallery">
-      <h3>FOTOS</h3>
-        <div id="carousel" class="col-lg-10 col-lg-offset-1">
-          {{#each slideshow}}
-          <div>
-            <img class="photo" src="{{imageServerUrl}}/smartcrop?width=920&height=520&type=jpeg&file={{fixImagePath src}}"/>
-            <p class="photo-description">{{caption}} - Autor: {{author}}</p>
-          </div>
-          {{/each}}
+          {{/if}}
+          {{/with}}
         </div>
+        {{#if slideshow}}
+        <div class="col-lg-12 photo-gallery">
+          <h3>FOTOS</h3>
+          <div id="carousel" class="col-lg-10 col-lg-offset-1">
+            {{#each slideshow}}
+            <div>
+              <img class="photo"
+                src="{{imageServerUrl}}/smartcrop?width=920&height=520&type=jpeg&file={{fixImagePath src}}" />
+              <p class="photo-description">{{caption}} - Autor: {{author}}</p>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{/if}}
       </div>
-      {{/if}}
     </div>
   </div>
-  </div>
 
-{{/unless}}
+  {{/unless}}
 </template>
