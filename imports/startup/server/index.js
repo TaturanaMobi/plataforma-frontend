@@ -181,18 +181,29 @@ Meteor.methods({
   },
 
   addToSlideshow(id, image) {
-    Films.update(id, {
-      $push: {
-        slideshow: image,
+    const f = Films.findOne(id);
+    const s = f.slideshow;
+    s.push(image);
+    Films.update({ _id: id }, {
+      $set: {
+        'slideshow': s,
       },
     });
   },
 
   removeFromSlideshow(id, src) {
-    const image = Films.get_image_by_src(id, src);
+    const f = Films.findOne(id);
+
+    f.slideshow.forEach((img, idx) => {
+      if (img.src === src) {
+        f.slideshow.splice(idx, 1);
+      }
+    });
+
+
     Films.update(id, {
-      $pull: {
-        slideshow: image,
+      $set: {
+        slideshow: f.slideshow,
       },
     });
   },

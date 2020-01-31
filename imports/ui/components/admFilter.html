@@ -129,7 +129,8 @@
 
     {{#if draft}}
     <button class="btn btn-default btn-xs btn-unset-draft" data-session-id="{{_id}}">Desmarcar rascunho</button>
+    {{else}}
+    <button class="btn btn-default btn-xs btn-set-draft" data-session-id="{{_id}}">Marcar rascunho</button>
     {{/if}}
 
-    <button class="btn btn-default btn-xs btn-set-draft" data-session-id="{{_id}}">Marcar rascunho</button>
 </template>
