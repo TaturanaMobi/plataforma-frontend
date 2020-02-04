@@ -1099,14 +1099,16 @@ Schemas.NotificationTemplate = new SimpleSchema({
       },
     },
   },
-  createdAt: {
-    type: String,
-    label: 'Criado em',
+  created_at: {
+    type: Date,
+    label: 'Data de criação',
+    defaultValue: new Date(),
     optional: true,
   },
   updatedAt: {
-    type: String,
-    label: 'Atualizado em',
+    type: Date,
+    label: 'Data da última atualização da sessão',
+    defaultValue: new Date(),
     optional: true,
   },
 }, { tracker: Tracker });
@@ -1129,14 +1131,16 @@ Schemas.Notification = new SimpleSchema({
     label: 'Entregue em',
     optional: true,
   },
-  createdAt: {
-    type: String,
-    label: 'Criado em',
+  created_at: {
+    type: Date,
+    label: 'Data de criação',
+    defaultValue: new Date(),
     optional: true,
   },
   updatedAt: {
-    type: String,
-    label: 'Atualizado em',
+    type: Date,
+    label: 'Data da última atualização da sessão',
+    defaultValue: new Date(),
     optional: true,
   },
 }, { tracker: Tracker });
