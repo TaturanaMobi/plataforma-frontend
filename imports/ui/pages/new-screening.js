@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 // import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 // import { $ } from 'meteor/jquery';
-import Plyr from 'plyr';
+import { ReactiveDict } from 'meteor/reactive-dict';
 
 import '../components/autoform-nouislider.js';
 import '../components/screeningFormFields';
@@ -11,64 +11,46 @@ import './new-screening.html';
 // import { saveScreening } from '../../startup/client/helpers.js';
 
 Template.newScreening.onCreated(function () {
+  this.doc = new ReactiveDict();
+  this.doc.set('data', Template.instance().data);
   this.autorun(() => {
-    this.subscribe('cities');
+    this.subscribe('cities', Template.instance().doc.get('data').uf);
     this.subscribe('users.me');
   });
 });
 
 Template.newScreening.onRendered(() => {
-  // const nowDate = new Date();
-  // const today = new Date(nowDate.getFullYear(),
-  // nowDate.getMonth(), nowDate.getDate() + 3, 0, 0, 0, 0);
-
-  // $('.readonly').keydown(function(e) {
-  //   e.preventDefault();
-  // });
-  // $('#date').datepicker({
-  //   format: 'dd/mm/yyyy',
-  //   language: 'pt-BR',
-  //   startDate: today,
-  // });
-  // $('.datetimepicker').timepicker();
-  const player = new Plyr('#player');
-  player.volume = 1;
+  // const player = new Plyr('#player');
+  // player.volume = 1;
 });
 
 Template.newScreening.events({
-  // 'submit form#new-screening-form'(event) {
-  //   event.preventDefault();
-  //   // Envia screening
-  //   // TODO: add validation to the form
-  //   const form = document.getElementById('new-screening-form');
-  //   saveScreening(form, this._id, false, 'create-publish');
-  // },
-  // 'click #btn-save'(event) {
-  //   // Salva coomo rascunho
-  //   // TODO: add validation to the form
-  //   event.preventDefault();
-  //   const form = document.getElementById('new-screening-form');
-  //   saveScreening(form, this._id, true, 'create');
-  // },
   'click .remove_address'() {
     Meteor.call('removeAddress', Meteor.user()._id, this);
   },
-  // 'click .replace_address': function() {
-  //   // set state
-  //   $('#uf')
-  //     .find('#' + this.uf)
-  //     .attr('selected', 'selected');
-  //   Session.set('address', this);
-  // }
+  'click .replace_address'(event) {
+    const docData = Template.instance().doc.get('data');
+    Meteor.user().addresses.forEach((v) => {
+      if (v._id === event.currentTarget.id) {
+        Template.instance().doc.set('data', { ...docData, ...v });
+      }
+    });
+  },
 });
 
 Template.newScreening.helpers({
+  doc() {
+    return Template.instance().doc.get('data');
+  },
   form() {
+    const address = Template.instance().doc.get('data');
+
     return {
       user_id: Meteor.userId(),
       filmId: this._id,
       created_at: new Date(),
       status: 'Agendada',
+      ...address,
     };
   },
   user_addresses() {

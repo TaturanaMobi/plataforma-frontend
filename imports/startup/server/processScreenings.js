@@ -39,21 +39,21 @@ const processScreenings = {
     check(sDate, Date);
     const sevenDaysBefore = moment(refDate).add(7, 'days').toDate();
 
-    return moment(sDate).isSameOrBefore(sevenDaysBefore, 'day');
+    return moment(sDate).isSameOrBefore(sevenDaysBefore);
   },
 
   is2daysBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const twoDaysBefore = moment(refDate).subtract(2, 'days').toDate();
+    const twoDaysBefore = moment(refDate).add(2, 'days').toDate();
 
-    return moment(sDate).isSame(twoDaysBefore, 'day');
+    return moment(sDate).isSameOrBefore(twoDaysBefore);
   },
 
   is1dayBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const oneDayBefore = moment(refDate).subtract(1, 'days').toDate();
+    const oneDayBefore = moment(refDate).add(1, 'days').toDate();
 
-    return moment(sDate).isSame(oneDayBefore, 'day');
+    return moment(sDate).isSameOrBefore(oneDayBefore);
   },
 
   was40hoursAgo(sDate, refDate = new Date()) {
@@ -88,6 +88,8 @@ const processScreenings = {
       processScreenings.processConcluida(s);
     } else if (s.status === 'Rascunho') {
       processScreenings.processRascunho(s);
+    } else if (s.status === 'Cancelada') {
+      // processScreenings.processCancelada(s);
     } else {
       console.log('NÃO ENCONTRADO FUNCAO PARA PROCESSAR STATUS', s.status, s._id);
     }

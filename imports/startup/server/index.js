@@ -21,9 +21,9 @@ Meteor.startup(() => {
 
   Meteor.publish('films.all', Films.all);
 
-  Meteor.publish('screenings.all', function() { return Screenings.find({}); });
+  Meteor.publish('screenings.all', function() { return Screenings.find({ status: { $ne: 'Cancelada' } }); });
 
-  Meteor.publish('screenings.my', function() { return Screenings.find({ user_id: Meteor.userId() }); });
+  Meteor.publish('screenings.my', function() { return Screenings.find({ user_id: Meteor.userId(), status: { $ne: 'Cancelada' } }); });
 
   Meteor.publish('screenings.upcoming', function() { return Screenings.find({ status: 'Confirmada', public_event: true, date: { $gte: new Date() } }); });
 
@@ -181,18 +181,29 @@ Meteor.methods({
   },
 
   addToSlideshow(id, image) {
-    Films.update(id, {
-      $push: {
-        slideshow: image,
+    const f = Films.findOne(id);
+    const s = f.slideshow;
+    s.push(image);
+    Films.update({ _id: id }, {
+      $set: {
+        'slideshow': s,
       },
     });
   },
 
   removeFromSlideshow(id, src) {
-    const image = Films.get_image_by_src(id, src);
+    const f = Films.findOne(id);
+
+    f.slideshow.forEach((img, idx) => {
+      if (img.src === src) {
+        f.slideshow.splice(idx, 1);
+      }
+    });
+
+
     Films.update(id, {
-      $pull: {
-        slideshow: image,
+      $set: {
+        slideshow: f.slideshow,
       },
     });
   },
@@ -257,15 +268,15 @@ Meteor.methods({
     // }
   },
   removeScreening(screeningId) {
-    const film = Films.by_screening_id(screeningId);
-    const fScreening = Films.return_screening(screeningId);
-    Films.update(
+    // const fScreening = Screenings.findOne(screeningId);
+    // const film = fScreening.film();
+    Screenings.update(
       {
-        _id: film._id,
+        _id: screeningId,
       },
       {
-        $pull: {
-          screening: fScreening,
+        $set: {
+          status: 'Cancelada',
         },
       },
     );

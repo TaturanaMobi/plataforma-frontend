@@ -44,8 +44,28 @@
         clear: both;
       }
     }
-
   }
+
+  .white-table.box-trailer {
+    td {
+      padding: 0;
+    }
+
+    .fas, .fab {
+      font-size: 2em;
+      color: #df4944;
+    }
+  }
+
+  .wrapper-overflow {
+    overflow: auto;
+    height: 420px;
+  }
+
+  .box-synopsis .wrapper-overflow {
+    height: 520px;
+  }
+
   .wrapper-fichaTecnica {
     // h3 {
     //   margin: 0 0 1em;

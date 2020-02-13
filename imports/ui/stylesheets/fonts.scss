@@ -21,6 +21,16 @@
 //     font-style: normal;
 // }
 
+@font-face {
+  font-family:"summernote";
+    src:url("./font/summernote.eot?8c35c45ce0f4d0f66366f5d23747378a");
+    src:url("./font/summernote.eot?8c35c45ce0f4d0f66366f5d23747378a#iefix") format("embedded-opentype"),
+        url("./font/summernote.woff?8c35c45ce0f4d0f66366f5d23747378a") format("woff"),
+        url("./font/summernote.ttf?8c35c45ce0f4d0f66366f5d23747378a") format("truetype");
+  font-weight:normal;
+  font-style:normal;
+}
+
 [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'FontAwesome' !important;
