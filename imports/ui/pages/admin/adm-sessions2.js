@@ -1,15 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
-import { $ } from 'meteor/jquery';
+// import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { Router } from 'meteor/iron:router';
-import Screenings from '../../../models/screenings.js';
 import { ReactiveDict } from 'meteor/reactive-dict';
-import Films from '../../../models/films.js';
-import getSelectOptions from '../../../models/schemas/getSelectOptions';
 import Papa from 'papaparse';
 import { moment } from 'meteor/momentjs:moment';
+import Screenings from '../../../models/screenings.js';
+import Films from '../../../models/films.js';
+import getSelectOptions from '../../../models/schemas/getSelectOptions';
 import { SCREENING_STATUS, STATES } from '../../../models/schemas/index.js';
 
 const downloadCsvScreening = (screenings) => {

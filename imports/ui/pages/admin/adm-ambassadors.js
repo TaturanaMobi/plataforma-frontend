@@ -10,7 +10,7 @@ import { moment } from 'meteor/momentjs:moment';
 import getSelectOptions from '../../../models/schemas/getSelectOptions';
 import { FILM_CATEGORIES, FILM_SUBCATEGORIES, STATES } from '../../../models/schemas/index.js';
 
-import Films from '../../../models/films.js';
+// import Films from '../../../models/films.js';
 
 const downloadCsvUser = (users) => {
   const data = users.map((u) => {

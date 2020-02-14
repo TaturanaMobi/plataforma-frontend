@@ -6,6 +6,7 @@ import { Router } from 'meteor/iron:router';
 import '../../ui/components/adm-sidebar.html';
 import '../../ui/components/admFilter.html';
 
+import '../../ui/pages/admin/adm-fluxo-by-screening';
 import '../../ui/pages/admin/adm-notification-templates';
 import '../../ui/pages/admin/adm-notification-templates-new';
 import '../../ui/pages/admin/adm-notification-templates-edit';
@@ -31,6 +32,7 @@ import Screenings from '../../models/screenings.js';
 import Films from '../../models/films.js';
 import Users from '../../models/users';
 import NotificationTemplates from '../../models/notification_templates';
+import Notifications from '../../models/notifications';
 
 import { publicRoutes } from './routes-ambassador.js';
 
@@ -62,6 +64,15 @@ Router.route('/adm/notification-templates', {
   waitOn() { return Meteor.subscribe('notificationTemplates.all'); },
   data() { return NotificationTemplates.find({}); },
   action() { this.render('admNotificationTemplates'); },
+});
+
+Router.route('/adm/fluxo-by-screening/:screeningId', {
+  waitOn() { return Meteor.subscribe('notificationTemplates.all') && Meteor.subscribe('notificationByScreening.byScreening'); },
+  data() {
+    return NotificationTemplates.find({})
+      && Notifications.find({ screeningId: this.params.screeningId });
+  },
+  action() { this.render('admFluxoByScreening'); },
 });
 
 Router.route('/adm/notification-templates-new', {

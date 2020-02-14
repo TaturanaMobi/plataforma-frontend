@@ -11,6 +11,7 @@ import './fixtures.js';
 import './migrations';
 import Films from '../../models/films';
 import Screenings from '../../models/screenings';
+import Notifications from '../../models/notifications';
 import Images from '../../models/images';
 import { Cities, States } from '../../models/states_and_cities';
 import Worker from './worker';
@@ -34,6 +35,8 @@ Meteor.startup(() => {
   Meteor.publish('users.all', function() { return Meteor.users.find({}, { sort: { createdAt: 1 } }); });
 
   Meteor.publish('notificationTemplates.all', function() { return NotificationTemplates.find({}); });
+
+  Meteor.publish('notificationByScreening.byScreening', function(screeningId) { return Notifications.find({ screeningId }); });
 
   Meteor.publish('files.images.all', function() { return Images.find().cursor; });
 
