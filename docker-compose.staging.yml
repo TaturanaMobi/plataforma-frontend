@@ -41,6 +41,7 @@ services:
 
   fake-smtp:
     image: mailhog/mailhog
+    restart: always
     environment:
       MH_HOSTNAME: fake-smtp.taturana
     ports:
@@ -55,6 +56,7 @@ services:
 
   traefik:
     image: traefik:1.7-alpine
+    restart: always
     ports:
       - 80:80/tcp
       - 8080/tcp
@@ -70,6 +72,7 @@ services:
 
   images:
     image: h2non/imaginary
+    restart: always
     ports:
     - 9000/tcp
     volumes:
@@ -91,6 +94,7 @@ services:
 
   postgres:
     image: postgres
+    restart: always
     ports:
     - 9000/tcp
     environment:
@@ -133,6 +137,7 @@ services:
 
   metabase:
     image: metabase/metabase
+    restart: always
     environment:
       JAVA_TIMEZONE: America/Sao_Paulo
       MB_DB_TYPE: postgres
@@ -180,6 +185,7 @@ services:
 
   frontend:
     image: taturanamobi/plataforma-frontend
+    restart: always
     build: .
     ports:
       - 3000/tcp
@@ -251,6 +257,7 @@ services:
 
   mariadb:
     image: 'bitnami/mariadb:latest'
+    restart: always
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=bn_wordpress
@@ -259,6 +266,7 @@ services:
       - mariadb:/bitnami
   wordpress:
     image: bitnami/wordpress:latest
+    restart: always
     depends_on:
       - mariadb
     ports:

@@ -8,50 +8,53 @@ import NotificationTemplates from '../../models/notification_templates';
 const processScreenings = {
   isGreaterThan10days(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const tenDaysAfter = moment(refDate).add(9, 'days');
+    const tenDaysAfter = moment(refDate).add(11, 'days');
 
     return moment(sDate).isSameOrAfter(tenDaysAfter);
   },
 
   isBetween9and4days(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const nineDaysBefore = moment(refDate).add(9, 'days').toDate();
-    const fourDaysBefore = moment(refDate).add(3, 'days').toDate();
+    const nineDaysBefore = moment(refDate).add(10, 'days').toDate();
+    const fourDaysBefore = moment(refDate).add(4, 'days').toDate();
 
     return moment(sDate).isBetween(fourDaysBefore, nineDaysBefore, null, '[]');
   },
 
   isLowerThan3days(sDate, refDate = new Date()) {
-    const threeDaysBefore = moment(refDate).add(3, 'days').toDate();
+    // const threeDaysBefore = moment(refDate).add(3, 'days').toDate();
+    const fourDaysBefore = moment(refDate).add(4, 'days').toDate();
 
     check(sDate, Date);
-    return moment(sDate).isSameOrBefore(threeDaysBefore);
+    return moment(sDate).isSameOrBefore(fourDaysBefore);
   },
 
   isAt10thDayBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
     const at10thDayBefore = moment(refDate).add(10, 'days').toDate();
+    const at11thDayBefore = moment(refDate).add(11, 'days').toDate();
 
-    return moment(sDate).isSame(at10thDayBefore, 'day');
+    return moment(sDate).isBetween(at10thDayBefore, at11thDayBefore, null, '[]');
   },
 
   is7daysBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
     const sevenDaysBefore = moment(refDate).add(7, 'days').toDate();
+    const eightDaysBefore = moment(refDate).add(8, 'days').toDate();
 
-    return moment(sDate).isSameOrBefore(sevenDaysBefore);
+    return moment(sDate).isBetween(sevenDaysBefore, eightDaysBefore, null, '[]');
   },
 
   is2daysBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const twoDaysBefore = moment(refDate).add(2, 'days').toDate();
+    const twoDaysBefore = moment(refDate).add(3, 'days').toDate();
 
     return moment(sDate).isSameOrBefore(twoDaysBefore);
   },
 
   is1dayBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const oneDayBefore = moment(refDate).add(1, 'days').toDate();
+    const oneDayBefore = moment(refDate).add(2, 'days').toDate();
 
     return moment(sDate).isSameOrBefore(oneDayBefore);
   },
@@ -118,6 +121,7 @@ const processScreenings = {
   processConfirmada(s) {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
     // enviar e-mail 1 dias antes da sessão send_the_movie_3
+    console.log('processScreenings.isGreaterThan10days(s.date, s.created_at)', processScreenings.isGreaterThan10days(s.date, s.created_at), s.date, s.created_at);
     if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
       if (processScreenings.is1dayBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_3');
@@ -132,9 +136,11 @@ const processScreenings = {
     // enviar e-mail 7 dias antes da sessão send_the_movie_10
     } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       // enviar e-mail no dia 10 screening_date
+      console.log('processScreenings.isAt10thDayBefore(s.date)', processScreenings.isAt10thDayBefore(s.date));
       if (processScreenings.isAt10thDayBefore(s.date)) {
         processScreenings.createNotification(s, 'confirm_screening_date');
       }
+      console.log('processScreenings.is7daysBefore(s.date)', processScreenings.is7daysBefore(s.date));
       if (processScreenings.is7daysBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_10');
       }
