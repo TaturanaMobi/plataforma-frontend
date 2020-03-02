@@ -47,14 +47,14 @@ const processScreenings = {
 
   is2daysBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const twoDaysBefore = moment(refDate).add(48, 'hours').toDate();
+    const twoDaysBefore = moment(refDate).add(3, 'days').toDate();
 
     return moment(sDate).isSameOrBefore(twoDaysBefore);
   },
 
   is1dayBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const oneDayBefore = moment(refDate).add(24, 'hours').toDate();
+    const oneDayBefore = moment(refDate).add(2, 'days').toDate();
 
     return moment(sDate).isSameOrBefore(oneDayBefore);
   },

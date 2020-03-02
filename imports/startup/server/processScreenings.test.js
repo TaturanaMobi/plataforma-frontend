@@ -19,8 +19,8 @@ describe('process screenings', () => {
   });
 
   it('screening date is 10 or more days away', async () => {
-    const elevenDaysAfter = moment().add(11, 'days');
-    const tenDaysAfter = moment().add(10, 'days').add(1, 'seconds');
+    const elevenDaysAfter = moment().add(12, 'days');
+    const tenDaysAfter = moment().add(240, 'hours');
     const nineDaysAfter = moment().add(9, 'days');
 
     assert.throws(() => {
@@ -30,19 +30,19 @@ describe('process screenings', () => {
       processScreenings.isGreaterThan10days(moment());
     }, 'Expected Date');
     assert.ok(processScreenings.isGreaterThan10days(elevenDaysAfter.toDate()));
-    assert.ok(processScreenings.isGreaterThan10days(tenDaysAfter.toDate()));
+    assert.isNotOk(processScreenings.isGreaterThan10days(tenDaysAfter.toDate()));
     assert.isNotOk(processScreenings.isGreaterThan10days(nineDaysAfter.toDate()));
   });
 
   it('screening date is between 9 and 4 days away', async () => {
-    const tenDaysBefore = moment().add(10, 'days');
+    const tenDaysBefore = moment().add(10, 'days').add(1, 'seconds');
     const nineDaysBefore = moment().add(9, 'days').subtract(1, 'seconds');
     const eightDaysBefore = moment().add(8, 'days');
     const sevenDaysBefore = moment().add(7, 'days');
     const sixDaysBefore = moment().add(6, 'days');
     const fiveDaysBefore = moment().add(5, 'days');
-    const fourDaysBefore = moment().add(4, 'days');
-    const threeDaysBefore = moment().add(3, 'days').add(1, 'seconds');
+    const fourDaysBefore = moment().add(4, 'days').add(1, 'seconds');
+    const threeDaysBefore = moment().add(3, 'days');
     const twoDaysBefore = moment().add(2, 'days');
 
     assert.throws(() => {
@@ -58,12 +58,12 @@ describe('process screenings', () => {
     assert.ok(processScreenings.isBetween9and4days(sixDaysBefore.toDate()));
     assert.ok(processScreenings.isBetween9and4days(fiveDaysBefore.toDate()));
     assert.ok(processScreenings.isBetween9and4days(fourDaysBefore.toDate()));
-    assert.ok(processScreenings.isBetween9and4days(threeDaysBefore.toDate()));
+    assert.isNotOk(processScreenings.isBetween9and4days(threeDaysBefore.toDate()));
     assert.isNotOk(processScreenings.isBetween9and4days(twoDaysBefore.toDate()));
   });
 
   it('screening date is 3 or less days away', async () => {
-    const fourDaysBefore = moment().add(4, 'days');
+    const fourDaysBefore = moment().add(4, 'days').add(1, 'seconds');
     const threeDaysBefore = moment().add(3, 'days').subtract(1, 'seconds');
     const twoDaysBefore = moment().add(2, 'days');
     const oneDaysBefore = moment().add(1, 'days');
@@ -81,8 +81,8 @@ describe('process screenings', () => {
   });
 
   it('screening date is exact 10 days away', async () => {
-    const elevenDaysBefore = moment().add(11, 'days');
-    const tenDaysBefore = moment().add(10, 'days');
+    const elevenDaysBefore = moment().add(11, 'days').subtract(1, 'seconds');
+    const tenDaysBefore = moment().add(10, 'days').add(1, 'seconds');
     const threeDaysBefore = moment().add(3, 'days');
 
     assert.throws(() => {
@@ -91,14 +91,14 @@ describe('process screenings', () => {
     assert.throws(() => {
       processScreenings.isAt10thDayBefore(moment());
     }, 'Expected Date');
-    assert.isNotOk(processScreenings.isAt10thDayBefore(elevenDaysBefore.toDate()));
+    assert.ok(processScreenings.isAt10thDayBefore(elevenDaysBefore.toDate()));
     assert.ok(processScreenings.isAt10thDayBefore(tenDaysBefore.toDate()));
     assert.isNotOk(processScreenings.isAt10thDayBefore(threeDaysBefore.toDate()));
   });
 
   it('screening date is 7 days away', async () => {
-    const eightDaysBefore = moment().add(8, 'days');
-    const sevenDaysBefore = moment().add(7, 'days').subtract(1, 'seconds');
+    const eightDaysBefore = moment().add(8, 'days').subtract(1, 'seconds');
+    const sevenDaysBefore = moment().add(7, 'days').add(1, 'seconds');
     const sixDaysBefore = moment().add(6, 'days');
 
     assert.throws(() => {
@@ -107,13 +107,13 @@ describe('process screenings', () => {
     assert.throws(() => {
       processScreenings.is7daysBefore(moment());
     }, 'Expected Date');
-    assert.isNotOk(processScreenings.is7daysBefore(eightDaysBefore.toDate()));
+    assert.ok(processScreenings.is7daysBefore(eightDaysBefore.toDate()));
     assert.ok(processScreenings.is7daysBefore(sevenDaysBefore.toDate()));
-    assert.ok(processScreenings.is7daysBefore(sixDaysBefore.toDate()));
+    assert.isNotOk(processScreenings.is7daysBefore(sixDaysBefore.toDate()));
   });
 
   it('screening date is 2 days away', async () => {
-    const threeDaysBefore = moment().add(3, 'days');
+    const threeDaysBefore = moment().add(3, 'days').add(1, 'seconds');
     const twoDaysBefore = moment().add(2, 'days');
     const oneDaysBefore = moment().add(1, 'days');
 
@@ -130,7 +130,7 @@ describe('process screenings', () => {
 
   it('screening date is 1 day away', async () => {
     const threeDaysBefore = moment().add(3, 'days');
-    const twoDaysBefore = moment().add(2, 'days');
+    const twoDaysBefore = moment().add(2, 'days').add(1, 'seconds');
     const oneDaysBefore = moment().add(1, 'days');
 
     assert.throws(() => {
