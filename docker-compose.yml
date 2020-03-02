@@ -21,7 +21,7 @@ volumes:
 services:
   mongo:
     image: mongo
-    restart: always
+    # restart: always
     ports:
       - 27017:27017
     networks:
@@ -98,7 +98,7 @@ services:
 
   mongo-express:
     image: mongo-express
-    restart: always
+    # restart: always
     ports:
       - 4005:8081
     networks:
