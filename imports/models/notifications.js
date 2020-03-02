@@ -12,10 +12,10 @@ Notifications.attachSchema(Schemas.Notification);
 
 if (Meteor.isServer) {
   Notifications.before.insert((userId, doc) => {
-    doc.createdAt = Date.now();
+    doc.createdAt = new Date();
   });
   Notifications.before.upsert((userId, doc) => {
-    doc.updatedAt = Date.now();
+    doc.updatedAt = new Date();
   });
   Notifications.after.insert((userId, doc) => {
     const template = NotificationTemplates.findOne({ _id: doc.notificationTemplateId });
@@ -43,6 +43,8 @@ if (Meteor.isServer) {
     pidgeon.html = SSR.render(template.name, varsData);
 
     Email.send(pidgeon);
+
+    Notifications.update({ _id: doc._id }, { $set: { deliveredAt: new Date() } });
     // console.log('Enviando e-mail:', doc);
   });
 }
