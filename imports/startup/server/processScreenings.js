@@ -121,7 +121,7 @@ const processScreenings = {
   processConfirmada(s) {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
     // enviar e-mail 1 dias antes da sessão send_the_movie_3
-    console.log('processScreenings.isGreaterThan10days(s.date, s.created_at)', processScreenings.isGreaterThan10days(s.date, s.created_at), s.date, s.created_at);
+    // console.log('processScreenings.isGreaterThan10days(s.date, s.created_at)', processScreenings.isGreaterThan10days(s.date, s.created_at), s.date, s.created_at);
     if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
       if (processScreenings.is1dayBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_3');
@@ -136,11 +136,11 @@ const processScreenings = {
     // enviar e-mail 7 dias antes da sessão send_the_movie_10
     } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       // enviar e-mail no dia 10 screening_date
-      console.log('processScreenings.isAt10thDayBefore(s.date)', processScreenings.isAt10thDayBefore(s.date));
+      // console.log('processScreenings.isAt10thDayBefore(s.date)', processScreenings.isAt10thDayBefore(s.date));
       if (processScreenings.isAt10thDayBefore(s.date)) {
         processScreenings.createNotification(s, 'confirm_screening_date');
       }
-      console.log('processScreenings.is7daysBefore(s.date)', processScreenings.is7daysBefore(s.date));
+      // console.log('processScreenings.is7daysBefore(s.date)', processScreenings.is7daysBefore(s.date));
       if (processScreenings.is7daysBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_10');
       }
