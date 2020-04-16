@@ -76,17 +76,16 @@ Template.registerHelper('shortsynopsis', function shortSynopsis() {
   return sText;
 });
 
-Template.registerHelper('avatarPath', () => {
-  const avatar = Meteor.user().profile.avatar_path;
-  return (avatar) ? `/upload/${avatar}`
-    : '/images/avatar-default.png';
-});
-
 Template.registerHelper('imageServerUrl', () => Meteor.settings.public.imageServerUrl || 'https://images.stag.taturanamobi.com.br/');
 
 Template.registerHelper('fixImagePath', (imagePath) => {
   const re = /^images\//;
   return (imagePath.match(re) ? imagePath : `images/${Images.findOne(imagePath).path.split('images/')[1]}`);
+});
+
+Template.registerHelper('fixPressKitPath', (pressKitPath) => {
+  const img = Images.findOne(pressKitPath)
+  return (img ? img.link() : pressKitPath);
 });
 
 Template.registerHelper('snakecase', (str) => str.split(' ').join('_').toLowerCase());

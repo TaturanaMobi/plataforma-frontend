@@ -38,7 +38,7 @@
               </div>
               <div class="session-edit-actions">
                 {{#if in_future this}}
-                <a href="/upload/{{film.press_kit_path}}"><span class="square_button"><img src="/images/download.svg"
+                <a href="{{fixPressKitPath film.press_kit_path}}"><span class="square_button"><img src="/images/download.svg"
                       alt="Download" /></span></a>
                 <a href="/edit-screening/{{_id}}"><span class="square_button"><img src="/images/edit.svg" alt="Editar" /></span></a>
                 <a href="#" class="destroy"><span class="square_button"><img src="/images/delete.svg" alt="Deletar" /></span></a>
