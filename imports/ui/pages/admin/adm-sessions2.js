@@ -106,7 +106,7 @@ Template.admSessions2.onCreated(function () {
       hasComments,
       missingReports,
     } = formValues;
-    console.log(formValues);
+    // console.log(formValues);
     const o = {};
 
     this.state.set('screening-date-selector', screeningDate);
@@ -159,7 +159,7 @@ Template.admSessions2.onCreated(function () {
     if (missingReports) {
       o.status = 'Pendente';
     }
-    console.log(o);
+    // console.log(o);
     return o;
   };
 

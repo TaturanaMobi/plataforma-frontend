@@ -191,7 +191,7 @@ Migrations.add({
   up() {
     let i = 1;
     Films.find({}, { sort: { sequence_number: 1 } }).forEach((film) => {
-      console.log(film.sequence_number);
+      // console.log(film.sequence_number);
       Films.update(film._id, {
         $set: {
           sequence_number: i,

@@ -5,11 +5,11 @@ import { Router } from 'meteor/iron:router';
 
 import './login.html';
 
-function messageError(reason) {
+function messageError() { // reason
   const message = 'Usuário ou senha incorretos';
   $('.form-errors').html(message);
   $('html, body').animate({ scrollTop: 0 }, 'fast');
-  console.log(reason);
+  // console.log(reason);
 }
 
 Template.login.onRendered(() => {

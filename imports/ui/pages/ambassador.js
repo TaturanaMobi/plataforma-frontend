@@ -42,7 +42,7 @@ Template.ambassador.helpers({
     return 'calendar';
   },
   in_future() {
-    console.log(this.status);
+    // console.log(this.status);
     return ((this.status === 'Rascunho')
     || (this.status === 'Inválida')
     || (this.status === 'Agendada')

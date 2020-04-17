@@ -62,7 +62,7 @@ Template.admAmbassadors.onCreated(function () {
       teamMember,
       missingReports,
     } = formValues;
-    console.log(formValues);
+    // console.log(formValues);
     const o = {};
 
 
@@ -94,7 +94,7 @@ Template.admAmbassadors.onCreated(function () {
     // if (teamMember) {
     //   o.team_member = { $eq: true };
     // }
-    console.log(o);
+    // console.log(o);
     return o;
   };
 

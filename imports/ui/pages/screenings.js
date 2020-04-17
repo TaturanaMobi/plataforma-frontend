@@ -146,7 +146,7 @@ Template.screenings.onCreated(function () {
         $lt: d2,
       };
     }
-    console.log(o);
+    // console.log(o);
     return o;
   };
 

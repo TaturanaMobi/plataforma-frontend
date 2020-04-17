@@ -108,9 +108,9 @@ Template.admFilms.events({
       Meteor.call('removeFilm', this._id);
     }
   },
-  'click .destroy-img'(event) {
-    console.log(event.target.src);
-  },
+  // 'click .destroy-img'(event) {
+  //   console.log(event.target.src);
+  // },
   'click .btn-change-poster'(event) {
     event.preventDefault();
 

@@ -84,7 +84,7 @@ Template.registerHelper('fixImagePath', (imagePath) => {
 });
 
 Template.registerHelper('fixPressKitPath', (pressKitPath) => {
-  const img = Images.findOne(pressKitPath)
+  const img = Images.findOne(pressKitPath);
   return (img ? img.link() : pressKitPath);
 });
 

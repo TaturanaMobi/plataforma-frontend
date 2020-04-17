@@ -8,22 +8,22 @@ import NotificationTemplates from '../../models/notification_templates';
 const processScreenings = {
   isGreaterThan10days(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const tenDaysAfter = moment(refDate).add(11, 'days');
+    const tenDaysAfter = moment(refDate).add(10 * 24, 'hours');
 
     return moment(sDate).isSameOrAfter(tenDaysAfter);
   },
 
   isBetween9and4days(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const nineDaysBefore = moment(refDate).add(10, 'days').toDate();
-    const fourDaysBefore = moment(refDate).add(4, 'days').toDate();
+    const nineDaysBefore = moment(refDate).add(9 * 24, 'hours').toDate();
+    const fourDaysBefore = moment(refDate).add(3 * 24, 'hours').toDate();
 
     return moment(sDate).isBetween(fourDaysBefore, nineDaysBefore, null, '[]');
   },
 
   isLowerThan3days(sDate, refDate = new Date()) {
     // const threeDaysBefore = moment(refDate).add(3, 'days').toDate();
-    const fourDaysBefore = moment(refDate).add(4, 'days').toDate();
+    const fourDaysBefore = moment(refDate).add(72, 'hours').toDate();
 
     check(sDate, Date);
     return moment(sDate).isSameOrBefore(fourDaysBefore);
@@ -31,30 +31,30 @@ const processScreenings = {
 
   isAt10thDayBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const at10thDayBefore = moment(refDate).add(10, 'days').toDate();
-    const at11thDayBefore = moment(refDate).add(11, 'days').toDate();
+    const at10thDayBefore = moment(refDate).add(9 * 24, 'hours').toDate();
+    const at11thDayBefore = moment(refDate).add(11 * 24, 'hours').toDate();
 
     return moment(sDate).isBetween(at10thDayBefore, at11thDayBefore, null, '[]');
   },
 
   is7daysBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const sevenDaysBefore = moment(refDate).add(7, 'days').toDate();
-    const eightDaysBefore = moment(refDate).add(8, 'days').toDate();
+    const sevenDaysBefore = moment(refDate).add(7 * 24, 'hours').toDate();
+    const eightDaysBefore = moment(refDate).add(8 * 24, 'hours').toDate();
 
     return moment(sDate).isBetween(sevenDaysBefore, eightDaysBefore, null, '[]');
   },
 
   is2daysBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const twoDaysBefore = moment(refDate).add(3, 'days').toDate();
+    const twoDaysBefore = moment(refDate).add(48, 'hours').toDate();
 
     return moment(sDate).isSameOrBefore(twoDaysBefore);
   },
 
   is1dayBefore(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const oneDayBefore = moment(refDate).add(2, 'days').toDate();
+    const oneDayBefore = moment(refDate).add(24, 'hours').toDate();
 
     return moment(sDate).isSameOrBefore(oneDayBefore);
   },
@@ -68,7 +68,7 @@ const processScreenings = {
 
   was1weekAgo(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const fortyHoursAfter = moment(refDate).subtract(1, 'weeks').toDate();
+    const fortyHoursAfter = moment(refDate).subtract(7 * 24, 'hours').toDate();
 
     return moment(fortyHoursAfter).isSameOrAfter(sDate);
   },
