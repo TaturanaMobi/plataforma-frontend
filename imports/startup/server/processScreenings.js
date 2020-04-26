@@ -8,9 +8,9 @@ import NotificationTemplates from '../../models/notification_templates';
 const processScreenings = {
   isGreaterThan10days(sDate, refDate = new Date()) {
     check(sDate, Date);
-    const tenDaysAfter = moment(refDate).add(10 * 24, 'hours');
+    const tenDaysAfter = moment(refDate).add(9 * 24, 'hours');
 
-    return moment(sDate).isSameOrAfter(tenDaysAfter);
+    return moment(sDate).isAfter(tenDaysAfter);
   },
 
   isBetween9and4days(sDate, refDate = new Date()) {
@@ -101,48 +101,56 @@ const processScreenings = {
   processAgendada(s) {
     // Agendada - Sessão agendada entre 3 dias de antecedência
     // ou menos, enviar e-mail confirm_scheduling_3 e trocar status para confirmada
-    if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
-      processScreenings.createNotification(s, 'confirm_scheduling_3');
-      // Agendada - Sessão agendada entre 9 e 4 dias de antecedência,
-      //  enviar e-mail confirm_scheduling_9 e trocar status para confirmada
-      processScreenings.updateStatus(s, 'Confirmada');
-    } else if (processScreenings.isBetween9and4days(s.date, s.created_at)) {
-      processScreenings.createNotification(s, 'confirm_scheduling_9');
+    // if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
+    //   processScreenings.createNotification(s, 'confirm_scheduling_3');
+    //   // Agendada - Sessão agendada entre 9 e 4 dias de antecedência,
+    //   //  enviar e-mail confirm_scheduling_9 e trocar status para confirmada
+    //   processScreenings.updateStatus(s, 'Confirmada');
+    // } else if (processScreenings.isBetween9and4days(s.date, s.created_at)) {
+    //   processScreenings.createNotification(s, 'confirm_scheduling_9');
+    //   // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
+    //   // enviar e-mail confirm_scheduling_10 e trocar status para confirmada
+    //   processScreenings.updateStatus(s, 'Confirmada');
+    // }
+
+    if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
-      // enviar e-mail confirm_scheduling_10 e trocar status para confirmada
-      processScreenings.updateStatus(s, 'Confirmada');
-    } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
-      // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
-      processScreenings.updateStatus(s, 'Confirmada');
       processScreenings.createNotification(s, 'confirm_scheduling_10');
+    } else {
+      processScreenings.createNotification(s, 'confirm_scheduling_9');
     }
+    processScreenings.updateStatus(s, 'Confirmada');
   },
 
   processConfirmada(s) {
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
     // enviar e-mail 1 dias antes da sessão send_the_movie_3
     // console.log('processScreenings.isGreaterThan10days(s.date, s.created_at)', processScreenings.isGreaterThan10days(s.date, s.created_at), s.date, s.created_at);
-    if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
-      if (processScreenings.is1dayBefore(s.date)) {
-        processScreenings.createNotification(s, 'send_the_movie_3');
-      }
+    // if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
+    //   if (processScreenings.is1dayBefore(s.date)) {
+    //     processScreenings.createNotification(s, 'send_the_movie_3');
+    //   }
     // Confirmada - Sessão agendada entre 9 e 4 dias de antecedência,
     // enviar e-mail 2 dias antes da sessão send_the_movie_9
-    } else if (processScreenings.isBetween9and4days(s.date, s.created_at)) {
-      if (processScreenings.is2daysBefore(s.date)) {
-        processScreenings.createNotification(s, 'send_the_movie_9');
-      }
+    // } else if (processScreenings.isBetween9and4days(s.date, s.created_at)) {
+    //   if (processScreenings.is2daysBefore(s.date)) {
+    //     processScreenings.createNotification(s, 'send_the_movie_9');
+    //   }
     // Confirmada - Sessão agendada com 10 dias ou mais de antecedência,
     // enviar e-mail 7 dias antes da sessão send_the_movie_10
-    } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
+    if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       // enviar e-mail no dia 10 screening_date
       // console.log('processScreenings.isAt10thDayBefore(s.date)', processScreenings.isAt10thDayBefore(s.date));
       if (processScreenings.isAt10thDayBefore(s.date)) {
         processScreenings.createNotification(s, 'confirm_screening_date');
       }
       // console.log('processScreenings.is7daysBefore(s.date)', processScreenings.is7daysBefore(s.date));
-      if (processScreenings.is7daysBefore(s.date)) {
+      if (processScreenings.is2daysBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_10');
+      }
+    } else {
+      if (processScreenings.is2daysBefore(s.date)) {
+        processScreenings.createNotification(s, 'send_the_movie_9');
       }
     }
     // Confirmada - Data da Sessão agendada ultrapassou o momento presente
