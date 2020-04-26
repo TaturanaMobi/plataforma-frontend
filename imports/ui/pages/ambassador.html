@@ -38,10 +38,10 @@
               </div>
               <div class="session-edit-actions">
                 {{#if in_future this}}
-                <a href="{{fixPressKitPath film.press_kit_path}}"><span class="square_button"><img src="/images/download.svg"
+                <a title="Material de Apoio" href="{{fixPressKitPath film.press_kit_path}}"><span class="square_button"><img src="/images/download.svg"
                       alt="Download" /></span></a>
-                <a href="/edit-screening/{{_id}}"><span class="square_button"><img src="/images/edit.svg" alt="Editar" /></span></a>
-                <a href="#" class="destroy"><span class="square_button"><img src="/images/delete.svg" alt="Deletar" /></span></a>
+                <a title="Editar" href="/edit-screening/{{_id}}"><span class="square_button"><img src="/images/edit.svg" alt="Editar" /></span></a>
+                <a title="Remover" href="#" class="destroy"><span class="square_button"><img src="/images/delete.svg" alt="Deletar" /></span></a>
                 {{else}}
                 <a href="/report/{{_id}}"><span class="square_button"><img src="/images/icon-{{session_status_icon}}.png" /></span></a>
                 {{/if}}
