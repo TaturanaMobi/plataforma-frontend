@@ -77,8 +77,6 @@ Migrations.add({
       'Você tem uma sessão em rascunho',
       'Você tem uma sessão com imprevisto ou problema',
       'Contato Site',
-      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
-      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
       'Você tem uma sessão agendada!',
       'Você tem uma sessão agendada!',
       'Você tem uma sessão agendada!',
@@ -86,6 +84,8 @@ Migrations.add({
       'Download do filme {{film.title}}.',
       'Download do filme {{film.title}}.',
       'Download do filme {{film.title}}.',
+      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
       'Veja sua contribuição para a rede de impacto do {{film.title}}.',
     ];
 

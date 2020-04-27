@@ -1,17 +1,17 @@
 # TODO
 
 - [] deleção de imagem quando o filme é excluido
-- [] corrigir home em resoluções pequenas
+- [x] corrigir home em resoluções pequenas
 - [] unificar metodos de error message
 - [] suprimir parte da sinopse em algumas telas
-- [] melhorar a administracao das imagens
-- [] refatorar >> updateOrCreateFilm
-- [] tratar de uma forma mais elegante a chamada por filmes em diferentes templates
-- [] refatorar css, unificando classes quando possível
-- [] unificar edicao/criacao de sessão
+- [x] melhorar a administracao das imagens
+- [x] refatorar >> updateOrCreateFilm
+- [x] tratar de uma forma mais elegante a chamada por filmes em diferentes templates
+- [x] refatorar css, unificando classes quando possível
+- [x] unificar edicao/criacao de sessão
 
 ## show-films
-- [] ajustar setas do carrosel
+- [x] ajustar setas do carrosel
 - [] desenvolver back-end de informações tecnicas
 - [] desenvolver back-end de fotos da exibição
 - [X] desenvolver back/front de exibição de dados estatisticos
@@ -19,9 +19,9 @@
 - [] quando em difusão, mostrar numero de estados que faltam
 
 ## new-screening
-  - [] tratar retorno do checkbox
+  - [x] tratar retorno do checkbox
   - [X] verificar quais sao as opcoes do select de atividades
-  - [] opcao salvar
+  - [x] opcao salvar
 
 ## agenda
   - back-end
@@ -30,13 +30,13 @@
 ## home-ambassador
   - [X] logica de update das sessões
   - [] botoes aparecerem por mouse-over
-  - [] status das sessões
+  - [x] status das sessões
   - [X] excluir sessões
 
 ## admin
-  - [] listar embaixadores
-  - [] lista sessões agendadas, com colunas: embaixador, filme, detalhes da sessão, suspender sessão
-  - [] alertas automáticos
+  - [x] listar embaixadores
+  - [x] lista sessões agendadas, com colunas: embaixador, filme, detalhes da sessão, suspender sessão
+  - [x] alertas automáticos
 
 ## edição do embaixador
 
@@ -111,14 +111,6 @@
 * Report created
 * User register
 * Screening register
-
-
-## TODO
-
-* Tamanho do texto da sinopse do filme na listagem
-* Na edição de sessão a UF não vem preenchida, ocasionando em erro caso não seja alterado
-* Filtro por ano na agenda pública
-* Na página do admin de embaixador, adicionar lista de sessões relacionada
 
 # MONGO QUERIES
 

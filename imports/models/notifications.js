@@ -10,17 +10,17 @@ import Screenings from './screenings';
 const Notifications = new Mongo.Collection('notifications');
 Notifications.attachSchema(Schemas.Notification);
 
+Notifications.allow({
+  insert() {
+    return true;
+  },
+
+  update() {
+    return true;
+  },
+});
+
 if (Meteor.isServer) {
-  Notifications.allow({
-    insert() {
-      return true;
-    },
-
-    update() {
-      return true;
-    },
-  });
-
   Notifications.before.insert((userId, doc) => {
     doc.createdAt = new Date();
     return true

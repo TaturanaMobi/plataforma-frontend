@@ -43,6 +43,7 @@ Router.route('/adm/sessions2', {
   subscriptions() {
     Meteor.subscribe('films.all');
     Meteor.subscribe('users.all');
+    Meteor.subscribe('notificationTemplates.all')
   },
   data() { return Screenings.find({}); },
   action() { this.render('admSessions2'); },

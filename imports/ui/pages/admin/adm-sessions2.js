@@ -7,6 +7,8 @@ import { Router } from 'meteor/iron:router';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import Papa from 'papaparse';
 import { moment } from 'meteor/momentjs:moment';
+import Notifications from '../../../models/notifications.js';
+import NotificationTemplates from '../../../models/notification_templates.js';
 import Screenings from '../../../models/screenings.js';
 import Films from '../../../models/films.js';
 import getSelectOptions from '../../../models/schemas/getSelectOptions';
@@ -329,6 +331,25 @@ Template.admSessions2.helpers({
 });
 
 Template.admSessions2.events({
+  'click .btn.btn-default.btn-xs.btn-unset-draft'(event, instance) {
+    event.preventDefault();
+
+    Screenings.update(this._id, { $set: { status : 'Agendada' }});
+  },
+  'click .btn.btn-default.btn-xs.btn-set-draft'(event, instance) {
+    event.preventDefault();
+
+    Screenings.update(this._id, { $set: { status : 'Rascunho' }});
+
+    const nt = NotificationTemplates.findOne({ trigger: 'admin_draft' });
+    const vars = {
+      notificationTemplateId: nt._id,
+      userId: this.user_id,
+      screeningId: this._id,
+    };
+
+    Notifications.insert(vars);
+  },
   'click .btn.btn-primary.btn-default[value=filter]'(event, instance) {
     event.preventDefault();
 

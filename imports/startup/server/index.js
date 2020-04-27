@@ -71,26 +71,6 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-  getSelectCities(options) {
-    // this.unblock();
-    // check(options, { searchText: String, values: String });
-    const { searchText, values } = options;
-
-    if (searchText) {
-      return Cities.find({ name: { $regex: searchText } }, { limit: 5 })
-        .fetch()
-        .map(v => ({ label: v.name, value: v.name }));
-    }
-    if (values.length) {
-      return Cities.find({ value: { $in: values } })
-        .fetch()
-        .map(v => ({ label: v.name, value: v.name }));
-    }
-    return Cities.find({}, { limit: 5 })
-      .fetch()
-      .map(v => ({ label: v.name, value: v.name }));
-  },
-
   sendEmail(pidgeon, template) {
     check(pidgeon, {
       to: String,
@@ -109,46 +89,6 @@ Meteor.methods({
 
     Email.send(pidgeon);
   },
-
-  updateOrCreateFilm(film) {
-    // check(film);
-    const fId = film.id;
-    delete film.id;
-
-    if (fId === undefined || fId === '') {
-      Films.insert(film);
-    } else {
-      Films.update(fId, {
-        $set: {
-          sequence_number: film.sequence_number,
-          status: film.status,
-          title: film.title,
-          synopsis: film.synopsis,
-          poster_path: film.poster_path,
-          poster_thumb_path: film.poster_thumb_path,
-          poster_home_path: film.poster_home_path,
-          link_for_download: film.link_for_download,
-          password_for_download: film.password_for_download,
-          trailer_url: film.trailer_url,
-          press_kit_path: film.press_kit_path,
-          genre: film.genre,
-          year: film.year,
-          length: film.length,
-          country: film.country,
-          age_rating: film.age_rating,
-          director: film.director,
-          production_company: film.production_company,
-          technical_information: film.technical_information,
-          site: film.site,
-          facebook: film.facebook,
-          twitter: film.twitter,
-          instagram: film.instagram,
-          youtube: film.youtube,
-        },
-      });
-    }
-  },
-
 
   removeFilm(id) {
     Films.remove(id);
@@ -191,65 +131,6 @@ Meteor.methods({
     });
   },
 
-  updateScreening(fScreening) {
-    // const { status } = fScreening;
-    const film = Films.by_screening_id(fScreening._id);
-    const screenings = film.screening;
-
-    // fix this when have time, there is better ways to update an obj inside a
-    // document array
-    for (let i = 0; i < screenings.length; i += 1) {
-      if (screenings[i]._id === fScreening._id) {
-        fScreening.created_at = screenings[i].created_at;
-        fScreening.user_id = screenings[i].user_id;
-        fScreening.updated_at = new Date();
-        screenings.splice(i, 1, fScreening);
-      }
-    }
-    Films.update(
-      {
-        _id: film._id,
-      },
-      {
-        $set: {
-          screening: screenings,
-        },
-      },
-    );
-    // if (status === 'admin-draft' || status) {
-    //   removeNotifications(fScreening._id);
-    // }
-    States.unsetHasScreenings(fScreening.s_country, fScreening.uf);
-    Cities.unsetHasScreenings(fScreening.s_country, fScreening.uf, fScreening.city);
-
-    States.setHasScreenings(fScreening.s_country, fScreening.uf);
-    Cities.setHasScreenings(fScreening.s_country, fScreening.uf, fScreening.city);
-  },
-  setScreeningDraftStatus(id, status) {
-    const film = Films.by_screening_id(id);
-    const screenings = film.screening;
-
-    _.each(screenings, (screening, i) => {
-      if (screening._id === id) {
-        screenings[i].draft = status;
-      }
-    });
-
-    Films.update(
-      {
-        _id: film._id,
-      },
-      {
-        $set: {
-          screening: screenings,
-        },
-      },
-    );
-
-    // if (status === 'admin-draft' || status == true) {
-    //   removeNotifications(id);
-    // }
-  },
   removeScreening(screeningId) {
     // const fScreening = Screenings.findOne(screeningId);
     // const film = fScreening.film();
