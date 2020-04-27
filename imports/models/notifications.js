@@ -30,13 +30,16 @@ if (Meteor.isServer) {
     return true
   });
   Notifications.after.insert((userId, doc) => {
+    // console.log(doc);
     const template = NotificationTemplates.findOne({ _id: doc.notificationTemplateId });
     const user = Meteor.users.findOne({ _id: doc.userId });
     const varsData = {
       ambassador: user,
       absoluteurl: Meteor.absoluteUrl(),
     };
-    const to = user.emails[0].address;
+    const userEmail = user.emails[0].address;
+    const to = doc.to !== undefined && doc.to !== '' && doc.to.length > 0 ? doc.to : userEmail;
+    varsData.ambassador_email = userEmail
 
     if (doc.screeningId !== undefined) {
       const screening = Screenings.findOne({ _id: doc.screeningId });

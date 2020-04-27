@@ -1120,6 +1120,11 @@ Schemas.NotificationTemplate = new SimpleSchema({
 }, { tracker: Tracker });
 
 Schemas.Notification = new SimpleSchema({
+  to: {
+    type: String,
+    label: 'Endereço a ser disparado',
+    optional: true,
+  },
   notificationTemplateId: {
     type: String,
     label: 'Template',

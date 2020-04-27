@@ -5,7 +5,8 @@ import './images';
 import Films from './films';
 import Users from './users';
 import statisticsDenormalizer from './denormalizers/statistics';
-
+import Notifications from './notifications'
+import NotificationTemplates from './notification_templates'
 const Screenings = new Mongo.Collection('screenings');
 Screenings.attachSchema(Schemas.Screening);
 
@@ -62,8 +63,18 @@ Screenings.helpers({
 // },
 
 if (Meteor.isServer) {
-  Screenings.before.insert((userId, doc) => {
-    console.log(userId, doc);
+  Screenings.after.insert((userId, doc) => {
+    if (doc.team_member) {
+      const nt = NotificationTemplates.findOne({ trigger: 'request_director_presence' });
+      const vars = {
+        notificationTemplateId: nt._id,
+        userId: doc.user_id,
+        screeningId: doc._id,
+        to: Films.findOne(doc.filmId).productionCompanyEmail
+      };
+      // Notifications.attachSchema(Schemas.Notification);
+      Notifications.insert(vars);
+    }
   });
   Screenings.after.update((userId, doc) => {
     statisticsDenormalizer.afterInsertScreening(doc);

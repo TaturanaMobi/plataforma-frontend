@@ -25,8 +25,8 @@ Template.admFluxoByScreening.helpers({
 
         // 'userId',
         // 'screeningId',
-        'deliveredAt',
-        'created_at',
+        { key: 'deliveredAt', sortByValue: true, label: 'deliveredAt' },
+        'createdAt',
         'updatedAt',
       ],
       //   'status',
