@@ -178,8 +178,9 @@ const processScreenings = {
     }
   },
 
-  processRascunho() {
+  processRascunho(s) {
     // Rascunho - Troca o status no admin via form
+    processScreenings.createNotification(s, 'draft_weekly_remember');
   },
 
   autoStart() {
