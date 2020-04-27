@@ -20,7 +20,7 @@ describe('process screenings', () => {
 
   it('screening date is 10 or more days away', async () => {
     const elevenDaysAfter = moment().add(12, 'days');
-    const tenDaysAfter = moment().add(240, 'hours');
+    const tenDaysAfter = moment().add(215, 'hours');
     const nineDaysAfter = moment().add(9, 'days');
 
     assert.throws(() => {

@@ -23,11 +23,9 @@ Notifications.allow({
 if (Meteor.isServer) {
   Notifications.before.insert((userId, doc) => {
     doc.createdAt = new Date();
-    return true
   });
   Notifications.before.upsert((userId, doc) => {
     doc.updatedAt = new Date();
-    return true
   });
   Notifications.after.insert((userId, doc) => {
     // console.log(doc);
@@ -39,7 +37,7 @@ if (Meteor.isServer) {
     };
     const userEmail = user.emails[0].address;
     const to = doc.to !== undefined && doc.to !== '' && doc.to.length > 0 ? doc.to : userEmail;
-    varsData.ambassador_email = userEmail
+    varsData.ambassador_email = userEmail;
 
     if (doc.screeningId !== undefined) {
       const screening = Screenings.findOne({ _id: doc.screeningId });
@@ -64,7 +62,6 @@ if (Meteor.isServer) {
 
     Notifications.update({ _id: doc._id }, { $set: { deliveredAt: new Date() } });
     // console.log('Enviando e-mail:', doc);
-    return true
   });
 }
 

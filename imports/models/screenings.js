@@ -5,8 +5,9 @@ import './images';
 import Films from './films';
 import Users from './users';
 import statisticsDenormalizer from './denormalizers/statistics';
-import Notifications from './notifications'
-import NotificationTemplates from './notification_templates'
+import Notifications from './notifications';
+import NotificationTemplates from './notification_templates';
+
 const Screenings = new Mongo.Collection('screenings');
 Screenings.attachSchema(Schemas.Screening);
 

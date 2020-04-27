@@ -331,15 +331,15 @@ Template.admSessions2.helpers({
 });
 
 Template.admSessions2.events({
-  'click .btn.btn-default.btn-xs.btn-unset-draft'(event, instance) {
+  'click .btn.btn-default.btn-xs.btn-unset-draft'(event) {
     event.preventDefault();
 
-    Screenings.update(this._id, { $set: { status : 'Agendada' }});
+    Screenings.update(this._id, { $set: { status: 'Agendada' } });
   },
-  'click .btn.btn-default.btn-xs.btn-set-draft'(event, instance) {
+  'click .btn.btn-default.btn-xs.btn-set-draft'(event) {
     event.preventDefault();
 
-    Screenings.update(this._id, { $set: { status : 'Rascunho' }});
+    Screenings.update(this._id, { $set: { status: 'Rascunho' } });
 
     const nt = NotificationTemplates.findOne({ trigger: 'admin_draft' });
     const vars = {
