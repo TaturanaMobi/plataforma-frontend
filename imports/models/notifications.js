@@ -11,31 +11,46 @@ const Notifications = new Mongo.Collection('notifications');
 Notifications.attachSchema(Schemas.Notification);
 
 if (Meteor.isServer) {
+  Notifications.allow({
+    insert() {
+      return true;
+    },
+
+    update() {
+      return true;
+    },
+  });
+
   Notifications.before.insert((userId, doc) => {
     doc.createdAt = new Date();
+    return true
   });
   Notifications.before.upsert((userId, doc) => {
     doc.updatedAt = new Date();
+    return true
   });
   Notifications.after.insert((userId, doc) => {
     const template = NotificationTemplates.findOne({ _id: doc.notificationTemplateId });
     const user = Meteor.users.findOne({ _id: doc.userId });
-    const screening = Screenings.findOne({ _id: doc.screeningId });
-    const to = user.emails[0].address;
-    screening.date_formated = moment(screening.date).format('DD/MM/YYYY');
     const varsData = {
-      screening,
-      film: screening.film(),
-      ambassador: screening.ambassador(),
+      ambassador: user,
       absoluteurl: Meteor.absoluteUrl(),
     };
+    const to = user.emails[0].address;
+
+    if (doc.screeningId !== undefined) {
+      const screening = Screenings.findOne({ _id: doc.screeningId });
+      screening.date_formated = moment(screening.date).format('DD/MM/YYYY');
+      varsData.screening = screening;
+      varsData.film = screening.film();
+    }
 
     SSR.compileTemplate('subject', template.subject);
     const compiledSubject = SSR.render('subject', varsData);
 
     const pidgeon = {
       to,
-      from: 'Plataforma Taturana Mobi<contato@taturanamobi.com.br>',
+      from: 'Taturana Mobilização Social<contato@taturanamobi.com.br>',
       subject: compiledSubject,
     };
 
@@ -46,6 +61,7 @@ if (Meteor.isServer) {
 
     Notifications.update({ _id: doc._id }, { $set: { deliveredAt: new Date() } });
     // console.log('Enviando e-mail:', doc);
+    return true
   });
 }
 

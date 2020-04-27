@@ -12,17 +12,17 @@ if (Meteor.isServer) {
   NotificationTemplates.before.upsert((userId, doc) => {
     doc.updatedAt = Date.now();
   });
-}
 
-NotificationTemplates.allow({
-  insert(userId) {
-    // only allow posting if you are logged in
-    return !!userId;
-  },
-  update(userId) {
-    // only allow posting if you are logged in
-    return !!userId;
-  },
-});
+  NotificationTemplates.allow({
+    insert(userId) {
+      // only allow posting if you are logged in
+      return !!userId;
+    },
+    update(userId) {
+      // only allow posting if you are logged in
+      return !!userId;
+    },
+  });
+}
 
 export default NotificationTemplates;

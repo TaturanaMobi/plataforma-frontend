@@ -9,6 +9,12 @@ import getSelectOptions from './getSelectOptions';
 // import { Cities, States } from '../states_and_cities';
 
 export const NOTIFICATION_TRIGGERS = [
+  'new_ambassador',
+  'reset_password',
+  'request_director_presence',
+  'draft_weekly_remember',
+  'admin_draft',
+  'contact',
   'confirm_screening_date',
   'confirm_scheduling_3',
   'confirm_scheduling_9',
@@ -1099,7 +1105,7 @@ Schemas.NotificationTemplate = new SimpleSchema({
       },
     },
   },
-  created_at: {
+  createdAt: {
     type: Date,
     label: 'Data de criação',
     defaultValue: new Date(),
@@ -1125,13 +1131,14 @@ Schemas.Notification = new SimpleSchema({
   screeningId: {
     type: String,
     label: 'Sessão Relacionada',
+    optional: true,
   },
   deliveredAt: {
     type: String,
     label: 'Entregue em',
     optional: true,
   },
-  created_at: {
+  createdAt: {
     type: Date,
     label: 'Data de criação',
     defaultValue: new Date(),

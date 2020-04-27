@@ -16,6 +16,19 @@ import Images from '../../models/images';
 import { Cities, States } from '../../models/states_and_cities';
 import Worker from './worker';
 import NotificationTemplates from '../../models/notification_templates.js';
+import Users from '../../models/users.js';
+import Schemas from '../../models/schemas'
+
+Users.after.insert((userId, doc) => {
+  const nt = NotificationTemplates.findOne({ trigger: 'welcome' });
+  const vars = {
+    'notificationTemplateId': nt._id,
+    'userId': doc._id
+  };
+  Notifications.attachSchema(Schemas.Notification);
+  Notifications.insert(vars);
+  return true;
+});
 
 Meteor.startup(() => {
   Worker.start();
@@ -30,9 +43,9 @@ Meteor.startup(() => {
 
   Meteor.publish('screenings.byFilm', function (filmId) { return Screenings.find({ filmId, status: 'Concluída' }); });
 
-  Meteor.publish('users.me', function() { return Meteor.users.find({ _id: Meteor.userId() }); });
+  Meteor.publish('users.me', function() { return Users.find({ _id: Meteor.userId() }); });
 
-  Meteor.publish('users.all', function() { return Meteor.users.find({}, { sort: { createdAt: 1 } }); });
+  Meteor.publish('users.all', function() { return Users.find({}, { sort: { createdAt: 1 } }); });
 
   Meteor.publish('notificationTemplates.all', function() { return NotificationTemplates.find({}); });
 
@@ -136,39 +149,6 @@ Meteor.methods({
     }
   },
 
-  // insertTask(detail) {
-  //   return FutureTasks.insert(detail);
-  // },
-
-  // scheduleNotify(id, content, template) {
-  //   SyncedCron.add({
-  //     name: content.subject,
-  //     schedule(parser) {
-  //       return parser.recur().on(content.when).fullDate();
-  //     },
-  //     job() {
-  //       sendNotify(content, template);
-  //       FutureTasks.remove(id);
-  //       SyncedCron.remove(id);
-  //       return id;
-  //     },
-  //   });
-  // },
-
-  // verifyReport(id, content, template) {
-  //   SyncedCron.add({
-  //     name: content.subject,
-  //     schedule(parser) {
-  //       return parser.recur().on(content.when).fullDate();
-  //     },
-  //     job() {
-  //       missingReport(content, template);
-  //       FutureTasks.remove(id);
-  //       SyncedCron.remove(id);
-  //       return id;
-  //     },
-  //   });
-  // },
 
   removeFilm(id) {
     Films.remove(id);
@@ -286,44 +266,17 @@ Meteor.methods({
     // removeNotifications(screening_id);
   },
   addAddress(userId, newAddress) {
-    Meteor.users.update(userId, {
+    Users.update(userId, {
       $addToSet: {
         addresses: newAddress,
       },
     });
   },
   removeAddress(userId, address) {
-    Meteor.users.update(userId, {
+    Users.update(userId, {
       $pull: {
         addresses: address,
       },
     });
   },
-  // updateUser(profile, email) {
-  //   const user = Meteor.user();
-
-  //   // Mantem o role do usuário
-  //   profile.roles = user.profile.roles || ['ambassador'];
-
-  //   Meteor.users.update(
-  //     {
-  //       _id: Meteor.userId(),
-  //     },
-  //     {
-  //       $set: {
-  //         profile,
-  //       },
-  //     }
-  //   );
-  //   Meteor.users.update(
-  //     {
-  //       _id: Meteor.userId(),
-  //     },
-  //     {
-  //       $set: {
-  //         'emails.0.address': email,
-  //       },
-  //     }
-  //   );
-  // },
 });

@@ -68,19 +68,6 @@ AutoForm.hooks({
       Accounts.createUser(insertDoc, (err) => {
         console.log(err, insertDoc);
         Router.go('ambassador');
-
-        // Envia email para o ambassador cadastrado
-        const ambassadorTemplate = 'new-ambassador.html';
-
-        const ambassadorEmail = {
-          to: insertDoc.email,
-          from: 'suporte@taturanamobi.com.br',
-          subject: 'Bem Vind@ à Taturana!',
-          absoluteurl: Meteor.absoluteUrl(),
-          name: insertDoc.profile.name,
-        };
-        Meteor.call('sendEmail', ambassadorEmail, ambassadorTemplate);
-        // Fim do envio de email
         self.done();
       });
     },
