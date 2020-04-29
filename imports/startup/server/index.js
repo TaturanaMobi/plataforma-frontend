@@ -20,7 +20,7 @@ import Users from '../../models/users.js';
 import Schemas from '../../models/schemas'
 
 Users.after.insert((userId, doc) => {
-  const nt = NotificationTemplates.findOne({ trigger: 'welcome' });
+  const nt = NotificationTemplates.findOne({ trigger: 'new_ambassador' });
   const vars = {
     'notificationTemplateId': nt._id,
     'userId': doc._id
