@@ -31,7 +31,7 @@ Router.route('/new-screening/:slug', {
     return [
       this.subscribe('screenings.my'),
       this.subscribe('films.all'),
-    ]
+    ];
   },
 
   data() {

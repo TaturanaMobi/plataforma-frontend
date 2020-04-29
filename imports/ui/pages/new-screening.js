@@ -61,6 +61,6 @@ Template.newScreening.helpers({
     // Session.get('address');
   },
   hasPendingScreenings() {
-    return Screenings.find({ status: 'Pendente'}).count() > 0;
-  }
+    return Screenings.find({ status: 'Pendente' }).count() > 0;
+  },
 });

@@ -136,17 +136,13 @@ const processScreenings = {
 
   processConfirmada(s) {
     if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
-
-      if (processScreenings.is36hoursBefore(s.date)){
+      if (processScreenings.is36hoursBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_3');
       }
-
     } else if (processScreenings.isBetween9and3days(s.date, s.created_at)) {
-
-      if (processScreenings.is2daysBefore(s.date)){
+      if (processScreenings.is2daysBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_9');
       }
-
     } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       if (processScreenings.is5daysBefore(s.date)) {
         processScreenings.createNotification(s, 'send_the_movie_10');

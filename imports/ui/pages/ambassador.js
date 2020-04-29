@@ -12,7 +12,7 @@ import '../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
   hasPendingScreenings() {
-    return Screenings.find({ status: 'Pendente'}).count() > 0;
+    return Screenings.find({ status: 'Pendente' }).count() > 0;
   },
   screenings() {
     return Screenings.find(
