@@ -143,7 +143,7 @@ const Schemas = {};
 Schemas.User = userSchema.User;
 
 const minDateNewScreening = new Date();
-minDateNewScreening.setDate(minDateNewScreening.getDate() + 3);
+minDateNewScreening.setDate(minDateNewScreening.getDate() + 2);
 
 Schemas.Screening = new SimpleSchema({
   oldId: {
