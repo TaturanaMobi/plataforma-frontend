@@ -180,7 +180,23 @@ const processScreenings = {
 
   processRascunho(s) {
     // Rascunho - Troca o status no admin via form
+    // try to send first notification
     processScreenings.createNotification(s, 'draft_weekly_remember');
+
+    const varsData = processScreenings.loadData(s);
+    const nt = processScreenings.loadTemplate('draft_weekly_remember', varsData);
+    const alreadyCreated = Notifications.find({
+      userId: varsData.ambassador._id,
+      screeningId: varsData.screening._id,
+      notificationTemplateId: nt._id,
+    }, { sort: { deliveredAt: 1 } }).fetch();
+
+    const sevenDays = moment(alreadyCreated[0].deliveredAt).add(7, 'day').toDate();
+    // console.log(sevenDays);
+
+    if ((alreadyCreated.length <= 4) && moment(alreadyCreated[0].deliveredAt).isSameOrAfter(sevenDays)) {
+      processScreenings.createNotification(s, 'draft_weekly_remember', false);
+    }
   },
 
   autoStart() {
@@ -218,7 +234,7 @@ const processScreenings = {
   },
 
   // 3. verificar se notificação já foi criada
-  createNotification(s, templateName) {
+  createNotification(s, templateName, unique = true) {
     const varsData = processScreenings.loadData(s);
     const nt = processScreenings.loadTemplate(templateName, varsData);
     const alreadyCreated = Notifications.find({
@@ -227,7 +243,7 @@ const processScreenings = {
       notificationTemplateId: nt._id,
     });
 
-    return alreadyCreated.count() > 0 ? false : Notifications.insert({
+    return alreadyCreated.count() > 0 && unique ? false : Notifications.insert({
       notificationTemplateId: nt._id,
       userId: varsData.ambassador._id,
       screeningId: varsData.screening._id,
