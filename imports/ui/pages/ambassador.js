@@ -11,10 +11,13 @@ import './ambassador.html';
 import '../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
+  hasPendingScreenings() {
+    return Screenings.find({ status: 'Pendente'}).count() > 0;
+  },
   screenings() {
     return Screenings.find(
       { user_id: Meteor.userId() },
-      { sort: { date: -1 } },
+      { sort: { created_at: -1 } },
     );
   },
   disseminate() {

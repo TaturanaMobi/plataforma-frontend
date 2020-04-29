@@ -7,7 +7,7 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import '../components/autoform-nouislider.js';
 import '../components/screeningFormFields';
 import './new-screening.html';
-// import Screenings from '../../models/screenings.js';
+import Screenings from '../../models/screenings.js';
 // import { saveScreening } from '../../startup/client/helpers.js';
 
 Template.newScreening.onCreated(function () {
@@ -60,4 +60,7 @@ Template.newScreening.helpers({
     return [];
     // Session.get('address');
   },
+  hasPendingScreenings() {
+    return Screenings.find({ status: 'Pendente'}).count() > 0;
+  }
 });
