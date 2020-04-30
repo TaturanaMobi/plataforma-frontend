@@ -27,9 +27,12 @@ Template.ambassador.helpers({
     // Rascunho
     if ((this.status === 'Rascunho')
     || (this.status === 'Inválida')
-    || (this.status === 'Agendada')
-    || (this.status === 'Confirmada')) {
+    || (this.status === 'Agendada')) {
       return 'edit';
+    }
+
+    if (this.status === 'Confirmada') {
+      return 'calendar';
     }
 
     if (this.status === 'Pendente') {

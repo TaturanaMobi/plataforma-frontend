@@ -5,8 +5,8 @@
         <h2 class="section-title-lg">EDITE SUAS SESSÕES</h2>
         <p class="ambassador-edit-description">
           Veja aqui as sessões que estão agendadas e edite-as, caso necessário.
-        </p>
-        <p>Você também pode fazer download dos materiais de divulgação do filme.
+        <br>
+        Você também pode fazer download dos materiais de divulgação do filme.
           E não se esqueça de, após a sessão, preencher o relatório!
         </p>
         {{#if hasPendingScreenings}}
@@ -16,7 +16,7 @@
         </div>
         {{/if}}
       </div>
-      <div class="divider col-lg-10 col-offset-lg-2">
+      <div class="divider col-lg-12 col-offset-lg-2">
         <ul class="status-meanings">
           <li><span><strong>Legenda:</strong></span></li>
           <li><img src="/images/icon-edit.png" alt="" /><span>Rascunho</span></li>
@@ -32,14 +32,14 @@
             <div class="session-edit-box">
               <div class="session-info alert-{{status}}">
                 <!-- <div class="session-current-status">
-                  <img src="/images/icon-{{session_status_icon}}.png" alt="" />
+
                 </div> -->
-                <h3 class="film-thumb-title red">{{film.title}}</h3>
+                <h3 class="film-thumb-title red"><img src="/images/icon-{{session_status_icon}}.png" alt="" /> {{film.title}}</h3>
                 <p>
                   {{place_name}} <br />
                   {{city}} - {{uf}}<br />
-                  Exibição/Criação: {{format_date date}} / {{format_date_from_now created_at}}<br />
-                  Status: {{status}}
+                  Exibição em {{format_date date}} às {{format_time date}}<br />
+                  <!-- Status: {{status}} -->
                 </p>
               </div>
               <div class="session-edit-actions">
