@@ -321,7 +321,6 @@ Schemas.Screening = new SimpleSchema({
   created_at: {
     type: Date,
     label: 'Data de criação',
-    defaultValue: new Date(),
     optional: true,
   },
   updatedAt: {

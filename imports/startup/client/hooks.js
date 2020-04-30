@@ -9,6 +9,8 @@ AutoForm.hooks({
     before: {
       insert: (doc) => {
         doc.status = 'Agendada';
+        doc.created_at = new Date();
+
         if (doc.draft) {
           doc.status = 'Rascunho';
         }

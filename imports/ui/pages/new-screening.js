@@ -48,7 +48,6 @@ Template.newScreening.helpers({
     return {
       user_id: Meteor.userId(),
       filmId: this._id,
-      created_at: new Date(),
       status: 'Agendada',
       ...address,
     };

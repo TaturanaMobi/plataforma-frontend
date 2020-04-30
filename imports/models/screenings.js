@@ -39,30 +39,6 @@ Screenings.helpers({
   },
 });
 
-// fields: {
-//   filmId: 1,
-//   user_id: 1,
-//   place_name: 1,
-//   city: 1,
-//   uf: 1,
-//   date: 1,
-//   public_event: 1,
-//   team_member: 1,
-//   quorum_expectation: 1,
-//   comments: 1,
-//   accept_terms: 1,
-//   created_at: 1,
-//   status: 1,
-//   real_quorum: 1,
-//   report_description: 1,
-//   author_1: 1,
-//   report_image_1: 1,
-//   author_2: 1,
-//   report_image_2: 1,
-//   author_3: 1,
-//   report_image_3: 1,
-// },
-
 if (Meteor.isServer) {
   Screenings.after.insert((userId, doc) => {
     if (doc.team_member) {
