@@ -137,15 +137,15 @@ const processScreenings = {
   processConfirmada(s) {
     if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
       if (processScreenings.is36hoursBefore(s.date)) {
-        processScreenings.createNotification(s, 'send_the_movie_3');
+        processScreenings.createNotification(s, 'send_the_movie');
       }
     } else if (processScreenings.isBetween9and3days(s.date, s.created_at)) {
       if (processScreenings.is2daysBefore(s.date)) {
-        processScreenings.createNotification(s, 'send_the_movie_9');
+        processScreenings.createNotification(s, 'send_the_movie');
       }
     } else if (processScreenings.isGreaterThan10days(s.date, s.created_at)) {
       if (processScreenings.is5daysBefore(s.date)) {
-        processScreenings.createNotification(s, 'send_the_movie_10');
+        processScreenings.createNotification(s, 'send_the_movie');
       } else if (processScreenings.is7daysBefore(s.date)) {
         processScreenings.createNotification(s, 'confirm_screening_date');
       }
