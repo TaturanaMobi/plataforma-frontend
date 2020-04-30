@@ -80,7 +80,8 @@ Template.registerHelper('imageServerUrl', () => Meteor.settings.public.imageServ
 
 Template.registerHelper('fixImagePath', (imagePath) => {
   const re = /^images\//;
-  return (imagePath.match(re) ? imagePath : `images/${Images.findOne(imagePath).path.split('images/')[1]}`);
+  const cImg = Images.findOne(imagePath);
+  return (imagePath.match(re) ? imagePath : `images/${cImg.path !== undefined ? cImg.path.split('images/')[1] : ''}`);
 });
 
 Template.registerHelper('fixPressKitPath', (pressKitPath) => {
