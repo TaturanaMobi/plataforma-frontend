@@ -34,7 +34,7 @@ Template.admFluxoByScreening.helpers({
           sortByValue: true,
           label: 'E-mail entregue em',
           fn: function (value) {
-            return new Spacebars.SafeString(moment(value).format());
+            return new Spacebars.SafeString(moment(value).format('DD/MM/Y hh:mm A'));
           },
        },
         // 'createdAt',
