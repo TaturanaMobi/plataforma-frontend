@@ -8,38 +8,38 @@
           {{> afFieldInput name='user_id' value=form.user_id}}
           {{> afFieldInput name='filmId' value=form.filmId}}
           {{> afFieldInput name='status' value=form.status type='hidden'}}
-          {{> afQuickField name='place_name' }}
+          {{> afQuickField autocomplete='off' name='place_name' }}
           <div class="help-block with-errors red"></div>
         </div>
         <div class="col-md-12">
-          {{> afQuickField name='cep' }}
+          {{> afQuickField autocomplete='off' name='cep' }}
           <div class="help-block with-errors red"></div>
         </div>
         <div class="col-md-8">
-          {{> afQuickField name='street' }}
+          {{> afQuickField autocomplete='off' name='street' }}
           <div class="help-block with-errors red"></div>
         </div>
         <div class="col-md-4">
-          {{> afQuickField name='number' }}
+          {{> afQuickField autocomplete='off' name='number' }}
           <div class="help-block with-errors red"></div>
         </div>
         <div class="col-md-4">
-          {{> afQuickField name='complement' }}
+          {{> afQuickField autocomplete='off' name='complement' }}
           <div class="help-block with-errors red"></div>
         </div>
         <div class="col-md-8">
-          {{> afQuickField name='zone' }}
+          {{> afQuickField autocomplete='off' name='zone' }}
           <div class="help-block with-errors red"></div>
         </div>
         <div class="col-md-6">
-          {{> afQuickField name='uf'}}
+          {{> afQuickField autocomplete='off' name='uf'}}
         </div>
         <div class="col-md-6">
-          {{> afQuickField name='city' options=cities }}
+          {{> afQuickField autocomplete='off' name='city' options=cities }}
           <div class="help-block with-errors red"></div>
         </div>
         <div class="col-md-8 checkbox">
-          {{> afQuickField name='saveAddress'}}
+          {{> afQuickField autocomplete='off' name='saveAddress'}}
         </div>
       </div>
     </div>
