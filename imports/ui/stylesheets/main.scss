@@ -60,6 +60,19 @@ p, label{
   margin-bottom: 1em;
   text-shadow: 1px 1px 2px #000;
 }
+
+.alert.alert-warning {
+  border-radius: 0;
+  color: #8a6d3b;
+  background-color: rgba(252, 248, 227, .1);
+  border-color: rgba(250, 235, 204, 0);
+}
+.alert p {
+  color: inherit;
+  text-shadow: none;
+  font-weight: bold;
+}
+
 .note-editor p {
   color: #333;
   text-shadow: none;

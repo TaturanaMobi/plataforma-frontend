@@ -4,6 +4,15 @@
       <div class="col-md-12">
         <h4 class="section-title-sm">AGENDAR FILME</h4>
         <h2 class="section-title-lg">{{#if title_pt }}{{title_pt}}{{else}}{{title}}{{/if}}</h2>
+
+        {{#if hasPendingScreenings}}
+        <div class="alert alert-warning" role="alert">
+          <p>Há relatórios pendentes de uma ou mais sessões realizadas por você. Lembre-se, é fundamental para a Plataforma que os embaixadores nos ajudem a construir a rede de impacto dos filmes, por isso o relatório é tão importante. </p>
+          <p>Pedimos por favor que preencha o(s) relatório(s) pendente(s) para poder agendar uma nova sessão! Mesmo que sua última sessão - ou outra - não tenha acontecido, entre no formulário, coloque "0/zero" no campo "número de espectadores", e explique no campo de texto porque ela não aconteceu.</p>
+          <p><a href="/ambassador" class="btn btn-warning">Preencher Relatório</a></p>
+        </div>
+        {{/if}}
+
       </div>
       <div class="col-md-3">
         <img class="thumb-poster" src="{{imageServerUrl}}/fit?width=720&height=1280&type=jpeg&file={{fixImagePath poster_path}}"

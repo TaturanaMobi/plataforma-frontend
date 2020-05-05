@@ -5,6 +5,8 @@ import './images';
 import Films from './films';
 import Users from './users';
 import statisticsDenormalizer from './denormalizers/statistics';
+import Notifications from './notifications';
+import NotificationTemplates from './notification_templates';
 
 const Screenings = new Mongo.Collection('screenings');
 Screenings.attachSchema(Schemas.Screening);
@@ -37,31 +39,20 @@ Screenings.helpers({
   },
 });
 
-// fields: {
-//   filmId: 1,
-//   user_id: 1,
-//   place_name: 1,
-//   city: 1,
-//   uf: 1,
-//   date: 1,
-//   public_event: 1,
-//   team_member: 1,
-//   quorum_expectation: 1,
-//   comments: 1,
-//   accept_terms: 1,
-//   created_at: 1,
-//   status: 1,
-//   real_quorum: 1,
-//   report_description: 1,
-//   author_1: 1,
-//   report_image_1: 1,
-//   author_2: 1,
-//   report_image_2: 1,
-//   author_3: 1,
-//   report_image_3: 1,
-// },
-
 if (Meteor.isServer) {
+  Screenings.after.insert((userId, doc) => {
+    if (doc.team_member) {
+      const nt = NotificationTemplates.findOne({ trigger: 'request_director_presence' });
+      const vars = {
+        notificationTemplateId: nt._id,
+        userId: doc.user_id,
+        screeningId: doc._id,
+        to: Films.findOne(doc.filmId).productionCompanyEmail
+      };
+      // Notifications.attachSchema(Schemas.Notification);
+      Notifications.insert(vars);
+    }
+  });
   Screenings.after.update((userId, doc) => {
     statisticsDenormalizer.afterInsertScreening(doc);
   });

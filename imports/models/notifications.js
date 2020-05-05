@@ -10,6 +10,16 @@ import Screenings from './screenings';
 const Notifications = new Mongo.Collection('notifications');
 Notifications.attachSchema(Schemas.Notification);
 
+Notifications.allow({
+  insert() {
+    return true;
+  },
+
+  update() {
+    return true;
+  },
+});
+
 if (Meteor.isServer) {
   Notifications.before.insert((userId, doc) => {
     doc.createdAt = new Date();
@@ -18,24 +28,30 @@ if (Meteor.isServer) {
     doc.updatedAt = new Date();
   });
   Notifications.after.insert((userId, doc) => {
+    // console.log(doc);
     const template = NotificationTemplates.findOne({ _id: doc.notificationTemplateId });
     const user = Meteor.users.findOne({ _id: doc.userId });
-    const screening = Screenings.findOne({ _id: doc.screeningId });
-    const to = user.emails[0].address;
-    screening.date_formated = moment(screening.date).format('DD/MM/YYYY');
     const varsData = {
-      screening,
-      film: screening.film(),
-      ambassador: screening.ambassador(),
+      ambassador: user,
       absoluteurl: Meteor.absoluteUrl(),
     };
+    const userEmail = user.emails[0].address;
+    const to = doc.to !== undefined && doc.to !== '' && doc.to.length > 0 ? doc.to : userEmail;
+    varsData.ambassador_email = userEmail;
+
+    if (doc.screeningId !== undefined) {
+      const screening = Screenings.findOne({ _id: doc.screeningId });
+      screening.date_formated = moment(screening.date).format('DD/MM/YYYY');
+      varsData.screening = screening;
+      varsData.film = screening.film();
+    }
 
     SSR.compileTemplate('subject', template.subject);
     const compiledSubject = SSR.render('subject', varsData);
 
     const pidgeon = {
       to,
-      from: 'Plataforma Taturana Mobi<contato@taturanamobi.com.br>',
+      from: 'Taturana Mobilização Social<contato@taturanamobi.com.br>',
       subject: compiledSubject,
     };
 

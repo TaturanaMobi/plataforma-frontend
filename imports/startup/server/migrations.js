@@ -52,8 +52,12 @@ Migrations.add({
   version: 1,
   up() {
     const filenames = [
-      'ask_for_report_take2',
-      'ask_for_report',
+      'new_ambassador',
+      'reset_password',
+      'request_director_presence',
+      'draft_weekly_remember',
+      'admin_draft',
+      'contact',
       'confirm_scheduling_3',
       'confirm_scheduling_9',
       'confirm_scheduling_10',
@@ -61,12 +65,18 @@ Migrations.add({
       'send_the_movie_3',
       'send_the_movie_9',
       'send_the_movie_10',
+      'ask_for_report',
+      'ask_for_report_take2',
       'tell_ambassador_the_results',
     ];
 
     const subjects = [
-      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
-      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Bem vindo',
+      'Esqueci minha senha',
+      'Pedido de presença do diretor e/ou integrante da equipe do filme',
+      'Você tem uma sessão em rascunho',
+      'Você tem uma sessão com imprevisto ou problema',
+      'Contato Site',
       'Você tem uma sessão agendada!',
       'Você tem uma sessão agendada!',
       'Você tem uma sessão agendada!',
@@ -74,6 +84,8 @@ Migrations.add({
       'Download do filme {{film.title}}.',
       'Download do filme {{film.title}}.',
       'Download do filme {{film.title}}.',
+      'Precisamos saber como foi a sua sessão no dia {{screening.date_formated}}.',
+      'Conte-nos como foi a sua sessão no dia {{screening.date_formated}}.',
       'Veja sua contribuição para a rede de impacto do {{film.title}}.',
     ];
 
@@ -191,7 +203,7 @@ Migrations.add({
   up() {
     let i = 1;
     Films.find({}, { sort: { sequence_number: 1 } }).forEach((film) => {
-      console.log(film.sequence_number);
+      // console.log(film.sequence_number);
       Films.update(film._id, {
         $set: {
           sequence_number: i,

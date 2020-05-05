@@ -18,16 +18,27 @@ Template.admFluxoByScreening.helpers({
         {
           key: 'notificationTemplateId',
           label: 'Template',
-          headerClass: 'col-md-2',
-          fn: (value) => NotificationTemplates.find({ _id: value }).fetch()[0].name,
+          headerClass: 'col-md-6',
+          sortable: false,
+          fn: (value) =>{
+            const nt = NotificationTemplates.find(value).fetch()[0]
+            return new Spacebars.SafeString(`<a href="/adm/notification-templates-edit/${nt._id}">${nt.name}</a>`);
+          },
           // tmpl: Template.filmCellTmpl
         },
 
         // 'userId',
         // 'screeningId',
-        'deliveredAt',
-        'created_at',
-        'updatedAt',
+        {
+          key: 'deliveredAt',
+          sortByValue: true,
+          label: 'E-mail entregue em',
+          fn: function (value) {
+            return new Spacebars.SafeString(moment(value).format());
+          },
+       },
+        // 'createdAt',
+        // 'updatedAt',
       ],
       //   'status',
       //   { label: 'Press Kit', key: 'press_kit_path', tmpl: Template.pressKitCellTmpl },

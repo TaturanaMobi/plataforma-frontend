@@ -7,7 +7,7 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import '../components/autoform-nouislider.js';
 import '../components/screeningFormFields';
 import './new-screening.html';
-// import Screenings from '../../models/screenings.js';
+import Screenings from '../../models/screenings.js';
 // import { saveScreening } from '../../startup/client/helpers.js';
 
 Template.newScreening.onCreated(function () {
@@ -48,7 +48,6 @@ Template.newScreening.helpers({
     return {
       user_id: Meteor.userId(),
       filmId: this._id,
-      created_at: new Date(),
       status: 'Agendada',
       ...address,
     };
@@ -59,5 +58,8 @@ Template.newScreening.helpers({
   address() {
     return [];
     // Session.get('address');
+  },
+  hasPendingScreenings() {
+    return Screenings.find({ status: 'Pendente' }).count() > 0;
   },
 });

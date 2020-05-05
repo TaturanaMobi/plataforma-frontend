@@ -11,10 +11,13 @@ import './ambassador.html';
 import '../components/ambassadorFormFields.js';
 
 Template.ambassador.helpers({
+  hasPendingScreenings() {
+    return Screenings.find({ status: 'Pendente' }).count() > 0;
+  },
   screenings() {
     return Screenings.find(
       { user_id: Meteor.userId() },
-      { sort: { date: -1 } },
+      { sort: { created_at: -1 } },
     );
   },
   disseminate() {
@@ -24,9 +27,12 @@ Template.ambassador.helpers({
     // Rascunho
     if ((this.status === 'Rascunho')
     || (this.status === 'Inválida')
-    || (this.status === 'Agendada')
-    || (this.status === 'Confirmada')) {
+    || (this.status === 'Agendada')) {
       return 'edit';
+    }
+
+    if (this.status === 'Confirmada') {
+      return 'calendar';
     }
 
     if (this.status === 'Pendente') {
@@ -42,7 +48,7 @@ Template.ambassador.helpers({
     return 'calendar';
   },
   in_future() {
-    console.log(this.status);
+    // console.log(this.status);
     return ((this.status === 'Rascunho')
     || (this.status === 'Inválida')
     || (this.status === 'Agendada')

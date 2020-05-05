@@ -9,6 +9,12 @@ import getSelectOptions from './getSelectOptions';
 // import { Cities, States } from '../states_and_cities';
 
 export const NOTIFICATION_TRIGGERS = [
+  'new_ambassador',
+  'reset_password',
+  'request_director_presence',
+  'draft_weekly_remember',
+  'admin_draft',
+  'contact',
   'confirm_screening_date',
   'confirm_scheduling_3',
   'confirm_scheduling_9',
@@ -74,7 +80,7 @@ const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '1
 
 export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Inválida'];
 
-export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre', 'Gratis'];
+export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre', 'Gratis', 'Free'];
 
 SimpleSchema.extendOptions(['autoform']);
 SimpleSchema.setDefaultMessages({
@@ -137,7 +143,7 @@ const Schemas = {};
 Schemas.User = userSchema.User;
 
 const minDateNewScreening = new Date();
-minDateNewScreening.setDate(minDateNewScreening.getDate() + 3);
+minDateNewScreening.setDate(minDateNewScreening.getDate() + 2);
 
 Schemas.Screening = new SimpleSchema({
   oldId: {
@@ -315,7 +321,6 @@ Schemas.Screening = new SimpleSchema({
   created_at: {
     type: Date,
     label: 'Data de criação',
-    defaultValue: new Date(),
     optional: true,
   },
   updatedAt: {
@@ -1099,7 +1104,7 @@ Schemas.NotificationTemplate = new SimpleSchema({
       },
     },
   },
-  created_at: {
+  createdAt: {
     type: Date,
     label: 'Data de criação',
     defaultValue: new Date(),
@@ -1114,6 +1119,11 @@ Schemas.NotificationTemplate = new SimpleSchema({
 }, { tracker: Tracker });
 
 Schemas.Notification = new SimpleSchema({
+  to: {
+    type: String,
+    label: 'Endereço a ser disparado',
+    optional: true,
+  },
   notificationTemplateId: {
     type: String,
     label: 'Template',
@@ -1125,13 +1135,14 @@ Schemas.Notification = new SimpleSchema({
   screeningId: {
     type: String,
     label: 'Sessão Relacionada',
+    optional: true,
   },
   deliveredAt: {
     type: String,
     label: 'Entregue em',
     optional: true,
   },
-  created_at: {
+  createdAt: {
     type: Date,
     label: 'Data de criação',
     defaultValue: new Date(),
