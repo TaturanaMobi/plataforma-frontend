@@ -76,7 +76,7 @@ export const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA
 
 const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
-export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Inválida'];
+export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Cancelada'];
 
 export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre', 'Gratis', 'Free'];
 

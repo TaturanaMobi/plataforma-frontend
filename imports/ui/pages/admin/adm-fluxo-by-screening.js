@@ -26,9 +26,9 @@ Template.admFluxoByScreening.helpers({
           },
           // tmpl: Template.filmCellTmpl
         },
-
-        // 'userId',
-        // 'screeningId',
+        'to',
+        'userId',
+        'screeningId',
         {
           key: 'deliveredAt',
           sortByValue: true,
