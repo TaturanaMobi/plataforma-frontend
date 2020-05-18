@@ -15,7 +15,7 @@
 
 - [ ] Adicionar nome e email na lista de fluxo de emails "embaixador" e "email de destino"
 - [ ] Melhorar performance do carregamento de sessão no admin
-- [ ] Corrigir inconsistência de dados nos gráficos
+- [x] Corrigir inconsistência de dados nos gráficos
 - [ ] Incluir total de municípios quando o filme em difusão (icon geolocalização)
 - [ ] Atualizar Portfolio ingles/portugues
 
@@ -73,5 +73,31 @@
 
 # MONGO QUERIES
 
-{ screening: { $elemMatch: { _id: 'xx' } } } - Find by screeningId
+Find by screeningId
 
+{ screening: { $elemMatch: { _id: 'xx' } } }
+
+Count screenings before migrate
+
+db.films.aggregate([{
+  $project: {
+    _id: '$_id',
+    _title: '$title',
+    totalscreenings: {
+      "$size": { "$ifNull": [ "$screening", [] ] }
+    }
+  }
+}]);
+
+Count screenings by status after migrate
+
+db.screenings.aggregate([
+  { $match: { filmId: "X55no5BySn4B3Czxa" } },
+  { $group : { _id : '$status', count : {$sum : 1}} }
+]);
+
+Count screenings
+
+db.screenings.aggregate( [
+   { $count: "myCount" }
+])

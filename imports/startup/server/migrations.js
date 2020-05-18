@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Migrations } from 'meteor/percolate:migrations';
 import { moment } from 'meteor/momentjs:moment';
+import _ from 'underscore';
 // import { AutoForm } from 'meteor/aldeed:autoform';
 import { STATES } from '../../models/schemas';
 import Films from '../../models/films';
@@ -30,22 +31,21 @@ function toTitleCase(str) {
 }
 
 function getScreeningStatus(s) {
-  let status = 'Agendada';
   const now = new Date();
 
+  if (s.hasOwnProperty('report_description') && s.report_description !== '') {
+    return 'Concluída';
+  }
+
+  if (s.hasOwnProperty('draft')) {
+    return 'Rascunho';
+  }
+
   if (moment(s.date).isBefore(now)) {
-    status = 'Pendente';
+    return 'Pendente';
   }
 
-  if (s.report_description !== undefined) {
-    status = 'Concluída';
-  }
-
-  if (s.draft !== undefined) {
-    status = 'Rascunho';
-  }
-
-  return status;
+  return 'Agendada';
 }
 
 Migrations.add({
@@ -108,6 +108,7 @@ Migrations.add({
       if (film.screening !== undefined && film.screening.length > 0) {
         film.screening.forEach((screening) => {
           screening.filmId = film._id;
+          screening.report_description = _.escape(screening.report_description);
           screening.activity = toTitleCase(screening.activity) === 'Libre' ? 'Livre' : toTitleCase(screening.activity);
           screening.activity_theme = toTitleCase(screening.activity_theme);
           screening.zone = toTitleCase(screening.zone);
@@ -124,6 +125,8 @@ Migrations.add({
           screening.status = getScreeningStatus(screening);
           if (screening.status === 'Rascunho') {
             screening.draft = true;
+          } else {
+            delete screening.draft;
           }
           if (screening.status === 'Concluída') {
             screening.reportCreatedAt = new Date();
@@ -143,7 +146,7 @@ Migrations.add({
           screening.quorum_expectation = convertInteger(screening.quorum_expectation);
           screening.accept_terms = true;
           screening.activity = (!screening.activity ? 'Debate' : screening.activity);
-          screening.comments = (!screening.comments ? 'Sem comentários.' : screening.comments);
+          screening.comments = (!screening.comments ? 'Sem comentários.' : _.escape(screening.comments));
           screening.oldId = screening._id;
           delete screening._id;
           Screenings.insert(screening);
