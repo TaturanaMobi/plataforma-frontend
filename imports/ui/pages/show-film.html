@@ -98,11 +98,11 @@
                   <div id="viewers-chart" class="ct-chart"></div>
                 </dd>
                 <dd><i class="fas fa-eye"></i> {{viewers_from_reports}} espectadores em {{sessions_with_reports}}
-                  sessões com relatório de impacto</dd>
-                <dd><i class="fas fa-calendar-alt"></i> {{past_sessions}} sessões realizadas</dd>
+                  sessões c/ relatório de impacto</dd>
+                <dd><i class="fas fa-calendar-check"></i> {{past_sessions}} sessões realizadas</dd>
                 {{#unless is_only_portfolio film}}
-                <dd><i class="fas fa-calendar-alt"></i> {{future_sessions}} sessões programadas (<a href="/screenings?filmSelector={{filmId}}">confira a
-                  agenda!</a>)</dd>
+                <dd><i class="fas fa-calendar-alt"></i> {{future_sessions}} sessões programadas - <a href="/screenings?filmSelector={{filmId}}">confira a
+                  agenda!</a></dd>
                 {{/unless}}
                 {{#if is_difusao}}
                 <dd><i class="fas fa-map-marker-alt"></i> {{cities_total}} municipios alcançados</dd>

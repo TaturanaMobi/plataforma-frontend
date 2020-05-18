@@ -207,14 +207,14 @@ const processScreenings = {
     };
   },
 
-  loadTemplate(templateName) {
+  loadTemplate(templateName, varsData) {
     const t = NotificationTemplates.find({ trigger: templateName }).fetch();
-    // const hasFilmTemplate = t.filter((v) => v.filmId !== undefined);
+    const hasFilmTemplate = t.filter((v) => v.filmId === varsData.screening.filmId);
     const defaultFilmTemplate = t;
 
-    // if (hasFilmTemplate.length > 0) {
-    //   return hasFilmTemplate[0];
-    // }
+    if (hasFilmTemplate.length > 0) {
+      return hasFilmTemplate[0];
+    }
 
     if (defaultFilmTemplate.length > 0) {
       return defaultFilmTemplate[0];
