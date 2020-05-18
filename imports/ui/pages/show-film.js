@@ -10,6 +10,9 @@ import Plyr from 'plyr';
 import './show-film.html';
 
 Template.showFilm.helpers({
+  filmId() {
+    return Template.instance().parent().data._id;
+  },
   linklist() {
     const printLinks = [];
     const links = ['facebook', 'twitter', 'youtube', 'instagram'];

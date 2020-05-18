@@ -117,13 +117,11 @@ const processScreenings = {
     // ou menos, enviar e-mail confirm_scheduling_3 e trocar status para confirmada
     if (processScreenings.isLowerThan3days(s.date, s.created_at)) {
       processScreenings.createNotification(s, 'confirm_scheduling_3');
-      processScreenings.createNotification(s, 'confirm_screening_date');
       // Agendada - Sessão agendada entre 9 e 4 dias de antecedência,
       //  enviar e-mail confirm_scheduling_9 e trocar status para confirmada
       processScreenings.updateStatus(s, 'Confirmada');
     } else if (processScreenings.isBetween9and3days(s.date, s.created_at)) {
       processScreenings.createNotification(s, 'confirm_scheduling_9');
-      processScreenings.createNotification(s, 'confirm_screening_date');
       // Agendada - Sessão agendada com 10 dias ou mais de antecedência,
       // enviar e-mail confirm_scheduling_10 e trocar status para confirmada
       processScreenings.updateStatus(s, 'Confirmada');
@@ -209,14 +207,14 @@ const processScreenings = {
     };
   },
 
-  loadTemplate(templateName) {
+  loadTemplate(templateName, varsData) {
     const t = NotificationTemplates.find({ trigger: templateName }).fetch();
-    // const hasFilmTemplate = t.filter((v) => v.filmId !== undefined);
+    const hasFilmTemplate = t.filter((v) => v.filmId === varsData.screening.filmId);
     const defaultFilmTemplate = t;
 
-    // if (hasFilmTemplate.length > 0) {
-    //   return hasFilmTemplate[0];
-    // }
+    if (hasFilmTemplate.length > 0) {
+      return hasFilmTemplate[0];
+    }
 
     if (defaultFilmTemplate.length > 0) {
       return defaultFilmTemplate[0];

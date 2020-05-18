@@ -7,6 +7,8 @@ import { Router } from 'meteor/iron:router';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import Papa from 'papaparse';
 import { moment } from 'meteor/momentjs:moment';
+import { FlashMessages } from 'meteor/mrt:flash-messages';
+
 import Notifications from '../../../models/notifications.js';
 import NotificationTemplates from '../../../models/notification_templates.js';
 import Screenings from '../../../models/screenings.js';
@@ -349,6 +351,8 @@ Template.admSessions2.events({
     };
 
     Notifications.insert(vars);
+
+    FlashMessages.sendSuccess('Embaixador notificado com sucesso!');
   },
   'click .btn.btn-primary.btn-default[value=filter]'(event, instance) {
     event.preventDefault();

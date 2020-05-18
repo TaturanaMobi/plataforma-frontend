@@ -19,9 +19,7 @@ export const NOTIFICATION_TRIGGERS = [
   'confirm_scheduling_3',
   'confirm_scheduling_9',
   'confirm_scheduling_10',
-  'send_the_movie_3',
-  'send_the_movie_9',
-  'send_the_movie_10',
+  'send_the_movie',
   'ask_for_report',
   'ask_for_report_take2',
   'tell_ambassador_the_results',
@@ -78,7 +76,7 @@ export const STATES = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA
 
 const FILM_AGE_RATING = ['Livre', '10 anos', '12 anos', '14 anos', '16 anos', '18 anos'];
 
-export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Arquivada', 'Inválida'];
+export const SCREENING_STATUS = ['Agendada', 'Confirmada', 'Pendente', 'Rascunho', 'Concluída', 'Cancelada'];
 
 export const SCREENING_ACTIVITY = ['Abertura', 'Bate-papo', 'Encerramento', 'Vivência', 'Debate', 'Jogo', 'Aula', 'Livre', 'Gratis', 'Free'];
 

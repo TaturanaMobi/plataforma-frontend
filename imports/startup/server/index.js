@@ -35,7 +35,7 @@ Meteor.startup(() => {
 
   Meteor.publish('films.all', Films.all);
 
-  Meteor.publish('screenings.all', function() { return Screenings.find({ status: { $ne: 'Cancelada' } }); });
+  Meteor.publish('screenings.all', function() { return Screenings.find({}); });
 
   Meteor.publish('screenings.my', function() { return Screenings.find({ user_id: Meteor.userId(), status: { $ne: 'Cancelada' } }); });
 

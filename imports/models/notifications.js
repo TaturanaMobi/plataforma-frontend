@@ -41,7 +41,7 @@ if (Meteor.isServer) {
 
     if (doc.screeningId !== undefined) {
       const screening = Screenings.findOne({ _id: doc.screeningId });
-      screening.date_formated = moment(screening.date).format('DD/MM/YYYY');
+      screening.date_formated = moment(screening.date).format('DD/MM/YYYY hh:mm A');
       varsData.screening = screening;
       varsData.film = screening.film();
     }

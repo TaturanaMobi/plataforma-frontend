@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import Users from '../../../models/users'
 // import { $ } from 'meteor/jquery';
 
 import './adm-fluxo-by-screening.html';
@@ -26,15 +27,29 @@ Template.admFluxoByScreening.helpers({
           },
           // tmpl: Template.filmCellTmpl
         },
-
-        // 'userId',
+        'to',
+        {
+          key: 'userId',
+          label: 'usuário',
+          headerClass: 'col-md-6',
+          sortable: false,
+          fn: (value) =>{
+            // console.log(value);
+            // this.autorun(() => {
+            //   this.subscribe('users.byEmail', value);
+            // });
+            const u = Users.findOne(value);
+            return new Spacebars.SafeString(`<a href="/adm/ambassador/${u?._id}">${u?.profile.name} - ${u.emails[0].address}</a>`);
+          },
+          // tmpl: Template.filmCellTmpl
+        },
         // 'screeningId',
         {
           key: 'deliveredAt',
           sortByValue: true,
           label: 'E-mail entregue em',
           fn: function (value) {
-            return new Spacebars.SafeString(moment(value).format());
+            return new Spacebars.SafeString(moment(value).format('DD/MM/YYYY hh:mm A'));
           },
        },
         // 'createdAt',
