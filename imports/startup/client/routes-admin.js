@@ -68,7 +68,9 @@ Router.route('/adm/notification-templates', {
 });
 
 Router.route('/adm/fluxo-by-screening/:screeningId', {
-  waitOn() { return Meteor.subscribe('notificationTemplates.all') && Meteor.subscribe('notificationByScreening.byScreening'); },
+  waitOn() {
+    return Meteor.subscribe('users.all') && Meteor.subscribe('notificationTemplates.all') && Meteor.subscribe('notificationByScreening.byScreening');
+  },
   data() {
     return NotificationTemplates.find({})
       && Notifications.find({ screeningId: this.params.screeningId });

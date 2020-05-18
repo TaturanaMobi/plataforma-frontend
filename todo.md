@@ -12,12 +12,12 @@
 - [x] Confirmar possibildade de informação do horário da sessão no email que vai para o produtor
 - [x] Adicionar endereço na página de minhas sessoes em cada sessao
 - [x] Adicionar aviso que o email foi enviado com sucesso
-
-- [ ] Adicionar nome e email na lista de fluxo de emails "embaixador" e "email de destino"
-- [ ] Melhorar performance do carregamento de sessão no admin
+- [x] Adicionar nome e email na lista de fluxo de emails "embaixador" e "email de destino"
 - [x] Corrigir inconsistência de dados nos gráficos
-- [ ] Incluir total de municípios quando o filme em difusão (icon geolocalização)
+- [x] Incluir total de municípios quando o filme em difusão (icon geolocalização)
 - [ ] Atualizar Portfolio ingles/portugues
+- [ ] Melhorar performance do carregamento de sessão no admin
+- [ ] Cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
 
 # Regras de negócio
 
@@ -101,3 +101,7 @@ Count screenings
 db.screenings.aggregate( [
    { $count: "myCount" }
 ])
+
+Search User by Email
+
+{ 'emails.0.address': 'email@gmail.com' }
