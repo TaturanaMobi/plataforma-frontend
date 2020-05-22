@@ -1,5 +1,20 @@
 # TODO
 
+- [ ] Atualizar Portfolio ingles/portugues
+- [ ] html nos conteúdos do relatório
+- [ ] contato deu erro
+- [ ] Abaixo do gráfico de pizza de regiões, mostrar gráfico dos estados (bolinhas) quando filme em difusão/portfolio
+- [ ] Listar sessões que tiveram seu status afetado após a mudança
+
+- [ ] filtro da agenda de exibições deve ser mais usável
+- [ ] gráfico de pizza ao clicar na legenda, a fatia do gráfico some
+- [ ] melhorar legenda no gráfico de linhas de expectadores
+- [ ] melhorar barra de rolagem na descrição do filme
+
+- [ ] Testar com mais sessões
+- [ ] Melhorar performance do carregamento de sessão no admin
+- [ ] Cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
+
 - [x] Revisar dados de estatísticas com dados atualizados de produção ( sessoes cadastradas em prod, usuarios cadastrados )
 - [x] Remover do fluxo de 3 dias o template screening_date
 - [x] Remover do fluxo de 9 dias o template screening_date
@@ -15,9 +30,6 @@
 - [x] Adicionar nome e email na lista de fluxo de emails "embaixador" e "email de destino"
 - [x] Corrigir inconsistência de dados nos gráficos
 - [x] Incluir total de municípios quando o filme em difusão (icon geolocalização)
-- [ ] Atualizar Portfolio ingles/portugues
-- [ ] Melhorar performance do carregamento de sessão no admin
-- [ ] Cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
 
 # Regras de negócio
 
