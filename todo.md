@@ -5,13 +5,13 @@
 - [x] contato deu erro
 - [x] Abaixo do gráfico de pizza de regiões, mostrar gráfico dos estados (bolinhas) quando filme em difusão/portfolio
 - [x] melhorar barra de rolagem na descrição do filme
+- [x] gráfico de pizza ao clicar na legenda, a fatia do gráfico some
+- [x] melhorar legenda no gráfico de linhas de expectadores
+- [x] filtro da agenda de exibições deve ser mais usável
+
 - [ ] Listar sessões que tiveram seu status afetado após a mudança
 
-- [ ] filtro da agenda de exibições deve ser mais usável
-- [ ] gráfico de pizza ao clicar na legenda, a fatia do gráfico some
-- [ ] melhorar legenda no gráfico de linhas de expectadores
 - [ ] Cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
-
 - [ ] Testar com mais sessões
 - [ ] Melhorar performance do carregamento de sessão no admin
 

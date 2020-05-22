@@ -93,11 +93,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'pie',
-          // onclick: function (d, i) { d.preventDefault(); },
+          onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            // onclick: function (d, i) { d.preventDefault(); },
+            onclick: function (d, i) { d.preventDefault(); },
           },
         },
       });
@@ -112,20 +112,23 @@ Template.showFilm.onRendered(() => {
         bindto: '#viewers-chart',
         data: {
           columns: [
-            [].concat(['Espectadores'], _.values(inventory.viewers_per_month)),
+            [].concat(['Número Espectadores por mês'], _.values(inventory.viewers_per_month)),
           ],
           type: 'spline',
-          // onclick: function (d, i) { d.preventDefault(); },
+          onclick: function (d, i) { d.preventDefault(); },
         },
         axis: {
           x: {
             type: 'category',
             categories: _.keys(inventory.viewers_per_month),
           },
+          y: {
+            label: 'Total de espectadores'
+          },
         },
         legend: {
           item: {
-            // onclick: function (d, i) { d.preventDefault(); },
+            onclick: function (d, i) { d.preventDefault(); },
           },
         },
       });
@@ -141,11 +144,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'donut',
-          // onclick: function (d, i) { d.preventDefault(); },
+          onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            // onclick: function (d, i) { d.preventDefault(); },
+            onclick: function (d, i) { d.preventDefault(); },
           },
           position: 'right',
         },
@@ -162,11 +165,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'donut',
-          // onclick: function (d, i) { d.preventDefault(); },
+          onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            // onclick: function (d, i) { d.preventDefault(); },
+            onclick: function (d, i) { d.preventDefault(); },
           },
           position: 'right',
         },
