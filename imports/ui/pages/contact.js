@@ -34,7 +34,7 @@ Template.contact.events({
       message,
     };
 
-    const mailTemplate = 'contact.html';
+    const mailTemplate = '.templates/contact.html';
 
     Meteor.call('sendEmail', pidgeon, mailTemplate, (err) => {
       if (err) {

@@ -2,18 +2,18 @@
 
 - [x] Atualizar Portfolio ingles/portugues
 - [x] html nos conteúdos do relatório
-- [ ] contato deu erro
-- [ ] Abaixo do gráfico de pizza de regiões, mostrar gráfico dos estados (bolinhas) quando filme em difusão/portfolio
+- [x] contato deu erro
+- [x] Abaixo do gráfico de pizza de regiões, mostrar gráfico dos estados (bolinhas) quando filme em difusão/portfolio
+- [ ] melhorar barra de rolagem na descrição do filme
 - [ ] Listar sessões que tiveram seu status afetado após a mudança
 
 - [ ] filtro da agenda de exibições deve ser mais usável
 - [ ] gráfico de pizza ao clicar na legenda, a fatia do gráfico some
 - [ ] melhorar legenda no gráfico de linhas de expectadores
-- [ ] melhorar barra de rolagem na descrição do filme
+- [ ] Cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
 
 - [ ] Testar com mais sessões
 - [ ] Melhorar performance do carregamento de sessão no admin
-- [ ] Cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
 
 - [x] Revisar dados de estatísticas com dados atualizados de produção ( sessoes cadastradas em prod, usuarios cadastrados )
 - [x] Remover do fluxo de 3 dias o template screening_date
@@ -85,12 +85,15 @@
 
 # MONGO QUERIES
 
-Find by screeningId
+## Find by screeningId
 
+```
 { screening: { $elemMatch: { _id: 'xx' } } }
+```
 
-Count screenings before migrate
+## Count screenings before migrate
 
+```
 db.films.aggregate([{
   $project: {
     _id: '$_id',
@@ -100,20 +103,36 @@ db.films.aggregate([{
     }
   }
 }]);
+```
 
-Count screenings by status after migrate
+## Count screenings by status after migrate
 
+```
 db.screenings.aggregate([
   { $match: { filmId: "X55no5BySn4B3Czxa" } },
   { $group : { _id : '$status', count : {$sum : 1}} }
 ]);
+```
 
-Count screenings
+## Count screenings
 
+```
 db.screenings.aggregate( [
    { $count: "myCount" }
 ])
+```
 
-Search User by Email
+## Search User by Email
 
+
+```
 { 'emails.0.address': 'email@gmail.com' }
+```
+
+
+## Total de sessões agrupadas por filmes e status
+
+
+```
+{ _id : {filmId: '$filmId', status:'$status'}, count : {$sum : 1}}
+```
