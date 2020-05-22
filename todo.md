@@ -1,7 +1,7 @@
 # TODO
 
-- [ ] Atualizar Portfolio ingles/portugues
-- [ ] html nos conteúdos do relatório
+- [x] Atualizar Portfolio ingles/portugues
+- [x] html nos conteúdos do relatório
 - [ ] contato deu erro
 - [ ] Abaixo do gráfico de pizza de regiões, mostrar gráfico dos estados (bolinhas) quando filme em difusão/portfolio
 - [ ] Listar sessões que tiveram seu status afetado após a mudança
