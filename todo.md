@@ -4,7 +4,7 @@
 - [x] html nos conteúdos do relatório
 - [x] contato deu erro
 - [x] Abaixo do gráfico de pizza de regiões, mostrar gráfico dos estados (bolinhas) quando filme em difusão/portfolio
-- [ ] melhorar barra de rolagem na descrição do filme
+- [x] melhorar barra de rolagem na descrição do filme
 - [ ] Listar sessões que tiveram seu status afetado após a mudança
 
 - [ ] filtro da agenda de exibições deve ser mais usável

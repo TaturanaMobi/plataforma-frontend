@@ -26,6 +26,7 @@
     "nouislider": "^12.1.0",
     "papaparse": "^4.6.3",
     "plyr": "^3.5.10",
+    "readmore-js": "^2.2.1",
     "select2": "^4.0.13",
     "select2-bootstrap-theme": "0.1.0-beta.10",
     "simpl-schema": "^1.5.7",
