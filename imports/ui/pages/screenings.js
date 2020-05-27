@@ -5,6 +5,7 @@ import { Router } from 'meteor/iron:router';
 import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { ReactiveDict } from 'meteor/reactive-dict';
+require('select2');
 
 import Films from '../../models/films.js';
 
@@ -93,6 +94,13 @@ Template.screenings.helpers({
 });
 
 Template.screenings.onCreated(function () {
+  $(document).ready(function() {
+    $('#month-selector').select2({allowClear: true, placeholder: 'Selecione'});
+    $('#film-selector').select2({allowClear: true, placeholder: 'Selecione'});
+    $('#state-selector').select2({allowClear: true, placeholder: 'Selecione'});
+    $('#city-selector').select2({allowClear: true, placeholder: 'Selecione'});
+  });
+
   this.state = new ReactiveDict();
 
   const r = Router.current();
@@ -188,7 +196,7 @@ const resetFilters = (e, instance) => {
 Template.screenings.events({
   'change #city-selector': updateFilters,
   'change #state-selector': updateFilters,
-  'click #month-selector': updateFilters,
-  'click #film-selector': updateFilters,
+  'change #month-selector': updateFilters,
+  'change #film-selector': updateFilters,
   'click #btn-resetar': resetFilters,
 });

@@ -3,9 +3,7 @@ import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import c3 from 'c3';
 import Plyr from 'plyr';
-// import d3 from 'd3';
-
-// import Films from '../../models/films.js';
+require('readmore-js');
 
 import './show-film.html';
 
@@ -66,6 +64,14 @@ Template.showFilm.onRendered(() => {
     autoplaySpeed: 6000,
   });
 
+  $('.wrapper-overflow').readmore({
+    embedCSS: false,
+    speed: 75,
+    collapsedHeight: 420,
+    lessLink: '<a href="#">Fechar</a>',
+    moreLink: '<a href="#">Ler mais</a>'
+  });
+
   const player = new Plyr('#player');
   player.volume = 1;
 
@@ -78,7 +84,8 @@ Template.showFilm.onRendered(() => {
     if (inventory.viewers_zones) {
       const labels = [];
       _.keys(inventory.viewers_zones).forEach((k) => {
-        labels.push([k, inventory.viewers_zones[k]]);
+        labels.push([k,
+          inventory.viewers_zones[k]]);
       });
 
       c3.generate({
@@ -86,11 +93,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'pie',
-          // onclick: function (d, i) { d.preventDefault(); },
+          onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            // onclick: function (d, i) { d.preventDefault(); },
+            onclick: function (d, i) { d.preventDefault(); },
           },
         },
       });
@@ -105,20 +112,23 @@ Template.showFilm.onRendered(() => {
         bindto: '#viewers-chart',
         data: {
           columns: [
-            [].concat(['Espectadores'], _.values(inventory.viewers_per_month)),
+            [].concat(['Número Espectadores por mês'], _.values(inventory.viewers_per_month)),
           ],
           type: 'spline',
-          // onclick: function (d, i) { d.preventDefault(); },
+          onclick: function (d, i) { d.preventDefault(); },
         },
         axis: {
           x: {
             type: 'category',
             categories: _.keys(inventory.viewers_per_month),
           },
+          y: {
+            label: 'Total de espectadores'
+          },
         },
         legend: {
           item: {
-            // onclick: function (d, i) { d.preventDefault(); },
+            onclick: function (d, i) { d.preventDefault(); },
           },
         },
       });
@@ -134,11 +144,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'donut',
-          // onclick: function (d, i) { d.preventDefault(); },
+          onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            // onclick: function (d, i) { d.preventDefault(); },
+            onclick: function (d, i) { d.preventDefault(); },
           },
           position: 'right',
         },
@@ -155,11 +165,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'donut',
-          // onclick: function (d, i) { d.preventDefault(); },
+          onclick: function (d, i) { d.preventDefault(); },
         },
         legend: {
           item: {
-            // onclick: function (d, i) { d.preventDefault(); },
+            onclick: function (d, i) { d.preventDefault(); },
           },
           position: 'right',
         },

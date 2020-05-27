@@ -58,13 +58,12 @@
   }
 
   .wrapper-overflow {
-    overflow: auto;
-    height: 420px;
+    overflow: hidden;
   }
 
-  .box-synopsis .wrapper-overflow {
-    height: 520px;
-  }
+  // .box-synopsis .wrapper-overflow {
+  //   height: 520px;
+  // }
 
   .wrapper-fichaTecnica {
     // h3 {
