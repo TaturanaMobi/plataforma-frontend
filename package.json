@@ -22,7 +22,7 @@
     "bootstrap-sass": "^3.4.1",
     "c3": "^0.7.15",
     "faker": "^4.1.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "nouislider": "^12.1.0",
     "papaparse": "^4.6.3",
     "plyr": "^3.5.10",
