@@ -105,6 +105,10 @@ db.films.aggregate([{
 }]);
 ```
 
+```
+db.films.find({},{ "screening": { $elemMatch: { "_id":"ce32ea9f596bd032468d7e0c"}}});
+```
+
 ## Count screenings by status after migrate
 
 ```
@@ -136,3 +140,6 @@ db.screenings.aggregate( [
 ```
 { _id : {filmId: '$filmId', status:'$status'}, count : {$sum : 1}}
 ```
+
+
+

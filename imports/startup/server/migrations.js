@@ -11,6 +11,7 @@ import { Cities, States } from '../../models/states_and_cities';
 import Estados from '../../../backups/Municipios-Brasileiros/json/estados.json';
 import Municipios from '../../../backups/Municipios-Brasileiros/json/municipios.json';
 import statistics from '../../models/denormalizers/statistics.js';
+import Papa from 'papaparse';
 
 function convertInteger(value) {
   if (value === undefined) {
@@ -30,10 +31,31 @@ function toTitleCase(str) {
   );
 }
 
+function ConvertToCSV(objArray) {
+  var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+  var str = '';
+
+  for (var i = 0; i < array.length; i++) {
+      var line = '';
+      for (var index in array[i]) {
+          if (line != '') line += ','
+
+          line += array[i][index];
+      }
+
+      str += line + '\r\n';
+  }
+
+  return str;
+}
+const csv = []
 function getScreeningStatus(s) {
   const now = new Date();
 
   if (s.hasOwnProperty('report_description') && s.report_description !== '') {
+    if (s.draft || s.admin_draft) {
+      csv.push(s);
+    }
     return 'Concluída';
   }
 
@@ -159,9 +181,9 @@ Migrations.add({
         $set: {
           duration: film.duration,
         },
-        $unset: {
-          screening: '',
-        },
+        // $unset: {
+        //   screening: '',
+        // },
       });
     });
   },
@@ -220,6 +242,7 @@ Migrations.add({
     Films.find({}).forEach((film) => {
       statistics.updateFilm(film._id);
     });
+  console.log(Papa.unparse(csv));
   },
   down() { },
 });
