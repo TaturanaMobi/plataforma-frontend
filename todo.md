@@ -1,5 +1,16 @@
 # TODO
 
+- [x] confirmar se o endereço de email de resposta dos emails disparados pelo fluxo de email são taturanamobi@gmail.com
+- [x] trocar ordenação da lista de filmes para as mais recentes
+- [x] corrigir link no admin do filme do press kit dos filmes
+- [x] fazer upload no megaupload os arquivos de press kit dos filmes e capaz dos filmes
+- [x] remover possibilidade de usar o autocomplete no endereço
+
+- [ ] cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
+- [ ] problemas no copiar e colar do relatório de sessões de um filme na plataforma
+- [ ] melhorar performance do carregamento de sessão no admin
+- [ ] permitir salvamento automático na inserção ou atualização dos filmes
+
 - [x] Atualizar Portfolio ingles/portugues
 - [x] html nos conteúdos do relatório
 - [x] contato deu erro
@@ -8,13 +19,8 @@
 - [x] gráfico de pizza ao clicar na legenda, a fatia do gráfico some
 - [x] melhorar legenda no gráfico de linhas de expectadores
 - [x] filtro da agenda de exibições deve ser mais usável
-
-- [ ] Listar sessões que tiveram seu status afetado após a mudança
-
-- [ ] Cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
-- [ ] Testar com mais sessões
-- [ ] Melhorar performance do carregamento de sessão no admin
-
+- [x] Listar sessões que tiveram seu status afetado após a mudança -
+- [x] Testar com mais sessões
 - [x] Revisar dados de estatísticas com dados atualizados de produção ( sessoes cadastradas em prod, usuarios cadastrados )
 - [x] Remover do fluxo de 3 dias o template screening_date
 - [x] Remover do fluxo de 9 dias o template screening_date
