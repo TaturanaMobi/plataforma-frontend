@@ -39,6 +39,19 @@ Template.App_Body.onRendered(function() {
   });
 });
 
+Router.onBeforeAction(function () {
+  // all properties available in the route function
+  // are also available here such as this.params
+  if (Meteor.settings.public.maintenance === 'true') {
+    // if the user is not logged in, render the Login template
+    this.render('maintenance');
+  } else {
+    // otherwise don't hold up the rest of hooks or our route/action function
+    // from running
+    this.next();
+  }
+});
+
 Router.configure({
   layoutTemplate: 'App_Body',
   loadingTemplate: 'loading',

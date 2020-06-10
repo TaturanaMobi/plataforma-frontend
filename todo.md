@@ -5,9 +5,12 @@
 - [x] corrigir link no admin do filme do press kit dos filmes
 - [x] fazer upload no megaupload os arquivos de press kit dos filmes e capaz dos filmes
 - [x] remover possibilidade de usar o autocomplete no endereço
-
 - [ ] cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
 - [ ] problemas no copiar e colar do relatório de sessões de um filme na plataforma
+- [x] preparar mensagem de estamos em atualização - adicionado configuração para ativar e desativar o modo de manutenção
+- [x] Verificar esse usuário taturanamobi@gmail.com, se outros usuários possui esse problema - adicionei chamada para ter certeza que todos os dados do usuário estão baixados do servidor
+- [x] revisar ordenação dos filmes - configurar ordem no lado do servidor
+- [x] revisar ordenação do carousel da home, denovo - removido o filtro excluindo os filmes do tipo portfolio e configurar ordem no lado do servidor
 - [ ] melhorar performance do carregamento de sessão no admin
 - [ ] permitir salvamento automático na inserção ou atualização dos filmes
 
@@ -130,15 +133,18 @@ db.screenings.aggregate( [
 
 ## Search User by Email
 
-
 ```
 { 'emails.0.address': 'email@gmail.com' }
 ```
 
-
 ## Total de sessões agrupadas por filmes e status
-
 
 ```
 { _id : {filmId: '$filmId', status:'$status'}, count : {$sum : 1}}
+```
+
+## Total de usuários com mais de um endereço salvo
+
+```
+{'addresses.1': {$exists: true}}
 ```

@@ -29,6 +29,7 @@ Router.route('/new-screening/:slug', {
 
   waitOn() {
     return [
+      this.subscribe('users.me'),
       this.subscribe('screenings.my'),
       this.subscribe('films.all'),
     ];
