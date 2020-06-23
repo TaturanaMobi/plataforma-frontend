@@ -5,8 +5,15 @@
 - [x] corrigir link no admin do filme do press kit dos filmes
 - [x] fazer upload no megaupload os arquivos de press kit dos filmes e capaz dos filmes
 - [x] remover possibilidade de usar o autocomplete no endereço
-- [ ] cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
-- [ ] problemas no copiar e colar do relatório de sessões de um filme na plataforma
+
+- [x] problemas no copiar e colar do relatório de sessões de um filme na plataforma
+- [ ] cadastro de usuário e sessão em outros países
+  - [ ] Inserir mecanismo para popular com dados de cidade, estado e país de todo mundo
+  - [ ] Inserir mecanismo para realizar checagem do nome cidade das sessões antigas e cruzar com novo banco de dados de cidades
+  - [ ] Atualizar estatística
+  - [ ] Atualizar cadastro e edição de sessão
+  - [ ] Atualizar cadastro e edição de usuário
+
 - [x] preparar mensagem de estamos em atualização - adicionado configuração para ativar e desativar o modo de manutenção
 - [x] Verificar esse usuário taturanamobi@gmail.com, se outros usuários possui esse problema - adicionei chamada para ter certeza que todos os dados do usuário estão baixados do servidor
 - [x] revisar ordenação dos filmes - configurar ordem no lado do servidor
