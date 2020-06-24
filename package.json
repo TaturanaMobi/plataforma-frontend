@@ -26,6 +26,7 @@
     "file-saver": "^2.0.2",
     "jquery": "^3.4.1",
     "nouislider": "^12.1.0",
+    "p-queue": "^6.4.0",
     "papaparse": "^4.6.3",
     "plyr": "^3.5.10",
     "readmore-js": "^2.2.1",
