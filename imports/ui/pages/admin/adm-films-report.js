@@ -189,9 +189,13 @@ Template.admFilmsReport.events({
 
         await queue.add(async () => {
 
-          const docImage1 = Media.addImage(doc, element.report_image_1 ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_1)}`) : dotImage, 600, 338);
-          const docImage2 = Media.addImage(doc, element.report_image_2 ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_2)}`) : dotImage, 600, 338);
-          const docImage3 = Media.addImage(doc, element.report_image_3 ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_3)}`) : dotImage, 600, 338);
+          const requestImage1 = element.report_image_1 && element.report_image_1.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_1)}`) : { status: 500 };
+          const requestImage2 = element.report_image_2 && element.report_image_2.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_2)}`) : { status: 500 };
+          const requestImage3 = element.report_image_3 && element.report_image_3.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_3)}`) : { status: 500 };
+
+          const docImage1 = Media.addImage(doc, element.report_image_1 && requestImage1.status === 200 ? requestImage1 : dotImage, 600, 338);
+          const docImage2 = Media.addImage(doc, element.report_image_2 && requestImage2.status === 200 ? requestImage2 : dotImage, 600, 338);
+          const docImage3 = Media.addImage(doc, element.report_image_3 && requestImage3.status === 200 ? requestImage3 : dotImage, 600, 338);
           // console.log(element);
           doc.addSection({
             properties: {},
@@ -271,9 +275,9 @@ Template.admFilmsReport.events({
               }),
               new Paragraph({
                 children: [
-                  (element.report_image_1 ? docImage1 : ''),
-                  (element.report_image_2 ? docImage2 : ''),
-                  (element.report_image_3 ? docImage3 : ''),
+                  (element.report_image_1 && element.report_image_1.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) && requestImage1.status === 200 ? docImage1 : ''),
+                  (element.report_image_2 && element.report_image_2.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) && requestImage2.status === 200 ? docImage2 : ''),
+                  (element.report_image_3 && element.report_image_3.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) && requestImage3.status === 200 ? docImage3 : ''),
                 ]
               })
             ],
