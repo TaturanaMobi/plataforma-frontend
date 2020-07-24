@@ -151,7 +151,7 @@
           <div id="carousel" class="col-lg-10 col-lg-offset-1">
             {{#each slideshow}}
             <div>
-              <img class="photo"
+              <img class="photo" loading="lazy"
                 src="{{imageServerUrl}}/smartcrop?width=920&height=520&type=jpeg&file={{fixImagePath src}}" />
               <p class="photo-description">{{caption}} - Autor: {{author}}</p>
             </div>

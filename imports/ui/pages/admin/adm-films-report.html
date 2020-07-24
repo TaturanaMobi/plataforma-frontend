@@ -43,12 +43,12 @@
         </div>
         <p>{{{report_description}}}</p>
 
-        {{#if report_image_1}}<img
+        {{#if report_image_1}}<img loading="lazy"
           src="{{imageServerUrl}}/fit?width=300&height=300&type=jpeg&file={{fixImagePath report_image_1}}"
           class="first" />{{/if}}
-        {{#if report_image_2}}<img
+        {{#if report_image_2}}<img loading="lazy"
           src="{{imageServerUrl}}/fit?width=300&height=300&type=jpeg&file={{fixImagePath report_image_2}}" />{{/if}}
-        {{#if report_image_3}}<img
+        {{#if report_image_3}}<img loading="lazy"
           src="{{imageServerUrl}}/fit?width=300&height=300&type=jpeg&file={{fixImagePath report_image_3}}" />{{/if}}
 
       </div>
