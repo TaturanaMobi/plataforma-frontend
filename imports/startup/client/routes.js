@@ -23,7 +23,7 @@ import '../../ui/pages/reset-password.js';
 import '../../ui/pages/screenings.js';
 import '../../ui/pages/show-film.js';
 
-Template.App_Body.onRendered(function() {
+Template.App_Body.onRendered(function () {
   Tracker.autorun(() => {
     document.title = `Plataforma Taturana - ${Router.current().route.getName()}`;
 

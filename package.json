@@ -24,6 +24,7 @@
     "docx": "^5.2.0",
     "faker": "^4.1.0",
     "file-saver": "^2.0.2",
+    "file-type": "^14.7.1",
     "jquery": "^3.4.1",
     "nouislider": "^12.1.0",
     "p-queue": "^6.4.0",
