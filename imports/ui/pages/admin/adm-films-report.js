@@ -129,7 +129,12 @@ const fixImagePath = (imagePath) => {
   const re = /^images\//;
   const cImg = Images.findOne(imagePath);
   return (imagePath.match(re) ? imagePath : `images/${cImg.path !== undefined ? cImg.path.split('images/')[1] : ''}`);
-}
+};
+
+const isImageUrl = (imagePath) => {
+  const re = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
+  return (imagePath && imagePath.toLowerCase().match(re) ? true : false);
+};
 
 Template.admFilmsReport.events({
   'click .export-docx'() {
@@ -164,6 +169,10 @@ Template.admFilmsReport.events({
         //   console.log(num);
         // })
 
+        // update html and docx view logic to show correct path
+        // check if file path saved has a image
+        // check correct path of older images without a register
+
         // const element = screenings[i];
         // let image1 = '';
         // if (typeof element.report_image_1 !== 'undefined') {
@@ -189,9 +198,9 @@ Template.admFilmsReport.events({
 
         await queue.add(async () => {
 
-          const requestImage1 = element.report_image_1 && element.report_image_1.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_1)}`) : { status: 500 };
-          const requestImage2 = element.report_image_2 && element.report_image_2.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_2)}`) : { status: 500 };
-          const requestImage3 = element.report_image_3 && element.report_image_3.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_3)}`) : { status: 500 };
+          const requestImage1 = isImageUrl(element.report_image_1) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_1)}`) : { status: 500 };
+          const requestImage2 = isImageUrl(element.report_image_2) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_2)}`) : { status: 500 };
+          const requestImage3 = isImageUrl(element.report_image_3) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_3)}`) : { status: 500 };
 
           const docImage1 = Media.addImage(doc, element.report_image_1 && requestImage1.status === 200 ? requestImage1 : dotImage, 600, 338);
           const docImage2 = Media.addImage(doc, element.report_image_2 && requestImage2.status === 200 ? requestImage2 : dotImage, 600, 338);
@@ -275,9 +284,9 @@ Template.admFilmsReport.events({
               }),
               new Paragraph({
                 children: [
-                  (element.report_image_1 && element.report_image_1.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) && requestImage1.status === 200 ? docImage1 : ''),
-                  (element.report_image_2 && element.report_image_2.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) && requestImage2.status === 200 ? docImage2 : ''),
-                  (element.report_image_3 && element.report_image_3.toLowerCase().match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) && requestImage3.status === 200 ? docImage3 : ''),
+                  (isImageUrl(element.report_image_1) && requestImage1.status === 200 ? docImage1 : (element.report_image_1 ? 'https://stag.taturanamobi.com.br/old_uploads/' + element.report_image_1 : '')),
+                  (isImageUrl(element.report_image_2) && requestImage2.status === 200 ? docImage2 : (element.report_image_2 ? 'https://stag.taturanamobi.com.br/old_uploads/' + element.report_image_2 : '')),
+                  (isImageUrl(element.report_image_3) && requestImage3.status === 200 ? docImage3 : (element.report_image_3 ? 'https://stag.taturanamobi.com.br/old_uploads/' + element.report_image_3 : '')),
                 ]
               })
             ],

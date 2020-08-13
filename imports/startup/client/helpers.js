@@ -89,6 +89,12 @@ Template.registerHelper('fixPressKitPath', (pressKitPath) => {
   return (img ? img.link() : pressKitPath);
 });
 
+Template.registerHelper('isImageUrl', (imagePath) => {
+  const re = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
+  return (imagePath.match(re) ? true : false);
+});
+
+
 Template.registerHelper('snakecase', (str) => str.split(' ').join('_').toLowerCase());
 
 export function saveAddress(form, userId) {
