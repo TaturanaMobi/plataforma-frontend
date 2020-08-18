@@ -1,16 +1,15 @@
 // import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
-
 import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { ReactiveDict } from 'meteor/reactive-dict';
-require('select2');
 
 import Films from '../../models/films.js';
-
 import './screenings.html';
 import Screenings from '../../models/screenings.js';
+
+require('select2');
 
 Template.screenings.helpers({
   films() {
@@ -95,10 +94,10 @@ Template.screenings.helpers({
 
 Template.screenings.onCreated(function () {
   $(document).ready(function() {
-    $('#month-selector').select2({allowClear: true, placeholder: 'Selecione'});
-    $('#film-selector').select2({allowClear: true, placeholder: 'Selecione'});
-    $('#state-selector').select2({allowClear: true, placeholder: 'Selecione'});
-    $('#city-selector').select2({allowClear: true, placeholder: 'Selecione'});
+    $('#month-selector').select2({ allowClear: true, placeholder: 'Selecione' });
+    $('#film-selector').select2({ allowClear: true, placeholder: 'Selecione' });
+    $('#state-selector').select2({ allowClear: true, placeholder: 'Selecione' });
+    $('#city-selector').select2({ allowClear: true, placeholder: 'Selecione' });
   });
 
   this.state = new ReactiveDict();

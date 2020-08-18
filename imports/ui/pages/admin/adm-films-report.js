@@ -1,120 +1,52 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-// import { Router } from 'meteor/iron:router';
-// import { $ } from 'meteor/jquery';
-// import * as docx from "docx";
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, Media } from "docx";
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  Media,
+} from 'docx';
 import { saveAs } from 'file-saver';
-const { default: PQueue } = require('p-queue');
+
 import './adm-films-report.html';
 import Screenings from '../../../models/screenings.js';
 import Images from '../../../models/images';
 
-function promisify(f) {
-  return function (...args) { // return a wrapper-function
-    return new Promise((resolve, reject) => {
-      function callback(err, result) { // our custom callback for f
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      }
-
-      args.push(callback); // append our custom callback to the end of f arguments
-
-      f.call(this, ...args); // call the original function
-    });
-  };
-};
-
-// usage:
-// let loadScriptPromise = promisify(loadScript);
-// loadScriptPromise(...).then(...);
+const { default: PQueue } = require('p-queue');
 
 const dotImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
-// function toDataURL(src, callback, outputFormat) {
-//   // Create an Image object
-//   var img = new Image();
-//   // Add CORS approval to prevent a tainted canvas
-//   img.crossOrigin = 'Anonymous';
-//   img.onload = function () {
-//     // Create an html canvas element
-//     var canvas = document.createElement('CANVAS');
-//     // Create a 2d context
-//     var ctx = canvas.getContext('2d');
-//     var dataURL;
-//     // Resize the canavas to the original image dimensions
-//     canvas.height = this.naturalHeight;
-//     canvas.width = this.naturalWidth;
-//     // Draw the image to a canvas
-//     ctx.drawImage(this, 0, 0);
-//     // Convert the canvas to a data url
-//     dataURL = canvas.toDataURL(outputFormat);
-//     // Return the data url via callback
-//     callback(dataURL);
-//     // Mark the canvas to be ready for garbage
-//     // collection
-//     canvas = null;
-//   };
-//   // Load the image
-//   img.src = src;
-//   // make sure the load event fires for cached images too
-//   if (img.complete || img.complete === undefined) {
-//     // Flush cache
-//     img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-//     // Try again
-//     img.src = src;
-//   }
-// }
-function toDataURL(url, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.onload = function () {
-    var reader = new FileReader();
-    reader.onloadend = function () {
-      callback(reader.error, reader.result);
-    }
-    reader.readAsDataURL(xhr.response);
-  };
-  xhr.open('GET', url);
-  xhr.responseType = 'blob';
-  xhr.send();
-}
-
 function makeRequest(method, url) {
   return new Promise(function (resolve, reject) {
-    let xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open(method, url);
     xhr.responseType = 'blob';
     xhr.onload = function () {
       if (this.status >= 200 && this.status < 300) {
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.onloadend = function () {
           resolve(reader.result);
-        }
+        };
         reader.readAsDataURL(xhr.response);
         // resolve(xhr.response);
       } else {
-        reject({
+        reject(new Error({
           status: this.status,
-          statusText: xhr.statusText
-        });
+          statusText: xhr.statusText,
+        }));
       }
     };
     xhr.onerror = function () {
-      reject({
+      reject(new Error({
         status: this.status,
-        statusText: xhr.statusText
-      });
+        statusText: xhr.statusText,
+      }));
     };
     xhr.send();
   });
 }
-
-const toDataURLPromise = promisify(toDataURL);
-
-// let loadScriptPromise = promisify(loadScript);
-// loadScriptPromise(...).then(...);
 
 const queue = new PQueue({ concurrency: 1 });
 
@@ -128,18 +60,17 @@ Template.admFilmsReport.helpers({
 const fixImagePath = (imagePath) => {
   const re = /^images\//;
   const cImg = Images.findOne(imagePath);
-  return (imagePath.match(re) ? imagePath : `images/${cImg.path !== undefined ? cImg.path.split('images/')[1] : ''}`);
+  return (imagePath && imagePath.match(re) ? imagePath : `images/${cImg.path !== undefined ? cImg.path.split('images/')[1] : ''}`);
 };
 
 const isImageUrl = (imagePath) => {
   const re = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
-  return (imagePath && imagePath.toLowerCase().match(re) ? true : false);
+  return imagePath && imagePath.toLowerCase().match(re);
 };
 
 Template.admFilmsReport.events({
   'click .export-docx'() {
     (async () => {
-
       const doc = new Document();
       const film = Template.instance().data;
       const screenings = Screenings.find();
@@ -150,69 +81,62 @@ Template.admFilmsReport.events({
           new Paragraph({
             text: film.title,
             heading: HeadingLevel.HEADING_1,
-          })
-        ]
+          }),
+        ],
       });
 
-      // const asyncForEach = async (array, callback) => {
-      //   for (let index = 0; index < array.length; index++) {
-      //     await callback(array[index], index, array);
-      //   }
-      // }
-
-      // for (const element in screenings) {
       screenings.forEach(async (element) => {
-        // for (var i = 0, len = screenings.length; i < len; i++) {
-        // const start = async () => {
-        // asyncForEach(screenings, async (element) => {
-        //   await waitFor(50);
-        //   console.log(num);
-        // })
-
-        // update html and docx view logic to show correct path
-        // check if file path saved has a image
-        // check correct path of older images without a register
-
-        // const element = screenings[i];
-        // let image1 = '';
-        // if (typeof element.report_image_1 !== 'undefined') {
-        //   image1 = await toDataURLPromise(`${Meteor.settings.public.imageServerUrl}/fit?width=300&height=300&type=jpeg&file=${fixImagePath(element.report_image_1)}`);
-        // } else {
-        //   image1 = dotImage;
-        // }
-        // let image2 = '';
-        // if (element.report_image_2) {
-        //   image2 = await toDataURLPromise(`${Meteor.settings.public.imageServerUrl}/fit?width=300&height=300&type=jpeg&file=${fixImagePath(element.report_image_2)}`);
-        // } else {
-        //   image2 = dotImage;
-        // }
-        // let image3 = '';
-        // if (element.report_image_3) {
-        //   image3 = await toDataURLPromise(`${Meteor.settings.public.imageServerUrl}/fit?width=300&height=300&type=jpeg&file=${fixImagePath(element.report_image_3)}`);
-        // } else {
-        //   image3 = dotImage;
-        // }
         const ambassador = element.ambassador();
 
-        // await queue.add(() => {got('https://sindresorhus.com')});
-
         await queue.add(async () => {
-
           const requestImage1 = isImageUrl(element.report_image_1) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_1)}`) : { status: 500 };
           const requestImage2 = isImageUrl(element.report_image_2) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_2)}`) : { status: 500 };
           const requestImage3 = isImageUrl(element.report_image_3) ? await makeRequest('GET', `${Meteor.settings.public.imageServerUrl}/smartcrop?width=600&height=338&type=jpeg&file=${fixImagePath(element.report_image_3)}`) : { status: 500 };
+          // console.log(requestImage1, requestImage2, requestImage3);
 
-          const docImage1 = Media.addImage(doc, element.report_image_1 && requestImage1.status === 200 ? requestImage1 : dotImage, 600, 338);
-          const docImage2 = Media.addImage(doc, element.report_image_2 && requestImage2.status === 200 ? requestImage2 : dotImage, 600, 338);
-          const docImage3 = Media.addImage(doc, element.report_image_3 && requestImage3.status === 200 ? requestImage3 : dotImage, 600, 338);
-          // console.log(element);
+          const docImage1 = Media.addImage(doc, element.report_image_1 && requestImage1 && requestImage1.match(/^data:/i) ? requestImage1 : dotImage, 600, 338);
+          const docImage2 = Media.addImage(doc, element.report_image_2 && requestImage2 && requestImage2.match(/^data:/i) ? requestImage2 : dotImage, 600, 338);
+          const docImage3 = Media.addImage(doc, element.report_image_3 && requestImage3 && requestImage3.match(/^data:/i) ? requestImage3 : dotImage, 600, 338);
+
+          let paragrpahElement1;
+          let paragrpahElement2;
+          let paragrpahElement3;
+
+          if (element.report_image_1 && (typeof requestImage1 !== 'undefined') && requestImage1.match(/^data:/i)) {
+            paragrpahElement1 = docImage1;
+          } else if (typeof element.report_image_1 !== 'undefined') {
+            paragrpahElement1 = new TextRun({
+              text: `https://stag.taturanamobi.com.br/old_uploads/${element.report_image_1}`,
+              bold: true,
+            });
+          }
+
+          if (element.report_image_2 && (typeof requestImage2 !== 'undefined') && requestImage2.match(/^data:/i)) {
+            paragrpahElement2 = docImage2;
+          } else if (typeof element.report_image_2 !== 'undefined') {
+            paragrpahElement2 = new TextRun({
+              text: `https://stag.taturanamobi.com.br/old_uploads/${element.report_image_2}`,
+              bold: true,
+            });
+          }
+
+          if (element.report_image_3 && (typeof requestImage3 !== 'undefined') && requestImage3.match(/^data:/i)) {
+            paragrpahElement3 = docImage3;
+          } else if (typeof element.report_image_3 !== 'undefined') {
+            console.log('imprimiu link element.report_image_3');
+            paragrpahElement3 = new TextRun({
+              text: `https://stag.taturanamobi.com.br/old_uploads/${element.report_image_3}`,
+              bold: true,
+            });
+          }
+
           doc.addSection({
             properties: {},
             children: [
               new Paragraph({
                 children: [
                   new TextRun({
-                    text: "Data:\n",
+                    text: 'Data:\n',
                     bold: true,
                   }),
                   new TextRun(`${element.date}`),
@@ -224,7 +148,7 @@ Template.admFilmsReport.events({
                 },
                 children: [
                   new TextRun({
-                    text: "Local:\n",
+                    text: 'Local:\n',
                     bold: true,
                   }),
                   new TextRun(`${element.place_name}
@@ -238,7 +162,7 @@ Template.admFilmsReport.events({
                 },
                 children: [
                   new TextRun({
-                    text: "Embaixador:\n",
+                    text: 'Embaixador:\n',
                     bold: true,
                   }),
                   new TextRun(`${ambassador.profile.name}
@@ -252,7 +176,7 @@ Template.admFilmsReport.events({
                 },
                 children: [
                   new TextRun({
-                    text: "Público:\n",
+                    text: 'Público:\n',
                     bold: true,
                   }),
                   new TextRun(`esperado: ${element.quorum_expectation}
@@ -265,11 +189,11 @@ Template.admFilmsReport.events({
                 },
                 children: [
                   new TextRun({
-                    text: "Comentário:\n",
+                    text: 'Comentário:\n',
                     bold: true,
                   }),
                   new TextRun(`${element.report_description}`),
-                ]
+                ],
               }),
               new Paragraph({
                 spacing: {
@@ -277,18 +201,18 @@ Template.admFilmsReport.events({
                 },
                 children: [
                   new TextRun({
-                    text: "Fotos:\n",
+                    text: 'Fotos:\n',
                     bold: true,
                   }),
-                ]
+                ],
               }),
               new Paragraph({
                 children: [
-                  (isImageUrl(element.report_image_1) && requestImage1.status === 200 ? docImage1 : (element.report_image_1 ? 'https://stag.taturanamobi.com.br/old_uploads/' + element.report_image_1 : '')),
-                  (isImageUrl(element.report_image_2) && requestImage2.status === 200 ? docImage2 : (element.report_image_2 ? 'https://stag.taturanamobi.com.br/old_uploads/' + element.report_image_2 : '')),
-                  (isImageUrl(element.report_image_3) && requestImage3.status === 200 ? docImage3 : (element.report_image_3 ? 'https://stag.taturanamobi.com.br/old_uploads/' + element.report_image_3 : '')),
-                ]
-              })
+                  paragrpahElement1,
+                  paragrpahElement2,
+                  paragrpahElement3,
+                ],
+              }),
             ],
           });
         });
@@ -301,5 +225,5 @@ Template.admFilmsReport.events({
         });
       });
     })();
-  }
-})
+  },
+});

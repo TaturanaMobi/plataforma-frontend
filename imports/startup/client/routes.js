@@ -2,6 +2,7 @@ import { Router } from 'meteor/iron:router';
 import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 import { analytics } from 'meteor/okgrow:analytics';
+import { Meteor } from 'meteor/meteor';
 
 import Films from '../../models/films';
 

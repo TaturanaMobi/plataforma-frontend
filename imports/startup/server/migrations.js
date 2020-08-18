@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Migrations } from 'meteor/percolate:migrations';
 import { moment } from 'meteor/momentjs:moment';
-import _ from 'underscore';
+import _ from 'meteor/underscore';
 // import { AutoForm } from 'meteor/aldeed:autoform';
 import { STATES } from '../../models/schemas';
 import Films from '../../models/films';

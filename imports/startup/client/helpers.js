@@ -89,9 +89,9 @@ Template.registerHelper('fixPressKitPath', (pressKitPath) => {
   return (img ? img.link() : pressKitPath);
 });
 
-Template.registerHelper('isImageUrl', (imagePath) => {
+Template.registerHelper('isImageUrl', function (imagePath) {
   const re = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
-  return (imagePath.match(re) ? true : false);
+  return imagePath && imagePath.match(re);
 });
 
 

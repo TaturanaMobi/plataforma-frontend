@@ -30,7 +30,7 @@ WebFont.load({
 });
 
 Tracker.autorun(function () {
-  let current = Router.current();
+  const current = Router.current();
   Tracker.afterFlush(function () {
     $(window).scrollTop(0);
   });
