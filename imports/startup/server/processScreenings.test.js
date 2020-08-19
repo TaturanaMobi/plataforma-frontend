@@ -2,7 +2,7 @@
 // import { Meteor } from 'meteor/meteor';
 import { assert } from 'chai';
 import { moment } from 'meteor/momentjs:moment';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Random } from 'meteor/random';
 

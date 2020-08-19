@@ -2,7 +2,7 @@
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 import { $ } from 'meteor/jquery';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
 import Films from '../../models/films.js';

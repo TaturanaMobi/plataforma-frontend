@@ -1,4 +1,4 @@
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 
 export default (names) => _.map(names, (item) => ({
   label: item,

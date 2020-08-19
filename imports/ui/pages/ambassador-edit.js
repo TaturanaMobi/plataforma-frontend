@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 // import { FlashMessages } from 'meteor/mrt:flash-messages';
 import Screenings from '../../models/screenings';
 

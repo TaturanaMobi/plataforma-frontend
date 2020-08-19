@@ -7,7 +7,7 @@ import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 
 import './fixtures.js';
 import './migrations';

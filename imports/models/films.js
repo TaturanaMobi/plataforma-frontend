@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-// import { _ } from 'meteor/underscore';
+// import _ from 'underscore';
 
 import './images';
 import Schemas from './schemas';

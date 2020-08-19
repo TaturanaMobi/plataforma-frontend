@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 // import { Factory } from 'meteor/dburles:factory';
 import { assert } from 'chai';
 // import { Template } from 'meteor/templating';
-// import { _ } from 'meteor/underscore';
+// import _ from 'underscore';
 import { $ } from 'meteor/jquery';
 
 import { withRenderedTemplate } from '../test-helpers.js';

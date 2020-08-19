@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 // import { Factory } from 'meteor/dburles:factory';
 // import faker from 'faker';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 import { Random } from 'meteor/random';
 
 import { denodeify } from './utils/denodeify';

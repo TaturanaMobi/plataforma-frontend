@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 // import { Router } from 'meteor/iron:router';
-// import { _ } from 'meteor/underscore';
+// import _ from 'underscore';
 // import { moment } from 'meteor/momentjs:moment';
 
 import Films from '../../models/films';

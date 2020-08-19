@@ -2,7 +2,7 @@
 /* global AutoForm, _, Template */
 import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 import noUiSlider from 'nouislider';
 import '/node_modules/nouislider/distribute/nouislider.css';
 import './autoform-nouislider.css';

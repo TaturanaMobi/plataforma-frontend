@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import Papa from 'papaparse';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 import { moment } from 'meteor/momentjs:moment';
 
 import getSelectOptions from '../../../models/schemas/getSelectOptions';

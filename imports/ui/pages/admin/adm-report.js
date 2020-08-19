@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 
 // import Films from '../../../models/films.js';
 

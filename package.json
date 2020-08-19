@@ -35,6 +35,7 @@
     "select2-bootstrap-theme": "0.1.0-beta.10",
     "simpl-schema": "^1.5.7",
     "summernote": "^0.8.12",
+    "underscore": "^1.10.2",
     "voca": "^1.4.0",
     "webfontloader": "^1.6.28"
   },

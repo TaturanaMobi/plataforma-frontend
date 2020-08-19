@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 import c3 from 'c3';
 import Plyr from 'plyr';
 
