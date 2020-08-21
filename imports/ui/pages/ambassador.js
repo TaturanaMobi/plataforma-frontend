@@ -21,7 +21,7 @@ Template.ambassador.helpers({
     );
   },
   disseminate() {
-    return Films.disseminate();
+    return Films.all();
   },
   session_status_icon() {
     // Rascunho
