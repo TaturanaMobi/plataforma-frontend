@@ -16,7 +16,7 @@ Template.admFilms.helpers({
         'status',
         { label: 'Press Kit', key: 'press_kit_path', tmpl: Template.pressKitCellTmpl },
         {
-          label: 'Data criação', key: 'createdAt', sortOrder: 0, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2,
+          label: 'Data criação', key: 'createdAt', sortOrder: 1, sortDirection: 'descending', tmpl: Template.createdAtCellTmpl2,
         },
         // 'slug',
         'genre',

@@ -1,11 +1,12 @@
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 import c3 from 'c3';
 import Plyr from 'plyr';
-require('readmore-js');
 
 import './show-film.html';
+
+require('readmore-js');
 
 Template.showFilm.helpers({
   filmId() {
@@ -69,7 +70,7 @@ Template.showFilm.onRendered(() => {
     speed: 75,
     collapsedHeight: 420,
     lessLink: '<a href="#">Fechar</a>',
-    moreLink: '<a href="#">Ler mais</a>'
+    moreLink: '<a href="#">Ler mais</a>',
   });
 
   const player = new Plyr('#player');
@@ -93,11 +94,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'pie',
-          onclick: function (d, i) { d.preventDefault(); },
+          onclick(d) { d.preventDefault(); },
         },
         legend: {
           item: {
-            onclick: function (d, i) { d.preventDefault(); },
+            onclick(d) { d.preventDefault(); },
           },
         },
       });
@@ -115,7 +116,7 @@ Template.showFilm.onRendered(() => {
             [].concat(['Número Espectadores por mês'], _.values(inventory.viewers_per_month)),
           ],
           type: 'spline',
-          onclick: function (d, i) { d.preventDefault(); },
+          onclick(d) { d.preventDefault(); },
         },
         axis: {
           x: {
@@ -123,12 +124,12 @@ Template.showFilm.onRendered(() => {
             categories: _.keys(inventory.viewers_per_month),
           },
           y: {
-            label: 'Total de espectadores'
+            label: 'Total de espectadores',
           },
         },
         legend: {
           item: {
-            onclick: function (d, i) { d.preventDefault(); },
+            onclick(d) { d.preventDefault(); },
           },
         },
       });
@@ -144,11 +145,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'donut',
-          onclick: function (d, i) { d.preventDefault(); },
+          onclick(d) { d.preventDefault(); },
         },
         legend: {
           item: {
-            onclick: function (d, i) { d.preventDefault(); },
+            onclick(d) { d.preventDefault(); },
           },
           position: 'right',
         },
@@ -165,11 +166,11 @@ Template.showFilm.onRendered(() => {
         data: {
           columns: labels,
           type: 'donut',
-          onclick: function (d, i) { d.preventDefault(); },
+          onclick(d) { d.preventDefault(); },
         },
         legend: {
           item: {
-            onclick: function (d, i) { d.preventDefault(); },
+            onclick(d) { d.preventDefault(); },
           },
           position: 'right',
         },

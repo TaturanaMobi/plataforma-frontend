@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { AutoForm } from 'meteor/aldeed:autoform';
 // import { $ } from 'meteor/jquery';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 import { Router } from 'meteor/iron:router';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import Papa from 'papaparse';

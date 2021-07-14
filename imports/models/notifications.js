@@ -52,6 +52,7 @@ if (Meteor.isServer) {
     const pidgeon = {
       to,
       from: 'Taturana Mobilização Social<contato@taturanamobi.com.br>',
+      replyTo: 'taturanamobi@gmail.com',
       subject: compiledSubject,
     };
 

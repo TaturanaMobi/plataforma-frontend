@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 // import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 // import { Uploader } from 'meteor/tomi:upload-jquery';
-// import { _ } from 'meteor/underscore';
+// import _ from 'underscore';
 
 import '../components/nav.js';
 import '../components/footer.html';

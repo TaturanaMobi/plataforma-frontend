@@ -15,6 +15,6 @@ Template.homeCarousel.onRendered(() => {
 
 Template.homeCarousel.helpers({
   disseminate() {
-    return Films.disseminate();
+    return Films.all();
   },
 });

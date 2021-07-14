@@ -5,7 +5,7 @@
 // import { PublicationCollector } from 'meteor/johanbrook:publication-collector';
 import { assert } from 'chai';
 // import { Random } from 'meteor/random';
-// import { _ } from 'meteor/underscore';
+// import _ from 'underscore';
 import Films from './films.js';
 // import './publications.js';
 

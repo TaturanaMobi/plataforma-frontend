@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 
 Template.admReports.helpers({
   reports() {

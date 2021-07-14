@@ -4,7 +4,7 @@ import faker from 'faker';
 import { moment } from 'meteor/momentjs:moment';
 // import { resetDatabase } from 'meteor/xolvio:cleaner';
 // import { Random } from 'meteor/random';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 
 // import { denodeify } from './utils/denodeify';
 import Users from '../../models/users';

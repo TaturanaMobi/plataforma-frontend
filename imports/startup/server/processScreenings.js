@@ -189,7 +189,10 @@ const processScreenings = {
     const sevenDays = moment(alreadyCreated[0].deliveredAt).add(7, 'day').toDate();
     // console.log(sevenDays);
 
-    if ((alreadyCreated.length <= 4) && moment(alreadyCreated[0].deliveredAt).isSameOrAfter(sevenDays)) {
+    if (
+      (alreadyCreated.length <= 4)
+      && moment(alreadyCreated[0].deliveredAt).isSameOrAfter(sevenDays)
+    ) {
       processScreenings.createNotification(s, 'draft_weekly_remember', false);
     }
   },

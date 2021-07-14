@@ -100,7 +100,7 @@ Router.route('/adm/notification-templates-edit/:_id', {
 
 Router.route('/adm/films', {
   waitOn() { return Meteor.subscribe('films.all'); },
-  data() { return Films.find({}); },
+  data() { return Films.find({}, { sort: { created_at: -1 } }); },
   action() { this.render('admFilms'); },
 });
 

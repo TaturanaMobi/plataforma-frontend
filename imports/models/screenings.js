@@ -47,7 +47,7 @@ if (Meteor.isServer) {
         notificationTemplateId: nt._id,
         userId: doc.user_id,
         screeningId: doc._id,
-        to: Films.findOne(doc.filmId).productionCompanyEmail
+        to: Films.findOne(doc.filmId).productionCompanyEmail,
       };
       // Notifications.attachSchema(Schemas.Notification);
       Notifications.insert(vars);

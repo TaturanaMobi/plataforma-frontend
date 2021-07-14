@@ -1,11 +1,13 @@
 /* eslint-disable */
 // Import server startup through a single index entry point
+import * as fs from 'fs';
+import FileType from 'file-type';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
 import { Accounts } from 'meteor/accounts-base';
-import { _ } from 'meteor/underscore';
+import _ from 'underscore';
 
 import './fixtures.js';
 import './migrations';
@@ -68,6 +70,22 @@ Meteor.startup(() => {
   Accounts.emailTemplates.resetPassword.text = (user, url) => `Olá,\n\nPara resetar sua senha, acesse o link abaixo:\n${url}`;
 
   Accounts.urls.resetPassword = token => Meteor.absoluteUrl(`reset-password/${token}`);
+
+  Router.route('/old_uploads/:path(.*)',
+    function () {
+      var filePath = process.env.PWD + '/uploads/' + this.params.path;
+      var data = fs.readFileSync(filePath);
+
+      const that = this;
+      FileType.fromFile(filePath).then((r) => {
+        that.response.writeHead(200, {
+          'Content-Type': r.mime
+        });
+        that.response.write(data);
+        that.response.end();
+      })
+    }, {where: 'server'}
+  );
 });
 
 Meteor.methods({

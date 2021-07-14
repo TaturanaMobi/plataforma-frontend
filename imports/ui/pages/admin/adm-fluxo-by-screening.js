@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
-import Users from '../../../models/users'
-// import { $ } from 'meteor/jquery';
+import { Spacebars } from 'meteor/spacebars';
+import { moment } from 'meteor/momentjs:moment';
 
+import Users from '../../../models/users';
 import './adm-fluxo-by-screening.html';
 import NotificationTemplates from '../../../models/notification_templates';
 
@@ -21,8 +22,8 @@ Template.admFluxoByScreening.helpers({
           label: 'Template',
           headerClass: 'col-md-6',
           sortable: false,
-          fn: (value) =>{
-            const nt = NotificationTemplates.find(value).fetch()[0]
+          fn: (value) => {
+            const nt = NotificationTemplates.find(value).fetch()[0];
             return new Spacebars.SafeString(`<a href="/adm/notification-templates-edit/${nt._id}">${nt.name}</a>`);
           },
           // tmpl: Template.filmCellTmpl
@@ -33,7 +34,7 @@ Template.admFluxoByScreening.helpers({
           label: 'usuário',
           headerClass: 'col-md-6',
           sortable: false,
-          fn: (value) =>{
+          fn: (value) => {
             // console.log(value);
             // this.autorun(() => {
             //   this.subscribe('users.byEmail', value);
@@ -48,10 +49,10 @@ Template.admFluxoByScreening.helpers({
           key: 'deliveredAt',
           sortByValue: true,
           label: 'E-mail entregue em',
-          fn: function (value) {
+          fn(value) {
             return new Spacebars.SafeString(moment(value).format('DD/MM/YYYY hh:mm A'));
           },
-       },
+        },
         // 'createdAt',
         // 'updatedAt',
       ],

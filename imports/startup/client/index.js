@@ -2,6 +2,8 @@
 
 // import { Router } from 'meteor/iron:router';
 import { Tracker } from 'meteor/tracker';
+import { Router } from 'meteor/iron:router';
+
 import { $ } from 'meteor/jquery';
 import WebFont from 'webfontloader';
 
@@ -28,7 +30,7 @@ WebFont.load({
 });
 
 Tracker.autorun(function () {
-  // let current = Router.current();
+  const current = Router.current();
   Tracker.afterFlush(function () {
     $(window).scrollTop(0);
   });

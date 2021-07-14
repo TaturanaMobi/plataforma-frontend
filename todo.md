@@ -1,5 +1,26 @@
 # TODO
 
+- [x] confirmar se o endereço de email de resposta dos emails disparados pelo fluxo de email são taturanamobi@gmail.com
+- [x] trocar ordenação da lista de filmes para as mais recentes
+- [x] corrigir link no admin do filme do press kit dos filmes
+- [x] fazer upload no megaupload os arquivos de press kit dos filmes e capaz dos filmes
+- [x] remover possibilidade de usar o autocomplete no endereço
+
+- [x] problemas no copiar e colar do relatório de sessões de um filme na plataforma
+- [ ] cadastro de usuário e sessão em outros países
+  - [ ] Inserir mecanismo para popular com dados de cidade, estado e país de todo mundo
+  - [ ] Inserir mecanismo para realizar checagem do nome cidade das sessões antigas e cruzar com novo banco de dados de cidades
+  - [ ] Atualizar estatística
+  - [ ] Atualizar cadastro e edição de sessão
+  - [ ] Atualizar cadastro e edição de usuário
+
+- [x] preparar mensagem de estamos em atualização - adicionado configuração para ativar e desativar o modo de manutenção
+- [x] Verificar esse usuário taturanamobi@gmail.com, se outros usuários possui esse problema - adicionei chamada para ter certeza que todos os dados do usuário estão baixados do servidor
+- [x] revisar ordenação dos filmes - configurar ordem no lado do servidor
+- [x] revisar ordenação do carousel da home, denovo - removido o filtro excluindo os filmes do tipo portfolio e configurar ordem no lado do servidor
+- [ ] melhorar performance do carregamento de sessão no admin
+- [ ] permitir salvamento automático na inserção ou atualização dos filmes
+
 - [x] Atualizar Portfolio ingles/portugues
 - [x] html nos conteúdos do relatório
 - [x] contato deu erro
@@ -8,13 +29,8 @@
 - [x] gráfico de pizza ao clicar na legenda, a fatia do gráfico some
 - [x] melhorar legenda no gráfico de linhas de expectadores
 - [x] filtro da agenda de exibições deve ser mais usável
-
-- [ ] Listar sessões que tiveram seu status afetado após a mudança
-
-- [ ] Cadastro de usuário e sessão em outros países - http://www.geonames.org/ - https://github.com/dr5hn/countries-states-cities-database
-- [ ] Testar com mais sessões
-- [ ] Melhorar performance do carregamento de sessão no admin
-
+- [x] Listar sessões que tiveram seu status afetado após a mudança -
+- [x] Testar com mais sessões
 - [x] Revisar dados de estatísticas com dados atualizados de produção ( sessoes cadastradas em prod, usuarios cadastrados )
 - [x] Remover do fluxo de 3 dias o template screening_date
 - [x] Remover do fluxo de 9 dias o template screening_date
@@ -124,15 +140,18 @@ db.screenings.aggregate( [
 
 ## Search User by Email
 
-
 ```
 { 'emails.0.address': 'email@gmail.com' }
 ```
 
-
 ## Total de sessões agrupadas por filmes e status
-
 
 ```
 { _id : {filmId: '$filmId', status:'$status'}, count : {$sum : 1}}
+```
+
+## Total de usuários com mais de um endereço salvo
+
+```
+{'addresses.1': {$exists: true}}
 ```

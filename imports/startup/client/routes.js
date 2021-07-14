@@ -2,6 +2,7 @@ import { Router } from 'meteor/iron:router';
 import { Template } from 'meteor/templating';
 import { Tracker } from 'meteor/tracker';
 import { analytics } from 'meteor/okgrow:analytics';
+import { Meteor } from 'meteor/meteor';
 
 import Films from '../../models/films';
 
@@ -23,7 +24,7 @@ import '../../ui/pages/reset-password.js';
 import '../../ui/pages/screenings.js';
 import '../../ui/pages/show-film.js';
 
-Template.App_Body.onRendered(function() {
+Template.App_Body.onRendered(function () {
   Tracker.autorun(() => {
     document.title = `Plataforma Taturana - ${Router.current().route.getName()}`;
 
@@ -37,6 +38,19 @@ Template.App_Body.onRendered(function() {
       analytics.track('JS Dependencies', { eventName: 'timing', couponValue: timeSincePageLoad });
     }
   });
+});
+
+Router.onBeforeAction(function () {
+  // all properties available in the route function
+  // are also available here such as this.params
+  if (Meteor.settings.public.maintenance === 'true') {
+    // if the user is not logged in, render the Login template
+    this.render('maintenance');
+  } else {
+    // otherwise don't hold up the rest of hooks or our route/action function
+    // from running
+    this.next();
+  }
 });
 
 Router.configure({
