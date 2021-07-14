@@ -18,7 +18,7 @@
     "@sentry/browser": "^5.15.4",
     "@sentry/node": "^5.15.4",
     "autoprefixer": "^9.7.6",
-    "bcrypt": "^4",
+    "bcrypt": "^5",
     "bootstrap-sass": "^3.4.1",
     "c3": "^0.7.15",
     "docx": "^5.2.0",
