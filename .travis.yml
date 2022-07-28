@@ -1,12 +1,18 @@
 sudo: required
 language: node_js
-dist: trusty
+dist: bionic
+addons:
+  apt:
+    sources:
+      - docker-bionic
+    packages:
+    - docker
 services:
   - docker
 addons:
   chrome: stable
 node_js:
-- 12.14.1
+- 12.18.1
 cache:
   directories:
   - node_modules
@@ -14,9 +20,6 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_ecafe84576f0_key -iv $encrypted_ecafe84576f0_iv -in taturana_key -out .travis/taturana_key -d
 - export PATH="$HOME/.meteor:$PATH"
 - curl https://install.meteor.com | /bin/sh
-before_script:
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
 after_success:
 # - docker build -t taturanamobi/plataforma-frontend .
 # - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
