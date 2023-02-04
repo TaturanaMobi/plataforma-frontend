@@ -92,17 +92,17 @@ services:
       traefik.enable: 'true'
       traefik.port: '9000'
 
-  postgres:
-    image: postgres
-    restart: always
-    ports:
-    - 9000/tcp
-    environment:
-      POSTGRES_DB: taturana
-      POSTGRES_USER: debug
-      POSTGRES_PASSWORD: debug
-    volumes:
-      - local_postgres_data:/var/lib/postgresql/data
+  # postgres:
+  #   image: postgres
+  #   restart: always
+  #   ports:
+  #   - 9000/tcp
+  #   environment:
+  #     POSTGRES_DB: taturana
+  #     POSTGRES_USER: debug
+  #     POSTGRES_PASSWORD: debug
+  #   volumes:
+  #     - local_postgres_data:/var/lib/postgresql/data
 
   # minio:
   #   image: minio/minio
@@ -135,38 +135,38 @@ services:
   #     traefik.port: '8080'
   #     traefik.enable: 'true'
 
-  metabase:
-    image: metabase/metabase
-    restart: always
-    environment:
-      JAVA_TIMEZONE: America/Sao_Paulo
-      MB_DB_TYPE: postgres
-      MB_DB_DBNAME: metabase
-      MB_DB_PORT: '5432'
-      MB_DB_USER: debug
-      MB_DB_PASS: debug
-      MB_DB_HOST: postgres
-    depends_on:
-    - postgres
-    ports:
-    - 3000/tcp
-    labels:
-      traefik.frontend.rule: Host:relatorios.stag.taturanamobi.com.br
-      traefik.enable: 'true'
-      traefik.port: '3000'
+  # metabase:
+  #   image: metabase/metabase
+  #   restart: always
+  #   environment:
+  #     JAVA_TIMEZONE: America/Sao_Paulo
+  #     MB_DB_TYPE: postgres
+  #     MB_DB_DBNAME: metabase
+  #     MB_DB_PORT: '5432'
+  #     MB_DB_USER: debug
+  #     MB_DB_PASS: debug
+  #     MB_DB_HOST: postgres
+  #   depends_on:
+  #   - postgres
+  #   ports:
+  #   - 3000/tcp
+  #   labels:
+  #     traefik.frontend.rule: Host:relatorios.stag.taturanamobi.com.br
+  #     traefik.enable: 'true'
+  #     traefik.port: '3000'
 
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8081/tcp
-    environment:
-      ME_CONFIG_BASICAUTH_USERNAME: root
-      ME_CONFIG_BASICAUTH_PASSWORD: taturanastaging
-    labels:
-      traefik.frontend.rule: Host:mongo-express.stag.taturanamobi.com.br
-      traefik.port: '8081'
-      traefik.enable: 'true'
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always
+  #   ports:
+  #     - 8081/tcp
+  #   environment:
+  #     ME_CONFIG_BASICAUTH_USERNAME: root
+  #     ME_CONFIG_BASICAUTH_PASSWORD: taturanastaging
+  #   labels:
+  #     traefik.frontend.rule: Host:mongo-express.stag.taturanamobi.com.br
+  #     traefik.port: '8081'
+  #     traefik.enable: 'true'
 
   portainer:
     image: portainer/portainer
@@ -199,7 +199,8 @@ services:
       - ROOT_URL=https://stag.taturanamobi.com.br
       - MONGO_URL=mongodb://mongo:27017/taturana
       - MAIL_URL=smtp://fake-smtp:1025
-      - WORKER=1
+      - PORT=3000
+      - WORKER=0
       - 'METEOR_SETTINGS={"public": {"imageServerUrl": "https://images.stag.taturanamobi.com.br", "analyticsSettings": {"Google Analytics": {"trackingId": "UA-119536431-1"}}}}'
     labels:
       traefik.frontend.rule: Host:stag.taturanamobi.com.br
@@ -255,30 +256,30 @@ services:
   #     traefik.port: '3000'
   #     traefik.enable: 'true'
 
-  mariadb:
-    image: 'bitnami/mariadb:latest'
-    restart: always
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_USER=bn_wordpress
-      - MARIADB_DATABASE=bitnami_wordpress
-    volumes:
-      - mariadb:/bitnami
-  wordpress:
-    image: bitnami/wordpress:latest
-    restart: always
-    depends_on:
-      - mariadb
-    ports:
-      - 80/tcp
-      - 443/tcp
-    environment:
-      - WORDPRESS_DATABASE_USER=bn_wordpress
-      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
-      - ALLOW_EMPTY_PASSWORD=yes
-    volumes:
-      - wordpress:/bitnami
-    labels:
-      traefik.frontend.rule: Host:portfolio.stag.taturanamobi.com.br
-      traefik.enable: 'true'
-      traefik.port: '80'
+  # mariadb:
+  #   image: 'bitnami/mariadb:latest'
+  #   restart: always
+  #   environment:
+  #     - ALLOW_EMPTY_PASSWORD=yes
+  #     - MARIADB_USER=bn_wordpress
+  #     - MARIADB_DATABASE=bitnami_wordpress
+  #   volumes:
+  #     - mariadb:/bitnami
+  # wordpress:
+  #   image: bitnami/wordpress:latest
+  #   restart: always
+  #   depends_on:
+  #     - mariadb
+  #   ports:
+  #     - 80/tcp
+  #     - 443/tcp
+  #   environment:
+  #     - WORDPRESS_DATABASE_USER=bn_wordpress
+  #     - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+  #     - ALLOW_EMPTY_PASSWORD=yes
+  #   volumes:
+  #     - wordpress:/bitnami
+  #   labels:
+  #     traefik.frontend.rule: Host:portfolio.stag.taturanamobi.com.br
+  #     traefik.enable: 'true'
+  #     traefik.port: '80'
