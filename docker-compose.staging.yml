@@ -22,16 +22,19 @@ volumes:
 
 services:
   mongo:
-    image: mongo
-    restart: always
+    # image: docker.io/bitnami/mongodb:6.0
+    image: registry.gitlab.com/tozd/docker/meteor-mongodb:6.0
     ports:
-      - 27017/tcp
+      - "27017:27017"
+    restart: always
     volumes:
-      - mongo_data:/data/db
+      - mongo_data:/bitnami/mongodb
       - ./backups:/backups
+      - ./run.config:/etc/service/mongod/run.config
     environment:
-      MONGO_INITDB_DATABASE: taturana
-
+      - MONGO_INITDB_DATABASE=taturana
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MONGODB_SYSTEM_LOG_VERBOSITY=3
   # redis:
   #   extends:
   #     file: docker-compose.yml
@@ -89,6 +92,48 @@ services:
       traefik.frontend.rule: Host:images.stag.taturanamobi.com.br
       traefik.enable: 'true'
       traefik.port: '9000'
+
+  portainer:
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    ports:
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    labels:
+      traefik.frontend.rule: Host:portainer.stag.taturanamobi.com.br
+      traefik.port: '9000'
+      traefik.enable: 'true'
+
+  frontend:
+    image: taturanamobi/plataforma-frontend
+    restart: always
+    build: .
+    ports:
+      - 3000/tcp
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    volumes:
+      - "./uploads:/opt/meteor/dist/bundle/uploads"
+      - ./run.config:/etc/service/meteor/run.config
+    environment:
+      - ROOT_URL=https://stag.taturanamobi.com.br
+      #- MONGO_URL=mongodb://mongo:27017/taturana
+      #- MONGO_OPLOG_URL=mongodb://mongo:27017/oplog
+      - LOG_TO_STDOUT=1
+      - MAIL_URL=smtp://fake-smtp:1025
+      - PORT=3000
+      - WORKER=0
+      - 'METEOR_SETTINGS={"public": {"imageServerUrl": "https://images.stag.taturanamobi.com.br", "analyticsSettings": {"Google Analytics": {"trackingId": "UA-119536431-1"}}}}'
+    labels:
+      traefik.frontend.rule: Host:stag.taturanamobi.com.br
+      traefik.port: '3000'
+      traefik.enable: 'true'
 
   # postgres:
   #   image: postgres
@@ -165,48 +210,6 @@ services:
   #     traefik.frontend.rule: Host:mongo-express.stag.taturanamobi.com.br
   #     traefik.port: '8081'
   #     traefik.enable: 'true'
-
-  portainer:
-    image: portainer/portainer
-    command: -H unix:///var/run/docker.sock
-    restart: always
-    ports:
-      - 9000:9000
-      - 8000:8000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    labels:
-      traefik.frontend.rule: Host:portainer.stag.taturanamobi.com.br
-      traefik.port: '9000'
-      traefik.enable: 'true'
-
-  frontend:
-    image: taturanamobi/plataforma-frontend
-    restart: always
-    build: .
-    ports:
-      - 3000/tcp
-    depends_on:
-      - mongo
-    links:
-      - mongo
-    volumes:
-      - "./uploads:/opt/meteor/dist/bundle/uploads"
-    environment:
-      - ROOT_URL=https://stag.taturanamobi.com.br
-      - MONGO_URL=mongodb://mongo:27017/taturana
-      - MONGO_OPLOG_URL=mongodb://mongo:27017/oplog
-      - LOG_TO_STDOUT=1
-      - MAIL_URL=smtp://fake-smtp:1025
-      - PORT=3000
-      - WORKER=0
-      - 'METEOR_SETTINGS={"public": {"imageServerUrl": "https://images.stag.taturanamobi.com.br", "analyticsSettings": {"Google Analytics": {"trackingId": "UA-119536431-1"}}}}'
-    labels:
-      traefik.frontend.rule: Host:stag.taturanamobi.com.br
-      traefik.port: '3000'
-      traefik.enable: 'true'
-
   # cleanup:
   #   image: meltwater/docker-cleanup:1.8.0
   #   environment:

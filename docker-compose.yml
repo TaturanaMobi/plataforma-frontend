@@ -1,13 +1,13 @@
-version: '2'
+version: '3'
 
-networks:
-  taturana:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      - subnet: 11.0.0.10/8
-
+# networks:
+#   taturana:
+#     driver: bridge
+#     ipam:
+#       driver: default
+#       config:
+#       - subnet: 11.0.0.10/8
+#
 volumes:
   redis_data:
     driver: local
@@ -20,24 +20,25 @@ volumes:
 
 services:
   mongo:
-    image: mongo
-    # restart: always
+    # image: mongo
+    # image: docker.io/bitnami/mongodb:6.0
+    image: registry.gitlab.com/tozd/docker/meteor-mongodb:6.0
     ports:
-      - 27017:27017
-    networks:
-      taturana:
+      - "27017:27017"
+    restart: always
     volumes:
-      - mongo_data:/data/db
+      - mongo_data:/bitnami/mongodb
       - ./backups:/backups
+      - ./run.config:/etc/service/mongod/run.config
     environment:
-      MONGO_INITDB_DATABASE: taturana
+      - MONGO_INITDB_DATABASE=taturana
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MONGODB_SYSTEM_LOG_VERBOSITY=3
       #MONGO_INITDB_ROOT_USERNAME: root
       #MONGO_INITDB_ROOT_PASSWORD: example
 
   redis:
     image: redis:latest # that's safe
-    networks:
-      taturana:
 
   fake-smtp:
     image: mailhog/mailhog
@@ -46,8 +47,6 @@ services:
     ports:
     - 1025:1025/tcp
     - 4001:8025/tcp
-    networks:
-      taturana:
     labels:
       traefik.frontend.rule: Host:fake-smtp.taturana
       traefik.port: '8025'
@@ -60,9 +59,6 @@ services:
       - 80:80/tcp
       - 4002:8080/tcp
       - 443:443/tcp
-    networks:
-      taturana:
-        ipv4_address: 11.0.0.50
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.toml:/etc/traefik/traefik.toml
@@ -80,8 +76,6 @@ services:
     - 4003:9000/tcp
     volumes:
       - ./uploads:/uploads
-    networks:
-      taturana:
     command:
     - -cors
     - -gzip
@@ -101,8 +95,6 @@ services:
     # restart: always
     ports:
       - 4005:8081
-    networks:
-      taturana:
     labels:
       traefik.frontend.rule: Host:mongo-express.taturana
       traefik.port: '8081'
