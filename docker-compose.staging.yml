@@ -42,8 +42,6 @@ services:
   fake-smtp:
     image: mailhog/mailhog
     restart: always
-    environment:
-      MH_HOSTNAME: fake-smtp.taturana
     ports:
     - 1025/tcp
     - 8025/tcp
@@ -198,6 +196,8 @@ services:
     environment:
       - ROOT_URL=https://stag.taturanamobi.com.br
       - MONGO_URL=mongodb://mongo:27017/taturana
+      - MONGO_OPLOG_URL=mongodb://mongo:27017/oplog
+      - LOG_TO_STDOUT=1
       - MAIL_URL=smtp://fake-smtp:1025
       - PORT=3000
       - WORKER=0
