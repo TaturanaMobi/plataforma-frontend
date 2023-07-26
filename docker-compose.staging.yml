@@ -28,13 +28,13 @@ services:
       - "27017:27017"
     restart: always
     volumes:
-      - mongo_data:/bitnami/mongodb
+      - mongo_data:/var/lib/mongodb
       - ./backups:/backups
       - ./run.config:/etc/service/mongod/run.config
-    environment:
-      - MONGO_INITDB_DATABASE=taturana
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MONGODB_SYSTEM_LOG_VERBOSITY=3
+    # environment:
+    #   - MONGO_INITDB_DATABASE=taturana
+      # - ALLOW_EMPTY_PASSWORD=yes
+      # - MONGODB_SYSTEM_LOG_VERBOSITY=3
   # redis:
   #   extends:
   #     file: docker-compose.yml
