@@ -23,7 +23,7 @@ cd plataforma-frontend
 $ make dev
 # in another window or tab
 $ meteor npm i
-$ MONGO_URL=mongodb://localhost:27017/taturana MAIL_URL=smtp://fake-smtp:1025 WORKER=1 METEOR_DISABLE_OPTIMISTIC_CACHING=1 meteor --settings ./settings.json
+$ WORKER=0 MONGO_URL=mongodb://meteor:taturanamobi2023@mongo:27017/meteor MAIL_URL=smtp://localhost:1025 WORKER=1 METEOR_DISABLE_OPTIMISTIC_CACHING=1 meteor --settings ./settings.json
 ```
 
 O container pode ser logado via `docker-compose exec app bash` a qualquer momento depois do `docker-compose up`.
@@ -46,7 +46,7 @@ mongoimport -h localhost:3001 --db meteor --collection films --type json --file 
 > Usando docker containers
 
 ```bash
-docker-compose exec mongo mongorestore -d taturana /backups/taturana.json/taturanamobi --drop
+docker-compose exec mongo mongorestore  mongodb://user:pass@mongo:27017/meteor  /backups/taturana.json/taturanamobi --drop
 ```
 
 > Usando docker containers para servidor remoto
@@ -87,7 +87,8 @@ local ~/plataforma-taturana $ mongorestore -h localhost:3001 -d meteor taturana-
 ```
 cd backups/
 git clone git@github.com:kelvins/Municipios-Brasileiros.git
-mongoimport -d taturana -c cities /backups/Municipios-Brasileiros/json/municipios.json --jsonArray --drop
+
+docker-compose exec mongo mongoimport  mongodb://user:pass@mongo:27017/meteor   /backups/Municipios-Brasileiros/json/municipios.json --jsonArray --drop
 ```
 
 ## Como carregar dados do servidor no cliente?
