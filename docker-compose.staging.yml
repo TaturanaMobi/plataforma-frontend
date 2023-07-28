@@ -119,7 +119,7 @@ services:
     links:
       - mongo
     volumes:
-      - "./uploads:/opt/meteor/dist/bundle/uploads"
+      - "./uploads:/bundle/uploads"
       - ./run.config:/etc/service/meteor/run.config
     environment:
       - ROOT_URL=https://stag.taturanamobi.com.br
