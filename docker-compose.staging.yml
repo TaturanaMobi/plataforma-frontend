@@ -128,7 +128,7 @@ services:
       - LOG_TO_STDOUT=1
       - MAIL_URL=smtp://fake-smtp:1025
       - PORT=3000
-      - WORKER=0
+      - WORKER=1
       - 'METEOR_SETTINGS={"public": {"imageServerUrl": "https://images.stag.taturanamobi.com.br", "analyticsSettings": {"Google Analytics": {"trackingId": "UA-119536431-1"}}}}'
     labels:
       traefik.frontend.rule: Host:stag.taturanamobi.com.br

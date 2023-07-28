@@ -98,7 +98,7 @@ services:
     environment:
       - ME_CONFIG_MONGODB_URL=mongodb://meteor:taturanamobi2023@mongo:27017/meteor
     ports:
-      - 4005:8081
+      - 3005:8081
     labels:
       traefik.frontend.rule: Host:mongo-express.taturana
       traefik.port: '8081'
