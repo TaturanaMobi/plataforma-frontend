@@ -29,7 +29,6 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <h1 class="navbar-brand"><a href="/"><img src="/images/taturana_logo.png" alt="Taturana Mobi"></a></h1>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -37,14 +36,14 @@
           <ul class="nav navbar-nav">
             <li class="{{#if currentRouteIs 'films'}}active{{/if}}"><a href="/films">FILMES</a></li>
             <li class="{{#if currentRouteIs 'screenings'}}active{{/if}}"><a href="/screenings">AGENDA</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PORTFOLIO
-                <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="/Taturana-Mobi-Portfolio-PT.pdf">QUEM SOMOS E O QUE FAZEMOS</a></li>
-                <li><a href="/Taturana-Mobi-Portfolio-EN.pdf">ABOUT</a></li>
-              </ul>
-            </li>
+            <!-- <li class="dropdown"> -->
+            <!--   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">PORTFOLIO -->
+            <!--     <span class="caret"></span></a> -->
+            <!--   <ul class="dropdown-menu"> -->
+            <!--     <li><a href="/Taturana-Mobi-Portfolio-PT.pdf">QUEM SOMOS E O QUE FAZEMOS</a></li> -->
+            <!--     <li><a href="/Taturana-Mobi-Portfolio-EN.pdf">ABOUT</a></li> -->
+            <!--   </ul> -->
+            <!-- </li> -->
             <li class="{{#if currentRouteIs 'faq'}}active{{/if}}"><a href="/faq">FAQ</a></li>
             <li class="{{#if currentRouteIs 'contact'}}active{{/if}}"><a href="/contact">CONTATO</a></li>
             <!-- <li class="dropdown">
@@ -61,6 +60,7 @@
               </ul>
             </li> -->
           </ul>
+          <h1 class="navbar-brand"><a href="/"><img src="/images/taturana_logo.png" alt="Taturana Mobi"></a></h1>
           <ul class="nav navbar-nav navbar-right">
             <!-- <li><a href="#">Link</a></li> {{currentUser.profile.avatar_path || '/images/avatar-default.png'}} -->
             {{#if currentUser}}
